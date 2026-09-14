@@ -64,29 +64,33 @@ export default function PropertyCard({ property, onFavoriteToggle }) {
     <div className="card property-card" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
       {/* Media Box */}
       <div style={{ position: 'relative', height: '220px', overflow: 'hidden', backgroundColor: '#0B0F19' }}>
-        <Link to={`/properties/${property.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
-          {property.primaryImageUrl ? (
-            <img
-              src={property.primaryImageUrl}
-              alt={property.title}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                transition: 'transform 300ms ease',
-              }}
-              onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
-              onMouseLeave={(e) => (e.target.style.transform = 'scale(1.0)')}
-              onError={(e) => {
-                // If local image url fails, fallback gracefully
-                e.target.style.display = 'none';
-                e.target.parentNode.innerHTML = '<div class="no-img-fallback" style="height:100%"></div>';
-              }}
-            />
-          ) : (
-            <NoImagePlaceholder height="100%" />
-          )}
-        </Link>
+        {(() => {
+          const imageSource = property.primaryImageUrl || property.imageUrl || property.coverImageUrl || property.images?.[0]?.imagePath || property.images?.[0]?.imageUrl || property.images?.[0]?.url;
+          return (
+            <Link to={`/properties/${property.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
+              {imageSource ? (
+                <img
+                  src={imageSource}
+                  alt={property.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 300ms ease',
+                  }}
+                  onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
+                  onMouseLeave={(e) => (e.target.style.transform = 'scale(1.0)')}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/keystone-logo.png';
+                  }}
+                />
+              ) : (
+                <NoImagePlaceholder height="100%" />
+              )}
+            </Link>
+          );
+        })()}
 
         {/* Top Badges */}
         <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px', zIndex: 2 }}>

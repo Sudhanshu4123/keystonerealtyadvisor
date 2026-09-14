@@ -36,28 +36,33 @@ export default function ProjectCard({ project }) {
     <div className="card project-card" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
       {/* Media Box */}
       <div style={{ position: 'relative', height: '220px', overflow: 'hidden', backgroundColor: '#0B0F19' }}>
-        <Link to={`/projects/${project.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
-          {project.coverImageUrl ? (
-            <img
-              src={project.coverImageUrl}
-              alt={project.name}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                transition: 'transform 300ms ease',
-              }}
-              onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
-              onMouseLeave={(e) => (e.target.style.transform = 'scale(1.0)')}
-              onError={(e) => {
-                e.target.style.display = 'none';
-                e.target.parentNode.innerHTML = '<div class="no-img-fallback" style="height:100%"></div>';
-              }}
-            />
-          ) : (
-            <NoImagePlaceholder height="100%" />
-          )}
-        </Link>
+        {(() => {
+          const coverSrc = project.coverImageUrl || project.imageUrl || project.galleryImages?.[0]?.imageUrl || project.galleryImages?.[0]?.url || project.images?.[0]?.imageUrl || project.images?.[0]?.imagePath;
+          return (
+            <Link to={`/projects/${project.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
+              {coverSrc ? (
+                <img
+                  src={coverSrc}
+                  alt={project.name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 300ms ease',
+                  }}
+                  onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
+                  onMouseLeave={(e) => (e.target.style.transform = 'scale(1.0)')}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/keystone-logo.png';
+                  }}
+                />
+              ) : (
+                <NoImagePlaceholder height="100%" />
+              )}
+            </Link>
+          );
+        })()}
 
         {/* Top Badges */}
         <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px', zIndex: 2, flexWrap: 'wrap' }}>

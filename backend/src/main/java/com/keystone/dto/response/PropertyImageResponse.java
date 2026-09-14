@@ -34,6 +34,14 @@ public class PropertyImageResponse {
         this.imagePath = imagePath;
     }
 
+    public String getImageUrl() {
+        return imagePath;
+    }
+
+    public String getUrl() {
+        return imagePath;
+    }
+
     public Boolean getIsPrimary() {
         return isPrimary;
     }

@@ -6,7 +6,17 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  if (!images || images.length === 0) {
+  const getImgSrc = (img) => {
+    if (!img) return '';
+    if (typeof img === 'string') return img;
+    return img.imagePath || img.imageUrl || img.url || '';
+  };
+
+  const validImages = Array.isArray(images)
+    ? images.filter((img) => Boolean(getImgSrc(img)))
+    : [];
+
+  if (validImages.length === 0) {
     return (
       <div style={{ borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <NoImagePlaceholder height="450px" />
@@ -14,16 +24,17 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
     );
   }
 
-  const currentImage = images[currentIndex] || images[0];
+  const currentImage = validImages[currentIndex] || validImages[0];
+  const currentSrc = getImgSrc(currentImage);
 
   const handlePrev = (e) => {
     e.stopPropagation();
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? validImages.length - 1 : prev - 1));
   };
 
   const handleNext = (e) => {
     e.stopPropagation();
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === validImages.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -41,12 +52,16 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
         onClick={() => setLightboxOpen(true)}
       >
         <img
-          src={currentImage.imagePath}
+          src={currentSrc}
           alt={`${title} - View ${currentIndex + 1}`}
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+          }}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/keystone-logo.png';
           }}
         />
 
@@ -69,11 +84,11 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
           aria-label="Open Fullscreen Gallery"
         >
           <Maximize2 size={15} />
-          <span>View Gallery ({images.length})</span>
+          <span>View Gallery ({validImages.length})</span>
         </button>
 
         {/* Carousel Navigation Arrows */}
-        {images.length > 1 && (
+        {validImages.length > 1 && (
           <>
             <button
               type="button"
@@ -127,7 +142,7 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
       </div>
 
       {/* Thumbnails Row */}
-      {images.length > 1 && (
+      {validImages.length > 1 && (
         <div
           style={{
             display: 'flex',
@@ -137,31 +152,38 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
             paddingBottom: '0.5rem',
           }}
         >
-          {images.map((img, idx) => (
-            <button
-              key={img.id || idx}
-              type="button"
-              onClick={() => setCurrentIndex(idx)}
-              style={{
-                width: '84px',
-                height: '64px',
-                borderRadius: 'var(--radius-sm)',
-                overflow: 'hidden',
-                border: idx === currentIndex ? '2px solid var(--color-gold-500)' : '2px solid transparent',
-                opacity: idx === currentIndex ? 1 : 0.65,
-                flexShrink: 0,
-                cursor: 'pointer',
-                padding: 0,
-                background: 'none',
-              }}
-            >
-              <img
-                src={img.imagePath}
-                alt={`Thumbnail ${idx + 1}`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </button>
-          ))}
+          {validImages.map((img, idx) => {
+            const thumbSrc = getImgSrc(img);
+            return (
+              <button
+                key={img.id || idx}
+                type="button"
+                onClick={() => setCurrentIndex(idx)}
+                style={{
+                  width: '84px',
+                  height: '64px',
+                  borderRadius: 'var(--radius-sm)',
+                  overflow: 'hidden',
+                  border: idx === currentIndex ? '2px solid var(--color-gold-500)' : '2px solid transparent',
+                  opacity: idx === currentIndex ? 1 : 0.65,
+                  flexShrink: 0,
+                  cursor: 'pointer',
+                  padding: 0,
+                  background: 'none',
+                }}
+              >
+                <img
+                  src={thumbSrc}
+                  alt={`Thumbnail ${idx + 1}`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/keystone-logo.png';
+                  }}
+                />
+              </button>
+            );
+          })}
         </div>
       )}
 
@@ -202,7 +224,7 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
           </button>
 
           <img
-            src={currentImage.imagePath}
+            src={currentSrc}
             alt={title}
             style={{
               maxWidth: '90vw',
@@ -211,10 +233,14 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
               borderRadius: 'var(--radius-sm)',
             }}
             onClick={(e) => e.stopPropagation()}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/keystone-logo.png';
+            }}
           />
 
           <div style={{ marginTop: '1.25rem', color: '#94A3B8', fontSize: '0.875rem' }}>
-            {currentIndex + 1} of {images.length}
+            {currentIndex + 1} of {validImages.length}
           </div>
         </div>
       )}

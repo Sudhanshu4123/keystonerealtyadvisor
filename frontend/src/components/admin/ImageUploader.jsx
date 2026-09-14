@@ -95,9 +95,13 @@ export default function ImageUploader({
                 }}
               >
                 <img
-                  src={img.imagePath}
+                  src={img.imagePath || img.imageUrl || img.url || (typeof img === 'string' ? img : '')}
                   alt="Property Preview"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/keystone-logo.png';
+                  }}
                 />
 
                 {img.isPrimary && (
