@@ -8,6 +8,7 @@ import ImageGallery from '../../components/property/ImageGallery';
 import PropertyEnquiryModal from '../../components/property/PropertyEnquiryModal';
 import Badge from '../../components/common/Badge';
 import EmptyState from '../../components/common/EmptyState';
+import SEO from '../../components/common/SEO';
 import {
   Bed,
   Bath,
@@ -110,6 +111,28 @@ export default function PropertyDetailPage() {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
+      <SEO
+        title={`${property.title}${property.city ? ` in ${property.city}` : ''} | Keystone Realty Advisor`}
+        description={
+          property.description
+            ? `${property.description.slice(0, 150)}... Contact Keystone Realty Advisor for verified details and site visits.`
+            : `${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType || 'Property'} for ${property.listingType === 'RENT' ? 'rent' : 'sale'} in ${property.location || property.city || 'prime location'}. Clear titles & verified property documentation.`
+        }
+        keywords={`${property.title}, ${property.propertyType || 'Property'}, ${property.city || ''}, ${property.location || ''}, buy property, real estate advisor`}
+        ogImage={property.images?.[0]?.url || property.imageUrl || '/keystone-logo.png'}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'RealEstateListing',
+          name: property.title,
+          description: property.description || property.title,
+          offers: {
+            '@type': 'Offer',
+            price: property.price || 0,
+            priceCurrency: 'INR',
+            availability: property.status === 'AVAILABLE' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut'
+          }
+        }}
+      />
       <div className="container">
         {/* Back navigation */}
         <div style={{ marginBottom: '1.5rem' }}>

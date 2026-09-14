@@ -4,6 +4,7 @@ import { propertyService } from '../../services/propertyService';
 import PropertyFilter from '../../components/property/PropertyFilter';
 import PropertyGrid from '../../components/property/PropertyGrid';
 import Pagination from '../../components/common/Pagination';
+import SEO from '../../components/common/SEO';
 
 export default function PropertiesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -99,6 +100,18 @@ export default function PropertiesPage() {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
+      <SEO
+        title="Verified Properties for Sale & Rent | Keystone Realty Advisor"
+        description="Browse thoroughly verified residential apartments, luxury villas, builder floors, and commercial spaces. Every listing is reviewed for clear titles and authentic market pricing."
+        keywords="verified properties, buy luxury flat, apartments for rent, commercial space for lease, Keystone Realty Advisor listings, real estate portfolio"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'Keystone Realty Advisor - Verified Property Listings',
+          description: 'Browse verified residential and commercial properties available for sale and rent.',
+          url: 'https://keystonerealtyadvisor.com/properties'
+        }}
+      />
       <div className="container">
         {/* Page Header */}
         <div style={{ marginBottom: '2rem' }}>

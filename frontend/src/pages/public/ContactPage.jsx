@@ -3,6 +3,7 @@ import { enquiryService } from '../../services/enquiryService';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
 import { Mail, Phone, MapPin, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
+import SEO from '../../components/common/SEO';
 
 export default function ContactPage() {
   const { user } = useAuth();
@@ -55,6 +56,24 @@ export default function ContactPage() {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3.5rem 0 5rem' }}>
+      <SEO
+        title="Contact & Confidential Real Estate Consultation | Keystone Realty Advisor"
+        description="Schedule a confidential consultation with Keystone Realty Advisor. Direct phone +91 9911956274 or submit an inquiry for verified property advice and site inspections."
+        keywords="contact real estate advisor, property consultation, Keystone Realty Advisor phone, property enquiry, real estate help desk"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'ContactPage',
+          name: 'Contact Keystone Realty Advisor',
+          description: 'Get in touch with Keystone Realty Advisor for transparent real estate consultation.',
+          url: 'https://keystonerealtyadvisor.com/contact',
+          mainEntity: {
+            '@type': 'RealEstateAgent',
+            name: 'Keystone Realty Advisor',
+            telephone: '+919911956274',
+            email: 'keystonerealtyhepldesk@gmail.com'
+          }
+        }}
+      />
       <div className="container">
         <div style={{ maxWidth: '640px', margin: '0 auto 3rem', textAlign: 'center' }}>
           <span className="section-subtitle">Get in Touch</span>

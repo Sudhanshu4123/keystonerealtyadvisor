@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
 import { UserPlus, User, Mail, Phone, Lock } from 'lucide-react';
+import SEO from '../../components/common/SEO';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -54,6 +55,11 @@ export default function RegisterPage() {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
+      <SEO
+        title="Create a Client Account | Keystone Realty Advisor"
+        description="Register with Keystone Realty Advisor to save preferred luxury properties, track advisory requests, and gain direct access to verified real estate opportunities."
+        noIndex={false}
+      />
       <div className="card" style={{ maxWidth: '480px', width: '100%', padding: '2.5rem' }}>
         {/* Logo Header */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>

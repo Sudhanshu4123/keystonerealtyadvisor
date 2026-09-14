@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, RefreshCw, X, Building2, SlidersHorizontal } from 'lucide-react';
 import ProjectGrid from '../../components/project/ProjectGrid';
 import Pagination from '../../components/common/Pagination';
+import SEO from '../../components/common/SEO';
 import projectService from '../../services/projectService';
 import { useToast } from '../../hooks/useToast';
 
@@ -108,7 +109,19 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh', padding: '2.5rem 0 4rem 0' }}>
+    <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
+      <SEO
+        title="Premier Real Estate Projects & Developments | Keystone Realty Advisor"
+        description="Explore verified residential townships, luxury high-rises, commercial hubs, and plotted communities. Comprehensive project master plans, construction milestones, and RERA verified credentials."
+        keywords="new launch real estate projects, residential developments, commercial towers, luxury apartments, RERA approved projects, Keystone Realty Advisor"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'Keystone Realty Advisor - Real Estate Development Projects',
+          description: 'Explore verified residential, commercial, villa, and plotted developments.',
+          url: 'https://keystonerealtyadvisor.com/projects'
+        }}
+      />
       <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.5rem' }}>
         
         {/* Header Title Banner */}

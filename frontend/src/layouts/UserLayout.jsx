@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
+import SEO from '../components/common/SEO';
 import { useAuth } from '../hooks/useAuth';
 import { LayoutDashboard, Heart, MessageSquare, User, LogOut } from 'lucide-react';
 
@@ -16,6 +17,11 @@ export default function UserLayout() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--bg-secondary)' }}>
+      <SEO
+        title="Client Dashboard | Keystone Realty Advisor"
+        description="Private client dashboard for Keystone Realty Advisor."
+        noIndex={true}
+      />
       <Navbar />
       <div className="container" style={{ flex: 1, paddingTop: '2.5rem', paddingBottom: '3.5rem' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '2rem' }} className="dashboard-grid">

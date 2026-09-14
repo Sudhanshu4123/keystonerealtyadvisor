@@ -13,6 +13,7 @@ import Badge from '../../components/common/Badge';
 import LoadingSkeleton from '../../components/common/LoadingSkeleton';
 import NoImagePlaceholder from '../../components/common/NoImagePlaceholder';
 import Modal from '../../components/common/Modal';
+import SEO from '../../components/common/SEO';
 
 export default function ProjectDetailPage() {
   const { id } = useParams();
@@ -158,7 +159,31 @@ export default function ProjectDetailPage() {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh', paddingBottom: '5rem' }}>
-      
+      <SEO
+        title={`${project.name}${project.city ? ` in ${project.city}` : ''} | Keystone Realty Advisor`}
+        description={
+          project.shortDescription ||
+          (project.description
+            ? `${project.description.slice(0, 150)}... Contact Keystone Realty Advisor for verified master plans and booking assistance.`
+            : `${project.name} by ${project.builderName || 'reputed developers'} located in ${project.locality ? `${project.locality}, ` : ''}${project.city || ''}. Verified floor plans, RERA compliance, and official pricing details.`)
+        }
+        keywords={`${project.name}, ${project.builderName || ''}, real estate projects in ${project.city || ''}, ${project.locality || ''}, buy flat in ${project.name}, Keystone Realty Advisor`}
+        ogImage={project.coverImageUrl || project.galleryImages?.[0]?.imageUrl || '/keystone-logo.png'}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'RealEstateListing',
+          name: project.name,
+          description: project.description || project.name,
+          url: window.location.href,
+          image: project.coverImageUrl || 'https://keystonerealtyadvisor.com/keystone-logo.png',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: project.locality || project.city || '',
+            addressRegion: project.state || '',
+            addressCountry: 'IN'
+          }
+        }}
+      />
       {/* 1. Breadcrumb & Navigation */}
       <div style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-card)' }}>
         <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0.875rem 1.5rem', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>

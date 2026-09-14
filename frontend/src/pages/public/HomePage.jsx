@@ -4,6 +4,7 @@ import { propertyService } from '../../services/propertyService';
 import projectService from '../../services/projectService';
 import PropertyGrid from '../../components/property/PropertyGrid';
 import ProjectCard from '../../components/project/ProjectCard';
+import SEO from '../../components/common/SEO';
 import {
   Search,
   Building2,
@@ -66,6 +67,27 @@ export default function HomePage() {
 
   return (
     <div>
+      <SEO
+        title="Keystone Realty Advisor | Trusted Real Estate Consultancy & Luxury Property Advisors"
+        description="Discover verified residential homes, high-yield commercial investments, and strategic real estate advisory with Keystone Realty Advisor. Honest market valuations and end-to-end transaction integrity."
+        keywords="Keystone Realty Advisor, buy residential property, luxury apartments, commercial property advisory, verified real estate, property investment India, real estate consultancy"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'RealEstateAgent',
+          name: 'Keystone Realty Advisor',
+          url: 'https://keystonerealtyadvisor.com',
+          logo: 'https://keystonerealtyadvisor.com/keystone-logo.png',
+          description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and transaction execution.',
+          telephone: '+919911956274',
+          email: 'keystonerealtyhepldesk@gmail.com',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Financial District',
+            addressCountry: 'IN'
+          },
+          openingHours: 'Mo-Sa 09:30-19:00'
+        }}
+      />
       {/* Hero Section */}
       <section
         style={{

@@ -1,10 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Landmark, TrendingUp, CheckCircle, ArrowRight } from 'lucide-react';
+import SEO from '../../components/common/SEO';
 
 export default function AdvisoryPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))' }}>
+      <SEO
+        title="Real Estate Advisory & Investment Consultancy | Keystone Realty Advisor"
+        description="Institutional-grade property consultancy: bespoke residential acquisitions, commercial leasing strategy, asset valuation, and transaction due diligence tailored to your investment goals."
+        keywords="real estate advisory services, property consultancy, commercial leasing advisor, asset valuation, luxury home acquisition, Keystone Realty Advisor"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'ProfessionalService',
+          name: 'Keystone Realty Advisory Services',
+          description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and transaction execution.',
+          url: 'https://keystonerealtyadvisor.com/advisory',
+          telephone: '+919911956274',
+          email: 'keystonerealtyhepldesk@gmail.com'
+        }}
+      />
       {/* Header Banner */}
       <section style={{ backgroundColor: 'var(--color-dark-950)', color: '#FFFFFF', padding: '4.5rem 0', borderBottom: '1px solid #1E293B' }}>
         <div className="container" style={{ textAlign: 'center', maxWidth: '760px' }}>
