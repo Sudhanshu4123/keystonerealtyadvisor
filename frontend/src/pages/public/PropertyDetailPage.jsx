@@ -75,9 +75,9 @@ export default function PropertyDetailPage() {
 
   const formatPrice = (val, listingType) => {
     if (!val) return 'Price on Enquiry';
-    const num = new Intl.NumberFormat('en-US', {
+    const num = new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
       maximumFractionDigits: 0,
     }).format(val);
     return listingType === 'RENT' ? `${num}/mo` : num;

@@ -183,12 +183,12 @@ export default function PropertyFilter({ filters, onFilterChange, onReset }) {
 
           {/* Min Price */}
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label" htmlFor="min-price-input">Min Price ($)</label>
+            <label className="form-label" htmlFor="min-price-input">Min Price (₹)</label>
             <input
               id="min-price-input"
               type="number"
               className="form-control"
-              placeholder="Min USD"
+              placeholder="Min ₹"
               min="0"
               value={filters.minPrice || ''}
               onChange={(e) => handleChange('minPrice', e.target.value ? Number(e.target.value) : '')}
@@ -197,12 +197,12 @@ export default function PropertyFilter({ filters, onFilterChange, onReset }) {
 
           {/* Max Price */}
           <div className="form-group" style={{ marginBottom: 0 }}>
-            <label className="form-label" htmlFor="max-price-input">Max Price ($)</label>
+            <label className="form-label" htmlFor="max-price-input">Max Price (₹)</label>
             <input
               id="max-price-input"
               type="number"
               className="form-control"
-              placeholder="Max USD"
+              placeholder="Max ₹"
               min="0"
               value={filters.maxPrice || ''}
               onChange={(e) => handleChange('maxPrice', e.target.value ? Number(e.target.value) : '')}

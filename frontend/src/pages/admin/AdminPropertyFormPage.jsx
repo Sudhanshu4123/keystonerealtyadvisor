@@ -189,7 +189,7 @@ export default function AdminPropertyFormPage() {
             </div>
 
             <div className="form-group">
-              <label className="form-label" htmlFor="prop-price">Price (USD) *</label>
+              <label className="form-label" htmlFor="prop-price">Price (₹) *</label>
               <input
                 id="prop-price"
                 type="number"
