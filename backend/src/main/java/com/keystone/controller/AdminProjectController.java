@@ -6,6 +6,7 @@ import com.keystone.entity.ProjectDocumentType;
 import com.keystone.entity.ProjectImageType;
 import com.keystone.entity.ProjectStatus;
 import com.keystone.entity.ProjectType;
+import com.keystone.service.FileStorageService;
 import com.keystone.service.ProjectService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/projects")
@@ -24,9 +27,11 @@ import java.util.List;
 public class AdminProjectController {
 
     private final ProjectService projectService;
+    private final FileStorageService fileStorageService;
 
-    public AdminProjectController(ProjectService projectService) {
+    public AdminProjectController(ProjectService projectService, FileStorageService fileStorageService) {
         this.projectService = projectService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping
@@ -111,6 +116,17 @@ public class AdminProjectController {
             @RequestParam(required = false, defaultValue = "false") Boolean setFirstAsCover) {
         List<ProjectImageResponse> result = projectService.uploadProjectImages(id, files, imageType, setFirstAsCover);
         return ResponseEntity.ok(ApiResponse.success("Images uploaded successfully", result));
+    }
+
+    @PostMapping("/media/upload")
+    public ResponseEntity<ApiResponse<Map<String, String>>> uploadGenericMedia(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(required = false, defaultValue = "projects") String folder) {
+        String uploadedUrl = fileStorageService.storeFile(file, folder);
+        Map<String, String> response = new HashMap<>();
+        response.put("url", uploadedUrl);
+        response.put("originalName", file.getOriginalFilename());
+        return ResponseEntity.ok(ApiResponse.success("Media uploaded successfully to Cloudinary", response));
     }
 
     @DeleteMapping("/images/{imageId}")

@@ -77,7 +77,9 @@ DB_PASSWORD=KeystoneSecure2026!Prod
 DB_ROOT_PASSWORD=KeystoneRoot2026!Pass
 
 JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-JWT_EXPIRATION_MS=86400000
+CLOUDINARY_CLOUD_NAME=Root
+CLOUDINARY_API_KEY=877916588632514
+CLOUDINARY_API_SECRET=81UKRoZlSzOgkntxnN7Jdf9e4_A
 
 CORS_ALLOWED_ORIGINS=http://localhost:3002,http://localhost:80,https://keystonerealtyadvisors.shrishyamassociate.com,https://keystonerealtyadvisors.com,https://keystonerealtyadvisor.com,https://www.keystonerealtyadvisor.com
 

@@ -218,7 +218,7 @@ public class PropertyService {
             MultipartFile file = files.get(i);
             if (file.isEmpty()) continue;
 
-            String storedPath = fileStorageService.storeFile(file);
+            String storedPath = fileStorageService.storeFile(file, "properties");
             boolean isPrimary = (!hasPrimary && i == 0 && property.getImages().isEmpty());
 
             PropertyImage image = new PropertyImage(property, storedPath, isPrimary);

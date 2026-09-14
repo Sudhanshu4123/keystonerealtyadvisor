@@ -5,8 +5,8 @@ spring:
     active: dev
   servlet:
     multipart:
-      max-file-size: 15MB
-      max-request-size: 50MB
+      max-file-size: 100MB
+      max-request-size: 100MB
   jpa:
     open-in-view: false
     properties:
@@ -27,6 +27,11 @@ management:
   endpoint:
     health:
       show-details: when_authorized
+
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME:Root}
+  api-key: ${CLOUDINARY_API_KEY:877916588632514}
+  api-secret: ${CLOUDINARY_API_SECRET:81UKRoZlSzOgkntxnN7Jdf9e4_A}
 
 app:
   jwt:
