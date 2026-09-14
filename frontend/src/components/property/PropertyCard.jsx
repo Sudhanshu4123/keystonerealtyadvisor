@@ -63,75 +63,71 @@ export default function PropertyCard({ property, onFavoriteToggle }) {
   return (
     <div className="card property-card" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
       {/* Media Box */}
-      <div style={{ position: 'relative', height: '220px', overflow: 'hidden', backgroundColor: '#0B0F19' }}>
-        {(() => {
-          const imageSource = property.primaryImageUrl || property.imageUrl || property.coverImageUrl || property.images?.[0]?.imagePath || property.images?.[0]?.imageUrl || property.images?.[0]?.url;
-          return (
+      {(() => {
+        const imageSource = property.primaryImageUrl || property.imageUrl || property.coverImageUrl || property.images?.[0]?.imagePath || property.images?.[0]?.imageUrl || property.images?.[0]?.url;
+        if (!imageSource) return null;
+        return (
+          <div style={{ position: 'relative', height: '220px', overflow: 'hidden', backgroundColor: '#0B0F19' }}>
             <Link to={`/properties/${property.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
-              {imageSource ? (
-                <img
-                  src={imageSource}
-                  alt={property.title}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 300ms ease',
-                  }}
-                  onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
-                  onMouseLeave={(e) => (e.target.style.transform = 'scale(1.0)')}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/keystone-logo.png';
-                  }}
-                />
-              ) : (
-                <NoImagePlaceholder height="100%" />
-              )}
+              <img
+                src={imageSource}
+                alt={property.title}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transition: 'transform 300ms ease',
+                }}
+                onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
+                onMouseLeave={(e) => (e.target.style.transform = 'scale(1.0)')}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
             </Link>
-          );
-        })()}
 
-        {/* Top Badges */}
-        <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px', zIndex: 2 }}>
-          <Badge variant={statusBadgeVariant}>
-            {property.status?.replace('_', ' ')}
-          </Badge>
-          <Badge variant="dark">
-            {property.listingType}
-          </Badge>
-        </div>
+            {/* Top Badges */}
+            <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px', zIndex: 2 }}>
+              <Badge variant={statusBadgeVariant}>
+                {property.status?.replace('_', ' ')}
+              </Badge>
+              <Badge variant="dark">
+                {property.listingType}
+              </Badge>
+            </div>
 
-        {/* Favorite Action Button */}
-        <button
-          type="button"
-          onClick={handleFavoriteClick}
-          disabled={loadingFav}
-          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-          style={{
-            position: 'absolute',
-            top: '12px',
-            right: '12px',
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(15, 23, 42, 0.75)',
-            backdropFilter: 'blur(4px)',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            color: isFavorite ? '#F43F5E' : '#FFFFFF',
-            transition: 'transform 150ms ease',
-            zIndex: 2,
-          }}
-          onMouseDown={(e) => (e.currentTarget.style.transform = 'scale(0.92)')}
-          onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
-        >
-          <Heart size={18} fill={isFavorite ? '#F43F5E' : 'none'} />
-        </button>
-      </div>
+            {/* Favorite Action Button */}
+            <button
+              type="button"
+              onClick={handleFavoriteClick}
+              disabled={loadingFav}
+              aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              style={{
+                position: 'absolute',
+                top: '12px',
+                right: '12px',
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                backgroundColor: 'rgba(15, 23, 42, 0.75)',
+                backdropFilter: 'blur(4px)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: isFavorite ? '#F43F5E' : '#FFFFFF',
+                transition: 'transform 150ms ease',
+                zIndex: 2,
+              }}
+              onMouseDown={(e) => (e.currentTarget.style.transform = 'scale(0.92)')}
+              onMouseUp={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
+            >
+              <Heart size={18} fill={isFavorite ? '#F43F5E' : 'none'} />
+            </button>
+          </div>
+        );
+      })()}
 
       {/* Property Details */}
       <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.75rem' }}>

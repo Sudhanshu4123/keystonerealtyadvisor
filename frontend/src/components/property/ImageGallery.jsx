@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import NoImagePlaceholder from '../common/NoImagePlaceholder';
 import { ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react';
 
 export default function ImageGallery({ images = [], title = 'Property Image' }) {
@@ -16,12 +15,9 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
     ? images.filter((img) => Boolean(getImgSrc(img)))
     : [];
 
+  // If no images were uploaded, don't render anything (no default/placeholder images)
   if (validImages.length === 0) {
-    return (
-      <div style={{ borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-        <NoImagePlaceholder height="450px" />
-      </div>
-    );
+    return null;
   }
 
   const currentImage = validImages[currentIndex] || validImages[0];
@@ -58,10 +54,6 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-          }}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = '/keystone-logo.png';
           }}
         />
 
@@ -176,10 +168,6 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
                   src={thumbSrc}
                   alt={`Thumbnail ${idx + 1}`}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/keystone-logo.png';
-                  }}
                 />
               </button>
             );
@@ -233,10 +221,6 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
               borderRadius: 'var(--radius-sm)',
             }}
             onClick={(e) => e.stopPropagation()}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/keystone-logo.png';
-            }}
           />
 
           <div style={{ marginTop: '1.25rem', color: '#94A3B8', fontSize: '0.875rem' }}>

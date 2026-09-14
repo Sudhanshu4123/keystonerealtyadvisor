@@ -35,72 +35,68 @@ export default function ProjectCard({ project }) {
   return (
     <div className="card project-card" style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
       {/* Media Box */}
-      <div style={{ position: 'relative', height: '220px', overflow: 'hidden', backgroundColor: '#0B0F19' }}>
-        {(() => {
-          const coverSrc = project.coverImageUrl || project.imageUrl || project.galleryImages?.[0]?.imageUrl || project.galleryImages?.[0]?.url || project.images?.[0]?.imageUrl || project.images?.[0]?.imagePath;
-          return (
+      {(() => {
+        const coverSrc = project.coverImageUrl || project.imageUrl || project.galleryImages?.[0]?.imageUrl || project.galleryImages?.[0]?.url || project.images?.[0]?.imageUrl || project.images?.[0]?.imagePath;
+        if (!coverSrc) return null;
+        return (
+          <div style={{ position: 'relative', height: '220px', overflow: 'hidden', backgroundColor: '#0B0F19' }}>
             <Link to={`/projects/${project.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
-              {coverSrc ? (
-                <img
-                  src={coverSrc}
-                  alt={project.name}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 300ms ease',
-                  }}
-                  onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
-                  onMouseLeave={(e) => (e.target.style.transform = 'scale(1.0)')}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/keystone-logo.png';
-                  }}
-                />
-              ) : (
-                <NoImagePlaceholder height="100%" />
-              )}
+              <img
+                src={coverSrc}
+                alt={project.name}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  transition: 'transform 300ms ease',
+                }}
+                onMouseEnter={(e) => (e.target.style.transform = 'scale(1.05)')}
+                onMouseLeave={(e) => (e.target.style.transform = 'scale(1.0)')}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
             </Link>
-          );
-        })()}
 
-        {/* Top Badges */}
-        <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px', zIndex: 2, flexWrap: 'wrap' }}>
-          <Badge variant={statusBadgeVariant}>
-            {project.status?.replace(/_/g, ' ')}
-          </Badge>
-          <Badge variant="dark">
-            {project.projectType?.replace(/_/g, ' ')}
-          </Badge>
-        </div>
+            {/* Top Badges */}
+            <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px', zIndex: 2, flexWrap: 'wrap' }}>
+              <Badge variant={statusBadgeVariant}>
+                {project.status?.replace(/_/g, ' ')}
+              </Badge>
+              <Badge variant="dark">
+                {project.projectType?.replace(/_/g, ' ')}
+              </Badge>
+            </div>
 
-        {/* RERA Badge if available */}
-        {project.reraNumber && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '10px',
-              right: '12px',
-              padding: '3px 8px',
-              backgroundColor: 'rgba(11, 15, 25, 0.85)',
-              backdropFilter: 'blur(4px)',
-              borderRadius: '4px',
-              border: '1px solid rgba(194, 155, 56, 0.4)',
-              color: 'var(--color-gold-400)',
-              fontSize: '0.6875rem',
-              fontWeight: 600,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              zIndex: 2,
-            }}
-            title={`RERA Registration: ${project.reraNumber}`}
-          >
-            <ShieldCheck size={12} color="var(--color-gold-400)" />
-            <span>RERA Registered</span>
+            {/* RERA Badge if available */}
+            {project.reraNumber && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '10px',
+                  right: '12px',
+                  padding: '3px 8px',
+                  backgroundColor: 'rgba(11, 15, 25, 0.85)',
+                  backdropFilter: 'blur(4px)',
+                  borderRadius: '4px',
+                  border: '1px solid rgba(194, 155, 56, 0.4)',
+                  color: 'var(--color-gold-400)',
+                  fontSize: '0.6875rem',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  zIndex: 2,
+                }}
+                title={`RERA Registration: ${project.reraNumber}`}
+              >
+                <ShieldCheck size={12} color="var(--color-gold-400)" />
+                <span>RERA Registered</span>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        );
+      })()}
 
       {/* Project Details */}
       <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.625rem' }}>
