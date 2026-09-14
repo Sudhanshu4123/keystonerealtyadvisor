@@ -76,6 +76,16 @@ export default function Footer() {
                   Enquiries & Contact
                 </Link>
               </li>
+              <li>
+                <Link to="/terms" style={{ color: '#94A3B8' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" style={{ color: '#94A3B8' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -130,9 +140,14 @@ export default function Footer() {
           <div>
             &copy; {currentYear} <strong>Keystone Realty Advisor</strong>. All rights reserved.
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+            <Link to="/terms" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+              Terms & Conditions
+            </Link>
+            <Link to="/privacy" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+              Privacy Policy
+            </Link>
             <span>Confidentiality Guaranteed</span>
-            <span>Licensed Real Estate Advisory</span>
           </div>
         </div>
       </div>

@@ -19,6 +19,8 @@ import ProjectsPage from './pages/public/ProjectsPage';
 import ProjectDetailPage from './pages/public/ProjectDetailPage';
 import AdvisoryPage from './pages/public/AdvisoryPage';
 import ContactPage from './pages/public/ContactPage';
+import TermsPage from './pages/public/TermsPage';
+import PrivacyPage from './pages/public/PrivacyPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 
 // Auth Pages
@@ -56,6 +58,8 @@ export default function App() {
               <Route path="/projects/slug/:slug" element={<ProjectDetailPage />} />
               <Route path="/advisory" element={<AdvisoryPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Route>
