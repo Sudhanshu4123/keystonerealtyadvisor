@@ -1,0 +1,105 @@
+package com.keystone.mapper;
+
+import com.keystone.dto.request.PropertyRequest;
+import com.keystone.dto.response.PropertyImageResponse;
+import com.keystone.dto.response.PropertyResponse;
+import com.keystone.entity.Property;
+import com.keystone.entity.PropertyImage;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Component
+public class PropertyMapper {
+
+    public Property toEntity(PropertyRequest request) {
+        Property property = new Property();
+        property.setTitle(request.getTitle());
+        property.setDescription(request.getDescription());
+        property.setArea(request.getArea());
+        property.setBathrooms(request.getBathrooms());
+        property.setBedrooms(request.getBedrooms());
+        property.setCity(request.getCity());
+        property.setLocation(request.getLocation());
+        property.setPrice(request.getPrice());
+        property.setPropertyType(request.getPropertyType());
+        property.setListingType(request.getListingType());
+        property.setFurnished(request.getFurnished());
+        property.setStatus(request.getStatus());
+        return property;
+    }
+
+    public void updateEntityFromRequest(Property property, PropertyRequest request) {
+        property.setTitle(request.getTitle());
+        property.setDescription(request.getDescription());
+        property.setArea(request.getArea());
+        property.setBathrooms(request.getBathrooms());
+        property.setBedrooms(request.getBedrooms());
+        property.setCity(request.getCity());
+        property.setLocation(request.getLocation());
+        property.setPrice(request.getPrice());
+        property.setPropertyType(request.getPropertyType());
+        property.setListingType(request.getListingType());
+        property.setFurnished(request.getFurnished());
+        property.setStatus(request.getStatus());
+    }
+
+    public PropertyResponse toResponse(Property property, boolean isFavorite) {
+        PropertyResponse response = new PropertyResponse();
+        response.setId(property.getId());
+        response.setTitle(property.getTitle());
+        response.setDescription(property.getDescription());
+        response.setArea(property.getArea());
+        response.setBathrooms(property.getBathrooms());
+        response.setBedrooms(property.getBedrooms());
+        response.setCity(property.getCity());
+        response.setLocation(property.getLocation());
+        response.setPrice(property.getPrice());
+        response.setPropertyType(property.getPropertyType());
+        response.setListingType(property.getListingType());
+        response.setFurnished(property.getFurnished());
+        response.setStatus(property.getStatus());
+        response.setFavorite(isFavorite);
+        if (property.getProject() != null) {
+            response.setProjectId(property.getProject().getId());
+            response.setProjectName(property.getProject().getName());
+        }
+        response.setCreatedAt(property.getCreatedAt());
+        response.setUpdatedAt(property.getUpdatedAt());
+
+        List<PropertyImageResponse> imageResponses = new ArrayList<>();
+        String primaryUrl = null;
+
+        if (property.getImages() != null && !property.getImages().isEmpty()) {
+            imageResponses = property.getImages().stream()
+                    .map(this::toImageResponse)
+                    .collect(Collectors.toList());
+
+            // Primary image search
+            for (PropertyImage img : property.getImages()) {
+                if (Boolean.TRUE.equals(img.getIsPrimary())) {
+                    primaryUrl = img.getImagePath();
+                    break;
+                }
+            }
+            if (primaryUrl == null && !property.getImages().isEmpty()) {
+                primaryUrl = property.getImages().get(0).getImagePath();
+            }
+        }
+
+        response.setPrimaryImageUrl(primaryUrl);
+        response.setImages(imageResponses);
+        return response;
+    }
+
+    public PropertyImageResponse toImageResponse(PropertyImage image) {
+        return new PropertyImageResponse(
+                image.getId(),
+                image.getImagePath(),
+                image.getIsPrimary(),
+                image.getCreatedAt()
+        );
+    }
+}
