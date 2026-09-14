@@ -79,7 +79,7 @@ DB_ROOT_PASSWORD=KeystoneRoot2026!Pass
 JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
 JWT_EXPIRATION_MS=86400000
 
-CORS_ALLOWED_ORIGINS=http://localhost:3002,http://localhost:80,https://keystonerealtyadvisors.shrishyamassociate.com,https://keystonerealtyadvisors.com
+CORS_ALLOWED_ORIGINS=http://localhost:3002,http://localhost:80,https://keystonerealtyadvisors.shrishyamassociate.com,https://keystonerealtyadvisors.com,https://keystonerealtyadvisor.com,https://www.keystonerealtyadvisor.com
 
 INITIAL_ADMIN_EMAIL=keystonerealtyhepldesk@gmail.com
 INITIAL_ADMIN_PASSWORD=KeystoneAdmin2026!
@@ -95,7 +95,7 @@ run_cmd(f"chmod 600 {remote_dir}/.env", "Securing .env permissions")
 
 # 4. Update Host Nginx Configuration for Keystone
 nginx_keystone_conf = """server {
-    server_name keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com;
+    server_name keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com keystonerealtyadvisor.com www.keystonerealtyadvisor.com;
 
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
@@ -136,7 +136,7 @@ server {
     } # managed by Certbot
 
     listen 80;
-    server_name keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com;
+    server_name keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com keystonerealtyadvisor.com www.keystonerealtyadvisor.com;
     return 301 https://$host$request_uri;
 }
 """
