@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import {
   Building2, MapPin, Calendar, ShieldCheck, CheckCircle2,
   FileText, Download, Play, Eye, Phone, Mail, ChevronRight,
-  Layers, Sparkles, Compass, Shield, Maximize2, X
+  Layers, Sparkles, Compass, Shield, Maximize2, X, MessageCircle
 } from 'lucide-react';
 import projectService from '../../services/projectService';
 import { enquiryService } from '../../services/enquiryService';
@@ -282,10 +282,34 @@ export default function ProjectDetailPage() {
                 Request Project Consultation
               </button>
 
+              <a
+                href={`https://wa.me/919911956274?text=${encodeURIComponent(`Hello Keystone Realty Advisor, I would like to inquire about the project: ${project.name} located in ${project.locality ? `${project.locality}, ` : ''}${project.city || 'Delhi NCR'}. Please share the brochure and current pricing.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn"
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  padding: '0.75rem 1.25rem',
+                  fontSize: '0.9375rem',
+                  backgroundColor: '#25D366',
+                  color: '#FFFFFF',
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  borderRadius: 'var(--radius-md)',
+                }}
+              >
+                <MessageCircle size={18} />
+                <span>Chat on WhatsApp</span>
+              </a>
+
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', fontSize: '0.8125rem', color: '#CBD5E1', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.75rem' }}>
                 <a href="tel:+919911956274" style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#CBD5E1', textDecoration: 'none' }}>
                   <Phone size={14} color="var(--color-gold-400)" />
-                  <span>+91 9911956274</span>
+                  <span style={{ fontWeight: 600 }}>+91 9911956274</span>
                 </a>
               </div>
             </div>

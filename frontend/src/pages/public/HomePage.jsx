@@ -73,19 +73,58 @@ export default function HomePage() {
         keywords="Keystone Realty Advisor, buy residential property, luxury apartments, commercial property advisory, verified real estate, property investment India, real estate consultancy"
         schema={{
           '@context': 'https://schema.org',
-          '@type': 'RealEstateAgent',
-          name: 'Keystone Realty Advisor',
-          url: 'https://keystonerealtyadvisor.com',
-          logo: 'https://keystonerealtyadvisor.com/keystone-logo.png',
-          description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and transaction execution.',
-          telephone: '+919911956274',
-          email: 'keystonerealtyhepldesk@gmail.com',
-          address: {
-            '@type': 'PostalAddress',
-            addressLocality: 'Financial District',
-            addressCountry: 'IN'
-          },
-          openingHours: 'Mo-Sa 09:30-19:00'
+          '@graph': [
+            {
+              '@type': 'RealEstateAgent',
+              '@id': 'https://keystonerealtyadvisor.com/#organization',
+              name: 'Keystone Realty Advisor',
+              url: 'https://keystonerealtyadvisor.com',
+              logo: 'https://keystonerealtyadvisor.com/favicon-512x512.png',
+              image: 'https://keystonerealtyadvisor.com/keystone-logo.png',
+              description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and verified real estate transaction execution.',
+              telephone: '+919911956274',
+              email: 'keystonerealtyhepldesk@gmail.com',
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: 'Dwarka',
+                addressRegion: 'Delhi',
+                addressCountry: 'IN'
+              },
+              areaServed: ['Delhi NCR', 'Dwarka', 'Gurugram', 'Noida'],
+              priceRange: '₹₹ - ₹₹₹₹₹',
+              openingHours: 'Mo-Sa 09:30-19:00'
+            },
+            {
+              '@type': 'FAQPage',
+              '@id': 'https://keystonerealtyadvisor.com/#faq',
+              mainEntity: [
+                {
+                  '@type': 'Question',
+                  name: 'How does Keystone Realty Advisor verify properties and projects?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Every listing on Keystone Realty Advisor undergoes comprehensive title search verification, RERA approval confirmation, builder track record review, and physical on-site inspection.'
+                  }
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What real estate advisory services are offered?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'We provide end-to-end luxury residential acquisition advisory, commercial real estate leasing, property valuation analysis, and private portfolio consultations.'
+                  }
+                },
+                {
+                  '@type': 'Question',
+                  name: 'How can I schedule a confidential consultation or site visit?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'You can directly connect with our senior advisors via phone at +91 9911956274, chat instantly on WhatsApp, or submit an online inquiry on any property listing.'
+                  }
+                }
+              ]
+            }
+          ]
         }}
       />
       {/* Hero Section */}

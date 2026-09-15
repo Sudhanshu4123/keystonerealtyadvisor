@@ -20,7 +20,8 @@ import {
   ArrowLeft,
   Calendar,
   Check,
-  ShieldCheck
+  ShieldCheck,
+  MessageCircle
 } from 'lucide-react';
 
 export default function PropertyDetailPage() {
@@ -125,11 +126,20 @@ export default function PropertyDetailPage() {
           '@type': 'RealEstateListing',
           name: property.title,
           description: property.description || property.title,
+          url: window.location.href,
+          image: property.images?.[0]?.imagePath || property.images?.[0]?.imageUrl || 'https://keystonerealtyadvisor.com/keystone-logo.png',
           offers: {
             '@type': 'Offer',
             price: property.price || 0,
             priceCurrency: 'INR',
-            availability: property.status === 'AVAILABLE' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut'
+            availability: property.status === 'AVAILABLE' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+            validFrom: property.createdAt || undefined,
+          },
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: property.location || property.city || 'Delhi NCR',
+            addressRegion: property.city || 'Delhi',
+            addressCountry: 'IN'
           }
         }}
       />
@@ -272,6 +282,27 @@ export default function PropertyDetailPage() {
                   <span>Enquire on this Property</span>
                 </button>
 
+                <a
+                  href={`https://wa.me/919911956274?text=${encodeURIComponent(`Hello Keystone Realty Advisor, I am interested in: ${property.title} (Ref #${property.id}) located in ${property.location || property.city || 'Delhi'}. Please share verified details.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-block"
+                  style={{
+                    backgroundColor: '#25D366',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    fontWeight: 600,
+                    gap: '0.5rem',
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <MessageCircle size={18} />
+                  <span>Chat on WhatsApp</span>
+                </a>
+
                 <button
                   type="button"
                   onClick={handleFavoriteToggle}
@@ -287,10 +318,13 @@ export default function PropertyDetailPage() {
                   <ShieldCheck size={16} color="var(--color-gold-500)" />
                   <span>Direct Advisor Contact</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <a
+                  href="tel:+919911956274"
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}
+                >
                   <Phone size={16} color="var(--color-gold-500)" />
-                  <span>+91 9911956274</span>
-                </div>
+                  <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>+91 9911956274</span>
+                </a>
               </div>
             </div>
           </div>
