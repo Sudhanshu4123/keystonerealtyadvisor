@@ -5,7 +5,7 @@ import { useToast } from '../../hooks/useToast';
 import ImageUploader from '../../components/admin/ImageUploader';
 import {
   ArrowLeft, Save, Building2, Home, Layers, CheckCircle2,
-  Plus, Check, Sparkles, MapPin, IndianRupee, ShieldCheck, Car, Key
+  Plus, Check, Sparkles, MapPin, IndianRupee, ShieldCheck, Car, Key, FileText, Camera
 } from 'lucide-react';
 
 const COMMON_AMENITIES = [
@@ -21,8 +21,6 @@ export default function AdminPropertyFormPage() {
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
   const { success, error } = useToast();
-
-  const [activeStep, setActiveStep] = useState('details'); // 'details' | 'specs' | 'pricing' | 'images'
 
   const [formData, setFormData] = useState({
     title: '',
@@ -293,7 +291,7 @@ export default function AdminPropertyFormPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '1080px', margin: '0 auto' }}>
-      {/* Top Navigation */}
+      {/* Top Back Navigation */}
       <div>
         <Link to="/admin/properties" className="btn btn-ghost btn-sm" style={{ paddingLeft: 0, gap: '0.375rem' }}>
           <ArrowLeft size={16} />
@@ -301,13 +299,15 @@ export default function AdminPropertyFormPage() {
         </Link>
       </div>
 
-      <div className="card" style={{ padding: '2.5rem', backgroundColor: '#FFFFFF', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
+      {/* SINGLE UNIFIED WHITE CARD CONTAINER */}
+      <div className="card" style={{ padding: '2.5rem', backgroundColor: '#FFFFFF', boxShadow: '0 4px 24px rgba(0,0,0,0.06)', borderRadius: 'var(--radius-lg)' }}>
+        
         {/* Header Title */}
         <div style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.25rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
               <span style={{ color: 'var(--color-gold-600)', fontSize: '0.8125rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                Post Property Specification
+                Property Listing Form
               </span>
               <h1 style={{ fontSize: '1.625rem', fontWeight: 700, margin: '0.25rem 0 0' }}>
                 {isEditMode ? `Edit Property #${id}` : 'Post Real Estate Property Listing'}
@@ -319,11 +319,11 @@ export default function AdminPropertyFormPage() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
-          {/* 1. Property Type & Intent */}
-          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          {/* SECTION 1: Category & Listing Intent */}
+          <div>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <Building2 size={20} color="var(--color-gold-600)" />
               <span>1. Category & Listing Intent</span>
             </h3>
@@ -399,9 +399,11 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* 2. Location & Society */}
-          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
+
+          {/* SECTION 2: Location & Society */}
+          <div>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <MapPin size={20} color="var(--color-gold-600)" />
               <span>2. Location & Society Details</span>
             </h3>
@@ -462,9 +464,11 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* 3. Rooms, Area & Layout */}
-          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
+
+          {/* SECTION 3: Space & Layout Specifications */}
+          <div>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <Layers size={20} color="var(--color-gold-600)" />
               <span>3. Space & Layout Specifications</span>
             </h3>
@@ -620,9 +624,11 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* 4. Parking, Tenants & Rules */}
-          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
+
+          {/* SECTION 4: Parking & Tenant Preferences */}
+          <div>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <Car size={20} color="var(--color-gold-600)" />
               <span>4. Parking & Tenant Preferences</span>
             </h3>
@@ -701,9 +707,11 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* 5. Pricing, Deposits & Lease Terms */}
-          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
+
+          {/* SECTION 5: Pricing, Deposits & Lease Terms */}
+          <div>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <IndianRupee size={20} color="var(--color-gold-600)" />
               <span>5. Pricing, Security Deposit & Lease Terms</span>
             </h3>
@@ -830,14 +838,14 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* 6. Society Amenities Checklist */}
-          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-              <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
-                <Sparkles size={20} color="var(--color-gold-600)" />
-                <span>6. Society Amenities & Features ({formData.amenities.length} selected)</span>
-              </h3>
-            </div>
+          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
+
+          {/* SECTION 6: Society Amenities Checklist */}
+          <div>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
+              <Sparkles size={20} color="var(--color-gold-600)" />
+              <span>6. Society Amenities & Features ({formData.amenities.length} selected)</span>
+            </h3>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.625rem' }}>
               {COMMON_AMENITIES.map((amenity) => {
@@ -885,41 +893,52 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* 7. Description */}
-          <div className="form-group" style={{ margin: 0 }}>
-            <label className="form-label" htmlFor="prop-desc">Property Description & Key Highlights</label>
-            <textarea
-              id="prop-desc"
-              rows={4}
-              className="form-control"
-              placeholder="Add key highlights like corner flat, road-facing, newly renovated kitchen, high-security gated compound, walking distance to metro/market..."
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            />
+          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
+
+          {/* SECTION 7: Description & Status */}
+          <div>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
+              <FileText size={20} color="var(--color-gold-600)" />
+              <span>7. Description & Status</span>
+            </h3>
+
+            <div className="form-group" style={{ marginBottom: '1.25rem' }}>
+              <label className="form-label" htmlFor="prop-desc">Property Description & Key Highlights</label>
+              <textarea
+                id="prop-desc"
+                rows={4}
+                className="form-control"
+                placeholder="Add key highlights like corner flat, road-facing, newly renovated kitchen, high-security gated compound, walking distance to metro/market..."
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group" style={{ margin: 0 }}>
+              <label className="form-label" htmlFor="prop-status">Listing Status</label>
+              <select
+                id="prop-status"
+                className="form-control"
+                style={{ maxWidth: '300px' }}
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              >
+                <option value="AVAILABLE">Available</option>
+                <option value="UNDER_OFFER">Under Offer</option>
+                <option value="SOLD">Sold</option>
+                <option value="RENTED">Rented</option>
+                <option value="OFF_MARKET">Off Market</option>
+              </select>
+            </div>
           </div>
 
-          {/* 8. Listing Status */}
-          <div className="form-group" style={{ margin: 0 }}>
-            <label className="form-label" htmlFor="prop-status">Listing Status</label>
-            <select
-              id="prop-status"
-              className="form-control"
-              style={{ maxWidth: '300px' }}
-              value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-            >
-              <option value="AVAILABLE">Available</option>
-              <option value="UNDER_OFFER">Under Offer</option>
-              <option value="SOLD">Sold</option>
-              <option value="RENTED">Rented</option>
-              <option value="OFF_MARKET">Off Market</option>
-            </select>
-          </div>
+          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
 
-          {/* 9. Image Upload Management */}
-          <div style={{ paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-              Property Photos & Media Assets
+          {/* SECTION 8: Image Upload Management */}
+          <div>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
+              <Camera size={20} color="var(--color-gold-600)" />
+              <span>8. Property Photos & Media Assets</span>
             </h3>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
               Upload authentic images captured for this property. High-quality photos significantly improve client inquiries.
