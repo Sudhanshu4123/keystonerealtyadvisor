@@ -321,11 +321,11 @@ export default function AdminPropertyFormPage() {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
-          {/* SECTION 1: Category & Listing Intent */}
+          {/* SECTION 1: Type, Location & Category */}
           <div>
             <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <Building2 size={20} color="var(--color-gold-600)" />
-              <span>1. Category & Listing Intent</span>
+              <span>1. Property Type, Location & Category</span>
             </h3>
 
             {/* Property Type (Residential / Commercial) */}
@@ -366,6 +366,63 @@ export default function AdminPropertyFormPage() {
               </div>
             </div>
 
+            {/* City & Building / Society Name */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }} className="form-subgrid">
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-city">City *</label>
+                <input
+                  id="prop-city"
+                  type="text"
+                  required
+                  className="form-control"
+                  placeholder="e.g. Gurgaon, Delhi, Noida"
+                  value={formData.city}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-society">Building / Apartment / Society Name *</label>
+                <input
+                  id="prop-society"
+                  type="text"
+                  required
+                  className="form-control"
+                  placeholder="e.g. Swami Dayanand Apartment, DLF Phase 5"
+                  value={formData.societyName}
+                  onChange={(e) => setFormData({ ...formData, societyName: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Locality & Headline */}
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem', marginBottom: '1.25rem' }} className="form-subgrid">
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-location">Locality / Sector / Address *</label>
+                <input
+                  id="prop-location"
+                  type="text"
+                  required
+                  className="form-control"
+                  placeholder="e.g. Sector 6, Dwarka"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-title">Listing Headline (Optional)</label>
+                <input
+                  id="prop-title"
+                  type="text"
+                  className="form-control"
+                  placeholder="Auto-generated if empty"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                />
+              </div>
+            </div>
+
             {/* Property Category Selection (Apartment, Villa, etc.) */}
             <div>
               <label className="form-label">Property Category *</label>
@@ -401,76 +458,11 @@ export default function AdminPropertyFormPage() {
 
           <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
 
-          {/* SECTION 2: Location & Society */}
-          <div>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
-              <MapPin size={20} color="var(--color-gold-600)" />
-              <span>2. Location & Society Details</span>
-            </h3>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="form-subgrid">
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-city">City *</label>
-                <input
-                  id="prop-city"
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="e.g. Gurgaon, Delhi, Noida"
-                  value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-society">Building / Apartment / Society Name *</label>
-                <input
-                  id="prop-society"
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="e.g. Swami Dayanand Apartment, DLF Phase 5"
-                  value={formData.societyName}
-                  onChange={(e) => setFormData({ ...formData, societyName: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem', marginTop: '0.5rem' }} className="form-subgrid">
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-location">Locality / Sector / Address *</label>
-                <input
-                  id="prop-location"
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="e.g. Sector 6, Dwarka"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-title">Listing Headline (Optional)</label>
-                <input
-                  id="prop-title"
-                  type="text"
-                  className="form-control"
-                  placeholder="Auto-generated if empty"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
-
-          {/* SECTION 3: Space & Layout Specifications */}
+          {/* SECTION 2: Space & Layout Specifications */}
           <div>
             <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <Layers size={20} color="var(--color-gold-600)" />
-              <span>3. Space & Layout Specifications</span>
+              <span>2. Space & Layout Specifications</span>
             </h3>
 
             {/* Area Grid */}
@@ -626,11 +618,11 @@ export default function AdminPropertyFormPage() {
 
           <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
 
-          {/* SECTION 4: Parking & Tenant Preferences */}
+          {/* SECTION 3: Parking & Tenant Preferences */}
           <div>
             <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <Car size={20} color="var(--color-gold-600)" />
-              <span>4. Parking & Tenant Preferences</span>
+              <span>3. Parking & Tenant Preferences</span>
             </h3>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem', marginBottom: '1.25rem' }} className="form-subgrid">
@@ -709,11 +701,11 @@ export default function AdminPropertyFormPage() {
 
           <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
 
-          {/* SECTION 5: Pricing, Deposits & Lease Terms */}
+          {/* SECTION 4: Pricing, Deposits & Lease Terms */}
           <div>
             <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <IndianRupee size={20} color="var(--color-gold-600)" />
-              <span>5. Pricing, Security Deposit & Lease Terms</span>
+              <span>4. Pricing, Security Deposit & Lease Terms</span>
             </h3>
 
             {/* Price & Available From */}
@@ -840,11 +832,11 @@ export default function AdminPropertyFormPage() {
 
           <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
 
-          {/* SECTION 6: Society Amenities Checklist */}
+          {/* SECTION 5: Society Amenities Checklist */}
           <div>
             <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <Sparkles size={20} color="var(--color-gold-600)" />
-              <span>6. Society Amenities & Features ({formData.amenities.length} selected)</span>
+              <span>5. Society Amenities & Features ({formData.amenities.length} selected)</span>
             </h3>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.625rem' }}>
@@ -895,11 +887,11 @@ export default function AdminPropertyFormPage() {
 
           <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
 
-          {/* SECTION 7: Description & Status */}
+          {/* SECTION 6: Description & Status */}
           <div>
             <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <FileText size={20} color="var(--color-gold-600)" />
-              <span>7. Description & Status</span>
+              <span>6. Description & Status</span>
             </h3>
 
             <div className="form-group" style={{ marginBottom: '1.25rem' }}>
@@ -934,11 +926,11 @@ export default function AdminPropertyFormPage() {
 
           <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
 
-          {/* SECTION 8: Image Upload Management */}
+          {/* SECTION 7: Image Upload Management */}
           <div>
             <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
               <Camera size={20} color="var(--color-gold-600)" />
-              <span>8. Property Photos & Media Assets</span>
+              <span>7. Property Photos & Media Assets</span>
             </h3>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
               Upload authentic images captured for this property. High-quality photos significantly improve client inquiries.
