@@ -139,13 +139,18 @@ export default function AdminPropertyFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const titleToSave = formData.title.trim() || `${formData.bedrooms} BHK ${formData.societyName || formData.propertyType} in ${formData.location || formData.city}`;
-    const areaVal = Number(formData.builtUpArea) || Number(formData.carpetArea) || 1000;
-
-    if (!formData.city || !formData.location || !formData.price) {
-      error('Please fill in City, Location, and Price.');
+    if (!formData.city || !formData.societyName || !formData.price) {
+      error('Please fill in City, Building/Society Name, and Price.');
       return;
     }
+
+    const readableType = (formData.propertyType || 'Property').replace(/_/g, ' ');
+    const bhkPrefix = Number(formData.bedrooms) > 0 ? `${formData.bedrooms} BHK ` : '';
+    const intentText = formData.listingType === 'RENT' ? 'Rent' : formData.listingType === 'PG_CO_LIVING' ? 'PG' : 'Sale';
+    const autoTitle = `${bhkPrefix}${readableType} for ${intentText} in ${formData.societyName}, ${formData.city}`;
+    const titleToSave = formData.title?.trim() || autoTitle;
+    const locationToSave = formData.societyName ? `${formData.societyName}, ${formData.city}` : formData.city;
+    const areaVal = Number(formData.builtUpArea) || Number(formData.carpetArea) || 1000;
 
     let maintenanceFinal = formData.maintenanceCharges;
     if (formData.maintenanceCharges === 'Separate' && formData.maintenanceAmount) {
@@ -164,7 +169,7 @@ export default function AdminPropertyFormPage() {
       bathrooms: Number(formData.bathrooms) || 0,
       balconies: Number(formData.balconies) || 0,
       city: formData.city,
-      location: formData.location,
+      location: locationToSave,
       price: Number(formData.price),
       propertyCategory: formData.propertyCategory,
       propertyType: formData.propertyType,
@@ -391,34 +396,6 @@ export default function AdminPropertyFormPage() {
                   placeholder="e.g. Swami Dayanand Apartment, DLF Phase 5"
                   value={formData.societyName}
                   onChange={(e) => setFormData({ ...formData, societyName: e.target.value })}
-                />
-              </div>
-            </div>
-
-            {/* Locality & Headline */}
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem', marginBottom: '1.25rem' }} className="form-subgrid">
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-location">Locality / Sector / Address *</label>
-                <input
-                  id="prop-location"
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="e.g. Sector 6, Dwarka"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-title">Listing Headline (Optional)</label>
-                <input
-                  id="prop-title"
-                  type="text"
-                  className="form-control"
-                  placeholder="Auto-generated if empty"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 />
               </div>
             </div>

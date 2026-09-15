@@ -246,7 +246,7 @@ export default function AdminPropertiesPage() {
                     </td>
 
                     <td>
-                      <div style={{ fontSize: '0.875rem' }}>{p.location}</div>
+                      <div style={{ fontSize: '0.875rem', fontWeight: 500 }}>{p.societyName || p.location}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{p.city}</div>
                     </td>
 

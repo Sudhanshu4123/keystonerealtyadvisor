@@ -152,7 +152,7 @@ export default function PropertyCard({ property, onFavoriteToggle }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', color: 'var(--text-secondary)', fontSize: '0.8125rem' }}>
           <MapPin size={14} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            {property.location}, {property.city}
+            {property.societyName ? `${property.societyName}, ${property.city}` : property.location ? (property.location.includes(property.city) ? property.location : `${property.location}, ${property.city}`) : property.city}
           </span>
         </div>
 

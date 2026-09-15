@@ -171,7 +171,7 @@ export default function PropertyDetailPage() {
             </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9375rem' }}>
               <MapPin size={16} color="var(--color-gold-500)" />
-              <span>{property.location}, {property.city}</span>
+              <span>{property.societyName ? `${property.societyName}, ${property.city}` : property.location ? (property.location.includes(property.city) ? property.location : `${property.location}, ${property.city}`) : property.city}</span>
             </div>
           </div>
 
