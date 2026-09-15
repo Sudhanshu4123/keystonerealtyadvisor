@@ -209,7 +209,7 @@ export default function PropertyDetailPage() {
                 <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 600 }}>Bedrooms</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem' }}>
                   <Bed size={18} color="var(--color-gold-500)" />
-                  <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>{property.bedrooms} Beds</span>
+                  <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>{property.bedrooms} BHK</span>
                 </div>
               </div>
 
@@ -222,10 +222,10 @@ export default function PropertyDetailPage() {
               </div>
 
               <div>
-                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 600 }}>Area</span>
+                <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 600 }}>Built-Up Area</span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.25rem' }}>
                   <Square size={18} color="var(--color-gold-500)" />
-                  <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>{property.area} sqft</span>
+                  <span style={{ fontSize: '1.125rem', fontWeight: 600 }}>{property.builtUpArea || property.area} sqft</span>
                 </div>
               </div>
 
@@ -236,6 +236,157 @@ export default function PropertyDetailPage() {
                 </div>
               </div>
             </div>
+
+            {/* Detailed Property Specifications Grid */}
+            <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+              <h3 style={{ fontSize: '1.1875rem', fontWeight: 600, marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+                Property Specifications & Lease Details
+              </h3>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem 1.5rem', fontSize: '0.875rem' }}>
+                {property.societyName && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Building / Society</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.societyName}</strong>
+                  </div>
+                )}
+
+                {property.carpetArea && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Carpet Area</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.carpetArea} sq ft</strong>
+                  </div>
+                )}
+
+                {property.floorNo && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Floor Number</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>
+                      Floor {property.floorNo} {property.totalFloors ? `of ${property.totalFloors} floors` : ''}
+                    </strong>
+                  </div>
+                )}
+
+                {(property.coveredParking > 0 || property.openParking > 0) && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Parking</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>
+                      {[
+                        property.coveredParking > 0 ? `${property.coveredParking} Covered` : null,
+                        property.openParking > 0 ? `${property.openParking} Open` : null
+                      ].filter(Boolean).join(', ')}
+                    </strong>
+                  </div>
+                )}
+
+                {property.balconies !== undefined && property.balconies !== null && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Balconies</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.balconies} Balconies</strong>
+                  </div>
+                )}
+
+                {property.propertyAge && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Age of Property</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.propertyAge}</strong>
+                  </div>
+                )}
+
+                {property.availableFrom && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Available From</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.availableFrom}</strong>
+                  </div>
+                )}
+
+                {property.maintenanceCharges && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Maintenance</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.maintenanceCharges}</strong>
+                  </div>
+                )}
+
+                {property.securityDeposit && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Security Deposit</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.securityDeposit}</strong>
+                  </div>
+                )}
+
+                {property.lockInPeriod && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Lock-in Period</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.lockInPeriod}</strong>
+                  </div>
+                )}
+
+                {property.preferredTenant && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Preferred Tenant</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.preferredTenant}</strong>
+                  </div>
+                )}
+
+                {property.petFriendly !== undefined && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Pet Friendly</span>
+                    <strong style={{ fontSize: '0.9375rem', color: property.petFriendly ? '#16A34A' : 'var(--text-primary)' }}>
+                      {property.petFriendly ? 'Yes' : 'No'}
+                    </strong>
+                  </div>
+                )}
+
+                {property.brokerage && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Brokerage</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.brokerage}</strong>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Society Amenities Section */}
+            {(() => {
+              let parsedAmenities = [];
+              if (property.amenities) {
+                try {
+                  parsedAmenities = JSON.parse(property.amenities);
+                } catch (e) {
+                  parsedAmenities = property.amenities.split(',').map((s) => s.trim()).filter(Boolean);
+                }
+              }
+              if (!Array.isArray(parsedAmenities) || parsedAmenities.length === 0) return null;
+
+              return (
+                <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+                  <h3 style={{ fontSize: '1.1875rem', fontWeight: 600, marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+                    Society Amenities & Features
+                  </h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.75rem' }}>
+                    {parsedAmenities.map((amenity, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          backgroundColor: '#F8FAFC',
+                          padding: '0.5rem 0.75rem',
+                          borderRadius: 'var(--radius-sm)',
+                          border: '1px solid var(--border-color)',
+                          fontSize: '0.8125rem',
+                          fontWeight: 500,
+                        }}
+                      >
+                        <Check size={14} color="var(--color-gold-500)" strokeWidth={3} />
+                        <span>{amenity}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* Property Description */}
             <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>

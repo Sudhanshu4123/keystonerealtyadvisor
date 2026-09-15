@@ -23,6 +23,24 @@ public class PropertyResponse {
     private ListingType listingType;
     private FurnishedStatus furnished;
     private PropertyStatus status;
+    private String propertyCategory;
+    private String societyName;
+    private Double builtUpArea;
+    private Double carpetArea;
+    private String propertyAge;
+    private Integer balconies;
+    private String floorNo;
+    private Integer totalFloors;
+    private Integer coveredParking;
+    private Integer openParking;
+    private String preferredTenant;
+    private Boolean petFriendly;
+    private String availableFrom;
+    private String maintenanceCharges;
+    private String securityDeposit;
+    private String lockInPeriod;
+    private String brokerage;
+    private String amenities;
     private String primaryImageUrl;
     private List<PropertyImageResponse> images;
     private Long projectId;
@@ -193,5 +211,149 @@ public class PropertyResponse {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getPropertyCategory() {
+        return propertyCategory;
+    }
+
+    public void setPropertyCategory(String propertyCategory) {
+        this.propertyCategory = propertyCategory;
+    }
+
+    public String getSocietyName() {
+        return societyName;
+    }
+
+    public void setSocietyName(String societyName) {
+        this.societyName = societyName;
+    }
+
+    public Double getBuiltUpArea() {
+        return builtUpArea;
+    }
+
+    public void setBuiltUpArea(Double builtUpArea) {
+        this.builtUpArea = builtUpArea;
+    }
+
+    public Double getCarpetArea() {
+        return carpetArea;
+    }
+
+    public void setCarpetArea(Double carpetArea) {
+        this.carpetArea = carpetArea;
+    }
+
+    public String getPropertyAge() {
+        return propertyAge;
+    }
+
+    public void setPropertyAge(String propertyAge) {
+        this.propertyAge = propertyAge;
+    }
+
+    public Integer getBalconies() {
+        return balconies;
+    }
+
+    public void setBalconies(Integer balconies) {
+        this.balconies = balconies;
+    }
+
+    public String getFloorNo() {
+        return floorNo;
+    }
+
+    public void setFloorNo(String floorNo) {
+        this.floorNo = floorNo;
+    }
+
+    public Integer getTotalFloors() {
+        return totalFloors;
+    }
+
+    public void setTotalFloors(Integer totalFloors) {
+        this.totalFloors = totalFloors;
+    }
+
+    public Integer getCoveredParking() {
+        return coveredParking;
+    }
+
+    public void setCoveredParking(Integer coveredParking) {
+        this.coveredParking = coveredParking;
+    }
+
+    public Integer getOpenParking() {
+        return openParking;
+    }
+
+    public void setOpenParking(Integer openParking) {
+        this.openParking = openParking;
+    }
+
+    public String getPreferredTenant() {
+        return preferredTenant;
+    }
+
+    public void setPreferredTenant(String preferredTenant) {
+        this.preferredTenant = preferredTenant;
+    }
+
+    public Boolean getPetFriendly() {
+        return petFriendly;
+    }
+
+    public void setPetFriendly(Boolean petFriendly) {
+        this.petFriendly = petFriendly;
+    }
+
+    public String getAvailableFrom() {
+        return availableFrom;
+    }
+
+    public void setAvailableFrom(String availableFrom) {
+        this.availableFrom = availableFrom;
+    }
+
+    public String getMaintenanceCharges() {
+        return maintenanceCharges;
+    }
+
+    public void setMaintenanceCharges(String maintenanceCharges) {
+        this.maintenanceCharges = maintenanceCharges;
+    }
+
+    public String getSecurityDeposit() {
+        return securityDeposit;
+    }
+
+    public void setSecurityDeposit(String securityDeposit) {
+        this.securityDeposit = securityDeposit;
+    }
+
+    public String getLockInPeriod() {
+        return lockInPeriod;
+    }
+
+    public void setLockInPeriod(String lockInPeriod) {
+        this.lockInPeriod = lockInPeriod;
+    }
+
+    public String getBrokerage() {
+        return brokerage;
+    }
+
+    public void setBrokerage(String brokerage) {
+        this.brokerage = brokerage;
+    }
+
+    public String getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(String amenities) {
+        this.amenities = amenities;
     }
 }

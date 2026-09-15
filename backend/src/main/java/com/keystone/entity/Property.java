@@ -62,6 +62,60 @@ public class Property {
     @Column(nullable = false, length = 30)
     private PropertyStatus status = PropertyStatus.AVAILABLE;
 
+    @Column(name = "property_category", length = 50)
+    private String propertyCategory = "Residential";
+
+    @Column(name = "society_name", length = 200)
+    private String societyName;
+
+    @Column(name = "built_up_area")
+    private Double builtUpArea;
+
+    @Column(name = "carpet_area")
+    private Double carpetArea;
+
+    @Column(name = "property_age", length = 50)
+    private String propertyAge;
+
+    @Column(name = "balconies")
+    private Integer balconies = 0;
+
+    @Column(name = "floor_no", length = 30)
+    private String floorNo;
+
+    @Column(name = "total_floors")
+    private Integer totalFloors;
+
+    @Column(name = "covered_parking")
+    private Integer coveredParking = 0;
+
+    @Column(name = "open_parking")
+    private Integer openParking = 0;
+
+    @Column(name = "preferred_tenant", length = 50)
+    private String preferredTenant;
+
+    @Column(name = "pet_friendly")
+    private Boolean petFriendly = false;
+
+    @Column(name = "available_from", length = 100)
+    private String availableFrom;
+
+    @Column(name = "maintenance_charges", length = 100)
+    private String maintenanceCharges;
+
+    @Column(name = "security_deposit", length = 100)
+    private String securityDeposit;
+
+    @Column(name = "lock_in_period", length = 100)
+    private String lockInPeriod;
+
+    @Column(name = "brokerage", length = 100)
+    private String brokerage;
+
+    @Column(name = "amenities", columnDefinition = "TEXT")
+    private String amenities;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
@@ -257,5 +311,149 @@ public class Property {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public String getPropertyCategory() {
+        return propertyCategory;
+    }
+
+    public void setPropertyCategory(String propertyCategory) {
+        this.propertyCategory = propertyCategory;
+    }
+
+    public String getSocietyName() {
+        return societyName;
+    }
+
+    public void setSocietyName(String societyName) {
+        this.societyName = societyName;
+    }
+
+    public Double getBuiltUpArea() {
+        return builtUpArea;
+    }
+
+    public void setBuiltUpArea(Double builtUpArea) {
+        this.builtUpArea = builtUpArea;
+    }
+
+    public Double getCarpetArea() {
+        return carpetArea;
+    }
+
+    public void setCarpetArea(Double carpetArea) {
+        this.carpetArea = carpetArea;
+    }
+
+    public String getPropertyAge() {
+        return propertyAge;
+    }
+
+    public void setPropertyAge(String propertyAge) {
+        this.propertyAge = propertyAge;
+    }
+
+    public Integer getBalconies() {
+        return balconies;
+    }
+
+    public void setBalconies(Integer balconies) {
+        this.balconies = balconies;
+    }
+
+    public String getFloorNo() {
+        return floorNo;
+    }
+
+    public void setFloorNo(String floorNo) {
+        this.floorNo = floorNo;
+    }
+
+    public Integer getTotalFloors() {
+        return totalFloors;
+    }
+
+    public void setTotalFloors(Integer totalFloors) {
+        this.totalFloors = totalFloors;
+    }
+
+    public Integer getCoveredParking() {
+        return coveredParking;
+    }
+
+    public void setCoveredParking(Integer coveredParking) {
+        this.coveredParking = coveredParking;
+    }
+
+    public Integer getOpenParking() {
+        return openParking;
+    }
+
+    public void setOpenParking(Integer openParking) {
+        this.openParking = openParking;
+    }
+
+    public String getPreferredTenant() {
+        return preferredTenant;
+    }
+
+    public void setPreferredTenant(String preferredTenant) {
+        this.preferredTenant = preferredTenant;
+    }
+
+    public Boolean getPetFriendly() {
+        return petFriendly;
+    }
+
+    public void setPetFriendly(Boolean petFriendly) {
+        this.petFriendly = petFriendly;
+    }
+
+    public String getAvailableFrom() {
+        return availableFrom;
+    }
+
+    public void setAvailableFrom(String availableFrom) {
+        this.availableFrom = availableFrom;
+    }
+
+    public String getMaintenanceCharges() {
+        return maintenanceCharges;
+    }
+
+    public void setMaintenanceCharges(String maintenanceCharges) {
+        this.maintenanceCharges = maintenanceCharges;
+    }
+
+    public String getSecurityDeposit() {
+        return securityDeposit;
+    }
+
+    public void setSecurityDeposit(String securityDeposit) {
+        this.securityDeposit = securityDeposit;
+    }
+
+    public String getLockInPeriod() {
+        return lockInPeriod;
+    }
+
+    public void setLockInPeriod(String lockInPeriod) {
+        this.lockInPeriod = lockInPeriod;
+    }
+
+    public String getBrokerage() {
+        return brokerage;
+    }
+
+    public void setBrokerage(String brokerage) {
+        this.brokerage = brokerage;
+    }
+
+    public String getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(String amenities) {
+        this.amenities = amenities;
     }
 }

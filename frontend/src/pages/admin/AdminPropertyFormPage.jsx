@@ -3,7 +3,18 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { propertyService } from '../../services/propertyService';
 import { useToast } from '../../hooks/useToast';
 import ImageUploader from '../../components/admin/ImageUploader';
-import { ArrowLeft, Save, Building2 } from 'lucide-react';
+import {
+  ArrowLeft, Save, Building2, Home, Layers, CheckCircle2,
+  Plus, Check, Sparkles, MapPin, IndianRupee, ShieldCheck, Car, Key
+} from 'lucide-react';
+
+const COMMON_AMENITIES = [
+  'Lift', 'Power Backup', '24x7 Security', 'CCTV Surveillance',
+  'Gated Society', 'Reserved Parking', 'Visitor Parking', 'Gymnasium',
+  'Club House', 'Swimming Pool', 'Park / Garden', 'Children Play Area',
+  'Gas Pipeline', 'Water Storage', 'Intercom Facility', 'Fire Safety',
+  'Maintenance Staff', 'Rain Water Harvesting', 'Waste Disposal'
+];
 
 export default function AdminPropertyFormPage() {
   const { id } = useParams();
@@ -11,19 +22,40 @@ export default function AdminPropertyFormPage() {
   const navigate = useNavigate();
   const { success, error } = useToast();
 
+  const [activeStep, setActiveStep] = useState('details'); // 'details' | 'specs' | 'pricing' | 'images'
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    area: '',
-    bathrooms: '1',
-    bedrooms: '1',
-    city: '',
-    location: '',
-    price: '',
+    propertyCategory: 'Residential', // 'Residential' | 'Commercial'
+    listingType: 'RENT', // 'RENT' | 'SALE' | 'PG_CO_LIVING'
     propertyType: 'APARTMENT',
-    listingType: 'SALE',
-    furnished: 'UNFURNISHED',
+    societyName: '',
+    city: 'Gurgaon',
+    location: '',
+    builtUpArea: '',
+    carpetArea: '',
+    propertyAge: '1-5 Years',
+    bedrooms: '3',
+    bathrooms: '3',
+    balconies: '3',
+    floorNo: '3',
+    totalFloors: '10',
+    furnished: 'FULLY_FURNISHED',
+    coveredParking: '1',
+    openParking: '1',
+    preferredTenant: 'Family',
+    petFriendly: false,
+    price: '',
+    availableFrom: 'Immediate',
+    maintenanceCharges: 'Include in rent',
+    maintenanceAmount: '',
+    securityDeposit: '2 month',
+    securityDepositCustom: '',
+    lockInPeriod: '6 month',
+    brokerage: 'None',
     status: 'AVAILABLE',
+    amenities: ['Lift', '24x7 Security', 'Power Backup', 'Gated Society', 'Reserved Parking'],
   });
 
   const [existingImages, setExistingImages] = useState([]);
@@ -40,19 +72,47 @@ export default function AdminPropertyFormPage() {
           const res = await propertyService.getPropertyById(id);
           if (res.success && res.data) {
             const p = res.data;
+            let loadedAmenities = [];
+            if (p.amenities) {
+              try {
+                loadedAmenities = JSON.parse(p.amenities);
+              } catch (e) {
+                loadedAmenities = p.amenities.split(',').map((s) => s.trim()).filter(Boolean);
+              }
+            }
+
             setFormData({
               title: p.title || '',
               description: p.description || '',
-              area: p.area || '',
-              bathrooms: String(p.bathrooms || 1),
-              bedrooms: String(p.bedrooms || 1),
-              city: p.city || '',
-              location: p.location || '',
-              price: String(p.price || ''),
+              propertyCategory: p.propertyCategory || 'Residential',
+              listingType: p.listingType || 'RENT',
               propertyType: p.propertyType || 'APARTMENT',
-              listingType: p.listingType || 'SALE',
-              furnished: p.furnished || 'UNFURNISHED',
+              societyName: p.societyName || '',
+              city: p.city || 'Gurgaon',
+              location: p.location || '',
+              builtUpArea: p.builtUpArea || p.area || '',
+              carpetArea: p.carpetArea || '',
+              propertyAge: p.propertyAge || '1-5 Years',
+              bedrooms: String(p.bedrooms || 3),
+              bathrooms: String(p.bathrooms || 3),
+              balconies: String(p.balconies || 1),
+              floorNo: p.floorNo || '1',
+              totalFloors: String(p.totalFloors || 4),
+              furnished: p.furnished || 'FULLY_FURNISHED',
+              coveredParking: String(p.coveredParking || 1),
+              openParking: String(p.openParking || 1),
+              preferredTenant: p.preferredTenant || 'Family',
+              petFriendly: Boolean(p.petFriendly),
+              price: String(p.price || ''),
+              availableFrom: p.availableFrom || 'Immediate',
+              maintenanceCharges: p.maintenanceCharges?.startsWith('Separate') ? 'Separate' : (p.maintenanceCharges || 'Include in rent'),
+              maintenanceAmount: p.maintenanceCharges?.startsWith('Separate') ? p.maintenanceCharges.replace('Separate: ', '') : '',
+              securityDeposit: ['None', '1 month', '2 month'].includes(p.securityDeposit) ? p.securityDeposit : (p.securityDeposit ? 'Custom' : '2 month'),
+              securityDepositCustom: !['None', '1 month', '2 month'].includes(p.securityDeposit) ? (p.securityDeposit || '') : '',
+              lockInPeriod: ['None', '1 month', '6 month', '11 month'].includes(p.lockInPeriod) ? p.lockInPeriod : (p.lockInPeriod ? 'Custom' : '6 month'),
+              brokerage: p.brokerage || 'None',
               status: p.status || 'AVAILABLE',
+              amenities: loadedAmenities.length > 0 ? loadedAmenities : ['Lift', '24x7 Security', 'Power Backup'],
             });
             setExistingImages(p.images || []);
           }
@@ -66,20 +126,67 @@ export default function AdminPropertyFormPage() {
     }
   }, [id, isEditMode]);
 
+  const toggleAmenity = (amenity) => {
+    setFormData((prev) => {
+      const exists = prev.amenities.includes(amenity);
+      return {
+        ...prev,
+        amenities: exists
+          ? prev.amenities.filter((a) => a !== amenity)
+          : [...prev.amenities, amenity]
+      };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.title || !formData.city || !formData.location || !formData.price || !formData.area) {
-      error('Please fill in all required property fields.');
+    const titleToSave = formData.title.trim() || `${formData.bedrooms} BHK ${formData.societyName || formData.propertyType} in ${formData.location || formData.city}`;
+    const areaVal = Number(formData.builtUpArea) || Number(formData.carpetArea) || 1000;
+
+    if (!formData.city || !formData.location || !formData.price) {
+      error('Please fill in City, Location, and Price.');
       return;
     }
 
+    let maintenanceFinal = formData.maintenanceCharges;
+    if (formData.maintenanceCharges === 'Separate' && formData.maintenanceAmount) {
+      maintenanceFinal = `Separate: ₹${formData.maintenanceAmount}/mo`;
+    }
+
+    let securityFinal = formData.securityDeposit === 'Custom' ? formData.securityDepositCustom : formData.securityDeposit;
+
     const payload = {
-      ...formData,
+      title: titleToSave,
+      description: formData.description,
+      area: areaVal,
+      builtUpArea: Number(formData.builtUpArea) || null,
+      carpetArea: Number(formData.carpetArea) || null,
+      bedrooms: Number(formData.bedrooms) || 0,
+      bathrooms: Number(formData.bathrooms) || 0,
+      balconies: Number(formData.balconies) || 0,
+      city: formData.city,
+      location: formData.location,
       price: Number(formData.price),
-      area: Number(formData.area),
-      bedrooms: Number(formData.bedrooms),
-      bathrooms: Number(formData.bathrooms),
+      propertyCategory: formData.propertyCategory,
+      propertyType: formData.propertyType,
+      listingType: formData.listingType,
+      societyName: formData.societyName,
+      propertyAge: formData.propertyAge,
+      floorNo: formData.floorNo,
+      totalFloors: Number(formData.totalFloors) || null,
+      furnished: formData.furnished,
+      coveredParking: Number(formData.coveredParking) || 0,
+      openParking: Number(formData.openParking) || 0,
+      preferredTenant: formData.preferredTenant,
+      petFriendly: formData.petFriendly,
+      availableFrom: formData.availableFrom,
+      maintenanceCharges: maintenanceFinal,
+      securityDeposit: securityFinal,
+      lockInPeriod: formData.lockInPeriod,
+      brokerage: formData.brokerage,
+      status: formData.status,
+      amenities: JSON.stringify(formData.amenities),
     };
 
     setSubmitting(true);
@@ -147,222 +254,675 @@ export default function AdminPropertyFormPage() {
   if (loading) {
     return (
       <div className="card" style={{ padding: '3rem', textAlign: 'center', backgroundColor: '#FFFFFF' }}>
-        <p style={{ color: 'var(--text-muted)' }}>Loading property information...</p>
+        <p style={{ color: 'var(--text-muted)' }}>Loading property specifications...</p>
       </div>
     );
   }
 
+  const pillSelectStyle = (isSelected) => ({
+    padding: '0.625rem 1.25rem',
+    borderRadius: 'var(--radius-md)',
+    border: isSelected ? '2px solid var(--color-gold-500)' : '1px solid var(--border-color)',
+    backgroundColor: isSelected ? '#FDF8EA' : '#FFFFFF',
+    color: isSelected ? 'var(--color-gold-700)' : 'var(--text-primary)',
+    fontWeight: isSelected ? 700 : 500,
+    cursor: 'pointer',
+    fontSize: '0.875rem',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.15s ease',
+    userSelect: 'none',
+  });
+
+  const chipBoxStyle = (isSelected) => ({
+    minWidth: '48px',
+    height: '42px',
+    padding: '0 0.75rem',
+    borderRadius: 'var(--radius-sm)',
+    border: isSelected ? '2px solid var(--color-gold-500)' : '1px solid var(--border-color)',
+    backgroundColor: isSelected ? '#FDF8EA' : '#FFFFFF',
+    color: isSelected ? 'var(--color-gold-700)' : 'var(--text-primary)',
+    fontWeight: isSelected ? 700 : 500,
+    cursor: 'pointer',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.15s ease',
+  });
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '1000px', margin: '0 auto' }}>
-      {/* Back button */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '1080px', margin: '0 auto' }}>
+      {/* Top Navigation */}
       <div>
         <Link to="/admin/properties" className="btn btn-ghost btn-sm" style={{ paddingLeft: 0, gap: '0.375rem' }}>
           <ArrowLeft size={16} />
-          <span>Back to property list</span>
+          <span>Back to property listings</span>
         </Link>
       </div>
 
-      <div className="card" style={{ padding: '2.5rem', backgroundColor: '#FFFFFF' }}>
+      <div className="card" style={{ padding: '2.5rem', backgroundColor: '#FFFFFF', boxShadow: '0 4px 20px rgba(0,0,0,0.06)' }}>
+        {/* Header Title */}
         <div style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.25rem' }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 700 }}>
-            {isEditMode ? `Edit Property: ${formData.title || `#${id}`}` : 'Create New Real Estate Listing'}
-          </h1>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-            Enter verified property specifications, pricing, location data, and upload authorized images.
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+            <div>
+              <span style={{ color: 'var(--color-gold-600)', fontSize: '0.8125rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                Post Property Specification
+              </span>
+              <h1 style={{ fontSize: '1.625rem', fontWeight: 700, margin: '0.25rem 0 0' }}>
+                {isEditMode ? `Edit Property #${id}` : 'Post Real Estate Property Listing'}
+              </h1>
+            </div>
+            <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.375rem 0.875rem', borderRadius: 'var(--radius-full)', fontSize: '0.8125rem', fontWeight: 600 }}>
+              {formData.listingType === 'RENT' ? 'Rental Listing' : formData.listingType === 'PG_CO_LIVING' ? 'PG / Co-Living' : 'Resale / Sale'}
+            </div>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          {/* Section 1: Basic info */}
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }} className="form-subgrid">
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-title">Property Title *</label>
-              <input
-                id="prop-title"
-                type="text"
-                required
-                className="form-control"
-                placeholder="e.g. The Sovereign Penthouse, Central Tower"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              />
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+          
+          {/* 1. Property Type & Intent */}
+          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Building2 size={20} color="var(--color-gold-600)" />
+              <span>1. Category & Listing Intent</span>
+            </h3>
+
+            {/* Property Category */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label className="form-label">Property Category *</label>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                {['Residential', 'Commercial'].map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    style={pillSelectStyle(formData.propertyCategory === cat)}
+                    onClick={() => setFormData({ ...formData, propertyCategory: cat })}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-price">Price (₹) *</label>
-              <input
-                id="prop-price"
-                type="number"
-                required
-                min="1"
-                step="any"
-                className="form-control"
-                placeholder="e.g. 2500000"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              />
-            </div>
-          </div>
-
-          {/* Section 2: Types & Status */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginTop: '0.5rem' }} className="form-quadgrid">
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-type">Property Type *</label>
-              <select
-                id="prop-type"
-                className="form-control"
-                value={formData.propertyType}
-                onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
-              >
-                <option value="APARTMENT">Apartment</option>
-                <option value="VILLA">Villa</option>
-                <option value="PENTHOUSE">Penthouse</option>
-                <option value="TOWNHOUSE">Townhouse</option>
-                <option value="ESTATE">Estate</option>
-                <option value="COMMERCIAL">Commercial</option>
-                <option value="OFFICE">Office</option>
-                <option value="LAND">Land</option>
-              </select>
+            {/* Looking to */}
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label className="form-label">Looking To *</label>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                {[
+                  { value: 'RENT', label: 'Rent' },
+                  { value: 'SALE', label: 'Sell' },
+                  { value: 'PG_CO_LIVING', label: 'PG / Co-living' }
+                ].map((item) => (
+                  <button
+                    key={item.value}
+                    type="button"
+                    style={pillSelectStyle(formData.listingType === item.value)}
+                    onClick={() => setFormData({ ...formData, listingType: item.value })}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-listing">Listing Type *</label>
-              <select
-                id="prop-listing"
-                className="form-control"
-                value={formData.listingType}
-                onChange={(e) => setFormData({ ...formData, listingType: e.target.value })}
-              >
-                <option value="SALE">For Sale</option>
-                <option value="RENT">For Rent</option>
-                <option value="LEASE">Commercial Lease</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-furnishing">Furnished Status</label>
-              <select
-                id="prop-furnishing"
-                className="form-control"
-                value={formData.furnished}
-                onChange={(e) => setFormData({ ...formData, furnished: e.target.value })}
-              >
-                <option value="UNFURNISHED">Unfurnished</option>
-                <option value="SEMI_FURNISHED">Semi Furnished</option>
-                <option value="FULLY_FURNISHED">Fully Furnished</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-status">Listing Status</label>
-              <select
-                id="prop-status"
-                className="form-control"
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              >
-                <option value="AVAILABLE">Available</option>
-                <option value="UNDER_OFFER">Under Offer</option>
-                <option value="SOLD">Sold</option>
-                <option value="RENTED">Rented</option>
-                <option value="OFF_MARKET">Off Market</option>
-              </select>
+            {/* Sub-Type Selection */}
+            <div>
+              <label className="form-label">Property Type *</label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
+                {[
+                  { id: 'APARTMENT', label: 'Apartment' },
+                  { id: 'INDEPENDENT_HOUSE', label: 'Independent House' },
+                  { id: 'DUPLEX', label: 'Duplex' },
+                  { id: 'INDEPENDENT_FLOOR', label: 'Independent Floor' },
+                  { id: 'VILLA', label: 'Villa' },
+                  { id: 'PENTHOUSE', label: 'Penthouse' },
+                  { id: 'PLOT', label: 'Plot / Land' },
+                  { id: 'COMMERCIAL', label: 'Commercial Office' },
+                  { id: 'RETAIL_SHOP', label: 'Retail Shop' }
+                ].map((type) => (
+                  <button
+                    key={type.id}
+                    type="button"
+                    style={{
+                      ...pillSelectStyle(formData.propertyType === type.id),
+                      textAlign: 'center',
+                      padding: '0.75rem 0.5rem',
+                      height: 'auto',
+                    }}
+                    onClick={() => setFormData({ ...formData, propertyType: type.id })}
+                  >
+                    {type.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Section 3: Location */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '0.5rem' }} className="form-subgrid">
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-location">Location / Street Address *</label>
-              <input
-                id="prop-location"
-                type="text"
-                required
-                className="form-control"
-                placeholder="e.g. 500 Park Avenue, Upper East Side"
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              />
+          {/* 2. Location & Society */}
+          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <MapPin size={20} color="var(--color-gold-600)" />
+              <span>2. Location & Society Details</span>
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="form-subgrid">
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-city">City *</label>
+                <input
+                  id="prop-city"
+                  type="text"
+                  required
+                  className="form-control"
+                  placeholder="e.g. Gurgaon, Delhi, Noida"
+                  value={formData.city}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-society">Building / Apartment / Society Name *</label>
+                <input
+                  id="prop-society"
+                  type="text"
+                  required
+                  className="form-control"
+                  placeholder="e.g. Swami Dayanand Apartment, DLF Phase 5"
+                  value={formData.societyName}
+                  onChange={(e) => setFormData({ ...formData, societyName: e.target.value })}
+                />
+              </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-city">City *</label>
-              <input
-                id="prop-city"
-                type="text"
-                required
-                className="form-control"
-                placeholder="e.g. New York"
-                value={formData.city}
-                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-              />
-            </div>
-          </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem', marginTop: '0.5rem' }} className="form-subgrid">
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-location">Locality / Sector / Address *</label>
+                <input
+                  id="prop-location"
+                  type="text"
+                  required
+                  className="form-control"
+                  placeholder="e.g. Sector 6, Dwarka"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                />
+              </div>
 
-          {/* Section 4: Specifications */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginTop: '0.5rem' }} className="form-triplegrid">
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-area">Area (sq ft) *</label>
-              <input
-                id="prop-area"
-                type="number"
-                required
-                min="1"
-                step="any"
-                className="form-control"
-                placeholder="e.g. 3500"
-                value={formData.area}
-                onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-beds">Bedrooms</label>
-              <input
-                id="prop-beds"
-                type="number"
-                required
-                min="0"
-                className="form-control"
-                value={formData.bedrooms}
-                onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-baths">Bathrooms</label>
-              <input
-                id="prop-baths"
-                type="number"
-                required
-                min="0"
-                className="form-control"
-                value={formData.bathrooms}
-                onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
-              />
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-title">Listing Headline (Optional)</label>
+                <input
+                  id="prop-title"
+                  type="text"
+                  className="form-control"
+                  placeholder="Auto-generated if empty"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                />
+              </div>
             </div>
           </div>
 
-          {/* Section 5: Description */}
-          <div className="form-group" style={{ marginTop: '0.5rem' }}>
-            <label className="form-label" htmlFor="prop-desc">Full Property Description</label>
+          {/* 3. Rooms, Area & Layout */}
+          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Layers size={20} color="var(--color-gold-600)" />
+              <span>3. Space & Layout Specifications</span>
+            </h3>
+
+            {/* Area Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1.25rem' }} className="form-triplegrid">
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-builtup">Built-Up Area (Sq. ft.) *</label>
+                <input
+                  id="prop-builtup"
+                  type="number"
+                  required
+                  min="1"
+                  className="form-control"
+                  placeholder="e.g. 1850"
+                  value={formData.builtUpArea}
+                  onChange={(e) => setFormData({ ...formData, builtUpArea: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-carpet">Carpet Area (Sq. ft.)</label>
+                <input
+                  id="prop-carpet"
+                  type="number"
+                  min="1"
+                  className="form-control"
+                  placeholder="e.g. 1500"
+                  value={formData.carpetArea}
+                  onChange={(e) => setFormData({ ...formData, carpetArea: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-age">Age of Property</label>
+                <select
+                  id="prop-age"
+                  className="form-control"
+                  value={formData.propertyAge}
+                  onChange={(e) => setFormData({ ...formData, propertyAge: e.target.value })}
+                >
+                  <option value="Under Construction">Under Construction</option>
+                  <option value="0-1 Years">0-1 Years (Brand New)</option>
+                  <option value="1-5 Years">1-5 Years</option>
+                  <option value="5-10 Years">5-10 Years</option>
+                  <option value="10+ Years">10+ Years</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Bedrooms, Bathrooms, Balconies */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '1.25rem' }} className="form-triplegrid">
+              {/* Bedrooms */}
+              <div>
+                <label className="form-label">Bedrooms *</label>
+                <div style={{ display: 'flex', gap: '0.375rem' }}>
+                  {['1', '2', '3', '4', '5'].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      style={chipBoxStyle(formData.bedrooms === n)}
+                      onClick={() => setFormData({ ...formData, bedrooms: n })}
+                    >
+                      {n}{n === '5' ? '+' : ''}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bathrooms */}
+              <div>
+                <label className="form-label">Bathrooms *</label>
+                <div style={{ display: 'flex', gap: '0.375rem' }}>
+                  {['1', '2', '3', '4', '5'].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      style={chipBoxStyle(formData.bathrooms === n)}
+                      onClick={() => setFormData({ ...formData, bathrooms: n })}
+                    >
+                      {n}{n === '5' ? '+' : ''}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Balconies */}
+              <div>
+                <label className="form-label">Balconies *</label>
+                <div style={{ display: 'flex', gap: '0.375rem' }}>
+                  {['0', '1', '2', '3', '4'].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      style={chipBoxStyle(formData.balconies === n)}
+                      onClick={() => setFormData({ ...formData, balconies: n })}
+                    >
+                      {n}{n === '4' ? '+' : ''}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Furnishing & Floors */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '1rem' }} className="form-triplegrid">
+              <div>
+                <label className="form-label">Furnish Type *</label>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  {[
+                    { id: 'FULLY_FURNISHED', label: 'Fully Furnished' },
+                    { id: 'SEMI_FURNISHED', label: 'Semi Furnished' },
+                    { id: 'UNFURNISHED', label: 'Unfurnished' }
+                  ].map((f) => (
+                    <button
+                      key={f.id}
+                      type="button"
+                      style={{ ...pillSelectStyle(formData.furnished === f.id), fontSize: '0.8125rem', padding: '0.5rem 0.75rem' }}
+                      onClick={() => setFormData({ ...formData, furnished: f.id })}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-floorno">Floor No. *</label>
+                <input
+                  id="prop-floorno"
+                  type="text"
+                  required
+                  className="form-control"
+                  placeholder="e.g. 3, Ground, Top"
+                  value={formData.floorNo}
+                  onChange={(e) => setFormData({ ...formData, floorNo: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-totalfloors">Total Floors *</label>
+                <input
+                  id="prop-totalfloors"
+                  type="number"
+                  required
+                  min="1"
+                  className="form-control"
+                  placeholder="e.g. 10"
+                  value={formData.totalFloors}
+                  onChange={(e) => setFormData({ ...formData, totalFloors: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 4. Parking, Tenants & Rules */}
+          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Car size={20} color="var(--color-gold-600)" />
+              <span>4. Parking & Tenant Preferences</span>
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem', marginBottom: '1.25rem' }} className="form-subgrid">
+              {/* Covered Parking */}
+              <div>
+                <label className="form-label">Covered Parking Slots *</label>
+                <div style={{ display: 'flex', gap: '0.375rem' }}>
+                  {['0', '1', '2', '3', '4'].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      style={chipBoxStyle(formData.coveredParking === n)}
+                      onClick={() => setFormData({ ...formData, coveredParking: n })}
+                    >
+                      {n}{n === '4' ? '+' : ''}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Open Parking */}
+              <div>
+                <label className="form-label">Open Parking Slots *</label>
+                <div style={{ display: 'flex', gap: '0.375rem' }}>
+                  {['0', '1', '2', '3', '4'].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      style={chipBoxStyle(formData.openParking === n)}
+                      onClick={() => setFormData({ ...formData, openParking: n })}
+                    >
+                      {n}{n === '4' ? '+' : ''}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', alignItems: 'center' }} className="form-subgrid">
+              <div>
+                <label className="form-label">Preferred Tenant Type</label>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  {['Family', 'Bachelors', 'Company', 'Any'].map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      style={pillSelectStyle(formData.preferredTenant === t)}
+                      onClick={() => setFormData({ ...formData, preferredTenant: t })}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="form-label">Pet Friendly?</label>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  {[
+                    { val: true, label: 'Yes' },
+                    { val: false, label: 'No' }
+                  ].map((p) => (
+                    <button
+                      key={p.label}
+                      type="button"
+                      style={pillSelectStyle(formData.petFriendly === p.val)}
+                      onClick={() => setFormData({ ...formData, petFriendly: p.val })}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Pricing, Deposits & Lease Terms */}
+          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+            <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <IndianRupee size={20} color="var(--color-gold-600)" />
+              <span>5. Pricing, Security Deposit & Lease Terms</span>
+            </h3>
+
+            {/* Price & Available From */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }} className="form-subgrid">
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-price">
+                  {formData.listingType === 'RENT' ? 'Monthly Rent (₹) *' : 'Expected Sale Price (₹) *'}
+                </label>
+                <input
+                  id="prop-price"
+                  type="number"
+                  required
+                  min="1"
+                  step="any"
+                  className="form-control"
+                  placeholder="e.g. 55000"
+                  value={formData.price}
+                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-avail">Available From *</label>
+                <input
+                  id="prop-avail"
+                  type="text"
+                  required
+                  className="form-control"
+                  placeholder="e.g. Immediate, 1st of Next Month"
+                  value={formData.availableFrom}
+                  onChange={(e) => setFormData({ ...formData, availableFrom: e.target.value })}
+                />
+              </div>
+            </div>
+
+            {/* Maintenance & Security Deposit */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.25rem' }} className="form-subgrid">
+              <div>
+                <label className="form-label">Maintenance Charges *</label>
+                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  {['Include in rent', 'Separate'].map((m) => (
+                    <button
+                      key={m}
+                      type="button"
+                      style={pillSelectStyle(formData.maintenanceCharges === m)}
+                      onClick={() => setFormData({ ...formData, maintenanceCharges: m })}
+                    >
+                      {m}
+                    </button>
+                  ))}
+                </div>
+                {formData.maintenanceCharges === 'Separate' && (
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Monthly Maintenance Amount (₹)"
+                    value={formData.maintenanceAmount}
+                    onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value })}
+                  />
+                )}
+              </div>
+
+              <div>
+                <label className="form-label">Security Deposit *</label>
+                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  {['None', '1 month', '2 month', 'Custom'].map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      style={pillSelectStyle(formData.securityDeposit === s)}
+                      onClick={() => setFormData({ ...formData, securityDeposit: s })}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+                {formData.securityDeposit === 'Custom' && (
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="e.g. ₹1,50,000"
+                    value={formData.securityDepositCustom}
+                    onChange={(e) => setFormData({ ...formData, securityDepositCustom: e.target.value })}
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Lock-in & Brokerage */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
+              <div>
+                <label className="form-label">Lock-in Period *</label>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  {['None', '1 month', '6 month', '11 month'].map((l) => (
+                    <button
+                      key={l}
+                      type="button"
+                      style={pillSelectStyle(formData.lockInPeriod === l)}
+                      onClick={() => setFormData({ ...formData, lockInPeriod: l })}
+                    >
+                      {l}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="form-label">Do you charge brokerage? *</label>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  {['None', '15 Days', '30 Days', 'Custom'].map((b) => (
+                    <button
+                      key={b}
+                      type="button"
+                      style={pillSelectStyle(formData.brokerage === b)}
+                      onClick={() => setFormData({ ...formData, brokerage: b })}
+                    >
+                      {b}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 6. Society Amenities Checklist */}
+          <div style={{ backgroundColor: '#F8FAFC', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
+                <Sparkles size={20} color="var(--color-gold-600)" />
+                <span>6. Society Amenities & Features ({formData.amenities.length} selected)</span>
+              </h3>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.625rem' }}>
+              {COMMON_AMENITIES.map((amenity) => {
+                const isSelected = formData.amenities.includes(amenity);
+                return (
+                  <button
+                    key={amenity}
+                    type="button"
+                    onClick={() => toggleAmenity(amenity)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      padding: '0.625rem 0.875rem',
+                      borderRadius: 'var(--radius-sm)',
+                      border: isSelected ? '1.5px solid var(--color-gold-500)' : '1px solid var(--border-color)',
+                      backgroundColor: isSelected ? '#FDF8EA' : '#FFFFFF',
+                      color: isSelected ? 'var(--color-gold-700)' : 'var(--text-primary)',
+                      fontSize: '0.8125rem',
+                      fontWeight: isSelected ? 600 : 400,
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      transition: 'all 0.15s ease',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '16px',
+                        height: '16px',
+                        borderRadius: '3px',
+                        border: isSelected ? '1px solid var(--color-gold-600)' : '1px solid #CBD5E1',
+                        backgroundColor: isSelected ? 'var(--color-gold-500)' : '#FFFFFF',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {isSelected && <Check size={12} color="#FFFFFF" strokeWidth={3} />}
+                    </div>
+                    <span>{amenity}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 7. Description */}
+          <div className="form-group" style={{ margin: 0 }}>
+            <label className="form-label" htmlFor="prop-desc">Property Description & Key Highlights</label>
             <textarea
               id="prop-desc"
-              rows={6}
+              rows={4}
               className="form-control"
-              placeholder="Provide comprehensive details regarding architectural features, finishes, panoramic views, parking, and building amenities..."
+              placeholder="Add key highlights like corner flat, road-facing, newly renovated kitchen, high-security gated compound, walking distance to metro/market..."
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             />
           </div>
 
-          {/* Section 6: Image Upload Management */}
-          <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
+          {/* 8. Listing Status */}
+          <div className="form-group" style={{ margin: 0 }}>
+            <label className="form-label" htmlFor="prop-status">Listing Status</label>
+            <select
+              id="prop-status"
+              className="form-control"
+              style={{ maxWidth: '300px' }}
+              value={formData.status}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+            >
+              <option value="AVAILABLE">Available</option>
+              <option value="UNDER_OFFER">Under Offer</option>
+              <option value="SOLD">Sold</option>
+              <option value="RENTED">Rented</option>
+              <option value="OFF_MARKET">Off Market</option>
+            </select>
+          </div>
+
+          {/* 9. Image Upload Management */}
+          <div style={{ paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
             <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-              Property Image Assets
+              Property Photos & Media Assets
             </h3>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
-              Upload authentic images captured for this property. Selected files will be saved and linked directly to this property record.
+              Upload authentic images captured for this property. High-quality photos significantly improve client inquiries.
             </p>
 
             <ImageUploader
@@ -380,14 +940,14 @@ export default function AdminPropertyFormPage() {
             )}
           </div>
 
-          {/* Form Actions */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
+          {/* Submit Actions */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
             <Link to="/admin/properties" className="btn btn-ghost" disabled={submitting}>
               Cancel
             </Link>
             <button type="submit" className="btn btn-primary btn-lg" disabled={submitting}>
               <Save size={18} />
-              <span>{submitting ? 'Saving Record...' : isEditMode ? 'Update Property' : 'Create Property'}</span>
+              <span>{submitting ? 'Saving Property...' : isEditMode ? 'Update Property' : 'Publish Property'}</span>
             </button>
           </div>
         </form>
@@ -395,7 +955,7 @@ export default function AdminPropertyFormPage() {
 
       <style>{`
         @media (max-width: 768px) {
-          .form-subgrid, .form-quadgrid, .form-triplegrid {
+          .form-subgrid, .form-triplegrid {
             grid-template-columns: 1fr !important;
           }
         }

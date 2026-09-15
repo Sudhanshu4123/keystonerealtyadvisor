@@ -28,6 +28,25 @@ public class PropertyMapper {
         property.setListingType(request.getListingType());
         property.setFurnished(request.getFurnished());
         property.setStatus(request.getStatus());
+
+        property.setPropertyCategory(request.getPropertyCategory());
+        property.setSocietyName(request.getSocietyName());
+        property.setBuiltUpArea(request.getBuiltUpArea());
+        property.setCarpetArea(request.getCarpetArea());
+        property.setPropertyAge(request.getPropertyAge());
+        property.setBalconies(request.getBalconies());
+        property.setFloorNo(request.getFloorNo());
+        property.setTotalFloors(request.getTotalFloors());
+        property.setCoveredParking(request.getCoveredParking());
+        property.setOpenParking(request.getOpenParking());
+        property.setPreferredTenant(request.getPreferredTenant());
+        property.setPetFriendly(request.getPetFriendly());
+        property.setAvailableFrom(request.getAvailableFrom());
+        property.setMaintenanceCharges(request.getMaintenanceCharges());
+        property.setSecurityDeposit(request.getSecurityDeposit());
+        property.setLockInPeriod(request.getLockInPeriod());
+        property.setBrokerage(request.getBrokerage());
+        property.setAmenities(request.getAmenities());
         return property;
     }
 
@@ -44,6 +63,25 @@ public class PropertyMapper {
         property.setListingType(request.getListingType());
         property.setFurnished(request.getFurnished());
         property.setStatus(request.getStatus());
+
+        property.setPropertyCategory(request.getPropertyCategory());
+        property.setSocietyName(request.getSocietyName());
+        property.setBuiltUpArea(request.getBuiltUpArea());
+        property.setCarpetArea(request.getCarpetArea());
+        property.setPropertyAge(request.getPropertyAge());
+        property.setBalconies(request.getBalconies());
+        property.setFloorNo(request.getFloorNo());
+        property.setTotalFloors(request.getTotalFloors());
+        property.setCoveredParking(request.getCoveredParking());
+        property.setOpenParking(request.getOpenParking());
+        property.setPreferredTenant(request.getPreferredTenant());
+        property.setPetFriendly(request.getPetFriendly());
+        property.setAvailableFrom(request.getAvailableFrom());
+        property.setMaintenanceCharges(request.getMaintenanceCharges());
+        property.setSecurityDeposit(request.getSecurityDeposit());
+        property.setLockInPeriod(request.getLockInPeriod());
+        property.setBrokerage(request.getBrokerage());
+        property.setAmenities(request.getAmenities());
     }
 
     public PropertyResponse toResponse(Property property, boolean isFavorite) {
@@ -62,6 +100,25 @@ public class PropertyMapper {
         response.setFurnished(property.getFurnished());
         response.setStatus(property.getStatus());
         response.setFavorite(isFavorite);
+
+        response.setPropertyCategory(property.getPropertyCategory());
+        response.setSocietyName(property.getSocietyName());
+        response.setBuiltUpArea(property.getBuiltUpArea());
+        response.setCarpetArea(property.getCarpetArea());
+        response.setPropertyAge(property.getPropertyAge());
+        response.setBalconies(property.getBalconies());
+        response.setFloorNo(property.getFloorNo());
+        response.setTotalFloors(property.getTotalFloors());
+        response.setCoveredParking(property.getCoveredParking());
+        response.setOpenParking(property.getOpenParking());
+        response.setPreferredTenant(property.getPreferredTenant());
+        response.setPetFriendly(property.getPetFriendly());
+        response.setAvailableFrom(property.getAvailableFrom());
+        response.setMaintenanceCharges(property.getMaintenanceCharges());
+        response.setSecurityDeposit(property.getSecurityDeposit());
+        response.setLockInPeriod(property.getLockInPeriod());
+        response.setBrokerage(property.getBrokerage());
+        response.setAmenities(property.getAmenities());
         if (property.getProject() != null) {
             response.setProjectId(property.getProject().getId());
             response.setProjectName(property.getProject().getName());
