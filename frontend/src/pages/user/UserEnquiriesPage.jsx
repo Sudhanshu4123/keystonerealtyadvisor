@@ -4,6 +4,7 @@ import { enquiryService } from '../../services/enquiryService';
 import Badge from '../../components/common/Badge';
 import Pagination from '../../components/common/Pagination';
 import EmptyState from '../../components/common/EmptyState';
+import SEO from '../../components/common/SEO';
 import { MessageSquare, Calendar, Building, MapPin } from 'lucide-react';
 
 export default function UserEnquiriesPage() {
@@ -48,6 +49,7 @@ export default function UserEnquiriesPage() {
 
   return (
     <div className="card" style={{ padding: '2rem', backgroundColor: '#FFFFFF' }}>
+      <SEO title="My Consultation Inquiries" noIndex={true} />
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
         <MessageSquare size={22} color="var(--color-gold-500)" />
         <div>

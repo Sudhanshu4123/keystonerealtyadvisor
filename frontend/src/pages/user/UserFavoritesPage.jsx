@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { favoriteService } from '../../services/favoriteService';
 import PropertyGrid from '../../components/property/PropertyGrid';
 import Pagination from '../../components/common/Pagination';
+import SEO from '../../components/common/SEO';
 import { Heart } from 'lucide-react';
 
 export default function UserFavoritesPage() {
@@ -44,6 +45,7 @@ export default function UserFavoritesPage() {
 
   return (
     <div className="card" style={{ padding: '2rem', backgroundColor: '#FFFFFF' }}>
+      <SEO title="Saved Portfolio Properties" noIndex={true} />
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
         <Heart size={22} color="var(--color-gold-500)" />
         <div>

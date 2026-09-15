@@ -5,6 +5,7 @@ import { favoriteService } from '../../services/favoriteService';
 import { enquiryService } from '../../services/enquiryService';
 import PropertyGrid from '../../components/property/PropertyGrid';
 import Badge from '../../components/common/Badge';
+import SEO from '../../components/common/SEO';
 import { Heart, MessageSquare, ArrowRight, UserCheck, Clock } from 'lucide-react';
 
 export default function UserDashboardPage() {
@@ -46,6 +47,7 @@ export default function UserDashboardPage() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <SEO title="Client Portfolio Dashboard" noIndex={true} />
       {/* Welcome Header */}
       <div className="card" style={{ padding: '2rem', backgroundColor: '#FFFFFF' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>

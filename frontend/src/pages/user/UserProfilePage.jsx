@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
 import { authService } from '../../services/authService';
+import SEO from '../../components/common/SEO';
 import { User, Lock, Save, Shield } from 'lucide-react';
 
 export default function UserProfilePage() {
@@ -33,11 +34,6 @@ export default function UserProfilePage() {
 
   const handleProfileSubmit = async (e) => {
     e.preventDefault();
-    if (!profileData.name) {
-      error('Name is required.');
-      return;
-    }
-
     setUpdatingProfile(true);
     try {
       const res = await authService.updateProfile(profileData);
@@ -46,7 +42,7 @@ export default function UserProfilePage() {
         success('Profile updated successfully.');
       }
     } catch (err) {
-      error(err.message || 'Failed to update profile.');
+      error(err.response?.data?.message || 'Failed to update profile.');
     } finally {
       setUpdatingProfile(false);
     }
@@ -54,16 +50,6 @@ export default function UserProfilePage() {
 
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    if (!passwordData.currentPassword || !passwordData.newPassword) {
-      error('Please complete all password fields.');
-      return;
-    }
-
-    if (passwordData.newPassword.length < 6) {
-      error('New password must be at least 6 characters.');
-      return;
-    }
-
     if (passwordData.newPassword !== passwordData.confirmNewPassword) {
       error('New passwords do not match.');
       return;
@@ -76,16 +62,21 @@ export default function UserProfilePage() {
         newPassword: passwordData.newPassword,
       });
       success('Password changed successfully.');
-      setPasswordData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
+      setPasswordData({
+        currentPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+      });
     } catch (err) {
-      error(err.message || 'Failed to change password. Verify your current password.');
+      error(err.response?.data?.message || 'Failed to change password.');
     } finally {
       setUpdatingPassword(false);
     }
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' }}>
+      <SEO title="Account Security & Profile" noIndex={true} />
       {/* Profile Details Form */}
       <div className="card" style={{ padding: '2rem', backgroundColor: '#FFFFFF' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
