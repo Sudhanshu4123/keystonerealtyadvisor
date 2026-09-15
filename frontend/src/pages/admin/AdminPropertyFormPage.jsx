@@ -328,9 +328,9 @@ export default function AdminPropertyFormPage() {
               <span>1. Category & Listing Intent</span>
             </h3>
 
-            {/* Property Category */}
+            {/* Property Type (Residential / Commercial) */}
             <div style={{ marginBottom: '1.25rem' }}>
-              <label className="form-label">Property Category *</label>
+              <label className="form-label">Property Type *</label>
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                 {['Residential', 'Commercial'].map((cat) => (
                   <button
@@ -366,9 +366,9 @@ export default function AdminPropertyFormPage() {
               </div>
             </div>
 
-            {/* Sub-Type Selection */}
+            {/* Property Category Selection (Apartment, Villa, etc.) */}
             <div>
-              <label className="form-label">Property Type *</label>
+              <label className="form-label">Property Category *</label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
                 {[
                   { id: 'APARTMENT', label: 'Apartment' },
