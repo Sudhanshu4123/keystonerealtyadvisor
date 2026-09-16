@@ -61,6 +61,7 @@ export default function AdminPropertyFormPage() {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
+  const [showMoreBhk, setShowMoreBhk] = useState(false);
 
   useEffect(() => {
     if (isEditMode) {
@@ -112,6 +113,9 @@ export default function AdminPropertyFormPage() {
               status: p.status || 'AVAILABLE',
               amenities: loadedAmenities.length > 0 ? loadedAmenities : ['Lift', '24x7 Security', 'Power Backup'],
             });
+            if (p.bedrooms && Number(p.bedrooms) > 5) {
+              setShowMoreBhk(true);
+            }
             setExistingImages(p.images || []);
           }
         } catch (err) {
@@ -444,14 +448,61 @@ export default function AdminPropertyFormPage() {
               {/* BHK Selection directly below Property Category (Hidden for Apartment, Plot, Retail Shop) */}
               {!['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (
                 <div>
-                  <label className="form-label">BHK Configuration *</label>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    <label className="form-label" style={{ margin: 0 }}>BHK Configuration *</label>
+                    <button
+                      type="button"
+                      className="btn btn-ghost btn-sm"
+                      style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem', color: 'var(--color-gold-600)', fontWeight: 600 }}
+                      onClick={() => setShowMoreBhk(!showMoreBhk)}
+                    >
+                      {showMoreBhk ? '← Show standard (1-5 BHK)' : 'Show more options (up to 12 BHK) →'}
+                    </button>
+                  </div>
+
                   <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
                     {[
                       { val: '1', label: '1 BHK' },
                       { val: '2', label: '2 BHK' },
                       { val: '3', label: '3 BHK' },
                       { val: '4', label: '4 BHK' },
-                      { val: '5', label: '5+ BHK' },
+                      { val: '5', label: '5 BHK' },
+                    ].map((bhk) => (
+                      <button
+                        key={bhk.val}
+                        type="button"
+                        style={pillSelectStyle(formData.bedrooms === bhk.val)}
+                        onClick={() => setFormData({ ...formData, bedrooms: bhk.val })}
+                      >
+                        {bhk.label}
+                      </button>
+                    ))}
+
+                    {/* 5+ BHK expand trigger when not expanded */}
+                    {!showMoreBhk && (
+                      <button
+                        type="button"
+                        style={pillSelectStyle(Number(formData.bedrooms) > 5)}
+                        onClick={() => {
+                          setShowMoreBhk(true);
+                          if (Number(formData.bedrooms) <= 5) {
+                            setFormData({ ...formData, bedrooms: '6' });
+                          }
+                        }}
+                      >
+                        {Number(formData.bedrooms) > 5 ? `${formData.bedrooms} BHK (5+)` : '5+ BHK'}
+                      </button>
+                    )}
+
+                    {/* Expanded 6 BHK to 12 BHK */}
+                    {showMoreBhk && [
+                      { val: '6', label: '6 BHK' },
+                      { val: '7', label: '7 BHK' },
+                      { val: '8', label: '8 BHK' },
+                      { val: '9', label: '9 BHK' },
+                      { val: '10', label: '10 BHK' },
+                      { val: '11', label: '11 BHK' },
+                      { val: '12', label: '12 BHK' },
                     ].map((bhk) => (
                       <button
                         key={bhk.val}
