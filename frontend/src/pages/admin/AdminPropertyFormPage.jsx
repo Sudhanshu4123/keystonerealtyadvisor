@@ -399,10 +399,12 @@ export default function AdminPropertyFormPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
               {[
                 { id: 'APARTMENT', label: 'Apartment' },
+                { id: 'STUDIO', label: 'Studio' },
                 { id: 'INDEPENDENT_HOUSE', label: 'Independent House' },
                 { id: 'DUPLEX', label: 'Duplex' },
                 { id: 'INDEPENDENT_FLOOR', label: 'Independent Floor' },
                 { id: 'VILLA', label: 'Villa' },
+                { id: 'FARM_HOUSE', label: 'Farm House' },
                 { id: 'PENTHOUSE', label: 'Penthouse' },
                 { id: 'PLOT', label: 'Plot / Land' },
                 { id: 'COMMERCIAL', label: 'Commercial Office' },

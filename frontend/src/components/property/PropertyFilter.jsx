@@ -96,13 +96,17 @@ export default function PropertyFilter({ filters, onFilterChange, onReset }) {
           >
             <option value="">All Property Types</option>
             <option value="APARTMENT">Apartment</option>
+            <option value="STUDIO">Studio</option>
+            <option value="INDEPENDENT_HOUSE">Independent House</option>
+            <option value="DUPLEX">Duplex</option>
+            <option value="INDEPENDENT_FLOOR">Independent Floor</option>
             <option value="VILLA">Villa</option>
+            <option value="FARM_HOUSE">Farm House</option>
             <option value="PENTHOUSE">Penthouse</option>
             <option value="TOWNHOUSE">Townhouse</option>
-            <option value="ESTATE">Estate</option>
-            <option value="COMMERCIAL">Commercial</option>
-            <option value="OFFICE">Office</option>
-            <option value="LAND">Land</option>
+            <option value="COMMERCIAL">Commercial Office</option>
+            <option value="RETAIL_SHOP">Retail Shop</option>
+            <option value="PLOT">Plot / Land</option>
           </select>
         </div>
 
