@@ -324,498 +324,458 @@ export default function AdminPropertyFormPage() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
           
-          {/* SECTION 1: Type, Location & Category */}
+          {/* Property Type (Residential / Commercial) */}
           <div>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
-              <Building2 size={20} color="var(--color-gold-600)" />
-              <span>1. Property Type, Location & Category</span>
-            </h3>
-
-            {/* Property Type (Residential / Commercial) */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <label className="form-label">Property Type *</label>
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                {['Residential', 'Commercial'].map((cat) => (
-                  <button
-                    key={cat}
-                    type="button"
-                    style={pillSelectStyle(formData.propertyCategory === cat)}
-                    onClick={() => setFormData({ ...formData, propertyCategory: cat })}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Looking to */}
-            <div style={{ marginBottom: '1.25rem' }}>
-              <label className="form-label">Looking To *</label>
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                {[
-                  { value: 'RENT', label: 'Rent' },
-                  { value: 'SALE', label: 'Sell' },
-                  { value: 'PG_CO_LIVING', label: 'PG / Co-living' }
-                ].map((item) => (
-                  <button
-                    key={item.value}
-                    type="button"
-                    style={pillSelectStyle(formData.listingType === item.value)}
-                    onClick={() => setFormData({ ...formData, listingType: item.value })}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* City & Building / Society Name */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }} className="form-subgrid">
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-city">City *</label>
-                <input
-                  id="prop-city"
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="e.g. Gurgaon, Delhi, Noida"
-                  value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-society">Building / Apartment / Society Name *</label>
-                <input
-                  id="prop-society"
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="e.g. Swami Dayanand Apartment, DLF Phase 5"
-                  value={formData.societyName}
-                  onChange={(e) => setFormData({ ...formData, societyName: e.target.value })}
-                />
-              </div>
-            </div>
-
-            {/* Property Category Selection (Apartment, Villa, etc.) */}
-            <div>
-              <label className="form-label">Property Category *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
-                {[
-                  { id: 'APARTMENT', label: 'Apartment' },
-                  { id: 'INDEPENDENT_HOUSE', label: 'Independent House' },
-                  { id: 'DUPLEX', label: 'Duplex' },
-                  { id: 'INDEPENDENT_FLOOR', label: 'Independent Floor' },
-                  { id: 'VILLA', label: 'Villa' },
-                  { id: 'PENTHOUSE', label: 'Penthouse' },
-                  { id: 'PLOT', label: 'Plot / Land' },
-                  { id: 'COMMERCIAL', label: 'Commercial Office' },
-                  { id: 'RETAIL_SHOP', label: 'Retail Shop' }
-                ].map((type) => (
-                  <button
-                    key={type.id}
-                    type="button"
-                    style={{
-                      ...pillSelectStyle(formData.propertyType === type.id),
-                      textAlign: 'center',
-                      padding: '0.75rem 0.5rem',
-                      height: 'auto',
-                    }}
-                    onClick={() => setFormData({ ...formData, propertyType: type.id })}
-                  >
-                    {type.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
-
-          {/* SECTION 2: Space & Layout Specifications */}
-          <div>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
-              <Layers size={20} color="var(--color-gold-600)" />
-              <span>2. Space & Layout Specifications</span>
-            </h3>
-
-            {/* Area Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '1.25rem' }} className="form-triplegrid">
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-builtup">Built-Up Area (Sq. ft.) *</label>
-                <input
-                  id="prop-builtup"
-                  type="number"
-                  required
-                  min="1"
-                  className="form-control"
-                  placeholder="e.g. 1850"
-                  value={formData.builtUpArea}
-                  onChange={(e) => setFormData({ ...formData, builtUpArea: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-carpet">Carpet Area (Sq. ft.)</label>
-                <input
-                  id="prop-carpet"
-                  type="number"
-                  min="1"
-                  className="form-control"
-                  placeholder="e.g. 1500"
-                  value={formData.carpetArea}
-                  onChange={(e) => setFormData({ ...formData, carpetArea: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-age">Age of Property</label>
-                <select
-                  id="prop-age"
-                  className="form-control"
-                  value={formData.propertyAge}
-                  onChange={(e) => setFormData({ ...formData, propertyAge: e.target.value })}
+            <label className="form-label">Property Type *</label>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              {['Residential', 'Commercial'].map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  style={pillSelectStyle(formData.propertyCategory === cat)}
+                  onClick={() => setFormData({ ...formData, propertyCategory: cat })}
                 >
-                  <option value="Under Construction">Under Construction</option>
-                  <option value="0-1 Years">0-1 Years (Brand New)</option>
-                  <option value="1-5 Years">1-5 Years</option>
-                  <option value="5-10 Years">5-10 Years</option>
-                  <option value="10+ Years">10+ Years</option>
-                </select>
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Looking to */}
+          <div>
+            <label className="form-label">Looking To *</label>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              {[
+                { value: 'RENT', label: 'Rent' },
+                { value: 'SALE', label: 'Sell' },
+                { value: 'PG_CO_LIVING', label: 'PG / Co-living' }
+              ].map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  style={pillSelectStyle(formData.listingType === item.value)}
+                  onClick={() => setFormData({ ...formData, listingType: item.value })}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* City & Building / Society Name */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="form-subgrid">
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-city">City *</label>
+              <input
+                id="prop-city"
+                type="text"
+                required
+                className="form-control"
+                placeholder="e.g. Gurgaon, Delhi, Noida"
+                value={formData.city}
+                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-society">Building / Apartment / Society Name *</label>
+              <input
+                id="prop-society"
+                type="text"
+                required
+                className="form-control"
+                placeholder="e.g. Swami Dayanand Apartment, DLF Phase 5"
+                value={formData.societyName}
+                onChange={(e) => setFormData({ ...formData, societyName: e.target.value })}
+              />
+            </div>
+          </div>
+
+          {/* Property Category Selection (Apartment, Villa, etc.) */}
+          <div>
+            <label className="form-label">Property Category *</label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
+              {[
+                { id: 'APARTMENT', label: 'Apartment' },
+                { id: 'INDEPENDENT_HOUSE', label: 'Independent House' },
+                { id: 'DUPLEX', label: 'Duplex' },
+                { id: 'INDEPENDENT_FLOOR', label: 'Independent Floor' },
+                { id: 'VILLA', label: 'Villa' },
+                { id: 'PENTHOUSE', label: 'Penthouse' },
+                { id: 'PLOT', label: 'Plot / Land' },
+                { id: 'COMMERCIAL', label: 'Commercial Office' },
+                { id: 'RETAIL_SHOP', label: 'Retail Shop' }
+              ].map((type) => (
+                <button
+                  key={type.id}
+                  type="button"
+                  style={{
+                    ...pillSelectStyle(formData.propertyType === type.id),
+                    textAlign: 'center',
+                    padding: '0.75rem 0.5rem',
+                    height: 'auto',
+                  }}
+                  onClick={() => setFormData({ ...formData, propertyType: type.id })}
+                >
+                  {type.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Area Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }} className="form-triplegrid">
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-builtup">Built-Up Area (Sq. ft.) *</label>
+              <input
+                id="prop-builtup"
+                type="number"
+                required
+                min="1"
+                className="form-control"
+                placeholder="e.g. 1850"
+                value={formData.builtUpArea}
+                onChange={(e) => setFormData({ ...formData, builtUpArea: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-carpet">Carpet Area (Sq. ft.)</label>
+              <input
+                id="prop-carpet"
+                type="number"
+                min="1"
+                className="form-control"
+                placeholder="e.g. 1500"
+                value={formData.carpetArea}
+                onChange={(e) => setFormData({ ...formData, carpetArea: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-age">Age of Property</label>
+              <select
+                id="prop-age"
+                className="form-control"
+                value={formData.propertyAge}
+                onChange={(e) => setFormData({ ...formData, propertyAge: e.target.value })}
+              >
+                <option value="Under Construction">Under Construction</option>
+                <option value="0-1 Years">0-1 Years (Brand New)</option>
+                <option value="1-5 Years">1-5 Years</option>
+                <option value="5-10 Years">5-10 Years</option>
+                <option value="10+ Years">10+ Years</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Bedrooms, Bathrooms, Balconies */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="form-triplegrid">
+            {/* Bedrooms */}
+            <div>
+              <label className="form-label">Bedrooms *</label>
+              <div style={{ display: 'flex', gap: '0.375rem' }}>
+                {['1', '2', '3', '4', '5'].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    style={chipBoxStyle(formData.bedrooms === n)}
+                    onClick={() => setFormData({ ...formData, bedrooms: n })}
+                  >
+                    {n}{n === '5' ? '+' : ''}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Bedrooms, Bathrooms, Balconies */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '1.25rem' }} className="form-triplegrid">
-              {/* Bedrooms */}
-              <div>
-                <label className="form-label">Bedrooms *</label>
-                <div style={{ display: 'flex', gap: '0.375rem' }}>
-                  {['1', '2', '3', '4', '5'].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      style={chipBoxStyle(formData.bedrooms === n)}
-                      onClick={() => setFormData({ ...formData, bedrooms: n })}
-                    >
-                      {n}{n === '5' ? '+' : ''}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Bathrooms */}
-              <div>
-                <label className="form-label">Bathrooms *</label>
-                <div style={{ display: 'flex', gap: '0.375rem' }}>
-                  {['1', '2', '3', '4', '5'].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      style={chipBoxStyle(formData.bathrooms === n)}
-                      onClick={() => setFormData({ ...formData, bathrooms: n })}
-                    >
-                      {n}{n === '5' ? '+' : ''}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Balconies */}
-              <div>
-                <label className="form-label">Balconies *</label>
-                <div style={{ display: 'flex', gap: '0.375rem' }}>
-                  {['0', '1', '2', '3', '4'].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      style={chipBoxStyle(formData.balconies === n)}
-                      onClick={() => setFormData({ ...formData, balconies: n })}
-                    >
-                      {n}{n === '4' ? '+' : ''}
-                    </button>
-                  ))}
-                </div>
+            {/* Bathrooms */}
+            <div>
+              <label className="form-label">Bathrooms *</label>
+              <div style={{ display: 'flex', gap: '0.375rem' }}>
+                {['1', '2', '3', '4', '5'].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    style={chipBoxStyle(formData.bathrooms === n)}
+                    onClick={() => setFormData({ ...formData, bathrooms: n })}
+                  >
+                    {n}{n === '5' ? '+' : ''}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Furnishing & Floors */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '1rem' }} className="form-triplegrid">
-              <div>
-                <label className="form-label">Furnish Type *</label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  {[
-                    { id: 'FULLY_FURNISHED', label: 'Fully Furnished' },
-                    { id: 'SEMI_FURNISHED', label: 'Semi Furnished' },
-                    { id: 'UNFURNISHED', label: 'Unfurnished' }
-                  ].map((f) => (
-                    <button
-                      key={f.id}
-                      type="button"
-                      style={{ ...pillSelectStyle(formData.furnished === f.id), fontSize: '0.8125rem', padding: '0.5rem 0.75rem' }}
-                      onClick={() => setFormData({ ...formData, furnished: f.id })}
-                    >
-                      {f.label}
-                    </button>
-                  ))}
-                </div>
+            {/* Balconies */}
+            <div>
+              <label className="form-label">Balconies *</label>
+              <div style={{ display: 'flex', gap: '0.375rem' }}>
+                {['0', '1', '2', '3', '4'].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    style={chipBoxStyle(formData.balconies === n)}
+                    onClick={() => setFormData({ ...formData, balconies: n })}
+                  >
+                    {n}{n === '4' ? '+' : ''}
+                  </button>
+                ))}
               </div>
+            </div>
+          </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-floorno">Floor No. *</label>
-                <input
-                  id="prop-floorno"
-                  type="text"
-                  required
-                  className="form-control"
-                  placeholder="e.g. 3, Ground, Top"
-                  value={formData.floorNo}
-                  onChange={(e) => setFormData({ ...formData, floorNo: e.target.value })}
-                />
+          {/* Furnishing & Floors */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '1rem' }} className="form-triplegrid">
+            <div>
+              <label className="form-label">Furnish Type *</label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                {[
+                  { id: 'FULLY_FURNISHED', label: 'Fully Furnished' },
+                  { id: 'SEMI_FURNISHED', label: 'Semi Furnished' },
+                  { id: 'UNFURNISHED', label: 'Unfurnished' }
+                ].map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    style={{ ...pillSelectStyle(formData.furnished === f.id), fontSize: '0.8125rem', padding: '0.5rem 0.75rem' }}
+                    onClick={() => setFormData({ ...formData, furnished: f.id })}
+                  >
+                    {f.label}
+                  </button>
+                ))}
               </div>
+            </div>
 
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-totalfloors">Total Floors *</label>
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-floorno">Floor No. *</label>
+              <input
+                id="prop-floorno"
+                type="text"
+                required
+                className="form-control"
+                placeholder="e.g. 3, Ground, Top"
+                value={formData.floorNo}
+                onChange={(e) => setFormData({ ...formData, floorNo: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-totalfloors">Total Floors *</label>
+              <input
+                id="prop-totalfloors"
+                type="number"
+                required
+                min="1"
+                className="form-control"
+                placeholder="e.g. 10"
+                value={formData.totalFloors}
+                onChange={(e) => setFormData({ ...formData, totalFloors: e.target.value })}
+              />
+            </div>
+          </div>
+
+          {/* Parking Slots */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }} className="form-subgrid">
+            {/* Covered Parking */}
+            <div>
+              <label className="form-label">Covered Parking Slots *</label>
+              <div style={{ display: 'flex', gap: '0.375rem' }}>
+                {['0', '1', '2', '3', '4'].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    style={chipBoxStyle(formData.coveredParking === n)}
+                    onClick={() => setFormData({ ...formData, coveredParking: n })}
+                  >
+                    {n}{n === '4' ? '+' : ''}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Open Parking */}
+            <div>
+              <label className="form-label">Open Parking Slots *</label>
+              <div style={{ display: 'flex', gap: '0.375rem' }}>
+                {['0', '1', '2', '3', '4'].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    style={chipBoxStyle(formData.openParking === n)}
+                    onClick={() => setFormData({ ...formData, openParking: n })}
+                  >
+                    {n}{n === '4' ? '+' : ''}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Preferred Tenants & Pet Friendly */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', alignItems: 'center' }} className="form-subgrid">
+            <div>
+              <label className="form-label">Preferred Tenant Type</label>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {['Family', 'Bachelors', 'Company', 'Any'].map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    style={pillSelectStyle(formData.preferredTenant === t)}
+                    onClick={() => setFormData({ ...formData, preferredTenant: t })}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="form-label">Pet Friendly?</label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                {[
+                  { val: true, label: 'Yes' },
+                  { val: false, label: 'No' }
+                ].map((p) => (
+                  <button
+                    key={p.label}
+                    type="button"
+                    style={pillSelectStyle(formData.petFriendly === p.val)}
+                    onClick={() => setFormData({ ...formData, petFriendly: p.val })}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Price & Available From */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="form-subgrid">
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-price">
+                {formData.listingType === 'RENT' ? 'Monthly Rent (₹) *' : 'Expected Sale Price (₹) *'}
+              </label>
+              <input
+                id="prop-price"
+                type="number"
+                required
+                min="1"
+                step="any"
+                className="form-control"
+                placeholder="e.g. 55000"
+                value={formData.price}
+                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label" htmlFor="prop-avail">Available From *</label>
+              <input
+                id="prop-avail"
+                type="text"
+                required
+                className="form-control"
+                placeholder="e.g. Immediate, 1st of Next Month"
+                value={formData.availableFrom}
+                onChange={(e) => setFormData({ ...formData, availableFrom: e.target.value })}
+              />
+            </div>
+          </div>
+
+          {/* Maintenance & Security Deposit */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
+            <div>
+              <label className="form-label">Maintenance Charges *</label>
+              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                {['Include in rent', 'Separate'].map((m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    style={pillSelectStyle(formData.maintenanceCharges === m)}
+                    onClick={() => setFormData({ ...formData, maintenanceCharges: m })}
+                  >
+                    {m}
+                  </button>
+                ))}
+              </div>
+              {formData.maintenanceCharges === 'Separate' && (
                 <input
-                  id="prop-totalfloors"
                   type="number"
-                  required
-                  min="1"
                   className="form-control"
-                  placeholder="e.g. 10"
-                  value={formData.totalFloors}
-                  onChange={(e) => setFormData({ ...formData, totalFloors: e.target.value })}
+                  placeholder="Monthly Maintenance Amount (₹)"
+                  value={formData.maintenanceAmount}
+                  onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value })}
                 />
-              </div>
-            </div>
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
-
-          {/* SECTION 3: Parking & Tenant Preferences */}
-          <div>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
-              <Car size={20} color="var(--color-gold-600)" />
-              <span>3. Parking & Tenant Preferences</span>
-            </h3>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem', marginBottom: '1.25rem' }} className="form-subgrid">
-              {/* Covered Parking */}
-              <div>
-                <label className="form-label">Covered Parking Slots *</label>
-                <div style={{ display: 'flex', gap: '0.375rem' }}>
-                  {['0', '1', '2', '3', '4'].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      style={chipBoxStyle(formData.coveredParking === n)}
-                      onClick={() => setFormData({ ...formData, coveredParking: n })}
-                    >
-                      {n}{n === '4' ? '+' : ''}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Open Parking */}
-              <div>
-                <label className="form-label">Open Parking Slots *</label>
-                <div style={{ display: 'flex', gap: '0.375rem' }}>
-                  {['0', '1', '2', '3', '4'].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      style={chipBoxStyle(formData.openParking === n)}
-                      onClick={() => setFormData({ ...formData, openParking: n })}
-                    >
-                      {n}{n === '4' ? '+' : ''}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              )}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', alignItems: 'center' }} className="form-subgrid">
-              <div>
-                <label className="form-label">Preferred Tenant Type</label>
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                  {['Family', 'Bachelors', 'Company', 'Any'].map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      style={pillSelectStyle(formData.preferredTenant === t)}
-                      onClick={() => setFormData({ ...formData, preferredTenant: t })}
-                    >
-                      {t}
-                    </button>
-                  ))}
-                </div>
+            <div>
+              <label className="form-label">Security Deposit *</label>
+              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                {['None', '1 month', '2 month', 'Custom'].map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    style={pillSelectStyle(formData.securityDeposit === s)}
+                    onClick={() => setFormData({ ...formData, securityDeposit: s })}
+                  >
+                    {s}
+                  </button>
+                ))}
               </div>
-
-              <div>
-                <label className="form-label">Pet Friendly?</label>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  {[
-                    { val: true, label: 'Yes' },
-                    { val: false, label: 'No' }
-                  ].map((p) => (
-                    <button
-                      key={p.label}
-                      type="button"
-                      style={pillSelectStyle(formData.petFriendly === p.val)}
-                      onClick={() => setFormData({ ...formData, petFriendly: p.val })}
-                    >
-                      {p.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
-
-          {/* SECTION 4: Pricing, Deposits & Lease Terms */}
-          <div>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
-              <IndianRupee size={20} color="var(--color-gold-600)" />
-              <span>4. Pricing, Security Deposit & Lease Terms</span>
-            </h3>
-
-            {/* Price & Available From */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }} className="form-subgrid">
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-price">
-                  {formData.listingType === 'RENT' ? 'Monthly Rent (₹) *' : 'Expected Sale Price (₹) *'}
-                </label>
+              {formData.securityDeposit === 'Custom' && (
                 <input
-                  id="prop-price"
-                  type="number"
-                  required
-                  min="1"
-                  step="any"
-                  className="form-control"
-                  placeholder="e.g. 55000"
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label" htmlFor="prop-avail">Available From *</label>
-                <input
-                  id="prop-avail"
                   type="text"
-                  required
                   className="form-control"
-                  placeholder="e.g. Immediate, 1st of Next Month"
-                  value={formData.availableFrom}
-                  onChange={(e) => setFormData({ ...formData, availableFrom: e.target.value })}
+                  placeholder="e.g. ₹1,50,000"
+                  value={formData.securityDepositCustom}
+                  onChange={(e) => setFormData({ ...formData, securityDepositCustom: e.target.value })}
                 />
+              )}
+            </div>
+          </div>
+
+          {/* Lock-in & Brokerage */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
+            <div>
+              <label className="form-label">Lock-in Period *</label>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {['None', '1 month', '6 month', '11 month'].map((l) => (
+                  <button
+                    key={l}
+                    type="button"
+                    style={pillSelectStyle(formData.lockInPeriod === l)}
+                    onClick={() => setFormData({ ...formData, lockInPeriod: l })}
+                  >
+                    {l}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {/* Maintenance & Security Deposit */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.25rem' }} className="form-subgrid">
-              <div>
-                <label className="form-label">Maintenance Charges *</label>
-                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                  {['Include in rent', 'Separate'].map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      style={pillSelectStyle(formData.maintenanceCharges === m)}
-                      onClick={() => setFormData({ ...formData, maintenanceCharges: m })}
-                    >
-                      {m}
-                    </button>
-                  ))}
-                </div>
-                {formData.maintenanceCharges === 'Separate' && (
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Monthly Maintenance Amount (₹)"
-                    value={formData.maintenanceAmount}
-                    onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value })}
-                  />
-                )}
-              </div>
-
-              <div>
-                <label className="form-label">Security Deposit *</label>
-                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                  {['None', '1 month', '2 month', 'Custom'].map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      style={pillSelectStyle(formData.securityDeposit === s)}
-                      onClick={() => setFormData({ ...formData, securityDeposit: s })}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-                {formData.securityDeposit === 'Custom' && (
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="e.g. ₹1,50,000"
-                    value={formData.securityDepositCustom}
-                    onChange={(e) => setFormData({ ...formData, securityDepositCustom: e.target.value })}
-                  />
-                )}
-              </div>
-            </div>
-
-            {/* Lock-in & Brokerage */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
-              <div>
-                <label className="form-label">Lock-in Period *</label>
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                  {['None', '1 month', '6 month', '11 month'].map((l) => (
-                    <button
-                      key={l}
-                      type="button"
-                      style={pillSelectStyle(formData.lockInPeriod === l)}
-                      onClick={() => setFormData({ ...formData, lockInPeriod: l })}
-                    >
-                      {l}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="form-label">Do you charge brokerage? *</label>
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                  {['None', '15 Days', '30 Days', 'Custom'].map((b) => (
-                    <button
-                      key={b}
-                      type="button"
-                      style={pillSelectStyle(formData.brokerage === b)}
-                      onClick={() => setFormData({ ...formData, brokerage: b })}
-                    >
-                      {b}
-                    </button>
-                  ))}
-                </div>
+            <div>
+              <label className="form-label">Do you charge brokerage? *</label>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {['None', '15 Days', '30 Days', 'Custom'].map((b) => (
+                  <button
+                    key={b}
+                    type="button"
+                    style={pillSelectStyle(formData.brokerage === b)}
+                    onClick={() => setFormData({ ...formData, brokerage: b })}
+                  >
+                    {b}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
 
-          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
-
-          {/* SECTION 5: Society Amenities Checklist */}
+          {/* Amenities */}
           <div>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
-              <Sparkles size={20} color="var(--color-gold-600)" />
-              <span>5. Society Amenities & Features ({formData.amenities.length} selected)</span>
-            </h3>
-
+            <label className="form-label" style={{ marginBottom: '0.75rem' }}>
+              Society Amenities & Features ({formData.amenities.length} selected)
+            </label>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.625rem' }}>
               {COMMON_AMENITIES.map((amenity) => {
                 const isSelected = formData.amenities.includes(amenity);
@@ -862,15 +822,8 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
-
-          {/* SECTION 6: Description & Status */}
+          {/* Description & Status */}
           <div>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
-              <FileText size={20} color="var(--color-gold-600)" />
-              <span>6. Description & Status</span>
-            </h3>
-
             <div className="form-group" style={{ marginBottom: '1.25rem' }}>
               <label className="form-label" htmlFor="prop-desc">Property Description & Key Highlights</label>
               <textarea
@@ -901,14 +854,9 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.5rem 0' }} />
-
-          {/* SECTION 7: Image Upload Management */}
+          {/* Photos */}
           <div>
-            <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
-              <Camera size={20} color="var(--color-gold-600)" />
-              <span>7. Property Photos & Media Assets</span>
-            </h3>
+            <label className="form-label" style={{ marginBottom: '0.375rem' }}>Property Photos & Media Assets</label>
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
               Upload authentic images captured for this property. High-quality photos significantly improve client inquiries.
             </p>
