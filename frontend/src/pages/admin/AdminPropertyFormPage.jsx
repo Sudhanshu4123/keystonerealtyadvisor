@@ -402,11 +402,11 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* Property Category Selection (Hidden for PG / Co-living; Plot only visible for Sell) */}
+          {/* Property Category Selection & BHK Options */}
           {formData.listingType !== 'PG_CO_LIVING' && (
             <div>
               <label className="form-label">Property Category *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem', marginBottom: !['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) ? '1.25rem' : '0' }}>
                 {[
                   { id: 'APARTMENT', label: 'Apartment' },
                   { id: 'STUDIO', label: 'Studio' },
@@ -428,12 +428,43 @@ export default function AdminPropertyFormPage() {
                       padding: '0.75rem 0.5rem',
                       height: 'auto',
                     }}
-                    onClick={() => setFormData({ ...formData, propertyType: type.id })}
+                    onClick={() => {
+                      let nextBedrooms = formData.bedrooms;
+                      if (type.id === 'STUDIO' && (!formData.bedrooms || formData.bedrooms === '3')) {
+                        nextBedrooms = '1';
+                      }
+                      setFormData({ ...formData, propertyType: type.id, bedrooms: nextBedrooms });
+                    }}
                   >
                     {type.label}
                   </button>
                 ))}
               </div>
+
+              {/* BHK Selection directly below Property Category */}
+              {!['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (
+                <div>
+                  <label className="form-label">BHK Configuration *</label>
+                  <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
+                    {[
+                      { val: '1', label: '1 BHK' },
+                      { val: '2', label: '2 BHK' },
+                      { val: '3', label: '3 BHK' },
+                      { val: '4', label: '4 BHK' },
+                      { val: '5', label: '5+ BHK' },
+                    ].map((bhk) => (
+                      <button
+                        key={bhk.val}
+                        type="button"
+                        style={pillSelectStyle(formData.bedrooms === bhk.val)}
+                        onClick={() => setFormData({ ...formData, bedrooms: bhk.val })}
+                      >
+                        {bhk.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -483,59 +514,44 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* Bedrooms, Bathrooms, Balconies */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="form-triplegrid">
-            {/* Bedrooms */}
-            <div>
-              <label className="form-label">Bedrooms *</label>
-              <div style={{ display: 'flex', gap: '0.375rem' }}>
-                {['1', '2', '3', '4', '5'].map((n) => (
-                  <button
-                    key={n}
-                    type="button"
-                    style={chipBoxStyle(formData.bedrooms === n)}
-                    onClick={() => setFormData({ ...formData, bedrooms: n })}
-                  >
-                    {n}{n === '5' ? '+' : ''}
-                  </button>
-                ))}
+          {/* Bathrooms & Balconies */}
+          {!['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }} className="form-subgrid">
+              {/* Bathrooms */}
+              <div>
+                <label className="form-label">Bathrooms *</label>
+                <div style={{ display: 'flex', gap: '0.375rem' }}>
+                  {['1', '2', '3', '4', '5'].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      style={chipBoxStyle(formData.bathrooms === n)}
+                      onClick={() => setFormData({ ...formData, bathrooms: n })}
+                    >
+                      {n}{n === '5' ? '+' : ''}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Bathrooms */}
-            <div>
-              <label className="form-label">Bathrooms *</label>
-              <div style={{ display: 'flex', gap: '0.375rem' }}>
-                {['1', '2', '3', '4', '5'].map((n) => (
-                  <button
-                    key={n}
-                    type="button"
-                    style={chipBoxStyle(formData.bathrooms === n)}
-                    onClick={() => setFormData({ ...formData, bathrooms: n })}
-                  >
-                    {n}{n === '5' ? '+' : ''}
-                  </button>
-                ))}
+              {/* Balconies */}
+              <div>
+                <label className="form-label">Balconies *</label>
+                <div style={{ display: 'flex', gap: '0.375rem' }}>
+                  {['0', '1', '2', '3', '4'].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      style={chipBoxStyle(formData.balconies === n)}
+                      onClick={() => setFormData({ ...formData, balconies: n })}
+                    >
+                      {n}{n === '4' ? '+' : ''}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-
-            {/* Balconies */}
-            <div>
-              <label className="form-label">Balconies *</label>
-              <div style={{ display: 'flex', gap: '0.375rem' }}>
-                {['0', '1', '2', '3', '4'].map((n) => (
-                  <button
-                    key={n}
-                    type="button"
-                    style={chipBoxStyle(formData.balconies === n)}
-                    onClick={() => setFormData({ ...formData, balconies: n })}
-                  >
-                    {n}{n === '4' ? '+' : ''}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
+          )}
 
           {/* Furnishing & Floors */}
           <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '1rem' }} className="form-triplegrid">
