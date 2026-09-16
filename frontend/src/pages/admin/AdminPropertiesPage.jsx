@@ -171,7 +171,6 @@ export default function AdminPropertiesPage() {
             <option value="VILLA">Villa</option>
             <option value="FARM_HOUSE">Farm House</option>
             <option value="PENTHOUSE">Penthouse</option>
-            <option value="COMMERCIAL">Commercial Office</option>
             <option value="RETAIL_SHOP">Retail Shop</option>
             <option value="PLOT">Plot / Land</option>
           </select>

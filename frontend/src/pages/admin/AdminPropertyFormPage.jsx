@@ -356,7 +356,16 @@ export default function AdminPropertyFormPage() {
                   key={item.value}
                   type="button"
                   style={pillSelectStyle(formData.listingType === item.value)}
-                  onClick={() => setFormData({ ...formData, listingType: item.value })}
+                  onClick={() => {
+                    let nextPropType = formData.propertyType;
+                    if (item.value === 'RENT' && formData.propertyType === 'PLOT') {
+                      nextPropType = 'APARTMENT';
+                    }
+                    if (item.value === 'PG_CO_LIVING') {
+                      nextPropType = 'APARTMENT';
+                    }
+                    setFormData({ ...formData, listingType: item.value, propertyType: nextPropType });
+                  }}
                 >
                   {item.label}
                 </button>
@@ -393,39 +402,40 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* Property Category Selection (Apartment, Villa, etc.) */}
-          <div>
-            <label className="form-label">Property Category *</label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
-              {[
-                { id: 'APARTMENT', label: 'Apartment' },
-                { id: 'STUDIO', label: 'Studio' },
-                { id: 'INDEPENDENT_HOUSE', label: 'Independent House' },
-                { id: 'DUPLEX', label: 'Duplex' },
-                { id: 'INDEPENDENT_FLOOR', label: 'Independent Floor' },
-                { id: 'VILLA', label: 'Villa' },
-                { id: 'FARM_HOUSE', label: 'Farm House' },
-                { id: 'PENTHOUSE', label: 'Penthouse' },
-                { id: 'PLOT', label: 'Plot / Land' },
-                { id: 'COMMERCIAL', label: 'Commercial Office' },
-                { id: 'RETAIL_SHOP', label: 'Retail Shop' }
-              ].map((type) => (
-                <button
-                  key={type.id}
-                  type="button"
-                  style={{
-                    ...pillSelectStyle(formData.propertyType === type.id),
-                    textAlign: 'center',
-                    padding: '0.75rem 0.5rem',
-                    height: 'auto',
-                  }}
-                  onClick={() => setFormData({ ...formData, propertyType: type.id })}
-                >
-                  {type.label}
-                </button>
-              ))}
+          {/* Property Category Selection (Hidden for PG / Co-living; Plot only visible for Sell) */}
+          {formData.listingType !== 'PG_CO_LIVING' && (
+            <div>
+              <label className="form-label">Property Category *</label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem' }}>
+                {[
+                  { id: 'APARTMENT', label: 'Apartment' },
+                  { id: 'STUDIO', label: 'Studio' },
+                  { id: 'INDEPENDENT_HOUSE', label: 'Independent House' },
+                  { id: 'DUPLEX', label: 'Duplex' },
+                  { id: 'INDEPENDENT_FLOOR', label: 'Independent Floor' },
+                  { id: 'VILLA', label: 'Villa' },
+                  { id: 'FARM_HOUSE', label: 'Farm House' },
+                  { id: 'PENTHOUSE', label: 'Penthouse' },
+                  { id: 'RETAIL_SHOP', label: 'Retail Shop' },
+                  ...(formData.listingType === 'SALE' ? [{ id: 'PLOT', label: 'Plot / Land' }] : [])
+                ].map((type) => (
+                  <button
+                    key={type.id}
+                    type="button"
+                    style={{
+                      ...pillSelectStyle(formData.propertyType === type.id),
+                      textAlign: 'center',
+                      padding: '0.75rem 0.5rem',
+                      height: 'auto',
+                    }}
+                    onClick={() => setFormData({ ...formData, propertyType: type.id })}
+                  >
+                    {type.label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Area Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }} className="form-triplegrid">

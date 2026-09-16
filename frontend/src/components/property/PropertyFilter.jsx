@@ -104,7 +104,6 @@ export default function PropertyFilter({ filters, onFilterChange, onReset }) {
             <option value="FARM_HOUSE">Farm House</option>
             <option value="PENTHOUSE">Penthouse</option>
             <option value="TOWNHOUSE">Townhouse</option>
-            <option value="COMMERCIAL">Commercial Office</option>
             <option value="RETAIL_SHOP">Retail Shop</option>
             <option value="PLOT">Plot / Land</option>
           </select>
