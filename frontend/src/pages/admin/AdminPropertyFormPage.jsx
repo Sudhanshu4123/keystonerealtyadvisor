@@ -9,13 +9,6 @@ import {
   Plus, Check, Sparkles, MapPin, IndianRupee, ShieldCheck, Car, Key, FileText, Camera, Sliders
 } from 'lucide-react';
 
-const COMMON_AMENITIES = [
-  'Lift', 'Power Backup', '24x7 Security', 'CCTV Surveillance',
-  'Gated Society', 'Reserved Parking', 'Visitor Parking', 'Gymnasium',
-  'Club House', 'Swimming Pool', 'Park / Garden', 'Children Play Area',
-  'Gas Pipeline', 'Water Storage', 'Intercom Facility', 'Fire Safety',
-  'Maintenance Staff', 'Rain Water Harvesting', 'Waste Disposal'
-];
 
 export default function AdminPropertyFormPage() {
   const { id } = useParams();
@@ -132,17 +125,6 @@ export default function AdminPropertyFormPage() {
     }
   }, [id, isEditMode]);
 
-  const toggleAmenity = (amenity) => {
-    setFormData((prev) => {
-      const exists = prev.amenities.includes(amenity);
-      return {
-        ...prev,
-        amenities: exists
-          ? prev.amenities.filter((a) => a !== amenity)
-          : [...prev.amenities, amenity]
-      };
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -928,57 +910,6 @@ export default function AdminPropertyFormPage() {
                   </button>
                 ))}
               </div>
-            </div>
-          </div>
-
-          {/* Amenities */}
-          <div>
-            <label className="form-label" style={{ marginBottom: '0.75rem' }}>
-              Society Amenities & Features ({formData.amenities.length} selected)
-            </label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.625rem' }}>
-              {COMMON_AMENITIES.map((amenity) => {
-                const isSelected = formData.amenities.includes(amenity);
-                return (
-                  <button
-                    key={amenity}
-                    type="button"
-                    onClick={() => toggleAmenity(amenity)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.625rem 0.875rem',
-                      borderRadius: 'var(--radius-sm)',
-                      border: isSelected ? '1.5px solid var(--color-gold-500)' : '1px solid var(--border-color)',
-                      backgroundColor: isSelected ? '#FDF8EA' : '#FFFFFF',
-                      color: isSelected ? 'var(--color-gold-700)' : 'var(--text-primary)',
-                      fontSize: '0.8125rem',
-                      fontWeight: isSelected ? 600 : 400,
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      transition: 'all 0.15s ease',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: '16px',
-                        height: '16px',
-                        borderRadius: '3px',
-                        border: isSelected ? '1px solid var(--color-gold-600)' : '1px solid #CBD5E1',
-                        backgroundColor: isSelected ? 'var(--color-gold-500)' : '#FFFFFF',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {isSelected && <Check size={12} color="#FFFFFF" strokeWidth={3} />}
-                    </div>
-                    <span>{amenity}</span>
-                  </button>
-                );
-              })}
             </div>
           </div>
 
