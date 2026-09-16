@@ -406,7 +406,7 @@ export default function AdminPropertyFormPage() {
           {formData.listingType !== 'PG_CO_LIVING' && (
             <div>
               <label className="form-label">Property Category *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem', marginBottom: !['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) ? '1.25rem' : '0' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem', marginBottom: !['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) ? '1.25rem' : '0' }}>
                 {[
                   { id: 'APARTMENT', label: 'Apartment' },
                   { id: 'STUDIO', label: 'Studio' },
@@ -441,8 +441,8 @@ export default function AdminPropertyFormPage() {
                 ))}
               </div>
 
-              {/* BHK Selection directly below Property Category */}
-              {!['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (
+              {/* BHK Selection directly below Property Category (Hidden for Apartment, Plot, Retail Shop) */}
+              {!['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (
                 <div>
                   <label className="form-label">BHK Configuration *</label>
                   <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
