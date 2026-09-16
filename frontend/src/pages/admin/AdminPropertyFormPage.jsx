@@ -3,9 +3,10 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { propertyService } from '../../services/propertyService';
 import { useToast } from '../../hooks/useToast';
 import ImageUploader from '../../components/admin/ImageUploader';
+import FurnishingModal from '../../components/admin/FurnishingModal';
 import {
   ArrowLeft, Save, Building2, Home, Layers, CheckCircle2,
-  Plus, Check, Sparkles, MapPin, IndianRupee, ShieldCheck, Car, Key, FileText, Camera
+  Plus, Check, Sparkles, MapPin, IndianRupee, ShieldCheck, Car, Key, FileText, Camera, Sliders
 } from 'lucide-react';
 
 const COMMON_AMENITIES = [
@@ -54,6 +55,7 @@ export default function AdminPropertyFormPage() {
     brokerage: 'None',
     status: 'AVAILABLE',
     amenities: ['Lift', '24x7 Security', 'Power Backup', 'Gated Society', 'Reserved Parking'],
+    furnishingDetails: '',
   });
 
   const [existingImages, setExistingImages] = useState([]);
@@ -62,6 +64,7 @@ export default function AdminPropertyFormPage() {
   const [submitting, setSubmitting] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
   const [showMoreBhk, setShowMoreBhk] = useState(false);
+  const [isFurnishModalOpen, setIsFurnishModalOpen] = useState(false);
 
   useEffect(() => {
     if (isEditMode) {
@@ -112,6 +115,7 @@ export default function AdminPropertyFormPage() {
               brokerage: p.brokerage || 'None',
               status: p.status || 'AVAILABLE',
               amenities: loadedAmenities.length > 0 ? loadedAmenities : ['Lift', '24x7 Security', 'Power Backup'],
+              furnishingDetails: p.furnishingDetails || '',
             });
             if (p.bedrooms && Number(p.bedrooms) > 5) {
               setShowMoreBhk(true);
@@ -194,6 +198,9 @@ export default function AdminPropertyFormPage() {
       brokerage: formData.brokerage,
       status: formData.status,
       amenities: JSON.stringify(formData.amenities),
+      furnishingDetails: typeof formData.furnishingDetails === 'object'
+        ? JSON.stringify(formData.furnishingDetails)
+        : (formData.furnishingDetails || ''),
     };
 
     setSubmitting(true);
@@ -607,7 +614,30 @@ export default function AdminPropertyFormPage() {
           {/* Furnishing & Floors */}
           <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '1rem' }} className="form-triplegrid">
             <div>
-              <label className="form-label">Furnish Type *</label>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem' }}>
+                <label className="form-label" style={{ margin: 0 }}>Furnish Type *</label>
+                {formData.furnished !== 'UNFURNISHED' && (
+                  <button
+                    type="button"
+                    onClick={() => setIsFurnishModalOpen(true)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#4F46E5',
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      padding: 0
+                    }}
+                  >
+                    <Sparkles size={12} />
+                    <span>Configure Items</span>
+                  </button>
+                )}
+              </div>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 {[
                   { id: 'FULLY_FURNISHED', label: 'Fully Furnished' },
@@ -618,12 +648,63 @@ export default function AdminPropertyFormPage() {
                     key={f.id}
                     type="button"
                     style={{ ...pillSelectStyle(formData.furnished === f.id), fontSize: '0.8125rem', padding: '0.5rem 0.75rem' }}
-                    onClick={() => setFormData({ ...formData, furnished: f.id })}
+                    onClick={() => {
+                      setFormData({ ...formData, furnished: f.id });
+                      if (f.id !== 'UNFURNISHED') {
+                        setIsFurnishModalOpen(true);
+                      }
+                    }}
                   >
                     {f.label}
                   </button>
                 ))}
               </div>
+
+              {/* Furnishing Overview Chips */}
+              {(() => {
+                let parsed = formData.furnishingDetails;
+                if (typeof parsed === 'string' && parsed) {
+                  try { parsed = JSON.parse(parsed); } catch (e) { parsed = {}; }
+                }
+                if (!parsed || formData.furnished === 'UNFURNISHED') return null;
+                const activeCounters = Object.entries(parsed.counters || {}).filter(([k, v]) => v > 0);
+                const activeToggles = Object.entries(parsed.toggles || {}).filter(([k, v]) => Boolean(v));
+                const totalCount = activeCounters.length + activeToggles.length;
+                if (totalCount === 0) return null;
+
+                return (
+                  <div
+                    onClick={() => setIsFurnishModalOpen(true)}
+                    style={{
+                      marginTop: '0.625rem',
+                      padding: '0.5rem 0.75rem',
+                      backgroundColor: '#F5F3FF',
+                      border: '1px solid #E0E7FF',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#4338CA' }}>
+                        ✨ {totalCount} Furnishing Items Included (Click to edit)
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
+                      {activeCounters.map(([k, v]) => (
+                        <span key={k} style={{ fontSize: '0.7rem', background: '#FFFFFF', padding: '1px 6px', borderRadius: '4px', border: '1px solid #C7D2FE', color: '#3730A3', fontWeight: 600 }}>
+                          {v}x {k.charAt(0).toUpperCase() + k.slice(1)}
+                        </span>
+                      ))}
+                      {activeToggles.map(([k]) => (
+                        <span key={k} style={{ fontSize: '0.7rem', background: '#FFFFFF', padding: '1px 6px', borderRadius: '4px', border: '1px solid #C7D2FE', color: '#3730A3', fontWeight: 600 }}>
+                          {k.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
             <div className="form-group">
@@ -967,6 +1048,21 @@ export default function AdminPropertyFormPage() {
           </div>
         </form>
       </div>
+
+      <FurnishingModal
+        isOpen={isFurnishModalOpen}
+        onClose={() => setIsFurnishModalOpen(false)}
+        initialFurnishings={formData.furnishingDetails}
+        initialAmenities={formData.amenities}
+        onSave={({ furnishingDetails, amenities }) => {
+          setFormData((prev) => ({
+            ...prev,
+            furnishingDetails,
+            amenities,
+          }));
+          success('Furnishings & amenities updated successfully.');
+        }}
+      />
 
       <style>{`
         @media (max-width: 768px) {

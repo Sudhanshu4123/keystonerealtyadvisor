@@ -47,6 +47,7 @@ public class PropertyMapper {
         property.setLockInPeriod(request.getLockInPeriod());
         property.setBrokerage(request.getBrokerage());
         property.setAmenities(request.getAmenities());
+        property.setFurnishingDetails(request.getFurnishingDetails());
         return property;
     }
 
@@ -82,6 +83,7 @@ public class PropertyMapper {
         property.setLockInPeriod(request.getLockInPeriod());
         property.setBrokerage(request.getBrokerage());
         property.setAmenities(request.getAmenities());
+        property.setFurnishingDetails(request.getFurnishingDetails());
     }
 
     public PropertyResponse toResponse(Property property, boolean isFavorite) {
@@ -119,6 +121,7 @@ public class PropertyMapper {
         response.setLockInPeriod(property.getLockInPeriod());
         response.setBrokerage(property.getBrokerage());
         response.setAmenities(property.getAmenities());
+        response.setFurnishingDetails(property.getFurnishingDetails());
         if (property.getProject() != null) {
             response.setProjectId(property.getProject().getId());
             response.setProjectName(property.getProject().getName());

@@ -86,6 +86,8 @@ public class PropertyRequest {
 
     private String amenities;
 
+    private String furnishingDetails;
+
     private Long projectId;
 
     public PropertyRequest() {
@@ -338,5 +340,13 @@ public class PropertyRequest {
 
     public void setAmenities(String amenities) {
         this.amenities = amenities;
+    }
+
+    public String getFurnishingDetails() {
+        return furnishingDetails;
+    }
+
+    public void setFurnishingDetails(String furnishingDetails) {
+        this.furnishingDetails = furnishingDetails;
     }
 }

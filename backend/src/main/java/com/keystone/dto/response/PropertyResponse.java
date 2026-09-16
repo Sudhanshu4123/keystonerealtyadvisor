@@ -41,6 +41,7 @@ public class PropertyResponse {
     private String lockInPeriod;
     private String brokerage;
     private String amenities;
+    private String furnishingDetails;
     private String primaryImageUrl;
     private List<PropertyImageResponse> images;
     private Long projectId;
@@ -355,5 +356,13 @@ public class PropertyResponse {
 
     public void setAmenities(String amenities) {
         this.amenities = amenities;
+    }
+
+    public String getFurnishingDetails() {
+        return furnishingDetails;
+    }
+
+    public void setFurnishingDetails(String furnishingDetails) {
+        this.furnishingDetails = furnishingDetails;
     }
 }

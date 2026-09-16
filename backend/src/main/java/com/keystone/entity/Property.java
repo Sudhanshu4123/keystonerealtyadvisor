@@ -116,6 +116,9 @@ public class Property {
     @Column(name = "amenities", columnDefinition = "TEXT")
     private String amenities;
 
+    @Column(name = "furnishing_details", columnDefinition = "TEXT")
+    private String furnishingDetails;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
@@ -455,5 +458,13 @@ public class Property {
 
     public void setAmenities(String amenities) {
         this.amenities = amenities;
+    }
+
+    public String getFurnishingDetails() {
+        return furnishingDetails;
+    }
+
+    public void setFurnishingDetails(String furnishingDetails) {
+        this.furnishingDetails = furnishingDetails;
     }
 }

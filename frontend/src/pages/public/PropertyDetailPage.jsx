@@ -346,6 +346,93 @@ export default function PropertyDetailPage() {
               </div>
             </div>
 
+            {/* Flat Furnishings Section */}
+            {(() => {
+              let parsedFurnishing = null;
+              if (property.furnishingDetails) {
+                try {
+                  parsedFurnishing = typeof property.furnishingDetails === 'object'
+                    ? property.furnishingDetails
+                    : JSON.parse(property.furnishingDetails);
+                } catch (e) {
+                  parsedFurnishing = null;
+                }
+              }
+
+              if (!parsedFurnishing) return null;
+
+              const activeCounters = Object.entries(parsedFurnishing.counters || {}).filter(([k, v]) => Number(v) > 0);
+              const activeToggles = Object.entries(parsedFurnishing.toggles || {}).filter(([k, v]) => Boolean(v));
+
+              if (activeCounters.length === 0 && activeToggles.length === 0) return null;
+
+              const formatLabel = (key) => {
+                if (key.toLowerCase() === 'ac') return 'AC';
+                if (key.toLowerCase() === 'tv') return 'TV';
+                return key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+              };
+
+              return (
+                <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+                    <h3 style={{ fontSize: '1.1875rem', fontWeight: 600, margin: 0 }}>
+                      Flat Furnishings & Appliances
+                    </h3>
+                    <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-gold-600)', backgroundColor: '#FDF8EA', padding: '0.25rem 0.625rem', borderRadius: 'var(--radius-full)' }}>
+                      {activeCounters.length + activeToggles.length} Items Included
+                    </span>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.75rem' }}>
+                    {activeCounters.map(([itemKey, count], idx) => (
+                      <div
+                        key={`c-${idx}`}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          backgroundColor: '#F8FAFC',
+                          padding: '0.625rem 0.875rem',
+                          borderRadius: 'var(--radius-sm)',
+                          border: '1px solid var(--border-color)',
+                          fontSize: '0.8125rem',
+                          fontWeight: 500,
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <Check size={14} color="var(--color-gold-500)" strokeWidth={3} />
+                          <span>{formatLabel(itemKey)}</span>
+                        </div>
+                        <span style={{ fontWeight: 700, color: 'var(--color-gold-700)', backgroundColor: '#FEF3C7', padding: '1px 6px', borderRadius: '4px', fontSize: '0.75rem' }}>
+                          {count}x
+                        </span>
+                      </div>
+                    ))}
+
+                    {activeToggles.map(([itemKey], idx) => (
+                      <div
+                        key={`t-${idx}`}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          backgroundColor: '#F8FAFC',
+                          padding: '0.625rem 0.875rem',
+                          borderRadius: 'var(--radius-sm)',
+                          border: '1px solid var(--border-color)',
+                          fontSize: '0.8125rem',
+                          fontWeight: 500,
+                        }}
+                      >
+                        <Check size={14} color="var(--color-gold-500)" strokeWidth={3} />
+                        <span>{formatLabel(itemKey)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Society Amenities Section */}
             {(() => {
               let parsedAmenities = [];
