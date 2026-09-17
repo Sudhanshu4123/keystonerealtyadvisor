@@ -154,6 +154,54 @@ public class PropertyService {
     }
 
     @Transactional(readOnly = true)
+    public PropertyResponse getPropertyByIdOrSlug(String identifier, Long currentUserId) {
+        if (identifier == null || identifier.trim().isEmpty()) {
+            throw new ResourceNotFoundException("Property identifier cannot be empty");
+        }
+
+        Property property = null;
+
+        // 1. Try finding directly by slug
+        property = propertyRepository.findBySlug(identifier.trim()).orElse(null);
+
+        // 2. If not found and identifier is numeric, search by ID
+        if (property == null) {
+            try {
+                Long id = Long.parseLong(identifier.trim());
+                property = propertyRepository.findById(id).orElse(null);
+            } catch (NumberFormatException ignored) {}
+        }
+
+        // 3. If still not found and identifier contains hyphens ending with ID (e.g. title-slug-25)
+        if (property == null && identifier.contains("-")) {
+            try {
+                String[] parts = identifier.split("-");
+                Long lastId = Long.parseLong(parts[parts.length - 1]);
+                property = propertyRepository.findById(lastId).orElse(null);
+            } catch (Exception ignored) {}
+        }
+
+        // 4. If still not found, check dynamically generated slugs
+        if (property == null) {
+            List<Property> all = propertyRepository.findAll();
+            for (Property p : all) {
+                String generated = propertyMapper.generateSlug(p.getTitle(), p.getLocation(), p.getCity(), p.getId());
+                if (identifier.equalsIgnoreCase(generated) || identifier.equalsIgnoreCase(p.getSlug())) {
+                    property = p;
+                    break;
+                }
+            }
+        }
+
+        if (property == null) {
+            throw new ResourceNotFoundException("Property not found with identifier: " + identifier);
+        }
+
+        boolean isFav = currentUserId != null && favoriteRepository.existsByUserIdAndPropertyId(currentUserId, property.getId());
+        return propertyMapper.toResponse(property, isFav);
+    }
+
+    @Transactional(readOnly = true)
     public List<PropertyResponse> getFeaturedAvailableProperties(Long currentUserId) {
         List<Property> properties = propertyRepository.findTop6ByStatusOrderByCreatedAtDesc(PropertyStatus.AVAILABLE);
         return properties.stream()

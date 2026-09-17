@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "properties", indexes = {
+    @Index(name = "idx_prop_slug", columnList = "slug"),
     @Index(name = "idx_prop_city", columnList = "city"),
     @Index(name = "idx_prop_location", columnList = "location"),
     @Index(name = "idx_prop_price", columnList = "price"),
@@ -21,6 +22,9 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(length = 255)
+    private String slug;
 
     @Column(nullable = false, length = 200)
     private String title;
@@ -149,11 +153,35 @@ public class Property {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        if (this.slug == null || this.slug.trim().isEmpty()) {
+            this.slug = generateSlug();
+        }
     }
 
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+        if (this.slug == null || this.slug.trim().isEmpty()) {
+            this.slug = generateSlug();
+        }
+    }
+
+    public String generateSlug() {
+        StringBuilder sb = new StringBuilder();
+        if (title != null && !title.trim().isEmpty()) {
+            sb.append(title.trim());
+        }
+        if (location != null && !location.trim().isEmpty()) {
+            sb.append(" ").append(location.trim());
+        }
+        if (city != null && !city.trim().isEmpty()) {
+            sb.append(" ").append(city.trim());
+        }
+        String text = sb.length() > 0 ? sb.toString() : "property";
+        String nowhitespace = text.replaceAll("[\\s]+", "-");
+        String normalized = java.text.Normalizer.normalize(nowhitespace, java.text.Normalizer.Form.NFD);
+        String cleanSlug = normalized.replaceAll("[^\\w-]", "").toLowerCase(java.util.Locale.ENGLISH).replaceAll("-+", "-").replaceAll("^-|-$", "");
+        return cleanSlug.isEmpty() ? ("property-" + (id != null ? id : System.currentTimeMillis())) : cleanSlug;
     }
 
     public void addImage(PropertyImage image) {
@@ -173,6 +201,14 @@ public class Property {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getTitle() {

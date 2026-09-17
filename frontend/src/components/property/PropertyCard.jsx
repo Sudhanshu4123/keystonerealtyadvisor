@@ -1,35 +1,28 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bed, Bath, Square, MapPin, Heart } from 'lucide-react';
-import NoImagePlaceholder from '../common/NoImagePlaceholder';
+import { Bed, Bath, Move, MapPin, Heart } from 'lucide-react';
 import Badge from '../common/Badge';
+import { formatPrice } from '../../utils/formatters';
 import { favoriteService } from '../../services/favoriteService';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { getPropertySlug } from '../../utils/slugify';
 
 export default function PropertyCard({ property, onFavoriteToggle }) {
   const { isAuthenticated } = useAuth();
-  const { success, error, info } = useToast();
+  const { success, info } = useToast();
   const [isFavorite, setIsFavorite] = useState(property.isFavorite || false);
   const [loadingFav, setLoadingFav] = useState(false);
 
-  const formatPrice = (val, listingType) => {
-    if (!val) return 'Price on Enquiry';
-    const num = new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(val);
-
-    return listingType === 'RENT' ? `${num}/mo` : num;
-  };
+  const propertySlug = getPropertySlug(property);
+  const propertyUrl = `/properties/${propertySlug}`;
 
   const handleFavoriteClick = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (!isAuthenticated) {
-      info('Please sign in to save properties to your portfolio favorites.');
+      info('Please log in to save properties to your favorites.');
       return;
     }
 
@@ -38,25 +31,23 @@ export default function PropertyCard({ property, onFavoriteToggle }) {
       if (isFavorite) {
         await favoriteService.removeFavorite(property.id);
         setIsFavorite(false);
-        success('Property removed from your saved list.');
+        success('Property removed from favorites');
       } else {
         await favoriteService.addFavorite(property.id);
         setIsFavorite(true);
-        success('Property added to your saved list.');
+        success('Property saved to favorites');
       }
       if (onFavoriteToggle) {
         onFavoriteToggle(property.id, !isFavorite);
       }
     } catch (err) {
-      error('Failed to update favorite status.');
+      console.error('Error toggling favorite:', err);
     } finally {
       setLoadingFav(false);
     }
   };
 
-  // Status color mapping
-  let statusBadgeVariant = 'gold';
-  if (property.status === 'AVAILABLE') statusBadgeVariant = 'success';
+  let statusBadgeVariant = 'primary';
   if (property.status === 'UNDER_OFFER') statusBadgeVariant = 'warning';
   if (property.status === 'SOLD' || property.status === 'RENTED') statusBadgeVariant = 'danger';
 
@@ -68,7 +59,7 @@ export default function PropertyCard({ property, onFavoriteToggle }) {
         if (!imageSource) return null;
         return (
           <div style={{ position: 'relative', height: '220px', overflow: 'hidden', backgroundColor: '#0B0F19' }}>
-            <Link to={`/properties/${property.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
+            <Link to={propertyUrl} style={{ display: 'block', width: '100%', height: '100%' }}>
               <img
                 src={imageSource}
                 alt={property.title}
@@ -143,7 +134,7 @@ export default function PropertyCard({ property, onFavoriteToggle }) {
 
         {/* Title */}
         <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, lineHeight: 1.35 }}>
-          <Link to={`/properties/${property.id}`} style={{ color: 'var(--text-primary)' }}>
+          <Link to={propertyUrl} style={{ color: 'var(--text-primary)' }}>
             {property.title}
           </Link>
         </h3>

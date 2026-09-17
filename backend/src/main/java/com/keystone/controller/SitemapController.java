@@ -3,6 +3,7 @@ package com.keystone.controller;
 import com.keystone.entity.Project;
 import com.keystone.entity.Property;
 import com.keystone.entity.PropertyStatus;
+import com.keystone.mapper.PropertyMapper;
 import com.keystone.repository.ProjectRepository;
 import com.keystone.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,18 @@ public class SitemapController {
 
     private final PropertyRepository propertyRepository;
     private final ProjectRepository projectRepository;
+    private final PropertyMapper propertyMapper;
 
     @Value("${app.site.base-url:https://keystonerealtyadvisor.com}")
     private String siteBaseUrl;
 
     @Autowired
-    public SitemapController(PropertyRepository propertyRepository, ProjectRepository projectRepository) {
+    public SitemapController(PropertyRepository propertyRepository,
+                             ProjectRepository projectRepository,
+                             PropertyMapper propertyMapper) {
         this.propertyRepository = propertyRepository;
         this.projectRepository = projectRepository;
+        this.propertyMapper = propertyMapper;
     }
 
     @GetMapping(value = {"/api/sitemap.xml", "/sitemap.xml"}, produces = MediaType.APPLICATION_XML_VALUE)
@@ -63,7 +68,10 @@ public class SitemapController {
                         imgUrl = baseUrl + (imgUrl.startsWith("/") ? imgUrl : "/" + imgUrl);
                     }
                 }
-                addUrl(xml, baseUrl + "/properties/" + p.getId(), modDate, "weekly", "0.8", imgUrl, p.getTitle());
+                String propertyPath = (p.getSlug() != null && !p.getSlug().trim().isEmpty())
+                        ? "/properties/" + p.getSlug().trim()
+                        : "/properties/" + propertyMapper.generateSlug(p.getTitle(), p.getLocation(), p.getCity(), p.getId());
+                addUrl(xml, baseUrl + propertyPath, modDate, "weekly", "0.8", imgUrl, p.getTitle());
             }
         }
 

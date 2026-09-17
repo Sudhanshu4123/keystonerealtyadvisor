@@ -50,13 +50,23 @@ public class PropertyController {
         return ResponseEntity.ok(ApiResponse.success("Featured properties retrieved successfully", featured));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<PropertyResponse>> getPropertyById(
-            @PathVariable Long id,
+    @GetMapping("/{identifier}")
+    public ResponseEntity<ApiResponse<PropertyResponse>> getPropertyByIdOrSlug(
+            @PathVariable String identifier,
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
 
         Long currentUserId = userPrincipal != null ? userPrincipal.getId() : null;
-        PropertyResponse property = propertyService.getPropertyById(id, currentUserId);
+        PropertyResponse property = propertyService.getPropertyByIdOrSlug(identifier, currentUserId);
+        return ResponseEntity.ok(ApiResponse.success("Property retrieved successfully", property));
+    }
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<ApiResponse<PropertyResponse>> getPropertyBySlug(
+            @PathVariable String slug,
+            @AuthenticationPrincipal UserPrincipal userPrincipal) {
+
+        Long currentUserId = userPrincipal != null ? userPrincipal.getId() : null;
+        PropertyResponse property = propertyService.getPropertyByIdOrSlug(slug, currentUserId);
         return ResponseEntity.ok(ApiResponse.success("Property retrieved successfully", property));
     }
 

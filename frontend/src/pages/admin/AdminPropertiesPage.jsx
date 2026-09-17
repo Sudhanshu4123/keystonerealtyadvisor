@@ -6,6 +6,7 @@ import Badge from '../../components/common/Badge';
 import Pagination from '../../components/common/Pagination';
 import ConfirmModal from '../../components/admin/ConfirmModal';
 import { Building2, PlusCircle, Edit3, Trash2, Search, ExternalLink } from 'lucide-react';
+import { getPropertySlug } from '../../utils/slugify';
 
 export default function AdminPropertiesPage() {
   const { success, error } = useToast();
@@ -237,7 +238,7 @@ export default function AdminPropertiesPage() {
                           )}
                         </div>
                         <div>
-                          <Link to={`/properties/${p.id}`} target="_blank" style={{ fontWeight: 600, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                          <Link to={`/properties/${p.slug || getPropertySlug(p)}`} target="_blank" style={{ fontWeight: 600, color: 'var(--text-primary)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                             <span>{p.title}</span>
                             <ExternalLink size={12} color="var(--text-muted)" />
                           </Link>

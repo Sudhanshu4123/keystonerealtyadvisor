@@ -11,6 +11,7 @@ import java.util.List;
 
 public class PropertyResponse {
     private Long id;
+    private String slug;
     private String title;
     private String description;
     private Double area;
@@ -61,6 +62,14 @@ public class PropertyResponse {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getTitle() {

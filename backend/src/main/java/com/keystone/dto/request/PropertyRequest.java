@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 
 public class PropertyRequest {
 
+    private String slug;
+
     @NotBlank(message = "Title is required")
     @Size(max = 200, message = "Title cannot exceed 200 characters")
     private String title;
@@ -96,6 +98,14 @@ public class PropertyRequest {
     }
 
     // Getters and Setters
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     public String getTitle() {
         return title;
     }

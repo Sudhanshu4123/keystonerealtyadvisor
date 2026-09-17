@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { propertyService } from '../../services/propertyService';
 import { favoriteService } from '../../services/favoriteService';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { formatPrice, formatDate } from '../../utils/formatters';
 import ImageGallery from '../../components/property/ImageGallery';
 import PropertyEnquiryModal from '../../components/property/PropertyEnquiryModal';
 import Badge from '../../components/common/Badge';
-import SEO from '../../components/common/SEO';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
+import SEO from '../../components/common/SEO';
+import { getPropertySlug } from '../../utils/slugify';
 import {
   Bed,
   Bath,
   Square,
+  Move,
   MapPin,
   Heart,
-  MessageSquare,
+  Share2,
   Phone,
+  MessageSquare,
+  Building,
+  CheckCircle2,
   ArrowLeft,
   Calendar,
   Check,
@@ -25,7 +31,11 @@ import {
 } from 'lucide-react';
 
 export default function PropertyDetailPage() {
-  const { id } = useParams();
+  const { id: routeParam } = useParams();
+  const [searchParams] = useSearchParams();
+  const queryId = searchParams.get('id');
+  const identifier = routeParam || queryId;
+
   const { isAuthenticated } = useAuth();
   const { success, error, info } = useToast();
 
@@ -38,7 +48,7 @@ export default function PropertyDetailPage() {
     async function loadProperty() {
       setLoading(true);
       try {
-        const res = await propertyService.getPropertyById(id);
+        const res = await propertyService.getPropertyById(identifier);
         if (res.success && res.data) {
           setProperty(res.data);
           setIsFavorite(res.data.isFavorite || false);
@@ -49,10 +59,10 @@ export default function PropertyDetailPage() {
         setLoading(false);
       }
     }
-    if (id) {
+    if (identifier) {
       loadProperty();
     }
-  }, [id]);
+  }, [identifier]);
 
   const handleFavoriteToggle = async () => {
     if (!isAuthenticated) {
@@ -72,16 +82,6 @@ export default function PropertyDetailPage() {
     } catch (err) {
       error('Failed to update favorite status.');
     }
-  };
-
-  const formatPrice = (val, listingType) => {
-    if (!val) return 'Price on Enquiry';
-    const num = new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(val);
-    return listingType === 'RENT' ? `${num}/mo` : num;
   };
 
   if (loading) {
@@ -110,6 +110,9 @@ export default function PropertyDetailPage() {
   if (property.status === 'UNDER_OFFER') statusBadgeVariant = 'warning';
   if (property.status === 'SOLD' || property.status === 'RENTED') statusBadgeVariant = 'danger';
 
+  const propertySlug = getPropertySlug(property);
+  const canonicalPath = `/properties/${propertySlug}`;
+
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
@@ -120,13 +123,14 @@ export default function PropertyDetailPage() {
             : `${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType || 'Property'} for ${property.listingType === 'RENT' ? 'rent' : 'sale'} in ${property.location || property.city || 'prime location'}. Clear titles & verified property documentation.`
         }
         keywords={`${property.title}, ${property.propertyType || 'Property'}, ${property.city || ''}, ${property.location || ''}, buy property, real estate advisor`}
+        canonicalUrl={canonicalPath}
         ogImage={property.images?.[0]?.url || property.imageUrl || '/keystone-logo.png'}
         geoPlacename={property.location && property.city ? `${property.location}, ${property.city}, India` : (property.city ? `${property.city}, India` : (property.location ? `${property.location}, India` : null))}
         locality={property.city || property.location || null}
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Properties', path: '/properties' },
-          { name: property.title, path: `/properties/${property.id}` },
+          { name: property.title, path: canonicalPath },
         ]}
         schema={{
           '@context': 'https://schema.org',
