@@ -19,35 +19,36 @@ export default function AdminPropertyFormPage() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    propertyCategory: 'Residential', // 'Residential' | 'Commercial'
-    listingType: 'RENT', // 'RENT' | 'SALE' | 'PG_CO_LIVING'
-    propertyType: 'APARTMENT',
+    propertyCategory: '', // unselected ('Residential' | 'Commercial')
+    listingType: '', // unselected ('RENT' | 'SALE' | 'PG_CO_LIVING')
+    propertyType: '', // unselected ('APARTMENT', 'STUDIO', etc.)
     societyName: '',
-    city: 'Gurgaon',
+    city: '',
     location: '',
     builtUpArea: '',
     carpetArea: '',
-    propertyAge: '1-5 Years',
-    bedrooms: '3',
-    bathrooms: '3',
-    balconies: '3',
-    floorNo: '3',
-    totalFloors: '10',
-    furnished: 'FULLY_FURNISHED',
-    coveredParking: '1',
-    openParking: '1',
-    preferredTenant: ['Family'],
-    petFriendly: false,
+    propertyAge: '',
+    bedrooms: '',
+    bathrooms: '',
+    balconies: '',
+    floorNo: '',
+    totalFloors: '',
+    furnished: '',
+    coveredParking: '',
+    openParking: '',
+    preferredTenant: [],
+    bachelorPreference: '',
+    petFriendly: null,
     price: '',
-    availableFrom: 'Immediate',
-    maintenanceCharges: 'Include in rent',
+    availableFrom: '',
+    maintenanceCharges: '',
     maintenanceAmount: '',
-    securityDeposit: '2 month',
+    securityDeposit: '',
     securityDepositCustom: '',
-    lockInPeriod: '6 month',
-    brokerage: 'None',
+    lockInPeriod: '',
+    brokerage: '',
     status: 'AVAILABLE',
-    amenities: ['Lift', '24x7 Security', 'Power Backup', 'Gated Society', 'Reserved Parking'],
+    amenities: [],
     furnishingDetails: '',
   });
 
@@ -76,7 +77,7 @@ export default function AdminPropertyFormPage() {
               }
             }
 
-            let loadedTenants = ['Family'];
+            let loadedTenants = [];
             if (p.preferredTenant) {
               loadedTenants = p.preferredTenant.split(',').map((s) => s.trim()).filter(Boolean);
               if (loadedTenants.includes('Any')) {
@@ -87,35 +88,36 @@ export default function AdminPropertyFormPage() {
             setFormData({
               title: p.title || '',
               description: p.description || '',
-              propertyCategory: p.propertyCategory || 'Residential',
-              listingType: p.listingType || 'RENT',
-              propertyType: p.propertyType || 'APARTMENT',
+              propertyCategory: p.propertyCategory || '',
+              listingType: p.listingType || '',
+              propertyType: p.propertyType || '',
               societyName: p.societyName || '',
-              city: p.city || 'Gurgaon',
+              city: p.city || '',
               location: p.location || '',
               builtUpArea: p.builtUpArea || p.area || '',
               carpetArea: p.carpetArea || '',
-              propertyAge: p.propertyAge || '1-5 Years',
-              bedrooms: String(p.bedrooms || 3),
-              bathrooms: String(p.bathrooms || 3),
-              balconies: String(p.balconies || 1),
-              floorNo: p.floorNo || '1',
-              totalFloors: String(p.totalFloors || 4),
-              furnished: p.furnished || 'FULLY_FURNISHED',
-              coveredParking: String(p.coveredParking || 1),
-              openParking: String(p.openParking || 1),
-              preferredTenant: loadedTenants.length > 0 ? loadedTenants : ['Family'],
-              petFriendly: Boolean(p.petFriendly),
-              price: String(p.price || ''),
-              availableFrom: p.availableFrom || 'Immediate',
-              maintenanceCharges: p.maintenanceCharges?.startsWith('Separate') ? 'Separate' : (p.maintenanceCharges || 'Include in rent'),
-              maintenanceAmount: p.maintenanceCharges?.startsWith('Separate') ? p.maintenanceCharges.replace('Separate: ', '') : '',
-              securityDeposit: ['None', '1 month', '2 month'].includes(p.securityDeposit) ? p.securityDeposit : (p.securityDeposit ? 'Custom' : '2 month'),
+              propertyAge: p.propertyAge || '',
+              bedrooms: p.bedrooms != null ? String(p.bedrooms) : '',
+              bathrooms: p.bathrooms != null ? String(p.bathrooms) : '',
+              balconies: p.balconies != null ? String(p.balconies) : '',
+              floorNo: p.floorNo || '',
+              totalFloors: p.totalFloors != null ? String(p.totalFloors) : '',
+              furnished: p.furnished || '',
+              coveredParking: p.coveredParking != null ? String(p.coveredParking) : '',
+              openParking: p.openParking != null ? String(p.openParking) : '',
+              preferredTenant: loadedTenants,
+              bachelorPreference: p.bachelorPreference || '',
+              petFriendly: p.petFriendly != null ? Boolean(p.petFriendly) : null,
+              price: p.price != null ? String(p.price) : '',
+              availableFrom: p.availableFrom || '',
+              maintenanceCharges: p.maintenanceCharges?.startsWith('Separate') ? 'Separate' : (p.maintenanceCharges || ''),
+              maintenanceAmount: p.maintenanceCharges?.startsWith('Separate') ? p.maintenanceCharges.replace('Separate: ₹', '').replace('/mo', '').replace('Separate: ', '') : '',
+              securityDeposit: ['None', '1 month', '2 month'].includes(p.securityDeposit) ? p.securityDeposit : (p.securityDeposit ? 'Custom' : ''),
               securityDepositCustom: !['None', '1 month', '2 month'].includes(p.securityDeposit) ? (p.securityDeposit || '') : '',
-              lockInPeriod: ['None', '1 month', '6 month', '11 month'].includes(p.lockInPeriod) ? p.lockInPeriod : (p.lockInPeriod ? 'Custom' : '6 month'),
-              brokerage: p.brokerage || 'None',
+              lockInPeriod: ['None', '1 month', '6 month', '11 month'].includes(p.lockInPeriod) ? p.lockInPeriod : (p.lockInPeriod ? 'Custom' : ''),
+              brokerage: p.brokerage || '',
               status: p.status || 'AVAILABLE',
-              amenities: loadedAmenities.length > 0 ? loadedAmenities : ['Lift', '24x7 Security', 'Power Backup'],
+              amenities: loadedAmenities,
               furnishingDetails: p.furnishingDetails || '',
             });
             if (p.bedrooms && Number(p.bedrooms) > 5) {
@@ -137,6 +139,18 @@ export default function AdminPropertyFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.propertyCategory) {
+      error('Please select Property Type (Residential or Commercial).');
+      return;
+    }
+    if (!formData.listingType) {
+      error('Please select Looking To (Rent, Sell, or PG / Co-living).');
+      return;
+    }
+    if (!formData.propertyType) {
+      error('Please select a Property Category.');
+      return;
+    }
     if (!formData.city || !formData.societyName || !formData.price) {
       error('Please fill in City, Building/Society Name, and Price.');
       return;
@@ -144,7 +158,7 @@ export default function AdminPropertyFormPage() {
 
     const readableType = (formData.propertyType || 'Property').replace(/_/g, ' ');
     const bhkPrefix = Number(formData.bedrooms) > 0 ? `${formData.bedrooms} BHK ` : '';
-    const intentText = formData.listingType === 'RENT' ? 'Rent' : formData.listingType === 'PG_CO_LIVING' ? 'PG' : 'Sale';
+    const intentText = formData.listingType === 'RENT' ? 'Rent' : formData.listingType === 'PG_CO_LIVING' ? 'PG' : formData.listingType === 'SALE' ? 'Sale' : 'Listing';
     const autoTitle = `${bhkPrefix}${readableType} for ${intentText} in ${formData.societyName}, ${formData.city}`;
     const titleToSave = formData.title?.trim() || autoTitle;
     const locationToSave = formData.societyName ? `${formData.societyName}, ${formData.city}` : formData.city;
@@ -159,7 +173,7 @@ export default function AdminPropertyFormPage() {
 
     const payload = {
       title: titleToSave,
-      description: formData.description,
+      description: formData.description || '',
       area: areaVal,
       builtUpArea: Number(formData.builtUpArea) || null,
       carpetArea: Number(formData.carpetArea) || null,
@@ -169,14 +183,14 @@ export default function AdminPropertyFormPage() {
       city: formData.city,
       location: locationToSave,
       price: Number(formData.price),
-      propertyCategory: formData.propertyCategory,
-      propertyType: formData.propertyType,
-      listingType: formData.listingType,
+      propertyCategory: formData.propertyCategory || 'Residential',
+      propertyType: formData.propertyType || 'APARTMENT',
+      listingType: formData.listingType || 'RENT',
       societyName: formData.societyName,
-      propertyAge: formData.propertyAge,
-      floorNo: formData.floorNo,
+      propertyAge: formData.propertyAge || null,
+      floorNo: formData.floorNo || '',
       totalFloors: Number(formData.totalFloors) || null,
-      furnished: formData.furnished,
+      furnished: formData.furnished || 'UNFURNISHED',
       coveredParking: Number(formData.coveredParking) || 0,
       openParking: Number(formData.openParking) || 0,
       preferredTenant: Array.isArray(formData.preferredTenant)
@@ -185,14 +199,14 @@ export default function AdminPropertyFormPage() {
       bachelorPreference: Array.isArray(formData.preferredTenant) && formData.preferredTenant.includes('Bachelors')
         ? (formData.bachelorPreference || 'Open for both')
         : null,
-      petFriendly: formData.petFriendly,
-      availableFrom: formData.availableFrom,
-      maintenanceCharges: maintenanceFinal,
-      securityDeposit: securityFinal,
-      lockInPeriod: formData.lockInPeriod,
-      brokerage: formData.brokerage,
-      status: formData.status,
-      amenities: JSON.stringify(formData.amenities),
+      petFriendly: Boolean(formData.petFriendly),
+      availableFrom: formData.availableFrom || '',
+      maintenanceCharges: maintenanceFinal || null,
+      securityDeposit: securityFinal || null,
+      lockInPeriod: formData.lockInPeriod || null,
+      brokerage: formData.brokerage || null,
+      status: formData.status || 'AVAILABLE',
+      amenities: JSON.stringify(formData.amenities || []),
       furnishingDetails: typeof formData.furnishingDetails === 'object'
         ? JSON.stringify(formData.furnishingDetails)
         : (formData.furnishingDetails || ''),
@@ -325,7 +339,7 @@ export default function AdminPropertyFormPage() {
               </h1>
             </div>
             <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.375rem 0.875rem', borderRadius: 'var(--radius-full)', fontSize: '0.8125rem', fontWeight: 600 }}>
-              {formData.listingType === 'RENT' ? 'Rental Listing' : formData.listingType === 'PG_CO_LIVING' ? 'PG / Co-Living' : 'Resale / Sale'}
+              {formData.listingType === 'RENT' ? 'Rental Listing' : formData.listingType === 'PG_CO_LIVING' ? 'PG / Co-Living' : formData.listingType === 'SALE' ? 'Resale / Sale' : 'New Listing'}
             </div>
           </div>
         </div>
@@ -412,7 +426,7 @@ export default function AdminPropertyFormPage() {
           {formData.listingType !== 'PG_CO_LIVING' && (
             <div>
               <label className="form-label">Property Category *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem', marginBottom: !['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) ? '1.25rem' : '0' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem', marginBottom: !['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && Boolean(formData.propertyType) ? '1.25rem' : '0' }}>
                 {[
                   { id: 'APARTMENT', label: 'Apartment' },
                   { id: 'STUDIO', label: 'Studio' },
@@ -448,7 +462,7 @@ export default function AdminPropertyFormPage() {
               </div>
 
               {/* BHK Selection directly below Property Category (Hidden for Apartment, Plot, Retail Shop) */}
-              {!['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (
+              {!['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && Boolean(formData.propertyType) && (
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                     <label className="form-label" style={{ margin: 0 }}>BHK Configuration *</label>
@@ -558,6 +572,7 @@ export default function AdminPropertyFormPage() {
                 value={formData.propertyAge}
                 onChange={(e) => setFormData({ ...formData, propertyAge: e.target.value })}
               >
+                <option value="">Select Age of Property</option>
                 <option value="Under Construction">Under Construction</option>
                 <option value="0-1 Years">0-1 Years (Brand New)</option>
                 <option value="1-5 Years">1-5 Years</option>
@@ -611,7 +626,7 @@ export default function AdminPropertyFormPage() {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem' }}>
                 <label className="form-label" style={{ margin: 0 }}>Furnish Type *</label>
-                {formData.furnished !== 'UNFURNISHED' && (
+                {formData.furnished && formData.furnished !== 'UNFURNISHED' && (
                   <button
                     type="button"
                     onClick={() => setIsFurnishModalOpen(true)}
