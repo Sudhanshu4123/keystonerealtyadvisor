@@ -5,10 +5,22 @@ export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('keystone_user');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('keystone_user');
+      return (saved && saved !== 'undefined') ? JSON.parse(saved) : null;
+    } catch (e) {
+      console.warn('Failed to parse saved user in AuthProvider:', e);
+      return null;
+    }
   });
-  const [token, setToken] = useState(() => localStorage.getItem('keystone_token') || null);
+  const [token, setToken] = useState(() => {
+    try {
+      const savedToken = localStorage.getItem('keystone_token');
+      return (savedToken && savedToken !== 'undefined') ? savedToken : null;
+    } catch (e) {
+      return null;
+    }
+  });
   const [loading, setLoading] = useState(true);
 
   const saveAuth = useCallback((tokenValue, userDetails) => {
