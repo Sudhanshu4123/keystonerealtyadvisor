@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bed, Bath, Move, MapPin, Heart } from 'lucide-react';
+import { Bed, Bath, Square, Move, MapPin, Heart } from 'lucide-react';
 import Badge from '../common/Badge';
 import { formatPrice } from '../../utils/formatters';
 import { favoriteService } from '../../services/favoriteService';

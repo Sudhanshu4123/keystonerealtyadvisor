@@ -3,8 +3,12 @@ import { Link } from 'react-router-dom';
 import { Building2, MapPin, Calendar, Layers, ShieldCheck } from 'lucide-react';
 import NoImagePlaceholder from '../common/NoImagePlaceholder';
 import Badge from '../common/Badge';
+import { getProjectSlug } from '../../utils/slugify';
 
 export default function ProjectCard({ project }) {
+  const projectSlug = getProjectSlug(project);
+  const projectUrl = `/projects/${projectSlug}`;
+
   const formatPrice = (min, max, priceType) => {
     if (!min && !max) return 'Price on Request';
     
@@ -40,7 +44,7 @@ export default function ProjectCard({ project }) {
         if (!coverSrc) return null;
         return (
           <div style={{ position: 'relative', height: '220px', overflow: 'hidden', backgroundColor: '#0B0F19' }}>
-            <Link to={`/projects/${project.id}`} style={{ display: 'block', width: '100%', height: '100%' }}>
+            <Link to={projectUrl} style={{ display: 'block', width: '100%', height: '100%' }}>
               <img
                 src={coverSrc}
                 alt={project.name}
@@ -114,7 +118,7 @@ export default function ProjectCard({ project }) {
 
         {/* Project Name */}
         <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, lineHeight: 1.35, margin: 0 }}>
-          <Link to={`/projects/${project.id}`} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>
+          <Link to={projectUrl} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>
             {project.name}
           </Link>
         </h3>
@@ -177,7 +181,7 @@ export default function ProjectCard({ project }) {
           )}
 
           <Link
-            to={`/projects/${project.id}`}
+            to={projectUrl}
             style={{
               fontSize: '0.75rem',
               fontWeight: 600,
