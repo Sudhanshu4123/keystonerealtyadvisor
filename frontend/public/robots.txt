@@ -10,6 +10,27 @@ Allow: /*.jpg$
 Allow: /*.jpeg$
 Allow: /*.svg$
 Allow: /*.ico$
+Allow: /llms.txt
+Allow: /llms-full.txt
+
+# AI & Answer Engine Crawlers (AEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
 
 # Disallow private administration, authentication, and internal user dashboards
 Disallow: /admin/
@@ -22,6 +43,6 @@ Disallow: /api/admin/
 Disallow: /api/users/
 Disallow: /api/favorites/
 
-# Production XML Sitemaps (Static + Dynamic Database Driven)
+# Production XML Sitemaps
 Sitemap: https://keystonerealtyadvisor.com/sitemap.xml
 Sitemap: https://keystonerealtyadvisor.com/api/sitemap.xml

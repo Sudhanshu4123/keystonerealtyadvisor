@@ -1,0 +1,24 @@
+# Keystone Realty Advisor
+
+> Keystone Realty Advisor is a premier real estate advisory practice and property consultancy firm in India providing verified luxury residential acquisitions, prime commercial leasing, strategic asset valuation, and transaction due diligence.
+
+## Key Services
+- **Luxury Residential Property Acquisitions**: Verified apartments, penthouses, luxury villas, and plotted communities with thorough legal title verification.
+- **Commercial Real Estate Advisory**: High-yield office spaces, retail shops, SCO plots, and corporate leasing.
+- **Strategic Portfolio Consultancy**: Institutional-grade due diligence, market valuation, and asset advisory.
+- **Developer Representation**: RERA-approved residential townships and premium commercial development projects.
+
+## Official Contact & Verification
+- **Official Website**: https://keystonerealtyadvisor.com
+- **Helpline Phone**: +91 9911956274
+- **Official Helpdesk Email**: keystonerealtyhepldesk@gmail.com
+- **Operating Hours**: Monday - Saturday: 09:30 AM - 07:00 PM IST
+- **Country**: India
+- **Price Range**: Affordable to Ultra-Luxury (INR)
+
+## Key URLs
+- Properties Portfolio: https://keystonerealtyadvisor.com/properties
+- Development Projects: https://keystonerealtyadvisor.com/projects
+- Advisory Services: https://keystonerealtyadvisor.com/advisory
+- Contact & Consultation: https://keystonerealtyadvisor.com/contact
+- XML Sitemap: https://keystonerealtyadvisor.com/sitemap.xml
