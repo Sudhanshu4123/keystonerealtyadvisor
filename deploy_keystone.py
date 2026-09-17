@@ -125,20 +125,16 @@ nginx_keystone_conf = """server {
         proxy_read_timeout 120s;
     }
 
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/keystonerealtyadvisors.shrishyamassociate.com/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/keystonerealtyadvisors.shrishyamassociate.com/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/keystonerealtyadvisor.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/keystonerealtyadvisor.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 }
 
 server {
-    if ($host = keystonerealtyadvisors.shrishyamassociate.com) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
     listen 80;
-    server_name keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com keystonerealtyadvisor.com www.keystonerealtyadvisor.com;
+    server_name keystonerealtyadvisor.com www.keystonerealtyadvisor.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com;
     return 301 https://$host$request_uri;
 }
 """
