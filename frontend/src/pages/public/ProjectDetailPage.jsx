@@ -169,6 +169,8 @@ export default function ProjectDetailPage() {
         }
         keywords={`${project.name}, ${project.builderName || ''}, real estate projects in ${project.city || ''}, ${project.locality || ''}, buy flat in ${project.name}, Keystone Realty Advisor`}
         ogImage={project.coverImageUrl || project.galleryImages?.[0]?.imageUrl || '/keystone-logo.png'}
+        geoPlacename={project.locality ? `${project.locality}, ${project.city || 'Gurgaon'}, India` : (project.city ? `${project.city}, Delhi NCR, India` : 'Gurgaon, Delhi NCR, India')}
+        locality={project.city || 'Gurgaon'}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'RealEstateListing',

@@ -16,6 +16,11 @@ export default function SEO({
   ogType = 'website',
   noIndex = false,
   schema = null,
+  geoRegion = 'IN-HR',
+  geoPlacename = 'Gurgaon, Delhi NCR, India',
+  geoPosition = '28.4595;77.0266',
+  locality = 'Gurgaon',
+  regionName = 'Haryana',
 }) {
   const siteName = 'Keystone Realty Advisor';
   const defaultTitle = 'Keystone Realty Advisor | Trusted Real Estate Consultancy & Property Advisory';
@@ -74,11 +79,21 @@ export default function SEO({
       setMetaTag('name', 'robots', 'noindex, nofollow, noarchive, nosnippet');
       removeMetaTag('name', 'description');
       removeMetaTag('name', 'keywords');
+      removeMetaTag('name', 'geo.region');
+      removeMetaTag('name', 'geo.placename');
+      removeMetaTag('name', 'geo.position');
+      removeMetaTag('name', 'ICBM');
+      removeMetaTag('name', 'target_country');
       removeMetaTag('property', 'og:title');
       removeMetaTag('property', 'og:description');
       removeMetaTag('property', 'og:image');
       removeMetaTag('property', 'og:url');
       removeMetaTag('property', 'og:type');
+      removeMetaTag('property', 'og:latitude');
+      removeMetaTag('property', 'og:longitude');
+      removeMetaTag('property', 'og:locality');
+      removeMetaTag('property', 'og:region');
+      removeMetaTag('property', 'og:country-name');
       removeMetaTag('name', 'twitter:title');
       removeMetaTag('name', 'twitter:description');
       removeMetaTag('name', 'twitter:image');
@@ -97,6 +112,18 @@ export default function SEO({
     setMetaTag('name', 'robots', 'index, follow, max-image-preview:large');
     setMetaTag('name', 'author', 'Keystone Realty Advisor');
 
+    // Geo-targeting Meta Tags
+    const cleanPosition = geoPosition || '28.4595;77.0266';
+    const coords = cleanPosition.split(/[,;]\s*/);
+    const lat = coords[0] || '28.4595';
+    const lng = coords[1] || '77.0266';
+
+    setMetaTag('name', 'geo.region', geoRegion || 'IN-HR');
+    setMetaTag('name', 'geo.placename', geoPlacename || 'Gurgaon, Delhi NCR, India');
+    setMetaTag('name', 'geo.position', `${lat};${lng}`);
+    setMetaTag('name', 'ICBM', `${lat}, ${lng}`);
+    setMetaTag('name', 'target_country', 'IN');
+
     // OpenGraph / Social Meta Tags
     setMetaTag('property', 'og:site_name', siteName);
     setMetaTag('property', 'og:title', fullTitle);
@@ -110,6 +137,13 @@ export default function SEO({
     setMetaTag('property', 'og:image', absoluteImage);
     setMetaTag('property', 'og:image:alt', fullTitle);
     setMetaTag('property', 'og:locale', 'en_IN');
+
+    // OpenGraph Geo Location Tags
+    setMetaTag('property', 'og:latitude', lat);
+    setMetaTag('property', 'og:longitude', lng);
+    setMetaTag('property', 'og:locality', locality || 'Gurgaon');
+    setMetaTag('property', 'og:region', regionName || 'Haryana');
+    setMetaTag('property', 'og:country-name', 'India');
 
     // Twitter Card Tags
     setMetaTag('name', 'twitter:card', 'summary_large_image');
@@ -143,7 +177,7 @@ export default function SEO({
         scriptToRemove.remove();
       }
     };
-  }, [fullTitle, metaDescription, metaKeywords, canonicalUrl, ogImage, ogType, noIndex, schema]);
+  }, [fullTitle, metaDescription, metaKeywords, canonicalUrl, ogImage, ogType, noIndex, schema, geoRegion, geoPlacename, geoPosition, locality, regionName]);
 
   return null;
 }

@@ -121,6 +121,8 @@ export default function PropertyDetailPage() {
         }
         keywords={`${property.title}, ${property.propertyType || 'Property'}, ${property.city || ''}, ${property.location || ''}, buy property, real estate advisor`}
         ogImage={property.images?.[0]?.url || property.imageUrl || '/keystone-logo.png'}
+        geoPlacename={property.location ? `${property.location}, ${property.city || 'Gurgaon'}, India` : (property.city ? `${property.city}, Delhi NCR, India` : 'Gurgaon, Delhi NCR, India')}
+        locality={property.city || 'Gurgaon'}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'RealEstateListing',
