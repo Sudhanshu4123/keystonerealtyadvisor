@@ -24,6 +24,17 @@ export default function CookieConsentBanner() {
     try {
       localStorage.setItem('keystone_cookie_consent', 'accepted');
     } catch (e) {}
+
+    // Send Google Consent Mode v2 update to granted
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted'
+      });
+    }
+
     setIsVisible(false);
   };
 
@@ -31,6 +42,17 @@ export default function CookieConsentBanner() {
     try {
       localStorage.setItem('keystone_cookie_consent', 'declined');
     } catch (e) {}
+
+    // Send Google Consent Mode v2 update to denied
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied'
+      });
+    }
+
     setIsVisible(false);
   };
 

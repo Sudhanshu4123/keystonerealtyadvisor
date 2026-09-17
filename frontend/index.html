@@ -4,6 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Google Consent Mode v2 (Default Configuration) -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      
+      // Read saved consent from localStorage if available
+      var savedConsent = 'denied';
+      try {
+        if (localStorage.getItem('keystone_cookie_consent') === 'accepted') {
+          savedConsent = 'granted';
+        }
+      } catch (e) {}
+
+      gtag('consent', 'default', {
+        'ad_storage': savedConsent,
+        'ad_user_data': savedConsent,
+        'ad_personalization': savedConsent,
+        'analytics_storage': savedConsent,
+        'wait_for_update': 500
+      });
+    </script>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -15,10 +37,7 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWLV22CZ5G"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-WWLV22CZ5G');
     </script>
     
