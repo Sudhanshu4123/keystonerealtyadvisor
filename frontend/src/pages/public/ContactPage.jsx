@@ -68,7 +68,7 @@ export default function ContactPage() {
           '@context': 'https://schema.org',
           '@type': 'ContactPage',
           name: 'Contact Keystone Realty Advisor',
-          description: 'Get in touch with Keystone Realty Advisor for transparent real estate consultation across Gurgaon and Delhi NCR.',
+          description: 'Get in touch with Keystone Realty Advisor for transparent real estate consultation and property advisory services.',
           url: 'https://keystonerealtyadvisor.com/contact',
           mainEntity: {
             '@type': 'RealEstateAgent',
@@ -77,16 +77,11 @@ export default function ContactPage() {
             email: 'keystonerealtyhepldesk@gmail.com',
             address: {
               '@type': 'PostalAddress',
-              streetAddress: 'Golf Course Extension Road, Sector 58',
-              addressLocality: 'Gurgaon',
-              addressRegion: 'Haryana',
-              postalCode: '122011',
               addressCountry: 'IN'
             },
-            geo: {
-              '@type': 'GeoCoordinates',
-              latitude: 28.4595,
-              longitude: 77.0266
+            areaServed: {
+              '@type': 'Country',
+              name: 'India'
             },
             openingHours: 'Mo-Sa 09:30-19:00'
           }

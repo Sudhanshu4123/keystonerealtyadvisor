@@ -121,8 +121,8 @@ export default function PropertyDetailPage() {
         }
         keywords={`${property.title}, ${property.propertyType || 'Property'}, ${property.city || ''}, ${property.location || ''}, buy property, real estate advisor`}
         ogImage={property.images?.[0]?.url || property.imageUrl || '/keystone-logo.png'}
-        geoPlacename={property.location ? `${property.location}, ${property.city || 'Gurgaon'}, India` : (property.city ? `${property.city}, Delhi NCR, India` : 'Gurgaon, Delhi NCR, India')}
-        locality={property.city || 'Gurgaon'}
+        geoPlacename={property.location && property.city ? `${property.location}, ${property.city}, India` : (property.city ? `${property.city}, India` : (property.location ? `${property.location}, India` : null))}
+        locality={property.city || property.location || null}
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Properties', path: '/properties' },
@@ -144,8 +144,8 @@ export default function PropertyDetailPage() {
           },
           address: {
             '@type': 'PostalAddress',
-            addressLocality: property.location || property.city || 'Delhi NCR',
-            addressRegion: property.city || 'Delhi',
+            addressLocality: property.location || property.city || '',
+            addressRegion: property.city || '',
             addressCountry: 'IN'
           }
         }}
@@ -540,7 +540,7 @@ export default function PropertyDetailPage() {
                 </button>
 
                 <a
-                  href={`https://wa.me/919911956274?text=${encodeURIComponent(`Hello Keystone Realty Advisor, I am interested in: ${property.title} (Ref #${property.id}) located in ${property.location || property.city || 'Delhi'}. Please share verified details.`)}`}
+                  href={`https://wa.me/919911956274?text=${encodeURIComponent(`Hello Keystone Realty Advisor, I am interested in: ${property.title} (Ref #${property.id})${property.location || property.city ? ` located in ${property.location ? `${property.location}, ` : ''}${property.city || ''}` : ''}. Please share verified details.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-block"

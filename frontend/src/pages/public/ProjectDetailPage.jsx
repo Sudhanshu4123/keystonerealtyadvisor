@@ -169,8 +169,8 @@ export default function ProjectDetailPage() {
         }
         keywords={`${project.name}, ${project.builderName || ''}, real estate projects in ${project.city || ''}, ${project.locality || ''}, buy flat in ${project.name}, Keystone Realty Advisor`}
         ogImage={project.coverImageUrl || project.galleryImages?.[0]?.imageUrl || '/keystone-logo.png'}
-        geoPlacename={project.locality ? `${project.locality}, ${project.city || 'Gurgaon'}, India` : (project.city ? `${project.city}, Delhi NCR, India` : 'Gurgaon, Delhi NCR, India')}
-        locality={project.city || 'Gurgaon'}
+        geoPlacename={project.locality && project.city ? `${project.locality}, ${project.city}, India` : (project.city ? `${project.city}, India` : (project.locality ? `${project.locality}, India` : null))}
+        locality={project.city || project.locality || null}
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Projects', path: '/projects' },
@@ -290,7 +290,7 @@ export default function ProjectDetailPage() {
               </button>
 
               <a
-                href={`https://wa.me/919911956274?text=${encodeURIComponent(`Hello Keystone Realty Advisor, I would like to inquire about the project: ${project.name} located in ${project.locality ? `${project.locality}, ` : ''}${project.city || 'Delhi NCR'}. Please share the brochure and current pricing.`)}`}
+                href={`https://wa.me/919911956274?text=${encodeURIComponent(`Hello Keystone Realty Advisor, I would like to inquire about the project: ${project.name}${project.locality || project.city ? ` located in ${project.locality ? `${project.locality}, ` : ''}${project.city || ''}` : ''}. Please share the brochure and current pricing.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn"

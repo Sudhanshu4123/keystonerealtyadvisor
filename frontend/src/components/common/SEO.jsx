@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 /**
  * Production-Ready SEO Component for Meta Tag, Canonical URL, OpenGraph, Twitter Cards,
- * Geo-targeting, and JSON-LD Structured Data Management.
+ * and JSON-LD Structured Data Management.
  */
 export default function SEO({
   title,
@@ -20,18 +20,18 @@ export default function SEO({
   noIndex = false,
   breadcrumbs = null,
   schema = null,
-  geoRegion = 'IN-HR',
-  geoPlacename = 'Gurgaon, Delhi NCR, India',
-  geoPosition = '28.4595;77.0266',
-  locality = 'Gurgaon',
-  regionName = 'Haryana',
+  geoRegion = null,
+  geoPlacename = null,
+  geoPosition = null,
+  locality = null,
+  regionName = null,
 }) {
   const siteName = 'Keystone Realty Advisor';
   const defaultTitle = 'Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants';
   const defaultDescription =
     'Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation with complete integrity and due diligence.';
   const defaultKeywords =
-    'Keystone Realty Advisor, real estate advisory, buy property Gurgaon, luxury apartments Gurgaon, commercial property investment, verified properties, real estate consultancy, property valuation, RERA approved projects';
+    'Keystone Realty Advisor, real estate advisory, buy property, luxury apartments, commercial property investment, verified properties, real estate consultancy, property valuation, RERA approved projects';
 
   const fullTitle = title
     ? title.includes(siteName)
@@ -79,7 +79,7 @@ export default function SEO({
       let element = document.querySelector(`link[rel="${rel}"]`);
       if (!element) {
         element = document.createElement('link');
-        element.setAttribute('rel', rel);
+        element.setAttribute(rel, rel);
         document.head.appendChild(element);
       }
       element.setAttribute('href', href);
@@ -127,18 +127,37 @@ export default function SEO({
     setMetaTag('name', 'keywords', metaKeywords);
     setMetaTag('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     setMetaTag('name', 'author', 'Keystone Realty Advisor');
-
-    // Geo-targeting Meta Tags
-    const cleanPosition = geoPosition || '28.4595;77.0266';
-    const coords = cleanPosition.split(/[,;]\s*/);
-    const lat = coords[0] || '28.4595';
-    const lng = coords[1] || '77.0266';
-
-    setMetaTag('name', 'geo.region', geoRegion || 'IN-HR');
-    setMetaTag('name', 'geo.placename', geoPlacename || 'Gurgaon, Delhi NCR, India');
-    setMetaTag('name', 'geo.position', `${lat};${lng}`);
-    setMetaTag('name', 'ICBM', `${lat}, ${lng}`);
     setMetaTag('name', 'target_country', 'IN');
+
+    // Geo-targeting Meta Tags (Only if specific location provided)
+    if (geoPlacename || geoRegion) {
+      if (geoRegion) setMetaTag('name', 'geo.region', geoRegion);
+      if (geoPlacename) setMetaTag('name', 'geo.placename', geoPlacename);
+      if (geoPosition) {
+        const coords = geoPosition.split(/[,;]\s*/);
+        const lat = coords[0];
+        const lng = coords[1];
+        if (lat && lng) {
+          setMetaTag('name', 'geo.position', `${lat};${lng}`);
+          setMetaTag('name', 'ICBM', `${lat}, ${lng}`);
+          setMetaTag('property', 'og:latitude', lat);
+          setMetaTag('property', 'og:longitude', lng);
+        }
+      }
+      if (locality) setMetaTag('property', 'og:locality', locality);
+      if (regionName) setMetaTag('property', 'og:region', regionName);
+      setMetaTag('property', 'og:country-name', 'India');
+    } else {
+      removeMetaTag('name', 'geo.region');
+      removeMetaTag('name', 'geo.placename');
+      removeMetaTag('name', 'geo.position');
+      removeMetaTag('name', 'ICBM');
+      removeMetaTag('property', 'og:latitude');
+      removeMetaTag('property', 'og:longitude');
+      removeMetaTag('property', 'og:locality');
+      removeMetaTag('property', 'og:region');
+      removeMetaTag('property', 'og:country-name');
+    }
 
     // OpenGraph / Social Meta Tags
     setMetaTag('property', 'og:site_name', siteName);
@@ -153,13 +172,6 @@ export default function SEO({
     setMetaTag('property', 'og:image', absoluteOgImage);
     setMetaTag('property', 'og:image:alt', resolvedOgTitle);
     setMetaTag('property', 'og:locale', 'en_IN');
-
-    // OpenGraph Geo Location Tags
-    setMetaTag('property', 'og:latitude', lat);
-    setMetaTag('property', 'og:longitude', lng);
-    setMetaTag('property', 'og:locality', locality || 'Gurgaon');
-    setMetaTag('property', 'og:region', regionName || 'Haryana');
-    setMetaTag('property', 'og:country-name', 'India');
 
     // Twitter Card Tags
     setMetaTag('name', 'twitter:card', twitterCard);

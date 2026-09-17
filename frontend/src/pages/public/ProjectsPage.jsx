@@ -112,9 +112,9 @@ export default function ProjectsPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
-        title="Luxury Real Estate Projects in Gurgaon | Keystone Realty Advisor"
-        description="Explore verified residential townships, luxury high-rises, commercial hubs, and plotted communities in Gurgaon and Delhi NCR. RERA verified credentials, master plans, and official pricing."
-        keywords="real estate projects Gurgaon, luxury apartments Gurgaon, new projects in Gurgaon, commercial towers Gurgaon, RERA approved projects, Keystone Realty Advisor"
+        title="Luxury Real Estate Projects & Developments | Keystone Realty Advisor"
+        description="Explore verified residential townships, luxury high-rises, commercial hubs, and plotted communities. RERA verified credentials, master plans, and official pricing."
+        keywords="real estate projects, luxury apartments, new residential projects, commercial towers, RERA approved projects, Keystone Realty Advisor"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Projects', path: '/projects' },
@@ -122,8 +122,8 @@ export default function ProjectsPage() {
         schema={{
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: 'Luxury Real Estate Development Projects in Gurgaon',
-          description: 'Explore verified residential, commercial, villa, and plotted developments in Gurgaon and Delhi NCR.',
+          name: 'Luxury Real Estate Development Projects',
+          description: 'Explore verified residential, commercial, villa, and plotted developments.',
           url: 'https://keystonerealtyadvisor.com/projects'
         }}
       />
@@ -139,7 +139,7 @@ export default function ProjectsPage() {
             <span>Development Portfolio</span>
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.02em' }}>
-            Luxury Real Estate Projects in Gurgaon
+            Luxury Real Estate Projects & Developments
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: '1rem', maxWidth: '650px' }}>
             Explore verified residential, commercial, villa, and plotted developments managed and advised by Keystone Realty Advisor.

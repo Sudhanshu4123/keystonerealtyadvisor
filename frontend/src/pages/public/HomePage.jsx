@@ -86,18 +86,12 @@ export default function HomePage() {
               email: 'keystonerealtyhepldesk@gmail.com',
               address: {
                 '@type': 'PostalAddress',
-                streetAddress: 'Golf Course Extension Road, Sector 58',
-                addressLocality: 'Gurgaon',
-                addressRegion: 'Haryana',
-                postalCode: '122011',
                 addressCountry: 'IN'
               },
-              geo: {
-                '@type': 'GeoCoordinates',
-                latitude: 28.4595,
-                longitude: 77.0266
+              areaServed: {
+                '@type': 'Country',
+                name: 'India'
               },
-              areaServed: ['Gurgaon', 'Delhi NCR', 'Noida', 'Faridabad', 'Haryana', 'India'],
               priceRange: '₹₹ - ₹₹₹₹₹',
               openingHours: 'Mo-Sa 09:30-19:00'
             },

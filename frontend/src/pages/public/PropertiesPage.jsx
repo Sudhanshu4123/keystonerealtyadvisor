@@ -102,9 +102,9 @@ export default function PropertiesPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Verified Properties for Sale & Rent in Gurgaon | Keystone Realty Advisor"
-        description="Browse thoroughly verified residential apartments, luxury villas, builder floors, and commercial spaces in Gurgaon and Delhi NCR. Reviewed for clear titles and authentic market pricing."
-        keywords="properties in Gurgaon, flats for sale Gurgaon, apartments for rent Gurgaon, luxury villas, commercial spaces Gurgaon, Keystone Realty Advisor"
+        title="Verified Properties for Sale & Rent | Keystone Realty Advisor"
+        description="Browse thoroughly verified residential apartments, luxury villas, builder floors, and commercial spaces. Reviewed for clear titles and authentic market pricing."
+        keywords="verified properties, flats for sale, apartments for rent, luxury villas, commercial spaces, real estate investments, Keystone Realty Advisor"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Properties', path: '/properties' },
@@ -112,8 +112,8 @@ export default function PropertiesPage() {
         schema={{
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: 'Verified Real Estate Properties for Sale & Rent in Gurgaon',
-          description: 'Browse verified residential and commercial properties available for sale and rent in Gurgaon and Delhi NCR.',
+          name: 'Verified Real Estate Properties for Sale & Rent',
+          description: 'Browse verified residential and commercial properties available for sale and rent.',
           url: 'https://keystonerealtyadvisor.com/properties'
         }}
       />
@@ -125,7 +125,7 @@ export default function PropertiesPage() {
         <div style={{ marginBottom: '2rem' }}>
           <span className="section-subtitle">Property Portfolio</span>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-            <h1 className="section-title" style={{ marginBottom: 0 }}>Verified Properties for Sale & Rent in Gurgaon</h1>
+            <h1 className="section-title" style={{ marginBottom: 0 }}>Verified Properties for Sale & Rent</h1>
             <span style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
               Showing <strong>{pageInfo.totalElements}</strong> {pageInfo.totalElements === 1 ? 'property' : 'properties'}
             </span>
