@@ -116,8 +116,8 @@ export default function AdminPropertyFormPage() {
               maintenanceAmount: p.maintenanceCharges?.startsWith('Separate') ? p.maintenanceCharges.replace('Separate: ₹', '').replace('/mo', '').replace('Separate: ', '') : '',
               securityDeposit: ['None', '1 month', '2 month'].includes(p.securityDeposit) ? p.securityDeposit : (p.securityDeposit ? 'Custom' : ''),
               securityDepositCustom: !['None', '1 month', '2 month'].includes(p.securityDeposit) ? (p.securityDeposit || '') : '',
-              lockInPeriod: ['None', '1 month', '6 month'].includes(p.lockInPeriod) ? p.lockInPeriod : (p.lockInPeriod ? 'Custom' : ''),
-              lockInPeriodCustom: !['None', '1 month', '6 month'].includes(p.lockInPeriod) ? (p.lockInPeriod || '') : '',
+              lockInPeriod: ['None', '15 Days', '30 Days', '1 month', '6 month', '11 month'].includes(p.lockInPeriod) ? p.lockInPeriod : (p.lockInPeriod ? 'Custom' : ''),
+              lockInPeriodCustom: !['None', '15 Days', '30 Days', '1 month', '6 month', '11 month'].includes(p.lockInPeriod) ? (p.lockInPeriod || '') : '',
               brokerage: ['None', '15 Days', '30 Days'].includes(p.brokerage) ? p.brokerage : (p.brokerage ? 'Custom' : ''),
               brokerageCustom: !['None', '15 Days', '30 Days'].includes(p.brokerage) ? (p.brokerage || '') : '',
               status: p.status || 'AVAILABLE',
@@ -964,7 +964,7 @@ export default function AdminPropertyFormPage() {
             <div>
               <label className="form-label">Lock-in Period *</label>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.lockInPeriod === 'Custom' ? '0.5rem' : '0' }}>
-                {['None', '1 month', '6 month', 'Custom'].map((l) => (
+                {['None', '15 Days', '30 Days', '1 month', '6 month', '11 month', 'Custom'].map((l) => (
                   <button
                     key={l}
                     type="button"
@@ -979,7 +979,7 @@ export default function AdminPropertyFormPage() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="e.g. 11 month, 3 Year"
+                  placeholder="e.g. 45 Days, 2 Year"
                   value={formData.lockInPeriodCustom}
                   onChange={(e) => setFormData({ ...formData, lockInPeriodCustom: e.target.value })}
                 />
