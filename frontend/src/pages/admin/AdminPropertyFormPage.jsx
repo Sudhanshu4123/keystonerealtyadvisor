@@ -801,6 +801,35 @@ export default function AdminPropertyFormPage() {
                   );
                 })}
               </div>
+
+              {/* Bachelor Preference Options */}
+              {(Array.isArray(formData.preferredTenant) ? formData.preferredTenant.includes('Bachelors') : (formData.preferredTenant || '').includes('Bachelors')) && (
+                <div style={{ marginTop: '0.875rem' }}>
+                  <label className="form-label" style={{ fontSize: '0.8125rem', marginBottom: '0.375rem', color: 'var(--text-secondary)' }}>
+                    Select your preference for bachelors
+                  </label>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {[
+                      { id: 'Open for both', label: 'Open for both' },
+                      { id: 'Men Only', label: 'Men Only' },
+                      { id: 'Women Only', label: 'Women Only' },
+                    ].map((b) => (
+                      <button
+                        key={b.id}
+                        type="button"
+                        style={{
+                          ...pillSelectStyle(formData.bachelorPreference === b.id),
+                          padding: '0.5rem 0.875rem',
+                          fontSize: '0.8125rem',
+                        }}
+                        onClick={() => setFormData({ ...formData, bachelorPreference: b.id })}
+                      >
+                        {b.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div>
