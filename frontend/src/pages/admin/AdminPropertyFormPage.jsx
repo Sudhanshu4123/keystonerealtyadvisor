@@ -46,7 +46,9 @@ export default function AdminPropertyFormPage() {
     securityDeposit: '',
     securityDepositCustom: '',
     lockInPeriod: '',
+    lockInPeriodCustom: '',
     brokerage: '',
+    brokerageCustom: '',
     status: 'AVAILABLE',
     amenities: [],
     furnishingDetails: '',
@@ -114,8 +116,10 @@ export default function AdminPropertyFormPage() {
               maintenanceAmount: p.maintenanceCharges?.startsWith('Separate') ? p.maintenanceCharges.replace('Separate: ₹', '').replace('/mo', '').replace('Separate: ', '') : '',
               securityDeposit: ['None', '1 month', '2 month'].includes(p.securityDeposit) ? p.securityDeposit : (p.securityDeposit ? 'Custom' : ''),
               securityDepositCustom: !['None', '1 month', '2 month'].includes(p.securityDeposit) ? (p.securityDeposit || '') : '',
-              lockInPeriod: ['None', '1 month', '6 month', '11 month'].includes(p.lockInPeriod) ? p.lockInPeriod : (p.lockInPeriod ? 'Custom' : ''),
-              brokerage: p.brokerage || '',
+              lockInPeriod: ['None', '1 month', '6 month'].includes(p.lockInPeriod) ? p.lockInPeriod : (p.lockInPeriod ? 'Custom' : ''),
+              lockInPeriodCustom: !['None', '1 month', '6 month'].includes(p.lockInPeriod) ? (p.lockInPeriod || '') : '',
+              brokerage: ['None', '15 Days', '30 Days'].includes(p.brokerage) ? p.brokerage : (p.brokerage ? 'Custom' : ''),
+              brokerageCustom: !['None', '15 Days', '30 Days'].includes(p.brokerage) ? (p.brokerage || '') : '',
               status: p.status || 'AVAILABLE',
               amenities: loadedAmenities,
               furnishingDetails: p.furnishingDetails || '',
@@ -170,6 +174,8 @@ export default function AdminPropertyFormPage() {
     }
 
     let securityFinal = formData.securityDeposit === 'Custom' ? formData.securityDepositCustom : formData.securityDeposit;
+    let lockInFinal = formData.lockInPeriod === 'Custom' ? formData.lockInPeriodCustom : formData.lockInPeriod;
+    let brokerageFinal = formData.brokerage === 'Custom' ? formData.brokerageCustom : formData.brokerage;
 
     const payload = {
       title: titleToSave,
@@ -203,8 +209,8 @@ export default function AdminPropertyFormPage() {
       availableFrom: formData.availableFrom || '',
       maintenanceCharges: maintenanceFinal || null,
       securityDeposit: securityFinal || null,
-      lockInPeriod: formData.lockInPeriod || null,
-      brokerage: formData.brokerage || null,
+      lockInPeriod: lockInFinal || null,
+      brokerage: brokerageFinal || null,
       status: formData.status || 'AVAILABLE',
       amenities: JSON.stringify(formData.amenities || []),
       furnishingDetails: typeof formData.furnishingDetails === 'object'
@@ -957,8 +963,8 @@ export default function AdminPropertyFormPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
             <div>
               <label className="form-label">Lock-in Period *</label>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                {['None', '1 month', '6 month', '11 month'].map((l) => (
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.lockInPeriod === 'Custom' ? '0.5rem' : '0' }}>
+                {['None', '1 month', '6 month', 'Custom'].map((l) => (
                   <button
                     key={l}
                     type="button"
@@ -969,11 +975,20 @@ export default function AdminPropertyFormPage() {
                   </button>
                 ))}
               </div>
+              {formData.lockInPeriod === 'Custom' && (
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. 11 month, 3 Year"
+                  value={formData.lockInPeriodCustom}
+                  onChange={(e) => setFormData({ ...formData, lockInPeriodCustom: e.target.value })}
+                />
+              )}
             </div>
 
             <div>
               <label className="form-label">Do you charge brokerage? *</label>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.brokerage === 'Custom' ? '0.5rem' : '0' }}>
                 {['None', '15 Days', '30 Days', 'Custom'].map((b) => (
                   <button
                     key={b}
@@ -985,6 +1000,15 @@ export default function AdminPropertyFormPage() {
                   </button>
                 ))}
               </div>
+              {formData.brokerage === 'Custom' && (
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. 2% or 1 Month"
+                  value={formData.brokerageCustom}
+                  onChange={(e) => setFormData({ ...formData, brokerageCustom: e.target.value })}
+                />
+              )}
             </div>
           </div>
 
