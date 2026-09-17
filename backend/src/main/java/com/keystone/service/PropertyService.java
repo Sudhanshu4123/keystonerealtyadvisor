@@ -8,6 +8,7 @@ import com.keystone.dto.response.PropertyResponse;
 import com.keystone.entity.Property;
 import com.keystone.entity.PropertyImage;
 import com.keystone.entity.PropertyStatus;
+import com.keystone.exception.BadRequestException;
 import com.keystone.exception.ResourceNotFoundException;
 import com.keystone.mapper.PropertyMapper;
 import com.keystone.repository.FavoriteRepository;
@@ -25,6 +26,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -206,6 +208,8 @@ public class PropertyService {
         propertyRepository.delete(property);
     }
 
+    private static final List<String> ALLOWED_PROPERTY_IMAGE_EXTS = Arrays.asList("jpg", "jpeg", "png");
+
     @Transactional
     public List<PropertyImageResponse> uploadImages(Long propertyId, List<MultipartFile> files) {
         Property property = propertyRepository.findById(propertyId)
@@ -217,6 +221,17 @@ public class PropertyService {
         for (int i = 0; i < files.size(); i++) {
             MultipartFile file = files.get(i);
             if (file.isEmpty()) continue;
+
+            String originalFileName = file.getOriginalFilename() != null ? file.getOriginalFilename() : "";
+            String ext = "";
+            int dotIdx = originalFileName.lastIndexOf('.');
+            if (dotIdx > 0) {
+                ext = originalFileName.substring(dotIdx + 1).toLowerCase();
+            }
+
+            if (!ALLOWED_PROPERTY_IMAGE_EXTS.contains(ext)) {
+                throw new BadRequestException("Invalid image format for '" + originalFileName + "'. Only JPG, JPEG, and PNG images are allowed for properties. WEBP files are not supported.");
+            }
 
             String storedPath = fileStorageService.storeFile(file, "properties");
             boolean isPrimary = (!hasPrimary && i == 0 && property.getImages().isEmpty());

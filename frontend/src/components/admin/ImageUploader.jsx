@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { UploadCloud, Trash2, Star, CheckCircle } from 'lucide-react';
+import { useToast } from '../../hooks/useToast';
 
 export default function ImageUploader({
   existingImages = [],
@@ -9,10 +10,46 @@ export default function ImageUploader({
   uploading = false,
 }) {
   const fileInputRef = useRef(null);
+  const { error } = useToast();
+
+  const validateAndFilterFiles = (rawFiles) => {
+    const validExtensions = ['jpg', 'jpeg', 'png'];
+    const validMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const validFiles = [];
+    let hasInvalid = false;
+
+    for (const file of rawFiles) {
+      const ext = file.name ? file.name.split('.').pop().toLowerCase() : '';
+      const isMimeValid = validMimeTypes.includes(file.type);
+      const isExtValid = validExtensions.includes(ext);
+
+      if ((isMimeValid || isExtValid) && ext !== 'webp' && file.type !== 'image/webp') {
+        validFiles.push(file);
+      } else {
+        hasInvalid = true;
+      }
+    }
+
+    if (hasInvalid) {
+      error('Only JPG, JPEG, and PNG images are allowed. WEBP files are not supported.');
+    }
+
+    if (validFiles.length > 0) {
+      onFilesSelected(validFiles);
+    }
+  };
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
-      onFilesSelected(Array.from(e.target.files));
+      validateAndFilterFiles(Array.from(e.target.files));
+      e.target.value = '';
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      validateAndFilterFiles(Array.from(e.dataTransfer.files));
     }
   };
 
@@ -31,18 +68,13 @@ export default function ImageUploader({
         }}
         onClick={() => fileInputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
-        onDrop={(e) => {
-          e.preventDefault();
-          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            onFilesSelected(Array.from(e.dataTransfer.files));
-          }
-        }}
+        onDrop={handleDrop}
       >
         <input
           ref={fileInputRef}
           type="file"
           multiple
-          accept="image/jpeg,image/png,image/webp"
+          accept=".jpg,.jpeg,.png,image/jpeg,image/png"
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
@@ -66,7 +98,7 @@ export default function ImageUploader({
           Click to upload property images or drag and drop
         </p>
         <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-          JPG, JPEG, PNG, or WEBP up to 15MB each
+          JPG, JPEG, or PNG up to 15MB each (WEBP not allowed)
         </p>
       </div>
 
