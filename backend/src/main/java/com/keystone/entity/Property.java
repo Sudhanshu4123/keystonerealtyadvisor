@@ -95,6 +95,9 @@ public class Property {
     @Column(name = "preferred_tenant", length = 50)
     private String preferredTenant;
 
+    @Column(name = "bachelor_preference", length = 50)
+    private String bachelorPreference = "Open for both";
+
     @Column(name = "pet_friendly")
     private Boolean petFriendly = false;
 
@@ -466,5 +469,13 @@ public class Property {
 
     public void setFurnishingDetails(String furnishingDetails) {
         this.furnishingDetails = furnishingDetails;
+    }
+
+    public String getBachelorPreference() {
+        return bachelorPreference;
+    }
+
+    public void setBachelorPreference(String bachelorPreference) {
+        this.bachelorPreference = bachelorPreference;
     }
 }

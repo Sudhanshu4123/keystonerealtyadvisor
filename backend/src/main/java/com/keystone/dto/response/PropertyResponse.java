@@ -34,6 +34,7 @@ public class PropertyResponse {
     private Integer coveredParking;
     private Integer openParking;
     private String preferredTenant;
+    private String bachelorPreference;
     private Boolean petFriendly;
     private String availableFrom;
     private String maintenanceCharges;
@@ -364,5 +365,13 @@ public class PropertyResponse {
 
     public void setFurnishingDetails(String furnishingDetails) {
         this.furnishingDetails = furnishingDetails;
+    }
+
+    public String getBachelorPreference() {
+        return bachelorPreference;
+    }
+
+    public void setBachelorPreference(String bachelorPreference) {
+        this.bachelorPreference = bachelorPreference;
     }
 }

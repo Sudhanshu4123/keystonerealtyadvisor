@@ -37,6 +37,7 @@ export default function AdminPropertyFormPage() {
     coveredParking: '1',
     openParking: '1',
     preferredTenant: ['Family'],
+    bachelorPreference: 'Open for both',
     petFriendly: false,
     price: '',
     availableFrom: 'Immediate',
@@ -105,6 +106,7 @@ export default function AdminPropertyFormPage() {
               coveredParking: String(p.coveredParking || 1),
               openParking: String(p.openParking || 1),
               preferredTenant: loadedTenants.length > 0 ? loadedTenants : ['Family'],
+              bachelorPreference: p.bachelorPreference || 'Open for both',
               petFriendly: Boolean(p.petFriendly),
               price: String(p.price || ''),
               availableFrom: p.availableFrom || 'Immediate',
@@ -182,6 +184,9 @@ export default function AdminPropertyFormPage() {
       preferredTenant: Array.isArray(formData.preferredTenant)
         ? (formData.preferredTenant.length > 0 ? formData.preferredTenant.join(', ') : 'Family')
         : (formData.preferredTenant || 'Family'),
+      bachelorPreference: Array.isArray(formData.preferredTenant) && formData.preferredTenant.includes('Bachelors')
+        ? (formData.bachelorPreference || 'Open for both')
+        : null,
       petFriendly: formData.petFriendly,
       availableFrom: formData.availableFrom,
       maintenanceCharges: maintenanceFinal,
@@ -804,6 +809,35 @@ export default function AdminPropertyFormPage() {
                   );
                 })}
               </div>
+
+              {/* Bachelor Preference Options */}
+              {(Array.isArray(formData.preferredTenant) ? formData.preferredTenant.includes('Bachelors') : (formData.preferredTenant || '').includes('Bachelors')) && (
+                <div style={{ marginTop: '0.875rem' }}>
+                  <label className="form-label" style={{ fontSize: '0.8125rem', marginBottom: '0.375rem', color: 'var(--text-secondary)' }}>
+                    Select your preference for bachelors
+                  </label>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {[
+                      { id: 'Open for both', label: 'Open for both' },
+                      { id: 'Men Only', label: 'Men Only' },
+                      { id: 'Women Only', label: 'Women Only' },
+                    ].map((b) => (
+                      <button
+                        key={b.id}
+                        type="button"
+                        style={{
+                          ...pillSelectStyle(formData.bachelorPreference === b.id),
+                          padding: '0.5rem 0.875rem',
+                          fontSize: '0.8125rem',
+                        }}
+                        onClick={() => setFormData({ ...formData, bachelorPreference: b.id })}
+                      >
+                        {b.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div>

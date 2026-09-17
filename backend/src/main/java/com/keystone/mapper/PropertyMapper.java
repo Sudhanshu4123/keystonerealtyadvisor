@@ -40,6 +40,7 @@ public class PropertyMapper {
         property.setCoveredParking(request.getCoveredParking());
         property.setOpenParking(request.getOpenParking());
         property.setPreferredTenant(request.getPreferredTenant());
+        property.setBachelorPreference(request.getBachelorPreference());
         property.setPetFriendly(request.getPetFriendly());
         property.setAvailableFrom(request.getAvailableFrom());
         property.setMaintenanceCharges(request.getMaintenanceCharges());
@@ -76,6 +77,7 @@ public class PropertyMapper {
         property.setCoveredParking(request.getCoveredParking());
         property.setOpenParking(request.getOpenParking());
         property.setPreferredTenant(request.getPreferredTenant());
+        property.setBachelorPreference(request.getBachelorPreference());
         property.setPetFriendly(request.getPetFriendly());
         property.setAvailableFrom(request.getAvailableFrom());
         property.setMaintenanceCharges(request.getMaintenanceCharges());
@@ -114,6 +116,7 @@ public class PropertyMapper {
         response.setCoveredParking(property.getCoveredParking());
         response.setOpenParking(property.getOpenParking());
         response.setPreferredTenant(property.getPreferredTenant());
+        response.setBachelorPreference(property.getBachelorPreference());
         response.setPetFriendly(property.getPetFriendly());
         response.setAvailableFrom(property.getAvailableFrom());
         response.setMaintenanceCharges(property.getMaintenanceCharges());

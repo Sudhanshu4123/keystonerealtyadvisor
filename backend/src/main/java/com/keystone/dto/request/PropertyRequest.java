@@ -72,6 +72,8 @@ public class PropertyRequest {
 
     private String preferredTenant;
 
+    private String bachelorPreference;
+
     private Boolean petFriendly = false;
 
     private String availableFrom;
@@ -348,5 +350,13 @@ public class PropertyRequest {
 
     public void setFurnishingDetails(String furnishingDetails) {
         this.furnishingDetails = furnishingDetails;
+    }
+
+    public String getBachelorPreference() {
+        return bachelorPreference;
+    }
+
+    public void setBachelorPreference(String bachelorPreference) {
+        this.bachelorPreference = bachelorPreference;
     }
 }
