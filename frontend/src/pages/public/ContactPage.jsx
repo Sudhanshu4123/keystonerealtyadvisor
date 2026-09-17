@@ -60,17 +60,35 @@ export default function ContactPage() {
         title="Contact & Confidential Real Estate Consultation | Keystone Realty Advisor"
         description="Schedule a confidential consultation with Keystone Realty Advisor. Direct phone +91 9911956274 or submit an inquiry for verified property advice and site inspections."
         keywords="contact real estate advisor, property consultation, Keystone Realty Advisor phone, property enquiry, real estate help desk"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Contact Us', path: '/contact' },
+        ]}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'ContactPage',
           name: 'Contact Keystone Realty Advisor',
-          description: 'Get in touch with Keystone Realty Advisor for transparent real estate consultation.',
+          description: 'Get in touch with Keystone Realty Advisor for transparent real estate consultation across Gurgaon and Delhi NCR.',
           url: 'https://keystonerealtyadvisor.com/contact',
           mainEntity: {
             '@type': 'RealEstateAgent',
             name: 'Keystone Realty Advisor',
             telephone: '+919911956274',
-            email: 'keystonerealtyhepldesk@gmail.com'
+            email: 'keystonerealtyhepldesk@gmail.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Golf Course Extension Road, Sector 58',
+              addressLocality: 'Gurgaon',
+              addressRegion: 'Haryana',
+              postalCode: '122011',
+              addressCountry: 'IN'
+            },
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: 28.4595,
+              longitude: 77.0266
+            },
+            openingHours: 'Mo-Sa 09:30-19:00'
           }
         }}
       />

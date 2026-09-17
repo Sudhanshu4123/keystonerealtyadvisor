@@ -1,13 +1,27 @@
+# Keystone Realty Advisor - Production Robots.txt
 User-agent: *
 Allow: /
-Disallow: /admin
+Allow: /uploads/
+Allow: /assets/
+Allow: /*.js$
+Allow: /*.css$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Disallow private administration, authentication, and internal user dashboards
 Disallow: /admin/
 Disallow: /admin/*
-Disallow: /dashboard
 Disallow: /dashboard/
 Disallow: /dashboard/*
-Disallow: /api/
-Disallow: /api/*
+Disallow: /login
+Disallow: /register
+Disallow: /api/admin/
+Disallow: /api/users/
+Disallow: /api/favorites/
 
-# Sitemap (Only public indexable pages)
+# Production XML Sitemaps (Static + Dynamic Database Driven)
 Sitemap: https://keystonerealtyadvisor.com/sitemap.xml
+Sitemap: https://keystonerealtyadvisor.com/api/sitemap.xml

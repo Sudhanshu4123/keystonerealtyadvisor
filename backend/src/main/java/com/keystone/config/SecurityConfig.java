@@ -70,6 +70,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Public endpoints
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/sitemap.xml", "/sitemap.xml").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/properties", "/api/properties/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/projects", "/api/projects/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/enquiries").permitAll()

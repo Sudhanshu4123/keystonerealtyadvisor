@@ -7,8 +7,8 @@ import { useToast } from '../../hooks/useToast';
 import ImageGallery from '../../components/property/ImageGallery';
 import PropertyEnquiryModal from '../../components/property/PropertyEnquiryModal';
 import Badge from '../../components/common/Badge';
-import EmptyState from '../../components/common/EmptyState';
 import SEO from '../../components/common/SEO';
+import Breadcrumbs from '../../components/common/Breadcrumbs';
 import {
   Bed,
   Bath,
@@ -123,6 +123,11 @@ export default function PropertyDetailPage() {
         ogImage={property.images?.[0]?.url || property.imageUrl || '/keystone-logo.png'}
         geoPlacename={property.location ? `${property.location}, ${property.city || 'Gurgaon'}, India` : (property.city ? `${property.city}, Delhi NCR, India` : 'Gurgaon, Delhi NCR, India')}
         locality={property.city || 'Gurgaon'}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Properties', path: '/properties' },
+          { name: property.title, path: `/properties/${property.id}` },
+        ]}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'RealEstateListing',
@@ -146,6 +151,14 @@ export default function PropertyDetailPage() {
         }}
       />
       <div className="container">
+        {/* Semantic Breadcrumbs */}
+        <Breadcrumbs
+          items={[
+            { label: 'Properties', path: '/properties' },
+            { label: property.title },
+          ]}
+        />
+
         {/* Back navigation */}
         <div style={{ marginBottom: '1.5rem' }}>
           <Link to="/properties" className="btn btn-ghost btn-sm" style={{ paddingLeft: 0, gap: '0.375rem' }}>

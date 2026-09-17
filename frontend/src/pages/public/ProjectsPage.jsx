@@ -4,6 +4,7 @@ import { Search, Filter, RefreshCw, X, Building2, SlidersHorizontal } from 'luci
 import ProjectGrid from '../../components/project/ProjectGrid';
 import Pagination from '../../components/common/Pagination';
 import SEO from '../../components/common/SEO';
+import Breadcrumbs from '../../components/common/Breadcrumbs';
 import projectService from '../../services/projectService';
 import { useToast } from '../../hooks/useToast';
 
@@ -111,19 +112,26 @@ export default function ProjectsPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
-        title="Premier Real Estate Projects & Developments | Keystone Realty Advisor"
-        description="Explore verified residential townships, luxury high-rises, commercial hubs, and plotted communities. Comprehensive project master plans, construction milestones, and RERA verified credentials."
-        keywords="new launch real estate projects, residential developments, commercial towers, luxury apartments, RERA approved projects, Keystone Realty Advisor"
+        title="Luxury Real Estate Projects in Gurgaon | Keystone Realty Advisor"
+        description="Explore verified residential townships, luxury high-rises, commercial hubs, and plotted communities in Gurgaon and Delhi NCR. RERA verified credentials, master plans, and official pricing."
+        keywords="real estate projects Gurgaon, luxury apartments Gurgaon, new projects in Gurgaon, commercial towers Gurgaon, RERA approved projects, Keystone Realty Advisor"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Projects', path: '/projects' },
+        ]}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: 'Keystone Realty Advisor - Real Estate Development Projects',
-          description: 'Explore verified residential, commercial, villa, and plotted developments.',
+          name: 'Luxury Real Estate Development Projects in Gurgaon',
+          description: 'Explore verified residential, commercial, villa, and plotted developments in Gurgaon and Delhi NCR.',
           url: 'https://keystonerealtyadvisor.com/projects'
         }}
       />
       <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.5rem' }}>
         
+        {/* Semantic Breadcrumbs */}
+        <Breadcrumbs items={[{ label: 'Projects' }]} />
+
         {/* Header Title Banner */}
         <div style={{ marginBottom: '2rem' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--color-gold-500)', fontSize: '0.8125rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
@@ -131,7 +139,7 @@ export default function ProjectsPage() {
             <span>Development Portfolio</span>
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.02em' }}>
-            Real Estate Projects
+            Luxury Real Estate Projects in Gurgaon
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: '1rem', maxWidth: '650px' }}>
             Explore verified residential, commercial, villa, and plotted developments managed and advised by Keystone Realty Advisor.

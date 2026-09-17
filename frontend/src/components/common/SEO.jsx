@@ -1,20 +1,24 @@
 import React, { useEffect } from 'react';
 
 /**
- * SEO Component for Dynamic Meta Tag, Canonical URL, and JSON-LD Schema Management
- *
- * Provides authentic, high-trust SEO signals for public client-facing pages
- * and ensures total exclusion (noindex, nofollow, nosnippet) for administrative
- * and private backend dashboard routes.
+ * Production-Ready SEO Component for Meta Tag, Canonical URL, OpenGraph, Twitter Cards,
+ * Geo-targeting, and JSON-LD Structured Data Management.
  */
 export default function SEO({
   title,
   description,
   keywords,
   canonicalUrl,
+  ogTitle,
+  ogDescription,
   ogImage = '/keystone-logo.png',
   ogType = 'website',
+  twitterCard = 'summary_large_image',
+  twitterTitle,
+  twitterDescription,
+  twitterImage,
   noIndex = false,
+  breadcrumbs = null,
   schema = null,
   geoRegion = 'IN-HR',
   geoPlacename = 'Gurgaon, Delhi NCR, India',
@@ -23,11 +27,11 @@ export default function SEO({
   regionName = 'Haryana',
 }) {
   const siteName = 'Keystone Realty Advisor';
-  const defaultTitle = 'Keystone Realty Advisor | Trusted Real Estate Consultancy & Property Advisory';
+  const defaultTitle = 'Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants';
   const defaultDescription =
     'Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation with complete integrity and due diligence.';
   const defaultKeywords =
-    'Keystone Realty Advisor, real estate advisory, buy property, luxury apartments, commercial property investment, verified properties, real estate consultancy, property valuation, RERA approved projects';
+    'Keystone Realty Advisor, real estate advisory, buy property Gurgaon, luxury apartments Gurgaon, commercial property investment, verified properties, real estate consultancy, property valuation, RERA approved projects';
 
   const fullTitle = title
     ? title.includes(siteName)
@@ -36,6 +40,18 @@ export default function SEO({
     : defaultTitle;
   const metaDescription = description || defaultDescription;
   const metaKeywords = keywords || defaultKeywords;
+  const resolvedOgTitle = ogTitle || fullTitle;
+  const resolvedOgDescription = ogDescription || metaDescription;
+  const resolvedTwitterTitle = twitterTitle || resolvedOgTitle;
+  const resolvedTwitterDescription = twitterDescription || resolvedOgDescription;
+
+  const baseUrl = (typeof window !== 'undefined' && window.location.origin.includes('localhost'))
+    ? window.location.origin
+    : 'https://keystonerealtyadvisor.com';
+
+  const normalizedCanonical = canonicalUrl
+    ? (canonicalUrl.startsWith('http') ? canonicalUrl : `${baseUrl}${canonicalUrl.startsWith('/') ? canonicalUrl : `/${canonicalUrl}`}`)
+    : (typeof window !== 'undefined' ? `${baseUrl}${window.location.pathname.replace(/\/+$/, '') || '/'}` : baseUrl);
 
   useEffect(() => {
     // 1. Update Document Title
@@ -63,7 +79,7 @@ export default function SEO({
       let element = document.querySelector(`link[rel="${rel}"]`);
       if (!element) {
         element = document.createElement('link');
-        element.setAttribute(rel, rel);
+        element.setAttribute('rel', rel);
         document.head.appendChild(element);
       }
       element.setAttribute('href', href);
@@ -74,7 +90,7 @@ export default function SEO({
       if (element) element.remove();
     };
 
-    // If noIndex is true (e.g. Admin Panel, Dashboard), completely hide from search engines
+    // If noIndex is true (e.g. Admin Panel, Dashboard, User Account), completely hide from search engines
     if (noIndex) {
       setMetaTag('name', 'robots', 'noindex, nofollow, noarchive, nosnippet');
       removeMetaTag('name', 'description');
@@ -109,7 +125,7 @@ export default function SEO({
     // Standard Public Meta Tags
     setMetaTag('name', 'description', metaDescription);
     setMetaTag('name', 'keywords', metaKeywords);
-    setMetaTag('name', 'robots', 'index, follow, max-image-preview:large');
+    setMetaTag('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     setMetaTag('name', 'author', 'Keystone Realty Advisor');
 
     // Geo-targeting Meta Tags
@@ -126,16 +142,16 @@ export default function SEO({
 
     // OpenGraph / Social Meta Tags
     setMetaTag('property', 'og:site_name', siteName);
-    setMetaTag('property', 'og:title', fullTitle);
-    setMetaTag('property', 'og:description', metaDescription);
+    setMetaTag('property', 'og:title', resolvedOgTitle);
+    setMetaTag('property', 'og:description', resolvedOgDescription);
     setMetaTag('property', 'og:type', ogType);
-    setMetaTag('property', 'og:url', canonicalUrl || window.location.href);
+    setMetaTag('property', 'og:url', normalizedCanonical);
 
-    const absoluteImage = ogImage.startsWith('http')
+    const absoluteOgImage = ogImage.startsWith('http')
       ? ogImage
-      : `${window.location.origin}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
-    setMetaTag('property', 'og:image', absoluteImage);
-    setMetaTag('property', 'og:image:alt', fullTitle);
+      : `${baseUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
+    setMetaTag('property', 'og:image', absoluteOgImage);
+    setMetaTag('property', 'og:image:alt', resolvedOgTitle);
     setMetaTag('property', 'og:locale', 'en_IN');
 
     // OpenGraph Geo Location Tags
@@ -146,38 +162,73 @@ export default function SEO({
     setMetaTag('property', 'og:country-name', 'India');
 
     // Twitter Card Tags
-    setMetaTag('name', 'twitter:card', 'summary_large_image');
-    setMetaTag('name', 'twitter:title', fullTitle);
-    setMetaTag('name', 'twitter:description', metaDescription);
-    setMetaTag('name', 'twitter:image', absoluteImage);
-    setMetaTag('name', 'twitter:image:alt', fullTitle);
+    setMetaTag('name', 'twitter:card', twitterCard);
+    setMetaTag('name', 'twitter:title', resolvedTwitterTitle);
+    setMetaTag('name', 'twitter:description', resolvedTwitterDescription);
+    const absoluteTwitterImage = twitterImage
+      ? (twitterImage.startsWith('http') ? twitterImage : `${baseUrl}${twitterImage.startsWith('/') ? twitterImage : `/${twitterImage}`}`)
+      : absoluteOgImage;
+    setMetaTag('name', 'twitter:image', absoluteTwitterImage);
+    setMetaTag('name', 'twitter:image:alt', resolvedTwitterTitle);
 
     // Canonical Tag
-    const currentCanonical = canonicalUrl || window.location.href.split('?')[0];
-    setLinkTag('canonical', currentCanonical);
+    setLinkTag('canonical', normalizedCanonical);
 
-    // Inject JSON-LD Schema
+    // Construct and Inject JSON-LD Schema
+    const schemasToInject = [];
+
+    // Add BreadcrumbList Schema if breadcrumbs array is provided
+    if (Array.isArray(breadcrumbs) && breadcrumbs.length > 0) {
+      schemasToInject.push({
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((b, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          name: b.name || b.label,
+          item: b.url || b.item || (b.path ? (b.path.startsWith('http') ? b.path : `${baseUrl}${b.path.startsWith('/') ? b.path : `/${b.path}`}`) : undefined),
+        })),
+      });
+    }
+
+    // Add Custom Page Schema
+    if (schema) {
+      if (Array.isArray(schema)) {
+        schemasToInject.push(...schema);
+      } else {
+        schemasToInject.push(schema);
+      }
+    }
+
     const existingSchemaScript = document.getElementById('keystone-jsonld-schema');
     if (existingSchemaScript) {
       existingSchemaScript.remove();
     }
 
-    if (schema) {
+    if (schemasToInject.length > 0) {
       const script = document.createElement('script');
       script.id = 'keystone-jsonld-schema';
       script.type = 'application/ld+json';
-      script.text = JSON.stringify(schema);
+      script.text = JSON.stringify(schemasToInject.length === 1 ? schemasToInject[0] : {
+        '@context': 'https://schema.org',
+        '@graph': schemasToInject,
+      });
       document.head.appendChild(script);
     }
 
-    // Cleanup on unmount or change
+    // Cleanup on unmount or route change
     return () => {
       const scriptToRemove = document.getElementById('keystone-jsonld-schema');
       if (scriptToRemove) {
         scriptToRemove.remove();
       }
     };
-  }, [fullTitle, metaDescription, metaKeywords, canonicalUrl, ogImage, ogType, noIndex, schema, geoRegion, geoPlacename, geoPosition, locality, regionName]);
+  }, [
+    fullTitle, metaDescription, metaKeywords, normalizedCanonical,
+    resolvedOgTitle, resolvedOgDescription, ogImage, ogType,
+    twitterCard, resolvedTwitterTitle, resolvedTwitterDescription, twitterImage,
+    noIndex, schema, breadcrumbs, geoRegion, geoPlacename, geoPosition, locality, regionName, baseUrl
+  ]);
 
   return null;
 }

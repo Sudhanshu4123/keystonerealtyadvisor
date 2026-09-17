@@ -171,6 +171,11 @@ export default function ProjectDetailPage() {
         ogImage={project.coverImageUrl || project.galleryImages?.[0]?.imageUrl || '/keystone-logo.png'}
         geoPlacename={project.locality ? `${project.locality}, ${project.city || 'Gurgaon'}, India` : (project.city ? `${project.city}, Delhi NCR, India` : 'Gurgaon, Delhi NCR, India')}
         locality={project.city || 'Gurgaon'}
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Projects', path: '/projects' },
+          { name: project.name, path: `/projects/${project.id}` },
+        ]}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'RealEstateListing',

@@ -10,14 +10,31 @@ export default function AdvisoryPage() {
         title="Real Estate Advisory & Investment Consultancy | Keystone Realty Advisor"
         description="Institutional-grade property consultancy: bespoke residential acquisitions, commercial leasing strategy, asset valuation, and transaction due diligence tailored to your investment goals."
         keywords="real estate advisory services, property consultancy, commercial leasing advisor, asset valuation, luxury home acquisition, Keystone Realty Advisor"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Advisory Services', path: '/advisory' },
+        ]}
         schema={{
           '@context': 'https://schema.org',
           '@type': 'ProfessionalService',
-          name: 'Keystone Realty Advisory Services',
-          description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and transaction execution.',
+          name: 'Keystone Realty Advisory Practice',
+          description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and transaction execution in Gurgaon and Delhi NCR.',
           url: 'https://keystonerealtyadvisor.com/advisory',
           telephone: '+919911956274',
-          email: 'keystonerealtyhepldesk@gmail.com'
+          email: 'keystonerealtyhepldesk@gmail.com',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Golf Course Extension Road, Sector 58',
+            addressLocality: 'Gurgaon',
+            addressRegion: 'Haryana',
+            postalCode: '122011',
+            addressCountry: 'IN'
+          },
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: 28.4595,
+            longitude: 77.0266
+          }
         }}
       />
       {/* Header Banner */}
