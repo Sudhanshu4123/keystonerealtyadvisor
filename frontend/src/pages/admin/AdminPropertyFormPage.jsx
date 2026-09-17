@@ -36,7 +36,7 @@ export default function AdminPropertyFormPage() {
     furnished: 'FULLY_FURNISHED',
     coveredParking: '1',
     openParking: '1',
-    preferredTenant: 'Family',
+    preferredTenant: ['Family'],
     petFriendly: false,
     price: '',
     availableFrom: 'Immediate',
@@ -76,6 +76,14 @@ export default function AdminPropertyFormPage() {
               }
             }
 
+            let loadedTenants = ['Family'];
+            if (p.preferredTenant) {
+              loadedTenants = p.preferredTenant.split(',').map((s) => s.trim()).filter(Boolean);
+              if (loadedTenants.includes('Any')) {
+                loadedTenants = ['Family', 'Bachelors', 'Company'];
+              }
+            }
+
             setFormData({
               title: p.title || '',
               description: p.description || '',
@@ -96,7 +104,7 @@ export default function AdminPropertyFormPage() {
               furnished: p.furnished || 'FULLY_FURNISHED',
               coveredParking: String(p.coveredParking || 1),
               openParking: String(p.openParking || 1),
-              preferredTenant: p.preferredTenant || 'Family',
+              preferredTenant: loadedTenants.length > 0 ? loadedTenants : ['Family'],
               petFriendly: Boolean(p.petFriendly),
               price: String(p.price || ''),
               availableFrom: p.availableFrom || 'Immediate',
@@ -171,7 +179,9 @@ export default function AdminPropertyFormPage() {
       furnished: formData.furnished,
       coveredParking: Number(formData.coveredParking) || 0,
       openParking: Number(formData.openParking) || 0,
-      preferredTenant: formData.preferredTenant,
+      preferredTenant: Array.isArray(formData.preferredTenant)
+        ? (formData.preferredTenant.length > 0 ? formData.preferredTenant.join(', ') : 'Family')
+        : (formData.preferredTenant || 'Family'),
       petFriendly: formData.petFriendly,
       availableFrom: formData.availableFrom,
       maintenanceCharges: maintenanceFinal,
@@ -757,18 +767,42 @@ export default function AdminPropertyFormPage() {
           {/* Preferred Tenants & Pet Friendly */}
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', alignItems: 'center' }} className="form-subgrid">
             <div>
-              <label className="form-label">Preferred Tenant Type</label>
+              <label className="form-label">Preferred Tenant Type (Select one or more)</label>
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                {['Family', 'Bachelors', 'Company', 'Any'].map((t) => (
-                  <button
-                    key={t}
-                    type="button"
-                    style={pillSelectStyle(formData.preferredTenant === t)}
-                    onClick={() => setFormData({ ...formData, preferredTenant: t })}
-                  >
-                    {t}
-                  </button>
-                ))}
+                {['Family', 'Bachelors', 'Company'].map((t) => {
+                  const currentList = Array.isArray(formData.preferredTenant)
+                    ? formData.preferredTenant
+                    : (formData.preferredTenant ? formData.preferredTenant.split(',').map((s) => s.trim()).filter(Boolean) : []);
+                  const isSelected = currentList.includes(t);
+                  return (
+                    <button
+                      key={t}
+                      type="button"
+                      style={{
+                        ...pillSelectStyle(isSelected),
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.375rem',
+                      }}
+                      onClick={() => {
+                        const exists = currentList.includes(t);
+                        let updated;
+                        if (exists) {
+                          updated = currentList.filter((item) => item !== t);
+                          if (updated.length === 0) {
+                            updated = [t]; // keep at least one selected
+                          }
+                        } else {
+                          updated = [...currentList, t];
+                        }
+                        setFormData({ ...formData, preferredTenant: updated });
+                      }}
+                    >
+                      {isSelected && <Check size={14} color="var(--color-gold-700)" strokeWidth={3} />}
+                      <span>{t}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
