@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 import WhatsAppFloatingButton from '../components/common/WhatsAppFloatingButton';
+import CookieConsentBanner from '../components/common/CookieConsentBanner';
 
 export default function MainLayout() {
   return (
@@ -13,6 +14,7 @@ export default function MainLayout() {
       </main>
       <Footer />
       <WhatsAppFloatingButton />
+      <CookieConsentBanner />
     </div>
   );
 }
