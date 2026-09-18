@@ -63,6 +63,10 @@ export default function PropertyCard({ property, onFavoriteToggle }) {
               <img
                 src={imageSource}
                 alt={property.title}
+                loading="lazy"
+                decoding="async"
+                width="400"
+                height="220"
                 style={{
                   width: '100%',
                   height: '100%',

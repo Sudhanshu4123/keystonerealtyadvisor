@@ -207,6 +207,7 @@ export default function HomePage() {
                   type="text"
                   className="form-control"
                   placeholder="Location or keywords..."
+                  aria-label="Search properties by location or keywords"
                   value={searchParams.query}
                   onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
                   style={{ paddingLeft: '2.25rem' }}
@@ -216,6 +217,7 @@ export default function HomePage() {
 
               <select
                 className="form-control"
+                aria-label="Filter by listing type"
                 value={searchParams.listingType}
                 onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
               >
@@ -227,6 +229,7 @@ export default function HomePage() {
 
               <select
                 className="form-control"
+                aria-label="Filter by property type"
                 value={searchParams.propertyType}
                 onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
               >
@@ -243,7 +246,7 @@ export default function HomePage() {
                 <option value="PLOT">Plot / Land</option>
               </select>
 
-              <button type="submit" className="btn btn-primary" style={{ padding: '0.6875rem 1.5rem' }}>
+              <button type="submit" className="btn btn-primary" aria-label="Search properties" style={{ padding: '0.6875rem 1.5rem' }}>
                 <Search size={16} />
                 <span>Search</span>
               </button>

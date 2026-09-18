@@ -35,7 +35,17 @@ export default function Navbar() {
           style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}
           onClick={() => setMobileMenuOpen(false)}
         >
-          <img src="/keystone-logo.png" alt="Keystone Realty Advisor Logo" style={{ width: '42px', height: '42px', objectFit: 'contain' }} />
+          <img
+            src="/keystone-logo-sm.webp"
+            alt="Keystone Realty Advisor Logo"
+            width="42"
+            height="42"
+            style={{ width: '42px', height: '42px', objectFit: 'contain' }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/keystone-logo.png';
+            }}
+          />
           <div>
             <div
               style={{
@@ -52,10 +62,10 @@ export default function Navbar() {
             <div
               style={{
                 fontSize: '0.6875rem',
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: '0.14em',
                 textTransform: 'uppercase',
-                color: 'var(--color-gold-500)',
+                color: '#856519',
               }}
             >
               Realty Advisor

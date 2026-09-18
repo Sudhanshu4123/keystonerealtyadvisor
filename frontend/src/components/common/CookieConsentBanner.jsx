@@ -130,13 +130,14 @@ export default function CookieConsentBanner() {
             We use essential cookies and anonymous analytics to enhance your experience, analyze site performance, and offer personalized real estate advisory.{' '}
             <Link
               to="/privacy"
+              aria-label="Read Keystone Realty Advisor Privacy Policy"
               style={{
                 color: '#D4AF37',
                 textDecoration: 'underline',
                 fontWeight: 600,
               }}
             >
-              Learn more
+              Privacy Policy
             </Link>
           </p>
 

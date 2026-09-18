@@ -24,21 +24,39 @@
         'analytics_storage': savedConsent,
         'wait_for_update': 500
       });
-    </script>
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NWK5WD3S');</script>
-    <!-- End Google Tag Manager -->
+      // Defer third-party tags to prevent render blocking and optimize FCP / LCP
+      function initAnalyticsScripts() {
+        // Google Tag Manager
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NWK5WD3S');
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WWLV22CZ5G"></script>
-    <script>
-      gtag('js', new Date());
-      gtag('config', 'G-WWLV22CZ5G');
+        // Google tag (gtag.js)
+        var gt = document.createElement('script');
+        gt.async = true;
+        gt.src = 'https://www.googletagmanager.com/gtag/js?id=G-WWLV22CZ5G';
+        document.head.appendChild(gt);
+        gtag('js', new Date());
+        gtag('config', 'G-WWLV22CZ5G');
+
+        // Microsoft Clarity Analytics
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "yjkokvsg26");
+      }
+
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(initAnalyticsScripts, { timeout: 2500 });
+      } else {
+        window.addEventListener('load', function() {
+          setTimeout(initAnalyticsScripts, 1000);
+        });
+      }
     </script>
     
     <!-- Google Search & Browser Favicons (Compliant with Google Favicon Guidelines) -->
@@ -66,15 +84,6 @@
     <!-- Bing Webmaster Verification -->
     <meta name="msvalidate.01" content="B8CB4F570ADD1E9189C2E724DC8F41E7" />
 
-    <!-- Microsoft Clarity Analytics -->
-    <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "yjkokvsg26");
-    </script>
-
     <!-- Global Geographic & Distribution Meta Tags -->
     <meta name="target_country" content="IN" />
     <meta name="coverage" content="Worldwide" />
@@ -86,21 +95,25 @@
     <meta property="og:site_name" content="Keystone Realty Advisor" />
     <meta property="og:title" content="Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants" />
     <meta property="og:description" content="Discover verified residential homes, high-yield commercial investments, and strategic real estate advisory built on transparent due diligence and client trust." />
-    <meta property="og:image" content="https://keystonerealtyadvisor.com/keystone-logo.png" />
-    <meta property="og:image:width" content="1024" />
-    <meta property="og:image:height" content="1024" />
+    <meta property="og:image" content="https://keystonerealtyadvisor.com/keystone-logo.webp" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
     <meta property="og:locale" content="en_IN" />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Keystone Realty Advisor | Trusted Real Estate Advisory" />
     <meta name="twitter:description" content="Expert property consultancy, verified residential acquisitions, and commercial investments with complete transparency." />
-    <meta name="twitter:image" content="https://keystonerealtyadvisor.com/keystone-logo.png" />
+    <meta name="twitter:image" content="https://keystonerealtyadvisor.com/keystone-logo.webp" />
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Preconnected & Non-blocking Swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+    </noscript>
 
     <!-- Default JSON-LD RealEstateAgent & Organization Schema for Search Engines -->
     <script type="application/ld+json">

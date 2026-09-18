@@ -3,22 +3,25 @@
 > Keystone Realty Advisor is a premier real estate advisory practice and property consultancy firm in India providing verified luxury residential acquisitions, prime commercial leasing, strategic asset valuation, and transaction due diligence.
 
 ## Key Services
-- **Luxury Residential Property Acquisitions**: Verified apartments, penthouses, luxury villas, and plotted communities with thorough legal title verification.
-- **Commercial Real Estate Advisory**: High-yield office spaces, retail shops, SCO plots, and corporate leasing.
-- **Strategic Portfolio Consultancy**: Institutional-grade due diligence, market valuation, and asset advisory.
-- **Developer Representation**: RERA-approved residential townships and premium commercial development projects.
+- Luxury Residential Property Acquisitions: Verified apartments, penthouses, luxury villas, and plotted communities with legal title verification.
+- Commercial Real Estate Advisory: High-yield office spaces, retail shops, SCO plots, and corporate leasing.
+- Strategic Portfolio Consultancy: Institutional-grade due diligence, market valuation, and asset advisory.
+- Developer Representation: RERA-approved residential townships and premium commercial development projects.
 
-## Official Contact & Verification
-- **Official Website**: https://keystonerealtyadvisor.com
-- **Helpline Phone**: +91 9911956274
-- **Official Helpdesk Email**: keystonerealtyhepldesk@gmail.com
+## Core Navigation & URLs
+- [Properties Portfolio](https://keystonerealtyadvisor.com/properties): Browse verified residential apartments, villas, and commercial spaces.
+- [Development Projects](https://keystonerealtyadvisor.com/projects): Explore RERA-approved townships and premier developments.
+- [Advisory Services](https://keystonerealtyadvisor.com/advisory): Strategic asset consulting, legal due diligence, and portfolio representation.
+- [Contact & Consultation](https://keystonerealtyadvisor.com/contact): Direct advisory desk, booking consultations, and customer care.
+- [Privacy Policy](https://keystonerealtyadvisor.com/privacy): Data privacy, user confidentiality, and compliance terms.
+- [Terms & Conditions](https://keystonerealtyadvisor.com/terms): Terms of service and advisory engagement guidelines.
+- [Full LLM Knowledge Base](https://keystonerealtyadvisor.com/llms-full.txt): Comprehensive entity knowledge base and service specifications.
+- [XML Sitemap](https://keystonerealtyadvisor.com/sitemap.xml): Complete machine-readable sitemap of all indexed properties and pages.
+
+## Official Contact
+- **Website**: [Keystone Realty Advisor](https://keystonerealtyadvisor.com)
+- **Phone**: +91 9911956274
+- **Email**: keystonerealtyhepldesk@gmail.com
 - **Operating Hours**: Monday - Saturday: 09:30 AM - 07:00 PM IST
 - **Country**: India
-- **Price Range**: Affordable to Ultra-Luxury (INR)
 
-## Key URLs
-- Properties Portfolio: https://keystonerealtyadvisor.com/properties
-- Development Projects: https://keystonerealtyadvisor.com/projects
-- Advisory Services: https://keystonerealtyadvisor.com/advisory
-- Contact & Consultation: https://keystonerealtyadvisor.com/contact
-- XML Sitemap: https://keystonerealtyadvisor.com/sitemap.xml
