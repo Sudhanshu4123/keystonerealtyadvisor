@@ -115,30 +115,79 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
     </noscript>
 
-    <!-- Default JSON-LD RealEstateAgent & Organization Schema for Search Engines -->
+    <!-- Default JSON-LD Knowledge Graph for Search Engines & LLMs (AEO/LLMO) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "RealEstateAgent",
-      "@id": "https://keystonerealtyadvisor.com/#organization",
-      "name": "Keystone Realty Advisor",
-      "url": "https://keystonerealtyadvisor.com",
-      "logo": "https://keystonerealtyadvisor.com/favicon-512x512.png",
-      "image": "https://keystonerealtyadvisor.com/keystone-logo.png",
-      "description": "Keystone Realty Advisor is a premier real estate advisory practice providing institutional-grade property evaluation, residential acquisitions, and commercial leasing advisory.",
-      "telephone": "+919911956274",
-      "email": "keystonerealtyhepldesk@gmail.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "IN"
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "India"
-      },
-      "priceRange": "₹₹ - ₹₹₹₹₹",
-      "openingHours": "Mo-Sa 09:30-19:00",
-      "currenciesAccepted": "INR"
+      "@graph": [
+        {
+          "@type": ["RealEstateAgent", "Organization"],
+          "@id": "https://keystonerealtyadvisor.com/#organization",
+          "name": "Keystone Realty Advisor",
+          "alternateName": ["Keystone Realty", "Keystone Real Estate Advisory"],
+          "url": "https://keystonerealtyadvisor.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://keystonerealtyadvisor.com/favicon-512x512.png",
+            "width": 512,
+            "height": 512
+          },
+          "image": "https://keystonerealtyadvisor.com/keystone-logo.webp",
+          "description": "Keystone Realty Advisor is a premier real estate advisory practice providing institutional property evaluation, luxury residential acquisitions, and commercial leasing advisory across India with strict title verification.",
+          "telephone": "+919911956274",
+          "email": "keystonerealtyhepldesk@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "India"
+          },
+          "priceRange": "₹₹ - ₹₹₹₹₹",
+          "openingHoursSpecification": [
+            {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+              "opens": "09:30",
+              "closes": "19:00"
+            }
+          ],
+          "currenciesAccepted": "INR",
+          "knowsAbout": [
+            "Luxury Residential Real Estate",
+            "Commercial Property Leasing",
+            "Real Estate Due Diligence",
+            "RERA Compliance",
+            "Property Valuation",
+            "NRI Real Estate Investment"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+919911956274",
+            "contactType": "customer service",
+            "email": "keystonerealtyhepldesk@gmail.com",
+            "availableLanguage": ["English", "Hindi"]
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://keystonerealtyadvisor.com/#website",
+          "url": "https://keystonerealtyadvisor.com",
+          "name": "Keystone Realty Advisor",
+          "publisher": {
+            "@id": "https://keystonerealtyadvisor.com/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://keystonerealtyadvisor.com/properties?query={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
     }
     </script>
   </head>
