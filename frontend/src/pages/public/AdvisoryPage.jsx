@@ -48,7 +48,7 @@ export default function AdvisoryPage() {
       {/* Advisory Service Offerings */}
       <section className="section">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
             {/* 1. Property Acquisition */}
             <div className="card" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column' }}>
               <div

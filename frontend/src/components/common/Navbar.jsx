@@ -274,70 +274,237 @@ export default function Navbar() {
             type="button"
             className="btn btn-ghost btn-sm mobile-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{ padding: '0.5rem' }}
+            style={{ padding: '0.5rem', display: 'none' }}
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer Backdrop & Menu */}
       {mobileMenuOpen && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 'var(--header-height)',
-            left: 0,
-            right: 0,
-            backgroundColor: '#FFFFFF',
-            borderBottom: '1px solid var(--border-color)',
-            padding: '1.5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            boxShadow: 'var(--shadow-lg)',
-          }}
-        >
-          <Link
-            to="/"
+        <>
+          <div
             onClick={() => setMobileMenuOpen(false)}
-            style={{ fontSize: '1rem', fontWeight: 500, padding: '0.5rem 0' }}
+            style={{
+              position: 'fixed',
+              top: 'var(--header-height)',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(11, 15, 25, 0.65)',
+              backdropFilter: 'blur(4px)',
+              WebkitBackdropFilter: 'blur(4px)',
+              zIndex: 98,
+              animation: 'fadeIn 0.2s ease',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              top: 'var(--header-height)',
+              left: 0,
+              right: 0,
+              backgroundColor: '#FFFFFF',
+              borderBottom: '1px solid var(--border-color)',
+              padding: '1.25rem 1.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.5rem',
+              boxShadow: 'var(--shadow-xl)',
+              maxHeight: 'calc(100vh - var(--header-height))',
+              overflowY: 'auto',
+              zIndex: 99,
+              animation: 'slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
           >
-            Home
-          </Link>
-          <Link
-            to="/properties"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ fontSize: '1rem', fontWeight: 500, padding: '0.5rem 0' }}
-          >
-            Properties
-          </Link>
-          <Link
-            to="/projects"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ fontSize: '1rem', fontWeight: 500, padding: '0.5rem 0' }}
-          >
-            Projects
-          </Link>
-          <Link
-            to="/advisory"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ fontSize: '1rem', fontWeight: 500, padding: '0.5rem 0' }}
-          >
-            Advisory Services
-          </Link>
-          <Link
-            to="/contact"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ fontSize: '1rem', fontWeight: 500, padding: '0.5rem 0' }}
-          >
-            Contact
-          </Link>
-        </div>
+            {/* Nav Links */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <NavLink
+                to="/"
+                onClick={() => setMobileMenuOpen(false)}
+                style={({ isActive }) => ({
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
+                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
+                })}
+              >
+                Home
+              </NavLink>
+
+              <NavLink
+                to="/properties"
+                onClick={() => setMobileMenuOpen(false)}
+                style={({ isActive }) => ({
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
+                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
+                })}
+              >
+                Properties
+              </NavLink>
+
+              <NavLink
+                to="/projects"
+                onClick={() => setMobileMenuOpen(false)}
+                style={({ isActive }) => ({
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
+                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
+                })}
+              >
+                Projects
+              </NavLink>
+
+              <NavLink
+                to="/advisory"
+                onClick={() => setMobileMenuOpen(false)}
+                style={({ isActive }) => ({
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
+                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
+                })}
+              >
+                Advisory Services
+              </NavLink>
+
+              <NavLink
+                to="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                style={({ isActive }) => ({
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
+                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
+                })}
+              >
+                Contact
+              </NavLink>
+            </div>
+
+            {/* Mobile Account Section */}
+            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', marginTop: '0.5rem' }}>
+              {isAuthenticated ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ padding: '0.5rem 1rem', backgroundColor: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)' }}>
+                    <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--color-gold-600)', fontWeight: 700 }}>
+                      Signed in as
+                    </div>
+                    <div style={{ fontWeight: 600, fontSize: '0.9375rem', color: 'var(--text-primary)' }}>
+                      {user?.name}
+                    </div>
+                  </div>
+
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="btn btn-outline-gold btn-block"
+                      style={{ justifyContent: 'flex-start', padding: '0.625rem 1rem' }}
+                    >
+                      <ShieldCheck size={16} />
+                      <span>Admin Console</span>
+                    </Link>
+                  )}
+
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="btn btn-outline btn-block"
+                    style={{ justifyContent: 'flex-start', padding: '0.625rem 1rem' }}
+                  >
+                    <LayoutDashboard size={16} />
+                    <span>User Dashboard</span>
+                  </Link>
+
+                  <Link
+                    to="/dashboard/favorites"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="btn btn-outline btn-block"
+                    style={{ justifyContent: 'flex-start', padding: '0.625rem 1rem' }}
+                  >
+                    <Heart size={16} />
+                    <span>Saved Properties</span>
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="btn btn-danger btn-block"
+                    style={{ marginTop: '0.5rem', justifyContent: 'center' }}
+                  >
+                    <LogOut size={16} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="btn btn-outline btn-block"
+                    style={{ justifyContent: 'center' }}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="btn btn-primary btn-block"
+                    style={{ justifyContent: 'center' }}
+                  >
+                    Register
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </>
       )}
 
       <style>{`
+        @keyframes slideDown {
+          from {
+            transform: translateY(-10px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
         @media (min-width: 769px) {
           .desktop-nav { display: flex !important; }
           .mobile-toggle { display: none !important; }

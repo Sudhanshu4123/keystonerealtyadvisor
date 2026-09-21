@@ -75,7 +75,7 @@ export default function UserProfilePage() {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
       <SEO title="Account Security & Profile" noIndex={true} />
       {/* Profile Details Form */}
       <div className="card" style={{ padding: '2rem', backgroundColor: '#FFFFFF' }}>

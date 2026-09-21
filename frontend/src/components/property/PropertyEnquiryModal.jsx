@@ -108,7 +108,7 @@ export default function PropertyEnquiryModal({ isOpen, onClose, property }) {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.75rem' }}>
             <div className="form-group">
               <label className="form-label" htmlFor="enquiry-email">Email Address *</label>
               <input

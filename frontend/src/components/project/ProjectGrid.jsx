@@ -7,7 +7,7 @@ import { Building2 } from 'lucide-react';
 export default function ProjectGrid({ projects, loading }) {
   if (loading) {
     return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
         {[...Array(6)].map((_, i) => (
           <div key={i} className="card" style={{ height: '380px', padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <LoadingSkeleton height="200px" />
@@ -31,7 +31,7 @@ export default function ProjectGrid({ projects, loading }) {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
       {projects.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}

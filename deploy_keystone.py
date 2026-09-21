@@ -4,7 +4,7 @@ import tarfile
 import time
 import sys
 
-sys.stdout.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8', line_buffering=True)
 
 hostname = "187.127.134.114"
 username = "root"
@@ -104,6 +104,8 @@ nginx_keystone_conf = """server {
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    add_header Cross-Origin-Opener-Policy "same-origin-allow-popups" always;
 
     # Gzip compression
     gzip on;
@@ -148,6 +150,7 @@ run_cmd("ln -sf /etc/nginx/sites-available/keystone /etc/nginx/sites-enabled/key
 
 print("\n>>> Step 4: Building and launching Docker Compose services...")
 run_cmd(f"cd {remote_dir} && docker compose down 2>/dev/null || true", "Stopping any existing compose instances")
+run_cmd("docker builder prune -f", "Pruning stale Docker build cache")
 run_cmd(f"cd {remote_dir} && docker compose up --build -d", "Docker Compose Build & Run")
 
 print("\n>>> Step 5: Waiting 20 seconds for services to initialize...")

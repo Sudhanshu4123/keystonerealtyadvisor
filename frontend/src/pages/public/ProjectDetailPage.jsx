@@ -225,7 +225,7 @@ export default function ProjectDetailPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '2rem' }}>
             
             {/* Title & Metadata */}
-            <div style={{ flex: '1 1 550px' }}>
+            <div style={{ flex: '1 1 300px', minWidth: 0 }}>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '1rem' }}>
                 <Badge variant="gold">{project.status?.replace(/_/g, ' ')}</Badge>
                 <Badge variant="dark">{project.projectType?.replace(/_/g, ' ')}</Badge>
@@ -237,7 +237,7 @@ export default function ProjectDetailPage() {
                 )}
               </div>
 
-              <h1 style={{ fontSize: '2.5rem', fontWeight: 700, margin: '0 0 0.5rem 0', letterSpacing: '-0.02em', color: '#FFFFFF' }}>
+              <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 700, margin: '0 0 0.5rem 0', letterSpacing: '-0.02em', color: '#FFFFFF' }}>
                 {project.name}
               </h1>
 
@@ -260,9 +260,9 @@ export default function ProjectDetailPage() {
                 backdropFilter: 'blur(12px)',
                 border: '1px solid rgba(194, 155, 56, 0.35)',
                 borderRadius: '12px',
-                padding: '1.75rem',
-                minWidth: '280px',
-                flex: '0 1 340px',
+                padding: '1.5rem',
+                width: '100%',
+                maxWidth: '360px',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1rem',
@@ -326,8 +326,8 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* 3. Sticky Quick-Nav Tabs */}
-      <div style={{ backgroundColor: 'var(--bg-card)', borderBottom: '1px solid var(--border-color)', position: 'sticky', top: 0, zIndex: 20 }}>
-        <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.5rem', display: 'flex', gap: '1.5rem', overflowX: 'auto' }}>
+      <div style={{ backgroundColor: 'var(--bg-card)', borderBottom: '1px solid var(--border-color)', position: 'sticky', top: 'var(--header-height)', zIndex: 20 }}>
+        <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1rem', display: 'flex', gap: '1.25rem', overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }}>
           {[
             { id: 'overview', label: 'Overview' },
             ...(project.configurations?.length > 0 ? [{ id: 'configurations', label: `Configurations (${project.configurations.length})` }] : []),
@@ -358,6 +358,7 @@ export default function ProjectDetailPage() {
                 borderBottom: activeTab === tab.id ? '2px solid var(--color-gold-600)' : '2px solid transparent',
                 whiteSpace: 'nowrap',
                 transition: 'all 150ms ease',
+                flexShrink: 0,
               }}
             >
               {tab.label}
@@ -367,7 +368,7 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* 4. Main Page Body Container */}
-      <div className="container" style={{ maxWidth: '1240px', margin: '2.5rem auto 0 auto', padding: '0 1.5rem', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: '2.5rem', alignItems: 'start' }}>
+      <div className="container project-detail-grid-wrapper" style={{ maxWidth: '1240px', margin: '2.5rem auto 0 auto', padding: '0 1.5rem', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: '2.5rem', alignItems: 'start' }}>
         
         {/* Left Column: Rich Detail Sections */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
@@ -1013,6 +1014,15 @@ export default function ProjectDetailPage() {
         </form>
       </Modal>
 
+      {/* Responsive Styles */}
+      <style>{`
+        @media (max-width: 960px) {
+          .project-detail-grid-wrapper {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
