@@ -553,84 +553,127 @@ export default function AdminPropertyFormPage() {
             </div>
           )}
 
-          {/* Area Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: formData.listingType === 'SALE' ? 'repeat(auto-fit, minmax(220px, 1fr))' : 'repeat(3, 1fr)', gap: '1rem' }} className="form-triplegrid">
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-builtup">Built-Up Area (Sq. ft.) *</label>
-              <input
-                id="prop-builtup"
-                type="number"
-                required
-                min="1"
-                className="form-control"
-                placeholder="e.g. 1850"
-                value={formData.builtUpArea}
-                onChange={(e) => setFormData({ ...formData, builtUpArea: e.target.value })}
-              />
+          {/* Area & Listing Specifics */}
+          {formData.listingType === 'SALE' ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label className="form-label" htmlFor="prop-builtup">Built-Up Area (Sq. ft.) *</label>
+                <input
+                  id="prop-builtup"
+                  type="number"
+                  required
+                  min="1"
+                  className="form-control"
+                  placeholder="e.g. 1850"
+                  value={formData.builtUpArea}
+                  onChange={(e) => setFormData({ ...formData, builtUpArea: e.target.value })}
+                />
+              </div>
+
+              {/* Transaction Type */}
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label className="form-label">Transaction Type *</label>
+                <div style={{ display: 'flex', gap: '0.75rem', height: '44px' }}>
+                  {[
+                    { value: 'New Booking', label: 'New Booking' },
+                    { value: 'Resale', label: 'Resale' }
+                  ].map((item) => (
+                    <button
+                      key={item.value}
+                      type="button"
+                      style={{
+                        ...pillSelectStyle((formData.transactionType || 'Resale') === item.value),
+                        flex: 1,
+                        padding: '0.625rem 0.5rem',
+                        fontSize: '0.875rem',
+                        fontWeight: 600,
+                        justifyContent: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        borderRadius: 'var(--radius-sm)'
+                      }}
+                      onClick={() => setFormData({ ...formData, transactionType: item.value })}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Construction Status */}
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label className="form-label">Construction Status *</label>
+                <div style={{ display: 'flex', gap: '0.75rem', height: '44px' }}>
+                  {[
+                    { value: 'Ready to Move', label: 'Ready to Move' },
+                    { value: 'Under Construction', label: 'Under Construction' }
+                  ].map((item) => (
+                    <button
+                      key={item.value}
+                      type="button"
+                      style={{
+                        ...pillSelectStyle((formData.constructionStatus || 'Ready to Move') === item.value),
+                        flex: 1,
+                        padding: '0.625rem 0.5rem',
+                        fontSize: '0.875rem',
+                        fontWeight: 600,
+                        justifyContent: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        borderRadius: 'var(--radius-sm)',
+                        whiteSpace: 'nowrap'
+                      }}
+                      onClick={() => {
+                        const newStatus = item.value;
+                        setFormData({
+                          ...formData,
+                          constructionStatus: newStatus,
+                          propertyAge: newStatus === 'Under Construction' ? 'Under Construction' : (formData.propertyAge === 'Under Construction' ? '' : formData.propertyAge)
+                        });
+                      }}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Age of Property - appears below when Ready to Move */}
+              {(formData.constructionStatus || 'Ready to Move') === 'Ready to Move' && (
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                  <label className="form-label" htmlFor="prop-age">Age of Property (in years) *</label>
+                  <select
+                    id="prop-age"
+                    className="form-control"
+                    value={formData.propertyAge === 'Under Construction' ? '' : formData.propertyAge}
+                    onChange={(e) => setFormData({ ...formData, propertyAge: e.target.value })}
+                  >
+                    <option value="">Select Age of Property</option>
+                    <option value="0-1 Years">0-1 Years (Brand New / Ready)</option>
+                    <option value="1-5 Years">1-5 Years</option>
+                    <option value="5-10 Years">5-10 Years</option>
+                    <option value="10+ Years">10+ Years</option>
+                  </select>
+                </div>
+              )}
             </div>
+          ) : (
+            /* Area Grid for Rent / PG */
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }} className="form-triplegrid">
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-builtup">Built-Up Area (Sq. ft.) *</label>
+                <input
+                  id="prop-builtup"
+                  type="number"
+                  required
+                  min="1"
+                  className="form-control"
+                  placeholder="e.g. 1850"
+                  value={formData.builtUpArea}
+                  onChange={(e) => setFormData({ ...formData, builtUpArea: e.target.value })}
+                />
+              </div>
 
-            {formData.listingType === 'SALE' ? (
-              <>
-                <div className="form-group">
-                  <label className="form-label">Transaction Type *</label>
-                  <div style={{ display: 'flex', gap: '0.5rem', height: '42px' }}>
-                    {[
-                      { value: 'New Booking', label: 'New Booking' },
-                      { value: 'Resale', label: 'Resale' }
-                    ].map((item) => (
-                      <button
-                        key={item.value}
-                        type="button"
-                        style={{
-                          ...pillSelectStyle((formData.transactionType || 'Resale') === item.value),
-                          flex: 1,
-                          padding: '0.5rem 0.25rem',
-                          fontSize: '0.875rem',
-                          fontWeight: 600,
-                          justifyContent: 'center',
-                          display: 'flex',
-                          alignItems: 'center',
-                          borderRadius: 'var(--radius-sm)'
-                        }}
-                        onClick={() => setFormData({ ...formData, transactionType: item.value })}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Construction Status *</label>
-                  <div style={{ display: 'flex', gap: '0.5rem', height: '42px' }}>
-                    {[
-                      { value: 'Ready to Move', label: 'Ready to Move' },
-                      { value: 'Under Construction', label: 'Under Construction' }
-                    ].map((item) => (
-                      <button
-                        key={item.value}
-                        type="button"
-                        style={{
-                          ...pillSelectStyle((formData.constructionStatus || 'Ready to Move') === item.value),
-                          flex: 1,
-                          padding: '0.5rem 0.25rem',
-                          fontSize: '0.8125rem',
-                          fontWeight: 600,
-                          justifyContent: 'center',
-                          display: 'flex',
-                          alignItems: 'center',
-                          borderRadius: 'var(--radius-sm)',
-                          whiteSpace: 'nowrap'
-                        }}
-                        onClick={() => setFormData({ ...formData, constructionStatus: item.value })}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </>
-            ) : (
               <div className="form-group">
                 <label className="form-label" htmlFor="prop-carpet">Carpet Area (Sq. ft.)</label>
                 <input
@@ -643,25 +686,25 @@ export default function AdminPropertyFormPage() {
                   onChange={(e) => setFormData({ ...formData, carpetArea: e.target.value })}
                 />
               </div>
-            )}
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-age">Age of Property</label>
-              <select
-                id="prop-age"
-                className="form-control"
-                value={formData.propertyAge}
-                onChange={(e) => setFormData({ ...formData, propertyAge: e.target.value })}
-              >
-                <option value="">Select Age of Property</option>
-                <option value="Under Construction">Under Construction</option>
-                <option value="0-1 Years">0-1 Years (Brand New)</option>
-                <option value="1-5 Years">1-5 Years</option>
-                <option value="5-10 Years">5-10 Years</option>
-                <option value="10+ Years">10+ Years</option>
-              </select>
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-age">Age of Property</label>
+                <select
+                  id="prop-age"
+                  className="form-control"
+                  value={formData.propertyAge}
+                  onChange={(e) => setFormData({ ...formData, propertyAge: e.target.value })}
+                >
+                  <option value="">Select Age of Property</option>
+                  <option value="Under Construction">Under Construction</option>
+                  <option value="0-1 Years">0-1 Years (Brand New)</option>
+                  <option value="1-5 Years">1-5 Years</option>
+                  <option value="5-10 Years">5-10 Years</option>
+                  <option value="10+ Years">10+ Years</option>
+                </select>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Bathrooms & Balconies */}
           {!['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (
