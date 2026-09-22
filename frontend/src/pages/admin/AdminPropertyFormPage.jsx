@@ -205,17 +205,21 @@ export default function AdminPropertyFormPage() {
       furnished: formData.furnished || 'UNFURNISHED',
       coveredParking: Number(formData.coveredParking) || 0,
       openParking: Number(formData.openParking) || 0,
-      preferredTenant: Array.isArray(formData.preferredTenant)
-        ? (formData.preferredTenant.length > 0 ? formData.preferredTenant.join(', ') : null)
-        : (formData.preferredTenant || null),
-      bachelorPreference: Array.isArray(formData.preferredTenant) && formData.preferredTenant.includes('Bachelors')
-        ? (formData.bachelorPreference || 'Open for both')
-        : null,
-      petFriendly: Boolean(formData.petFriendly),
-      availableFrom: formData.availableFrom || '',
+      preferredTenant: formData.listingType === 'SALE'
+        ? null
+        : (Array.isArray(formData.preferredTenant)
+          ? (formData.preferredTenant.length > 0 ? formData.preferredTenant.join(', ') : null)
+          : (formData.preferredTenant || null)),
+      bachelorPreference: formData.listingType === 'SALE'
+        ? null
+        : (Array.isArray(formData.preferredTenant) && formData.preferredTenant.includes('Bachelors')
+          ? (formData.bachelorPreference || 'Open for both')
+          : null),
+      petFriendly: formData.listingType === 'SALE' ? false : Boolean(formData.petFriendly),
+      availableFrom: formData.listingType === 'SALE' ? null : (formData.availableFrom || ''),
       maintenanceCharges: maintenanceFinal || null,
-      securityDeposit: securityFinal || null,
-      lockInPeriod: lockInFinal || null,
+      securityDeposit: formData.listingType === 'SALE' ? null : (securityFinal || null),
+      lockInPeriod: formData.listingType === 'SALE' ? null : (lockInFinal || null),
       brokerage: brokerageFinal || null,
       status: formData.status || 'AVAILABLE',
       amenities: JSON.stringify(formData.amenities || []),
@@ -906,229 +910,305 @@ export default function AdminPropertyFormPage() {
             </div>
           </div>
 
-          {/* Preferred Tenants & Pet Friendly */}
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', alignItems: 'center' }} className="form-subgrid">
-            <div>
-              <label className="form-label">Preferred Tenant Type</label>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                {['Family', 'Bachelors', 'Company'].map((t) => {
-                  const currentList = Array.isArray(formData.preferredTenant)
-                    ? formData.preferredTenant
-                    : (formData.preferredTenant ? formData.preferredTenant.split(',').map((s) => s.trim()).filter(Boolean) : []);
-                  const isSelected = currentList.includes(t);
-                  return (
-                    <button
-                      key={t}
-                      type="button"
-                      style={{
-                        ...pillSelectStyle(isSelected),
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.375rem',
-                      }}
-                      onClick={() => {
-                        const exists = currentList.includes(t);
-                        const updated = exists
-                          ? currentList.filter((item) => item !== t)
-                          : [...currentList, t];
-                        setFormData({ ...formData, preferredTenant: updated });
-                      }}
-                    >
-                      {isSelected && <Check size={14} color="var(--color-gold-700)" strokeWidth={3} />}
-                      <span>{t}</span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Bachelor Preference Options */}
-              {(Array.isArray(formData.preferredTenant) ? formData.preferredTenant.includes('Bachelors') : (formData.preferredTenant || '').includes('Bachelors')) && (
-                <div style={{ marginTop: '0.875rem' }}>
-                  <label className="form-label" style={{ fontSize: '0.8125rem', marginBottom: '0.375rem', color: 'var(--text-secondary)' }}>
-                    Select your preference for bachelors
-                  </label>
-                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    {[
-                      { id: 'Open for both', label: 'Open for both' },
-                      { id: 'Men Only', label: 'Men Only' },
-                      { id: 'Women Only', label: 'Women Only' },
-                    ].map((b) => (
+          {/* Preferred Tenants & Pet Friendly (Rent / PG only) */}
+          {formData.listingType !== 'SALE' && (
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', alignItems: 'center' }} className="form-subgrid">
+              <div>
+                <label className="form-label">Preferred Tenant Type</label>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  {['Family', 'Bachelors', 'Company'].map((t) => {
+                    const currentList = Array.isArray(formData.preferredTenant)
+                      ? formData.preferredTenant
+                      : (formData.preferredTenant ? formData.preferredTenant.split(',').map((s) => s.trim()).filter(Boolean) : []);
+                    const isSelected = currentList.includes(t);
+                    return (
                       <button
-                        key={b.id}
+                        key={t}
                         type="button"
                         style={{
-                          ...pillSelectStyle(formData.bachelorPreference === b.id),
-                          padding: '0.5rem 0.875rem',
-                          fontSize: '0.8125rem',
+                          ...pillSelectStyle(isSelected),
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.375rem',
                         }}
-                        onClick={() => setFormData({ ...formData, bachelorPreference: b.id })}
+                        onClick={() => {
+                          const exists = currentList.includes(t);
+                          const updated = exists
+                            ? currentList.filter((item) => item !== t)
+                            : [...currentList, t];
+                          setFormData({ ...formData, preferredTenant: updated });
+                        }}
                       >
-                        {b.label}
+                        {isSelected && <Check size={14} color="var(--color-gold-700)" strokeWidth={3} />}
+                        <span>{t}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Bachelor Preference Options */}
+                {(Array.isArray(formData.preferredTenant) ? formData.preferredTenant.includes('Bachelors') : (formData.preferredTenant || '').includes('Bachelors')) && (
+                  <div style={{ marginTop: '0.875rem' }}>
+                    <label className="form-label" style={{ fontSize: '0.8125rem', marginBottom: '0.375rem', color: 'var(--text-secondary)' }}>
+                      Select your preference for bachelors
+                    </label>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      {[
+                        { id: 'Open for both', label: 'Open for both' },
+                        { id: 'Men Only', label: 'Men Only' },
+                        { id: 'Women Only', label: 'Women Only' },
+                      ].map((b) => (
+                        <button
+                          key={b.id}
+                          type="button"
+                          style={{
+                            ...pillSelectStyle(formData.bachelorPreference === b.id),
+                            padding: '0.5rem 0.875rem',
+                            fontSize: '0.8125rem',
+                          }}
+                          onClick={() => setFormData({ ...formData, bachelorPreference: b.id })}
+                        >
+                          {b.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="form-label">Pet Friendly?</label>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  {[
+                    { val: true, label: 'Yes' },
+                    { val: false, label: 'No' }
+                  ].map((p) => (
+                    <button
+                      key={p.label}
+                      type="button"
+                      style={pillSelectStyle(formData.petFriendly === p.val)}
+                      onClick={() => setFormData({ ...formData, petFriendly: p.val })}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Pricing & Commercials */}
+          {formData.listingType === 'SALE' ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label className="form-label" htmlFor="prop-price">Expected Sale Price (₹) *</label>
+                <input
+                  id="prop-price"
+                  type="number"
+                  required
+                  min="1"
+                  step="any"
+                  className="form-control"
+                  placeholder="e.g. 15000000"
+                  value={formData.price}
+                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                />
+              </div>
+
+              {/* Maintenance & Brokerage for Sale */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
+                <div>
+                  <label className="form-label">Maintenance Charges</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    {['Include in price', 'Separate'].map((m) => (
+                      <button
+                        key={m}
+                        type="button"
+                        style={pillSelectStyle(formData.maintenanceCharges === m)}
+                        onClick={() => setFormData({ ...formData, maintenanceCharges: m })}
+                      >
+                        {m}
                       </button>
                     ))}
                   </div>
+                  {formData.maintenanceCharges === 'Separate' && (
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Monthly Maintenance Amount (₹)"
+                      value={formData.maintenanceAmount}
+                      onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value })}
+                    />
+                  )}
                 </div>
-              )}
-            </div>
 
-            <div>
-              <label className="form-label">Pet Friendly?</label>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                {[
-                  { val: true, label: 'Yes' },
-                  { val: false, label: 'No' }
-                ].map((p) => (
-                  <button
-                    key={p.label}
-                    type="button"
-                    style={pillSelectStyle(formData.petFriendly === p.val)}
-                    onClick={() => setFormData({ ...formData, petFriendly: p.val })}
-                  >
-                    {p.label}
-                  </button>
-                ))}
+                <div>
+                  <label className="form-label">Do you charge brokerage? *</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.brokerage === 'Custom' ? '0.5rem' : '0' }}>
+                    {['None', '1%', '2%', 'Custom'].map((b) => (
+                      <button
+                        key={b}
+                        type="button"
+                        style={pillSelectStyle(formData.brokerage === b)}
+                        onClick={() => setFormData({ ...formData, brokerage: b })}
+                      >
+                        {b}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.brokerage === 'Custom' && (
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="e.g. 1.5% or ₹50,000"
+                      value={formData.brokerageCustom}
+                      onChange={(e) => setFormData({ ...formData, brokerageCustom: e.target.value })}
+                    />
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            /* Rent / PG Commercials */
+            <>
+              {/* Price & Available From */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="form-subgrid">
+                <div className="form-group">
+                  <label className="form-label" htmlFor="prop-price">Monthly Rent (₹) *</label>
+                  <input
+                    id="prop-price"
+                    type="number"
+                    required
+                    min="1"
+                    step="any"
+                    className="form-control"
+                    placeholder="e.g. 55000"
+                    value={formData.price}
+                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  />
+                </div>
 
-          {/* Price & Available From */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }} className="form-subgrid">
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-price">
-                {formData.listingType === 'RENT' ? 'Monthly Rent (₹) *' : 'Expected Sale Price (₹) *'}
-              </label>
-              <input
-                id="prop-price"
-                type="number"
-                required
-                min="1"
-                step="any"
-                className="form-control"
-                placeholder="e.g. 55000"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-avail">Available From *</label>
-              <input
-                id="prop-avail"
-                type="text"
-                required
-                className="form-control"
-                placeholder="e.g. Immediate, 1st of Next Month"
-                value={formData.availableFrom}
-                onChange={(e) => setFormData({ ...formData, availableFrom: e.target.value })}
-              />
-            </div>
-          </div>
-
-          {/* Maintenance & Security Deposit */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
-            <div>
-              <label className="form-label">Maintenance Charges *</label>
-              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                {['Include in rent', 'Separate'].map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    style={pillSelectStyle(formData.maintenanceCharges === m)}
-                    onClick={() => setFormData({ ...formData, maintenanceCharges: m })}
-                  >
-                    {m}
-                  </button>
-                ))}
+                <div className="form-group">
+                  <label className="form-label" htmlFor="prop-avail">Available From *</label>
+                  <input
+                    id="prop-avail"
+                    type="text"
+                    required
+                    className="form-control"
+                    placeholder="e.g. Immediate, 1st of Next Month"
+                    value={formData.availableFrom}
+                    onChange={(e) => setFormData({ ...formData, availableFrom: e.target.value })}
+                  />
+                </div>
               </div>
-              {formData.maintenanceCharges === 'Separate' && (
-                <input
-                  type="number"
-                  className="form-control"
-                  placeholder="Monthly Maintenance Amount (₹)"
-                  value={formData.maintenanceAmount}
-                  onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value })}
-                />
-              )}
-            </div>
 
-            <div>
-              <label className="form-label">Security Deposit *</label>
-              <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                {['None', '1 month', '2 month', 'Custom'].map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    style={pillSelectStyle(formData.securityDeposit === s)}
-                    onClick={() => setFormData({ ...formData, securityDeposit: s })}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-              {formData.securityDeposit === 'Custom' && (
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="e.g. ₹1,50,000"
-                  value={formData.securityDepositCustom}
-                  onChange={(e) => setFormData({ ...formData, securityDepositCustom: e.target.value })}
-                />
-              )}
-            </div>
-          </div>
+              {/* Maintenance & Security Deposit */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
+                <div>
+                  <label className="form-label">Maintenance Charges *</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    {['Include in rent', 'Separate'].map((m) => (
+                      <button
+                        key={m}
+                        type="button"
+                        style={pillSelectStyle(formData.maintenanceCharges === m)}
+                        onClick={() => setFormData({ ...formData, maintenanceCharges: m })}
+                      >
+                        {m}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.maintenanceCharges === 'Separate' && (
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Monthly Maintenance Amount (₹)"
+                      value={formData.maintenanceAmount}
+                      onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value })}
+                    />
+                  )}
+                </div>
 
-          {/* Lock-in & Brokerage */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
-            <div>
-              <label className="form-label">Lock-in Period *</label>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.lockInPeriod === 'Custom' ? '0.5rem' : '0' }}>
-                {['None', '15 Days', '30 Days', '1 month', '6 month', '11 month', 'Custom'].map((l) => (
-                  <button
-                    key={l}
-                    type="button"
-                    style={pillSelectStyle(formData.lockInPeriod === l)}
-                    onClick={() => setFormData({ ...formData, lockInPeriod: l })}
-                  >
-                    {l}
-                  </button>
-                ))}
+                <div>
+                  <label className="form-label">Security Deposit *</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                    {['None', '1 month', '2 month', 'Custom'].map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        style={pillSelectStyle(formData.securityDeposit === s)}
+                        onClick={() => setFormData({ ...formData, securityDeposit: s })}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.securityDeposit === 'Custom' && (
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="e.g. ₹1,50,000"
+                      value={formData.securityDepositCustom}
+                      onChange={(e) => setFormData({ ...formData, securityDepositCustom: e.target.value })}
+                    />
+                  )}
+                </div>
               </div>
-              {formData.lockInPeriod === 'Custom' && (
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="e.g. 45 Days, 2 Year"
-                  value={formData.lockInPeriodCustom}
-                  onChange={(e) => setFormData({ ...formData, lockInPeriodCustom: e.target.value })}
-                />
-              )}
-            </div>
 
-            <div>
-              <label className="form-label">Do you charge brokerage? *</label>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.brokerage === 'Custom' ? '0.5rem' : '0' }}>
-                {['None', '15 Days', '30 Days', 'Custom'].map((b) => (
-                  <button
-                    key={b}
-                    type="button"
-                    style={pillSelectStyle(formData.brokerage === b)}
-                    onClick={() => setFormData({ ...formData, brokerage: b })}
-                  >
-                    {b}
-                  </button>
-                ))}
+              {/* Lock-in & Brokerage */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
+                <div>
+                  <label className="form-label">Lock-in Period *</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.lockInPeriod === 'Custom' ? '0.5rem' : '0' }}>
+                    {['None', '15 Days', '30 Days', '1 month', '6 month', '11 month', 'Custom'].map((l) => (
+                      <button
+                        key={l}
+                        type="button"
+                        style={pillSelectStyle(formData.lockInPeriod === l)}
+                        onClick={() => setFormData({ ...formData, lockInPeriod: l })}
+                      >
+                        {l}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.lockInPeriod === 'Custom' && (
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="e.g. 45 Days, 2 Year"
+                      value={formData.lockInPeriodCustom}
+                      onChange={(e) => setFormData({ ...formData, lockInPeriodCustom: e.target.value })}
+                    />
+                  )}
+                </div>
+
+                <div>
+                  <label className="form-label">Do you charge brokerage? *</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.brokerage === 'Custom' ? '0.5rem' : '0' }}>
+                    {['None', '15 Days', '30 Days', 'Custom'].map((b) => (
+                      <button
+                        key={b}
+                        type="button"
+                        style={pillSelectStyle(formData.brokerage === b)}
+                        onClick={() => setFormData({ ...formData, brokerage: b })}
+                      >
+                        {b}
+                      </button>
+                    ))}
+                  </div>
+                  {formData.brokerage === 'Custom' && (
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="e.g. 2% or 1 Month"
+                      value={formData.brokerageCustom}
+                      onChange={(e) => setFormData({ ...formData, brokerageCustom: e.target.value })}
+                    />
+                  )}
+                </div>
               </div>
-              {formData.brokerage === 'Custom' && (
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="e.g. 2% or 1 Month"
-                  value={formData.brokerageCustom}
-                  onChange={(e) => setFormData({ ...formData, brokerageCustom: e.target.value })}
-                />
-              )}
-            </div>
-          </div>
+            </>
+          )}
 
           {/* Description & Status */}
           <div>
