@@ -62,6 +62,8 @@ export default function AdminPropertyFormPage() {
   const [submitting, setSubmitting] = useState(false);
   const [uploadingImages, setUploadingImages] = useState(false);
   const [showMoreBhk, setShowMoreBhk] = useState(false);
+  const [showMoreCoveredParking, setShowMoreCoveredParking] = useState(false);
+  const [showMoreOpenParking, setShowMoreOpenParking] = useState(false);
   const [isFurnishModalOpen, setIsFurnishModalOpen] = useState(false);
 
   useEffect(() => {
@@ -130,6 +132,12 @@ export default function AdminPropertyFormPage() {
             });
             if (p.bedrooms && Number(p.bedrooms) > 5) {
               setShowMoreBhk(true);
+            }
+            if (p.coveredParking && Number(p.coveredParking) >= 4) {
+              setShowMoreCoveredParking(true);
+            }
+            if (p.openParking && Number(p.openParking) >= 4) {
+              setShowMoreOpenParking(true);
             }
             setExistingImages(p.images || []);
           }
@@ -881,16 +889,54 @@ export default function AdminPropertyFormPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }} className="form-subgrid">
             {/* Covered Parking */}
             <div>
-              <label className="form-label">Covered Parking Slots *</label>
-              <div style={{ display: 'flex', gap: '0.375rem' }}>
-                {['0', '1', '2', '3', '4'].map((n) => (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <label className="form-label" style={{ margin: 0 }}>Covered Parking Slots *</label>
+                {showMoreCoveredParking && (
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm"
+                    style={{ padding: '0.1rem 0.4rem', fontSize: '0.75rem', color: 'var(--color-gold-600)', fontWeight: 600 }}
+                    onClick={() => setShowMoreCoveredParking(false)}
+                  >
+                    ← Standard (0-4)
+                  </button>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
+                {['0', '1', '2', '3'].map((n) => (
                   <button
                     key={n}
                     type="button"
                     style={chipBoxStyle(formData.coveredParking === n)}
                     onClick={() => setFormData({ ...formData, coveredParking: n })}
                   >
-                    {n}{n === '4' ? '+' : ''}
+                    {n}
+                  </button>
+                ))}
+
+                {!showMoreCoveredParking && (
+                  <button
+                    type="button"
+                    style={chipBoxStyle(Number(formData.coveredParking) >= 4)}
+                    onClick={() => {
+                      setShowMoreCoveredParking(true);
+                      if (!formData.coveredParking || Number(formData.coveredParking) < 4) {
+                        setFormData({ ...formData, coveredParking: '4' });
+                      }
+                    }}
+                  >
+                    {Number(formData.coveredParking) >= 4 ? `${formData.coveredParking} (4+)` : '4+'}
+                  </button>
+                )}
+
+                {showMoreCoveredParking && ['4', '5', '6', '7', '8', '9'].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    style={chipBoxStyle(formData.coveredParking === n)}
+                    onClick={() => setFormData({ ...formData, coveredParking: n })}
+                  >
+                    {n}
                   </button>
                 ))}
               </div>
@@ -898,16 +944,54 @@ export default function AdminPropertyFormPage() {
 
             {/* Open Parking */}
             <div>
-              <label className="form-label">Open Parking Slots *</label>
-              <div style={{ display: 'flex', gap: '0.375rem' }}>
-                {['0', '1', '2', '3', '4'].map((n) => (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                <label className="form-label" style={{ margin: 0 }}>Open Parking Slots *</label>
+                {showMoreOpenParking && (
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm"
+                    style={{ padding: '0.1rem 0.4rem', fontSize: '0.75rem', color: 'var(--color-gold-600)', fontWeight: 600 }}
+                    onClick={() => setShowMoreOpenParking(false)}
+                  >
+                    ← Standard (0-4)
+                  </button>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
+                {['0', '1', '2', '3'].map((n) => (
                   <button
                     key={n}
                     type="button"
                     style={chipBoxStyle(formData.openParking === n)}
                     onClick={() => setFormData({ ...formData, openParking: n })}
                   >
-                    {n}{n === '4' ? '+' : ''}
+                    {n}
+                  </button>
+                ))}
+
+                {!showMoreOpenParking && (
+                  <button
+                    type="button"
+                    style={chipBoxStyle(Number(formData.openParking) >= 4)}
+                    onClick={() => {
+                      setShowMoreOpenParking(true);
+                      if (!formData.openParking || Number(formData.openParking) < 4) {
+                        setFormData({ ...formData, openParking: '4' });
+                      }
+                    }}
+                  >
+                    {Number(formData.openParking) >= 4 ? `${formData.openParking} (4+)` : '4+'}
+                  </button>
+                )}
+
+                {showMoreOpenParking && ['4', '5', '6', '7', '8', '9'].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    style={chipBoxStyle(formData.openParking === n)}
+                    onClick={() => setFormData({ ...formData, openParking: n })}
+                  >
+                    {n}
                   </button>
                 ))}
               </div>
