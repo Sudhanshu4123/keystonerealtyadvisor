@@ -713,43 +713,49 @@ export default function AdminPropertyFormPage() {
           )}
 
           {/* Bathrooms & Balconies */}
-          {!['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }} className="form-subgrid">
-              {/* Bathrooms */}
-              <div>
-                <label className="form-label">Bathrooms *</label>
-                <div style={{ display: 'flex', gap: '0.375rem' }}>
-                  {['1', '2', '3', '4', '5'].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      style={chipBoxStyle(formData.bathrooms === n)}
-                      onClick={() => setFormData({ ...formData, bathrooms: n })}
-                    >
-                      {n}{n === '5' ? '+' : ''}
-                    </button>
-                  ))}
-                </div>
-              </div>
+          {!['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && (() => {
+            const bhkNum = parseInt(formData.bedrooms, 10);
+            const maxOptions = !isNaN(bhkNum) && bhkNum > 0 ? bhkNum + 1 : 4;
+            const optionList = Array.from({ length: maxOptions + 1 }, (_, i) => String(i));
 
-              {/* Balconies */}
-              <div>
-                <label className="form-label">Balconies *</label>
-                <div style={{ display: 'flex', gap: '0.375rem' }}>
-                  {['0', '1', '2', '3', '4'].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      style={chipBoxStyle(formData.balconies === n)}
-                      onClick={() => setFormData({ ...formData, balconies: n })}
-                    >
-                      {n}{n === '4' ? '+' : ''}
-                    </button>
-                  ))}
+            return (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }} className="form-subgrid">
+                {/* Bathrooms */}
+                <div>
+                  <label className="form-label">Bathrooms *</label>
+                  <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
+                    {optionList.map((n) => (
+                      <button
+                        key={n}
+                        type="button"
+                        style={chipBoxStyle(formData.bathrooms === n)}
+                        onClick={() => setFormData({ ...formData, bathrooms: n })}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Balconies */}
+                <div>
+                  <label className="form-label">Balconies *</label>
+                  <div style={{ display: 'flex', gap: '0.375rem', flexWrap: 'wrap' }}>
+                    {optionList.map((n) => (
+                      <button
+                        key={n}
+                        type="button"
+                        style={chipBoxStyle(formData.balconies === n)}
+                        onClick={() => setFormData({ ...formData, balconies: n })}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* Furnishing & Floors */}
           <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr', gap: '1rem' }} className="form-triplegrid">
