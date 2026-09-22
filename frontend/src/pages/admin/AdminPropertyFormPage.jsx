@@ -173,7 +173,11 @@ export default function AdminPropertyFormPage() {
     const areaVal = Number(formData.builtUpArea) || Number(formData.carpetArea) || 1000;
 
     let maintenanceFinal = formData.maintenanceCharges;
-    if (formData.maintenanceCharges === 'Separate' && formData.maintenanceAmount) {
+    if (formData.listingType === 'SALE') {
+      maintenanceFinal = formData.maintenanceAmount
+        ? `₹${formData.maintenanceAmount}/mo`
+        : (formData.maintenanceCharges ? (formData.maintenanceCharges.startsWith('₹') ? formData.maintenanceCharges : `₹${formData.maintenanceCharges}/mo`) : null);
+    } else if (formData.maintenanceCharges === 'Separate' && formData.maintenanceAmount) {
       maintenanceFinal = `Separate: ₹${formData.maintenanceAmount}/mo`;
     }
 
@@ -1000,72 +1004,62 @@ export default function AdminPropertyFormPage() {
           {/* Pricing & Commercials */}
           {formData.listingType === 'SALE' ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <div className="form-group" style={{ marginBottom: 0 }}>
-                <label className="form-label" htmlFor="prop-price">Expected Sale Price (₹) *</label>
-                <input
-                  id="prop-price"
-                  type="number"
-                  required
-                  min="1"
-                  step="any"
-                  className="form-control"
-                  placeholder="e.g. 15000000"
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                />
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }} className="form-subgrid">
+                {/* Expected Sale Price */}
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                  <label className="form-label" htmlFor="prop-price">Expected Sale Price (₹) *</label>
+                  <input
+                    id="prop-price"
+                    type="number"
+                    required
+                    min="1"
+                    step="any"
+                    className="form-control"
+                    placeholder="e.g. 15000000"
+                    value={formData.price}
+                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  />
+                </div>
+
+                {/* Maintenance Charges Input Box */}
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                  <label className="form-label" htmlFor="prop-maint">Maintenance Charges (₹)</label>
+                  <input
+                    id="prop-maint"
+                    type="number"
+                    min="0"
+                    className="form-control"
+                    placeholder="e.g. 3500 (Monthly Maintenance)"
+                    value={formData.maintenanceAmount || ''}
+                    onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value, maintenanceCharges: e.target.value })}
+                  />
+                </div>
               </div>
 
-              {/* Maintenance & Brokerage for Sale */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }} className="form-subgrid">
-                <div>
-                  <label className="form-label">Maintenance Charges</label>
-                  <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                    {['Include in price', 'Separate'].map((m) => (
-                      <button
-                        key={m}
-                        type="button"
-                        style={pillSelectStyle(formData.maintenanceCharges === m)}
-                        onClick={() => setFormData({ ...formData, maintenanceCharges: m })}
-                      >
-                        {m}
-                      </button>
-                    ))}
-                  </div>
-                  {formData.maintenanceCharges === 'Separate' && (
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Monthly Maintenance Amount (₹)"
-                      value={formData.maintenanceAmount}
-                      onChange={(e) => setFormData({ ...formData, maintenanceAmount: e.target.value })}
-                    />
-                  )}
+              {/* Brokerage for Sale */}
+              <div>
+                <label className="form-label">Do you charge brokerage? *</label>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.brokerage === 'Custom' ? '0.5rem' : '0' }}>
+                  {['None', '1%', '2%', 'Custom'].map((b) => (
+                    <button
+                      key={b}
+                      type="button"
+                      style={pillSelectStyle(formData.brokerage === b)}
+                      onClick={() => setFormData({ ...formData, brokerage: formData.brokerage === b ? '' : b })}
+                    >
+                      {b}
+                    </button>
+                  ))}
                 </div>
-
-                <div>
-                  <label className="form-label">Do you charge brokerage? *</label>
-                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: formData.brokerage === 'Custom' ? '0.5rem' : '0' }}>
-                    {['None', '1%', '2%', 'Custom'].map((b) => (
-                      <button
-                        key={b}
-                        type="button"
-                        style={pillSelectStyle(formData.brokerage === b)}
-                        onClick={() => setFormData({ ...formData, brokerage: b })}
-                      >
-                        {b}
-                      </button>
-                    ))}
-                  </div>
-                  {formData.brokerage === 'Custom' && (
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="e.g. 1.5% or ₹50,000"
-                      value={formData.brokerageCustom}
-                      onChange={(e) => setFormData({ ...formData, brokerageCustom: e.target.value })}
-                    />
-                  )}
-                </div>
+                {formData.brokerage === 'Custom' && (
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="e.g. 1.5% or ₹50,000"
+                    value={formData.brokerageCustom}
+                    onChange={(e) => setFormData({ ...formData, brokerageCustom: e.target.value })}
+                  />
+                )}
               </div>
             </div>
           ) : (
