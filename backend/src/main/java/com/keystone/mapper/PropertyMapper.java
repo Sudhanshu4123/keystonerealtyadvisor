@@ -90,6 +90,15 @@ public class PropertyMapper {
         property.setCommonAreas(request.getCommonAreas());
         property.setPropertyManagedBy(request.getPropertyManagedBy());
         property.setManagerStaysAtProperty(request.getManagerStaysAtProperty());
+        property.setPgRooms(request.getPgRooms());
+        property.setPgSecurityAmenities(request.getPgSecurityAmenities());
+        property.setPgFurnishings(request.getPgFurnishings());
+        property.setPgServices(request.getPgServices());
+        property.setPgTopAmenities(request.getPgTopAmenities());
+        property.setOnetimeMoveInCharges(request.getOnetimeMoveInCharges());
+        property.setMealChargesPerMonth(request.getMealChargesPerMonth());
+        property.setElectricityChargesPerMonth(request.getElectricityChargesPerMonth());
+        property.setAdditionalInfo(request.getAdditionalInfo());
         return property;
     }
 
@@ -139,6 +148,15 @@ public class PropertyMapper {
         property.setCommonAreas(request.getCommonAreas());
         property.setPropertyManagedBy(request.getPropertyManagedBy());
         property.setManagerStaysAtProperty(request.getManagerStaysAtProperty());
+        property.setPgRooms(request.getPgRooms());
+        property.setPgSecurityAmenities(request.getPgSecurityAmenities());
+        property.setPgFurnishings(request.getPgFurnishings());
+        property.setPgServices(request.getPgServices());
+        property.setPgTopAmenities(request.getPgTopAmenities());
+        property.setOnetimeMoveInCharges(request.getOnetimeMoveInCharges());
+        property.setMealChargesPerMonth(request.getMealChargesPerMonth());
+        property.setElectricityChargesPerMonth(request.getElectricityChargesPerMonth());
+        property.setAdditionalInfo(request.getAdditionalInfo());
         if (request.getSlug() != null && !request.getSlug().trim().isEmpty()) {
             property.setSlug(request.getSlug().trim());
         } else if (property.getSlug() == null || property.getSlug().trim().isEmpty()) {
@@ -200,6 +218,15 @@ public class PropertyMapper {
         response.setCommonAreas(property.getCommonAreas());
         response.setPropertyManagedBy(property.getPropertyManagedBy());
         response.setManagerStaysAtProperty(property.getManagerStaysAtProperty());
+        response.setPgRooms(property.getPgRooms());
+        response.setPgSecurityAmenities(property.getPgSecurityAmenities());
+        response.setPgFurnishings(property.getPgFurnishings());
+        response.setPgServices(property.getPgServices());
+        response.setPgTopAmenities(property.getPgTopAmenities());
+        response.setOnetimeMoveInCharges(property.getOnetimeMoveInCharges());
+        response.setMealChargesPerMonth(property.getMealChargesPerMonth());
+        response.setElectricityChargesPerMonth(property.getElectricityChargesPerMonth());
+        response.setAdditionalInfo(property.getAdditionalInfo());
         if (property.getProject() != null) {
             response.setProjectId(property.getProject().getId());
             response.setProjectName(property.getProject().getName());

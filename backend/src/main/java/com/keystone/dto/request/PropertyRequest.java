@@ -106,6 +106,15 @@ public class PropertyRequest {
     private String commonAreas;
     private String propertyManagedBy;
     private Boolean managerStaysAtProperty;
+    private String pgRooms;
+    private String pgSecurityAmenities;
+    private String pgFurnishings;
+    private String pgServices;
+    private String pgTopAmenities;
+    private Double onetimeMoveInCharges;
+    private Double mealChargesPerMonth;
+    private Double electricityChargesPerMonth;
+    private String additionalInfo;
 
     private Long projectId;
 
@@ -479,5 +488,77 @@ public class PropertyRequest {
 
     public void setManagerStaysAtProperty(Boolean managerStaysAtProperty) {
         this.managerStaysAtProperty = managerStaysAtProperty;
+    }
+
+    public String getPgRooms() {
+        return pgRooms;
+    }
+
+    public void setPgRooms(String pgRooms) {
+        this.pgRooms = pgRooms;
+    }
+
+    public String getPgSecurityAmenities() {
+        return pgSecurityAmenities;
+    }
+
+    public void setPgSecurityAmenities(String pgSecurityAmenities) {
+        this.pgSecurityAmenities = pgSecurityAmenities;
+    }
+
+    public String getPgFurnishings() {
+        return pgFurnishings;
+    }
+
+    public void setPgFurnishings(String pgFurnishings) {
+        this.pgFurnishings = pgFurnishings;
+    }
+
+    public String getPgServices() {
+        return pgServices;
+    }
+
+    public void setPgServices(String pgServices) {
+        this.pgServices = pgServices;
+    }
+
+    public String getPgTopAmenities() {
+        return pgTopAmenities;
+    }
+
+    public void setPgTopAmenities(String pgTopAmenities) {
+        this.pgTopAmenities = pgTopAmenities;
+    }
+
+    public Double getOnetimeMoveInCharges() {
+        return onetimeMoveInCharges;
+    }
+
+    public void setOnetimeMoveInCharges(Double onetimeMoveInCharges) {
+        this.onetimeMoveInCharges = onetimeMoveInCharges;
+    }
+
+    public Double getMealChargesPerMonth() {
+        return mealChargesPerMonth;
+    }
+
+    public void setMealChargesPerMonth(Double mealChargesPerMonth) {
+        this.mealChargesPerMonth = mealChargesPerMonth;
+    }
+
+    public Double getElectricityChargesPerMonth() {
+        return electricityChargesPerMonth;
+    }
+
+    public void setElectricityChargesPerMonth(Double electricityChargesPerMonth) {
+        this.electricityChargesPerMonth = electricityChargesPerMonth;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
 }

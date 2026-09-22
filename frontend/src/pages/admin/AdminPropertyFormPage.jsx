@@ -6,7 +6,9 @@ import ImageUploader from '../../components/admin/ImageUploader';
 import FurnishingModal from '../../components/admin/FurnishingModal';
 import {
   ArrowLeft, Save, Building2, Home, Layers, CheckCircle2,
-  Plus, Check, Sparkles, MapPin, IndianRupee, ShieldCheck, Car, Key, FileText, Camera, Sliders
+  Plus, Check, Sparkles, MapPin, IndianRupee, ShieldCheck, Car, Key, FileText, Camera, Sliders,
+  Trash2, Wifi, Tv, Coffee, Utensils, Shirt, Dumbbell, ArrowUpDown, Droplets, Waves, Zap, BatteryCharging,
+  Shield, Fingerprint, Lock, Eye
 } from 'lucide-react';
 
 
@@ -72,6 +74,24 @@ export default function AdminPropertyFormPage() {
     commonAreas: [],
     propertyManagedBy: 'Landlord',
     managerStaysAtProperty: true,
+    pgRooms: [
+      {
+        id: 1,
+        roomType: 'Private Room',
+        totalBeds: '',
+        rent: '',
+        securityDeposit: '',
+        facilities: ['AC', 'Attached Bathroom']
+      }
+    ],
+    pgSecurityAmenities: [],
+    pgFurnishings: [],
+    pgServices: [],
+    pgTopAmenities: [],
+    onetimeMoveInCharges: '',
+    mealChargesPerMonth: '',
+    electricityChargesPerMonth: '',
+    additionalInfo: '',
   });
 
   const [existingImages, setExistingImages] = useState([]);
@@ -107,6 +127,31 @@ export default function AdminPropertyFormPage() {
               if (loadedTenants.includes('Any')) {
                 loadedTenants = ['Family', 'Bachelors', 'Company'];
               }
+            }
+
+            const parseJsonOrArray = (val) => {
+              if (!val) return [];
+              if (Array.isArray(val)) return val;
+              try { return JSON.parse(val); } catch (e) { return val.split(',').map((s) => s.trim()).filter(Boolean); }
+            };
+
+            let loadedPgRooms = [
+              {
+                id: 1,
+                roomType: 'Private Room',
+                totalBeds: '',
+                rent: '',
+                securityDeposit: '',
+                facilities: ['AC', 'Attached Bathroom']
+              }
+            ];
+            if (p.pgRooms) {
+              try {
+                const parsed = typeof p.pgRooms === 'string' ? JSON.parse(p.pgRooms) : p.pgRooms;
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                  loadedPgRooms = parsed;
+                }
+              } catch (e) {}
             }
 
             setFormData({
@@ -162,9 +207,18 @@ export default function AdminPropertyFormPage() {
                 drinkingAllowed: false,
                 smokingAllowed: false,
               },
-              commonAreas: p.commonAreas ? (typeof p.commonAreas === 'object' ? p.commonAreas : JSON.parse(p.commonAreas || '[]')) : [],
+              commonAreas: parseJsonOrArray(p.commonAreas),
               propertyManagedBy: p.propertyManagedBy || 'Landlord',
               managerStaysAtProperty: p.managerStaysAtProperty != null ? p.managerStaysAtProperty : true,
+              pgRooms: loadedPgRooms,
+              pgSecurityAmenities: parseJsonOrArray(p.pgSecurityAmenities),
+              pgFurnishings: parseJsonOrArray(p.pgFurnishings),
+              pgServices: parseJsonOrArray(p.pgServices),
+              pgTopAmenities: parseJsonOrArray(p.pgTopAmenities),
+              onetimeMoveInCharges: p.onetimeMoveInCharges != null ? String(p.onetimeMoveInCharges) : '',
+              mealChargesPerMonth: p.mealChargesPerMonth != null ? String(p.mealChargesPerMonth) : '',
+              electricityChargesPerMonth: p.electricityChargesPerMonth != null ? String(p.electricityChargesPerMonth) : '',
+              additionalInfo: p.additionalInfo || '',
             });
             if (p.bedrooms && Number(p.bedrooms) > 5) {
               setShowMoreBhk(true);
@@ -293,6 +347,15 @@ export default function AdminPropertyFormPage() {
       commonAreas: formData.listingType === 'PG_CO_LIVING' ? JSON.stringify(formData.commonAreas || []) : null,
       propertyManagedBy: formData.listingType === 'PG_CO_LIVING' ? (formData.propertyManagedBy || 'Landlord') : null,
       managerStaysAtProperty: formData.listingType === 'PG_CO_LIVING' ? Boolean(formData.managerStaysAtProperty) : null,
+      pgRooms: formData.listingType === 'PG_CO_LIVING' ? JSON.stringify(formData.pgRooms || []) : null,
+      pgSecurityAmenities: formData.listingType === 'PG_CO_LIVING' ? JSON.stringify(formData.pgSecurityAmenities || []) : null,
+      pgFurnishings: formData.listingType === 'PG_CO_LIVING' ? JSON.stringify(formData.pgFurnishings || []) : null,
+      pgServices: formData.listingType === 'PG_CO_LIVING' ? JSON.stringify(formData.pgServices || []) : null,
+      pgTopAmenities: formData.listingType === 'PG_CO_LIVING' ? JSON.stringify(formData.pgTopAmenities || []) : null,
+      onetimeMoveInCharges: formData.listingType === 'PG_CO_LIVING' ? (Number(formData.onetimeMoveInCharges) || null) : null,
+      mealChargesPerMonth: formData.listingType === 'PG_CO_LIVING' ? (Number(formData.mealChargesPerMonth) || null) : null,
+      electricityChargesPerMonth: formData.listingType === 'PG_CO_LIVING' ? (Number(formData.electricityChargesPerMonth) || null) : null,
+      additionalInfo: formData.listingType === 'PG_CO_LIVING' ? (formData.additionalInfo || null) : null,
     };
 
     setSubmitting(true);
@@ -355,6 +418,65 @@ export default function AdminPropertyFormPage() {
     } catch (err) {
       error('Failed to set primary image.');
     }
+  };
+
+  const handleRoomChange = (index, field, value) => {
+    setFormData((prev) => {
+      const updatedRooms = [...(prev.pgRooms || [])];
+      updatedRooms[index] = { ...updatedRooms[index], [field]: value };
+      return { ...prev, pgRooms: updatedRooms };
+    });
+  };
+
+  const handleRoomFacilityToggle = (roomIndex, facility) => {
+    setFormData((prev) => {
+      const updatedRooms = [...(prev.pgRooms || [])];
+      const currentFacilities = Array.isArray(updatedRooms[roomIndex]?.facilities) ? updatedRooms[roomIndex].facilities : [];
+      const isSelected = currentFacilities.includes(facility);
+      updatedRooms[roomIndex] = {
+        ...updatedRooms[roomIndex],
+        facilities: isSelected
+          ? currentFacilities.filter((f) => f !== facility)
+          : [...currentFacilities, facility]
+      };
+      return { ...prev, pgRooms: updatedRooms };
+    });
+  };
+
+  const handleAddRoom = () => {
+    setFormData((prev) => ({
+      ...prev,
+      pgRooms: [
+        ...(prev.pgRooms || []),
+        {
+          id: Date.now(),
+          roomType: 'Double Sharing',
+          totalBeds: '',
+          rent: '',
+          securityDeposit: '',
+          facilities: ['AC', 'Attached Bathroom']
+        }
+      ]
+    }));
+  };
+
+  const handleDeleteRoom = (index) => {
+    if ((formData.pgRooms || []).length <= 1) return;
+    setFormData((prev) => ({
+      ...prev,
+      pgRooms: prev.pgRooms.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleToggleAmenityItem = (field, item) => {
+    setFormData((prev) => {
+      const currentList = Array.isArray(prev[field]) ? prev[field] : [];
+      const exists = currentList.includes(item);
+      return {
+        ...prev,
+        [field]: exists ? currentList.filter((i) => i !== item) : [...currentList, item]
+      };
+    });
   };
 
   if (loading) {
@@ -840,6 +962,441 @@ export default function AdminPropertyFormPage() {
                       ))}
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* ROOM DETAILS SECTION (Images 1 & 2) */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid var(--border-color)', paddingBottom: '0.5rem' }}>
+                  <h3 style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--color-navy-900)', margin: 0, textTransform: 'uppercase' }}>
+                    ROOM DETAILS
+                  </h3>
+                </div>
+
+                {(formData.pgRooms || []).map((room, index) => (
+                  <div
+                    key={room.id || index}
+                    className="card"
+                    style={{
+                      padding: '1.5rem',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: 'var(--radius-md)',
+                      backgroundColor: '#FFFFFF',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '1.25rem'
+                    }}
+                  >
+                    {/* Room Header with Delete Button */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #F1F5F9', paddingBottom: '0.5rem' }}>
+                      <h4 style={{ fontSize: '1.0625rem', fontWeight: 700, color: 'var(--color-navy-900)', margin: 0 }}>
+                        Room {index + 1}
+                      </h4>
+                      {(formData.pgRooms || []).length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteRoom(index)}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#EF4444',
+                            fontSize: '0.875rem',
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.25rem'
+                          }}
+                        >
+                          <Trash2 size={15} />
+                          <span>Delete</span>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Room Type */}
+                    <div>
+                      <label className="form-label">Room Type *</label>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.625rem' }}>
+                        {['Private Room', 'Double Sharing', 'Triple Sharing', '3+ Sharing'].map((type) => (
+                          <button
+                            key={type}
+                            type="button"
+                            style={{
+                              ...pillSelectStyle((room.roomType || 'Private Room') === type),
+                              padding: '0.75rem 0.5rem',
+                              justifyContent: 'center',
+                              fontWeight: 600,
+                              borderRadius: 'var(--radius-sm)'
+                            }}
+                            onClick={() => handleRoomChange(index, 'roomType', type)}
+                          >
+                            {type}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Total Beds in this Room (Optional) */}
+                    <div className="form-group" style={{ marginBottom: 0 }}>
+                      <label className="form-label" htmlFor={`room-beds-${index}`}>Total Beds in this Room (Optional)</label>
+                      <input
+                        id={`room-beds-${index}`}
+                        type="number"
+                        min="1"
+                        className="form-control"
+                        placeholder="e.g. 2"
+                        value={room.totalBeds || ''}
+                        onChange={(e) => handleRoomChange(index, 'totalBeds', e.target.value)}
+                      />
+                    </div>
+
+                    {/* Rent & Security Deposit */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }} className="form-subgrid">
+                      <div className="form-group" style={{ marginBottom: 0 }}>
+                        <label className="form-label" htmlFor={`room-rent-${index}`}>Rent (₹) *</label>
+                        <input
+                          id={`room-rent-${index}`}
+                          type="number"
+                          required
+                          min="1"
+                          className="form-control"
+                          placeholder="e.g. 12000"
+                          value={room.rent || ''}
+                          onChange={(e) => {
+                            handleRoomChange(index, 'rent', e.target.value);
+                            if (index === 0 && (!formData.price || formData.price === room.rent)) {
+                              setFormData((prev) => ({ ...prev, price: e.target.value }));
+                            }
+                          }}
+                        />
+                      </div>
+
+                      <div className="form-group" style={{ marginBottom: 0 }}>
+                        <label className="form-label" htmlFor={`room-sec-${index}`}>Security Deposit (₹) *</label>
+                        <input
+                          id={`room-sec-${index}`}
+                          type="number"
+                          required
+                          min="0"
+                          className="form-control"
+                          placeholder="e.g. 12000"
+                          value={room.securityDeposit || ''}
+                          onChange={(e) => handleRoomChange(index, 'securityDeposit', e.target.value)}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Facilities Offered in Room */}
+                    <div>
+                      <label className="form-label" style={{ marginBottom: '0.625rem' }}>Facilities Offered</label>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.625rem' }}>
+                        {[
+                          { id: 'AC', label: 'AC' },
+                          { id: 'TV in Room', label: 'TV in Room' },
+                          { id: 'Personal Cupboard', label: 'Personal Cupboard' },
+                          { id: 'Table Chair', label: 'Table Chair' },
+                          { id: 'Attached Balcony', label: 'Attached Balcony' },
+                          { id: 'Attached Bathroom', label: 'Attached Bathroom' },
+                          { id: 'Meals Included', label: 'Meals Included' },
+                        ].map((fac) => {
+                          const isSelected = Array.isArray(room.facilities) && room.facilities.includes(fac.id);
+                          return (
+                            <button
+                              key={fac.id}
+                              type="button"
+                              style={{
+                                ...pillSelectStyle(isSelected),
+                                padding: '0.625rem 0.875rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.625rem',
+                                justifyContent: 'flex-start',
+                                borderRadius: 'var(--radius-sm)'
+                              }}
+                              onClick={() => handleRoomFacilityToggle(index, fac.id)}
+                            >
+                              <span
+                                style={{
+                                  width: '16px',
+                                  height: '16px',
+                                  borderRadius: '50%',
+                                  border: isSelected ? '5px solid var(--color-gold-500)' : '2px solid #CBD5E1',
+                                  backgroundColor: '#FFFFFF',
+                                  display: 'inline-block',
+                                  flexShrink: 0
+                                }}
+                              />
+                              <span style={{ fontSize: '0.875rem' }}>{fac.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* + Add Another Room Button */}
+                <button
+                  type="button"
+                  onClick={handleAddRoom}
+                  style={{
+                    width: '100%',
+                    padding: '0.875rem',
+                    backgroundColor: '#FFFFFF',
+                    border: '2px dashed #10B981',
+                    color: '#059669',
+                    fontWeight: 700,
+                    fontSize: '0.9375rem',
+                    borderRadius: 'var(--radius-md)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <Plus size={18} />
+                  <span>+ Add Another Room</span>
+                </button>
+              </div>
+
+              {/* PG AMENITIES SECTION (Images 3 & 4) */}
+              <div className="card" style={{ padding: '1.5rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--color-navy-900)', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem', margin: 0, textTransform: 'uppercase' }}>
+                  AMENITIES & SERVICES
+                </h3>
+
+                {/* Security Amenities */}
+                <div>
+                  <label className="form-label" style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.75rem', display: 'block' }}>
+                    Security Amenities
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.75rem' }}>
+                    {[
+                      { label: 'CCTV', icon: Camera },
+                      { label: 'Gated Community', icon: Lock },
+                      { label: 'Security', icon: ShieldCheck },
+                      { label: 'Biometric', icon: Fingerprint }
+                    ].map((item) => {
+                      const isSelected = Array.isArray(formData.pgSecurityAmenities) && formData.pgSecurityAmenities.includes(item.label);
+                      const IconComponent = item.icon;
+                      return (
+                        <button
+                          key={item.label}
+                          type="button"
+                          style={{
+                            ...pillSelectStyle(isSelected),
+                            padding: '1rem 0.5rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.5rem',
+                            borderRadius: 'var(--radius-md)',
+                            minHeight: '85px',
+                            textAlign: 'center'
+                          }}
+                          onClick={() => handleToggleAmenityItem('pgSecurityAmenities', item.label)}
+                        >
+                          <IconComponent size={22} color={isSelected ? 'var(--color-gold-700)' : '#64748B'} />
+                          <span style={{ fontSize: '0.8125rem' }}>{item.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Furnishings in Property */}
+                <div>
+                  <label className="form-label" style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.75rem', display: 'block' }}>
+                    Furnishings in Property
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.75rem' }}>
+                    {[
+                      { label: 'Fridge', icon: Home },
+                      { label: 'Washing Machine', icon: Layers },
+                      { label: 'Microwave', icon: Zap },
+                      { label: 'Water Purifier', icon: Droplets },
+                      { label: 'TT Table', icon: Sliders },
+                      { label: 'TV', icon: Tv },
+                      { label: 'Coffee Machine', icon: Coffee },
+                      { label: 'Snacks Machine', icon: Utensils }
+                    ].map((item) => {
+                      const isSelected = Array.isArray(formData.pgFurnishings) && formData.pgFurnishings.includes(item.label);
+                      const IconComponent = item.icon;
+                      return (
+                        <button
+                          key={item.label}
+                          type="button"
+                          style={{
+                            ...pillSelectStyle(isSelected),
+                            padding: '1rem 0.5rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.5rem',
+                            borderRadius: 'var(--radius-md)',
+                            minHeight: '85px',
+                            textAlign: 'center'
+                          }}
+                          onClick={() => handleToggleAmenityItem('pgFurnishings', item.label)}
+                        >
+                          <IconComponent size={22} color={isSelected ? 'var(--color-gold-700)' : '#64748B'} />
+                          <span style={{ fontSize: '0.8125rem' }}>{item.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Services */}
+                <div>
+                  <label className="form-label" style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.75rem', display: 'block' }}>
+                    Services
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.75rem' }}>
+                    {[
+                      { label: 'Laundry', icon: Shirt },
+                      { label: 'Housekeeping', icon: Sparkles },
+                      { label: 'Internet/Wi-Fi Connectivity', icon: Wifi }
+                    ].map((item) => {
+                      const isSelected = Array.isArray(formData.pgServices) && formData.pgServices.includes(item.label);
+                      const IconComponent = item.icon;
+                      return (
+                        <button
+                          key={item.label}
+                          type="button"
+                          style={{
+                            ...pillSelectStyle(isSelected),
+                            padding: '1rem 0.5rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.5rem',
+                            borderRadius: 'var(--radius-md)',
+                            minHeight: '85px',
+                            textAlign: 'center'
+                          }}
+                          onClick={() => handleToggleAmenityItem('pgServices', item.label)}
+                        >
+                          <IconComponent size={22} color={isSelected ? 'var(--color-gold-700)' : '#64748B'} />
+                          <span style={{ fontSize: '0.8125rem' }}>{item.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Top Amenities */}
+                <div>
+                  <label className="form-label" style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.75rem', display: 'block' }}>
+                    Top Amenities
+                  </label>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.75rem' }}>
+                    {[
+                      { label: 'Gym', icon: Dumbbell },
+                      { label: 'Lift', icon: ArrowUpDown },
+                      { label: 'Regular Water Supply', icon: Droplets },
+                      { label: 'Swimming Pool', icon: Waves },
+                      { label: 'Reserved Parking', icon: Car },
+                      { label: 'Power Backup', icon: BatteryCharging }
+                    ].map((item) => {
+                      const isSelected = Array.isArray(formData.pgTopAmenities) && formData.pgTopAmenities.includes(item.label);
+                      const IconComponent = item.icon;
+                      return (
+                        <button
+                          key={item.label}
+                          type="button"
+                          style={{
+                            ...pillSelectStyle(isSelected),
+                            padding: '1rem 0.5rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.5rem',
+                            borderRadius: 'var(--radius-md)',
+                            minHeight: '85px',
+                            textAlign: 'center'
+                          }}
+                          onClick={() => handleToggleAmenityItem('pgTopAmenities', item.label)}
+                        >
+                          <IconComponent size={22} color={isSelected ? 'var(--color-gold-700)' : '#64748B'} />
+                          <span style={{ fontSize: '0.8125rem' }}>{item.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* OTHER PG DETAILS SECTION (Image 5) */}
+              <div className="card" style={{ padding: '1.5rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--color-navy-900)', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem', margin: 0, textTransform: 'uppercase' }}>
+                  OTHER PG DETAILS
+                </h3>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }} className="form-triplegrid">
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label" htmlFor="pg-movein">Onetime Move in Charges (Optional)</label>
+                    <input
+                      id="pg-movein"
+                      type="number"
+                      min="0"
+                      className="form-control"
+                      placeholder="e.g. 2000"
+                      value={formData.onetimeMoveInCharges}
+                      onChange={(e) => setFormData({ ...formData, onetimeMoveInCharges: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label" htmlFor="pg-mealcharge">Meal Charges per Month (Optional)</label>
+                    <input
+                      id="pg-mealcharge"
+                      type="number"
+                      min="0"
+                      className="form-control"
+                      placeholder="e.g. 3000"
+                      value={formData.mealChargesPerMonth}
+                      onChange={(e) => setFormData({ ...formData, mealChargesPerMonth: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="form-group" style={{ marginBottom: 0 }}>
+                    <label className="form-label" htmlFor="pg-eleccharge">Electricity Charges per Month (Optional)</label>
+                    <input
+                      id="pg-eleccharge"
+                      type="number"
+                      min="0"
+                      className="form-control"
+                      placeholder="e.g. 1000"
+                      value={formData.electricityChargesPerMonth}
+                      onChange={(e) => setFormData({ ...formData, electricityChargesPerMonth: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group" style={{ marginBottom: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.375rem' }}>
+                    <label className="form-label" htmlFor="pg-addinfo" style={{ margin: 0 }}>Add Additional Information (Optional)</label>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                      {(formData.additionalInfo || '').length} / 1500
+                    </span>
+                  </div>
+                  <textarea
+                    id="pg-addinfo"
+                    rows={3}
+                    maxLength={1500}
+                    className="form-control"
+                    placeholder="Any special house rules, gate timings, nearby metro stations, meal timings, or special facilities..."
+                    value={formData.additionalInfo}
+                    onChange={(e) => setFormData({ ...formData, additionalInfo: e.target.value })}
+                  />
                 </div>
               </div>
             </div>

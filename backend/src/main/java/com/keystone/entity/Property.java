@@ -162,6 +162,33 @@ public class Property {
     @Column(name = "manager_stays_at_property")
     private Boolean managerStaysAtProperty;
 
+    @Column(name = "pg_rooms", columnDefinition = "TEXT")
+    private String pgRooms;
+
+    @Column(name = "pg_security_amenities", columnDefinition = "TEXT")
+    private String pgSecurityAmenities;
+
+    @Column(name = "pg_furnishings", columnDefinition = "TEXT")
+    private String pgFurnishings;
+
+    @Column(name = "pg_services", columnDefinition = "TEXT")
+    private String pgServices;
+
+    @Column(name = "pg_top_amenities", columnDefinition = "TEXT")
+    private String pgTopAmenities;
+
+    @Column(name = "onetime_move_in_charges")
+    private Double onetimeMoveInCharges;
+
+    @Column(name = "meal_charges_per_month")
+    private Double mealChargesPerMonth;
+
+    @Column(name = "electricity_charges_per_month")
+    private Double electricityChargesPerMonth;
+
+    @Column(name = "additional_info", columnDefinition = "TEXT")
+    private String additionalInfo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
@@ -645,5 +672,77 @@ public class Property {
 
     public void setManagerStaysAtProperty(Boolean managerStaysAtProperty) {
         this.managerStaysAtProperty = managerStaysAtProperty;
+    }
+
+    public String getPgRooms() {
+        return pgRooms;
+    }
+
+    public void setPgRooms(String pgRooms) {
+        this.pgRooms = pgRooms;
+    }
+
+    public String getPgSecurityAmenities() {
+        return pgSecurityAmenities;
+    }
+
+    public void setPgSecurityAmenities(String pgSecurityAmenities) {
+        this.pgSecurityAmenities = pgSecurityAmenities;
+    }
+
+    public String getPgFurnishings() {
+        return pgFurnishings;
+    }
+
+    public void setPgFurnishings(String pgFurnishings) {
+        this.pgFurnishings = pgFurnishings;
+    }
+
+    public String getPgServices() {
+        return pgServices;
+    }
+
+    public void setPgServices(String pgServices) {
+        this.pgServices = pgServices;
+    }
+
+    public String getPgTopAmenities() {
+        return pgTopAmenities;
+    }
+
+    public void setPgTopAmenities(String pgTopAmenities) {
+        this.pgTopAmenities = pgTopAmenities;
+    }
+
+    public Double getOnetimeMoveInCharges() {
+        return onetimeMoveInCharges;
+    }
+
+    public void setOnetimeMoveInCharges(Double onetimeMoveInCharges) {
+        this.onetimeMoveInCharges = onetimeMoveInCharges;
+    }
+
+    public Double getMealChargesPerMonth() {
+        return mealChargesPerMonth;
+    }
+
+    public void setMealChargesPerMonth(Double mealChargesPerMonth) {
+        this.mealChargesPerMonth = mealChargesPerMonth;
+    }
+
+    public Double getElectricityChargesPerMonth() {
+        return electricityChargesPerMonth;
+    }
+
+    public void setElectricityChargesPerMonth(Double electricityChargesPerMonth) {
+        this.electricityChargesPerMonth = electricityChargesPerMonth;
+    }
+
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
     }
 }
