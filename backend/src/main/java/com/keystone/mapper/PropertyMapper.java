@@ -62,6 +62,7 @@ public class PropertyMapper {
         property.setSocietyName(request.getSocietyName());
         property.setBuiltUpArea(request.getBuiltUpArea());
         property.setCarpetArea(request.getCarpetArea());
+        property.setTransactionType(request.getTransactionType());
         property.setPropertyAge(request.getPropertyAge());
         property.setBalconies(request.getBalconies());
         property.setFloorNo(request.getFloorNo());
@@ -99,6 +100,7 @@ public class PropertyMapper {
         property.setSocietyName(request.getSocietyName());
         property.setBuiltUpArea(request.getBuiltUpArea());
         property.setCarpetArea(request.getCarpetArea());
+        property.setTransactionType(request.getTransactionType());
         property.setPropertyAge(request.getPropertyAge());
         property.setBalconies(request.getBalconies());
         property.setFloorNo(request.getFloorNo());
@@ -148,6 +150,7 @@ public class PropertyMapper {
         response.setSocietyName(property.getSocietyName());
         response.setBuiltUpArea(property.getBuiltUpArea());
         response.setCarpetArea(property.getCarpetArea());
+        response.setTransactionType(property.getTransactionType());
         response.setPropertyAge(property.getPropertyAge());
         response.setBalconies(property.getBalconies());
         response.setFloorNo(property.getFloorNo());

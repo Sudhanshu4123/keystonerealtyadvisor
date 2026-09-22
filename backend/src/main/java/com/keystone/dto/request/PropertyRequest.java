@@ -60,6 +60,8 @@ public class PropertyRequest {
 
     private Double carpetArea;
 
+    private String transactionType;
+
     private String propertyAge;
 
     private Integer balconies = 0;
@@ -240,6 +242,14 @@ public class PropertyRequest {
 
     public void setCarpetArea(Double carpetArea) {
         this.carpetArea = carpetArea;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public String getPropertyAge() {

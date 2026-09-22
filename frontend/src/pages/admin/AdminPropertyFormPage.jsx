@@ -27,6 +27,7 @@ export default function AdminPropertyFormPage() {
     location: '',
     builtUpArea: '',
     carpetArea: '',
+    transactionType: '',
     propertyAge: '',
     bedrooms: '',
     bathrooms: '',
@@ -98,6 +99,7 @@ export default function AdminPropertyFormPage() {
               location: p.location || '',
               builtUpArea: p.builtUpArea || p.area || '',
               carpetArea: p.carpetArea || '',
+              transactionType: p.transactionType || (p.listingType === 'SALE' ? 'Resale' : ''),
               propertyAge: p.propertyAge || '',
               bedrooms: p.bedrooms != null ? String(p.bedrooms) : '',
               bathrooms: p.bathrooms != null ? String(p.bathrooms) : '',
@@ -192,6 +194,7 @@ export default function AdminPropertyFormPage() {
       propertyCategory: formData.propertyCategory || 'Residential',
       propertyType: formData.propertyType || 'APARTMENT',
       listingType: formData.listingType || 'RENT',
+      transactionType: formData.listingType === 'SALE' ? (formData.transactionType || 'Resale') : null,
       societyName: formData.societyName,
       propertyAge: formData.propertyAge || null,
       floorNo: formData.floorNo || '',
@@ -390,7 +393,12 @@ export default function AdminPropertyFormPage() {
                     if (item.value === 'PG_CO_LIVING') {
                       nextPropType = 'APARTMENT';
                     }
-                    setFormData({ ...formData, listingType: item.value, propertyType: nextPropType });
+                    setFormData({
+                      ...formData,
+                      listingType: item.value,
+                      propertyType: nextPropType,
+                      transactionType: item.value === 'SALE' ? (formData.transactionType || 'Resale') : formData.transactionType
+                    });
                   }}
                 >
                   {item.label}
@@ -557,18 +565,49 @@ export default function AdminPropertyFormPage() {
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label" htmlFor="prop-carpet">Carpet Area (Sq. ft.)</label>
-              <input
-                id="prop-carpet"
-                type="number"
-                min="1"
-                className="form-control"
-                placeholder="e.g. 1500"
-                value={formData.carpetArea}
-                onChange={(e) => setFormData({ ...formData, carpetArea: e.target.value })}
-              />
-            </div>
+            {formData.listingType === 'SALE' ? (
+              <div className="form-group">
+                <label className="form-label">Transaction Type *</label>
+                <div style={{ display: 'flex', gap: '0.5rem', height: '42px' }}>
+                  {[
+                    { value: 'New Booking', label: 'New Booking' },
+                    { value: 'Resale', label: 'Resale' }
+                  ].map((item) => (
+                    <button
+                      key={item.value}
+                      type="button"
+                      style={{
+                        ...pillSelectStyle((formData.transactionType || 'Resale') === item.value),
+                        flex: 1,
+                        padding: '0.5rem 0.25rem',
+                        fontSize: '0.875rem',
+                        fontWeight: 600,
+                        justifyContent: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        borderRadius: 'var(--radius-sm)'
+                      }}
+                      onClick={() => setFormData({ ...formData, transactionType: item.value })}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="form-group">
+                <label className="form-label" htmlFor="prop-carpet">Carpet Area (Sq. ft.)</label>
+                <input
+                  id="prop-carpet"
+                  type="number"
+                  min="1"
+                  className="form-control"
+                  placeholder="e.g. 1500"
+                  value={formData.carpetArea}
+                  onChange={(e) => setFormData({ ...formData, carpetArea: e.target.value })}
+                />
+              </div>
+            )}
 
             <div className="form-group">
               <label className="form-label" htmlFor="prop-age">Age of Property</label>

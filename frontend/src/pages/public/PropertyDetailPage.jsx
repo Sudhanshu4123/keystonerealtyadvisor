@@ -270,6 +270,13 @@ export default function PropertyDetailPage() {
                   </div>
                 )}
 
+                {property.transactionType && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Transaction Type</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.transactionType}</strong>
+                  </div>
+                )}
+
                 {property.carpetArea && (
                   <div>
                     <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Carpet Area</span>

@@ -78,6 +78,9 @@ public class Property {
     @Column(name = "carpet_area")
     private Double carpetArea;
 
+    @Column(name = "transaction_type", length = 50)
+    private String transactionType;
+
     @Column(name = "property_age", length = 50)
     private String propertyAge;
 
@@ -385,6 +388,14 @@ public class Property {
 
     public void setCarpetArea(Double carpetArea) {
         this.carpetArea = carpetArea;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public String getPropertyAge() {

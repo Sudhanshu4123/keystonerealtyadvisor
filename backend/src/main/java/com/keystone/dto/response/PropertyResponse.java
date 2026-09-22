@@ -28,6 +28,7 @@ public class PropertyResponse {
     private String societyName;
     private Double builtUpArea;
     private Double carpetArea;
+    private String transactionType;
     private String propertyAge;
     private Integer balconies;
     private String floorNo;
@@ -254,6 +255,14 @@ public class PropertyResponse {
 
     public void setCarpetArea(Double carpetArea) {
         this.carpetArea = carpetArea;
+    }
+
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public String getPropertyAge() {
