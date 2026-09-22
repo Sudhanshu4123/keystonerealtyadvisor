@@ -498,17 +498,7 @@ export default function AdminPropertyFormPage() {
               {/* BHK Selection directly below Property Category (Hidden only for Plot, Retail Shop) */}
               {!['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && Boolean(formData.propertyType) && (
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    <label className="form-label" style={{ margin: 0 }}>BHK Configuration *</label>
-                    <button
-                      type="button"
-                      className="btn btn-ghost btn-sm"
-                      style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem', color: 'var(--color-gold-600)', fontWeight: 600 }}
-                      onClick={() => setShowMoreBhk(!showMoreBhk)}
-                    >
-                      {showMoreBhk ? '← Show standard (1-5 BHK)' : 'Show more options (up to 12 BHK) →'}
-                    </button>
-                  </div>
+                  <label className="form-label">BHK Configuration *</label>
 
                   <div style={{ display: 'flex', gap: '0.625rem', flexWrap: 'wrap' }}>
                     {[
