@@ -62,6 +62,8 @@ public class PropertyRequest {
 
     private String transactionType;
 
+    private String constructionStatus;
+
     private String propertyAge;
 
     private Integer balconies = 0;
@@ -250,6 +252,14 @@ public class PropertyRequest {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public String getConstructionStatus() {
+        return constructionStatus;
+    }
+
+    public void setConstructionStatus(String constructionStatus) {
+        this.constructionStatus = constructionStatus;
     }
 
     public String getPropertyAge() {

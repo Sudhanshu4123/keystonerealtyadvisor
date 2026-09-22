@@ -28,6 +28,7 @@ export default function AdminPropertyFormPage() {
     builtUpArea: '',
     carpetArea: '',
     transactionType: '',
+    constructionStatus: '',
     propertyAge: '',
     bedrooms: '',
     bathrooms: '',
@@ -100,6 +101,7 @@ export default function AdminPropertyFormPage() {
               builtUpArea: p.builtUpArea || p.area || '',
               carpetArea: p.carpetArea || '',
               transactionType: p.transactionType || (p.listingType === 'SALE' ? 'Resale' : ''),
+              constructionStatus: p.constructionStatus || (p.listingType === 'SALE' ? 'Ready to Move' : ''),
               propertyAge: p.propertyAge || '',
               bedrooms: p.bedrooms != null ? String(p.bedrooms) : '',
               bathrooms: p.bathrooms != null ? String(p.bathrooms) : '',
@@ -195,6 +197,7 @@ export default function AdminPropertyFormPage() {
       propertyType: formData.propertyType || 'APARTMENT',
       listingType: formData.listingType || 'RENT',
       transactionType: formData.listingType === 'SALE' ? (formData.transactionType || 'Resale') : null,
+      constructionStatus: formData.listingType === 'SALE' ? (formData.constructionStatus || 'Ready to Move') : null,
       societyName: formData.societyName,
       propertyAge: formData.propertyAge || null,
       floorNo: formData.floorNo || '',
@@ -397,7 +400,8 @@ export default function AdminPropertyFormPage() {
                       ...formData,
                       listingType: item.value,
                       propertyType: nextPropType,
-                      transactionType: item.value === 'SALE' ? (formData.transactionType || 'Resale') : formData.transactionType
+                      transactionType: item.value === 'SALE' ? (formData.transactionType || 'Resale') : formData.transactionType,
+                      constructionStatus: item.value === 'SALE' ? (formData.constructionStatus || 'Ready to Move') : formData.constructionStatus
                     });
                   }}
                 >
@@ -550,7 +554,7 @@ export default function AdminPropertyFormPage() {
           )}
 
           {/* Area Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }} className="form-triplegrid">
+          <div style={{ display: 'grid', gridTemplateColumns: formData.listingType === 'SALE' ? 'repeat(auto-fit, minmax(220px, 1fr))' : 'repeat(3, 1fr)', gap: '1rem' }} className="form-triplegrid">
             <div className="form-group">
               <label className="form-label" htmlFor="prop-builtup">Built-Up Area (Sq. ft.) *</label>
               <input
@@ -566,34 +570,66 @@ export default function AdminPropertyFormPage() {
             </div>
 
             {formData.listingType === 'SALE' ? (
-              <div className="form-group">
-                <label className="form-label">Transaction Type *</label>
-                <div style={{ display: 'flex', gap: '0.5rem', height: '42px' }}>
-                  {[
-                    { value: 'New Booking', label: 'New Booking' },
-                    { value: 'Resale', label: 'Resale' }
-                  ].map((item) => (
-                    <button
-                      key={item.value}
-                      type="button"
-                      style={{
-                        ...pillSelectStyle((formData.transactionType || 'Resale') === item.value),
-                        flex: 1,
-                        padding: '0.5rem 0.25rem',
-                        fontSize: '0.875rem',
-                        fontWeight: 600,
-                        justifyContent: 'center',
-                        display: 'flex',
-                        alignItems: 'center',
-                        borderRadius: 'var(--radius-sm)'
-                      }}
-                      onClick={() => setFormData({ ...formData, transactionType: item.value })}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
+              <>
+                <div className="form-group">
+                  <label className="form-label">Transaction Type *</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', height: '42px' }}>
+                    {[
+                      { value: 'New Booking', label: 'New Booking' },
+                      { value: 'Resale', label: 'Resale' }
+                    ].map((item) => (
+                      <button
+                        key={item.value}
+                        type="button"
+                        style={{
+                          ...pillSelectStyle((formData.transactionType || 'Resale') === item.value),
+                          flex: 1,
+                          padding: '0.5rem 0.25rem',
+                          fontSize: '0.875rem',
+                          fontWeight: 600,
+                          justifyContent: 'center',
+                          display: 'flex',
+                          alignItems: 'center',
+                          borderRadius: 'var(--radius-sm)'
+                        }}
+                        onClick={() => setFormData({ ...formData, transactionType: item.value })}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+
+                <div className="form-group">
+                  <label className="form-label">Construction Status *</label>
+                  <div style={{ display: 'flex', gap: '0.5rem', height: '42px' }}>
+                    {[
+                      { value: 'Ready to Move', label: 'Ready to Move' },
+                      { value: 'Under Construction', label: 'Under Construction' }
+                    ].map((item) => (
+                      <button
+                        key={item.value}
+                        type="button"
+                        style={{
+                          ...pillSelectStyle((formData.constructionStatus || 'Ready to Move') === item.value),
+                          flex: 1,
+                          padding: '0.5rem 0.25rem',
+                          fontSize: '0.8125rem',
+                          fontWeight: 600,
+                          justifyContent: 'center',
+                          display: 'flex',
+                          alignItems: 'center',
+                          borderRadius: 'var(--radius-sm)',
+                          whiteSpace: 'nowrap'
+                        }}
+                        onClick={() => setFormData({ ...formData, constructionStatus: item.value })}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
             ) : (
               <div className="form-group">
                 <label className="form-label" htmlFor="prop-carpet">Carpet Area (Sq. ft.)</label>

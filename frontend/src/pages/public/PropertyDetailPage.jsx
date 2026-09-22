@@ -277,6 +277,13 @@ export default function PropertyDetailPage() {
                   </div>
                 )}
 
+                {property.constructionStatus && (
+                  <div>
+                    <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Construction Status</span>
+                    <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>{property.constructionStatus}</strong>
+                  </div>
+                )}
+
                 {property.carpetArea && (
                   <div>
                     <span style={{ color: 'var(--text-muted)', display: 'block', fontSize: '0.75rem', textTransform: 'uppercase', fontWeight: 600 }}>Carpet Area</span>

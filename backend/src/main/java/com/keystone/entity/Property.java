@@ -81,6 +81,9 @@ public class Property {
     @Column(name = "transaction_type", length = 50)
     private String transactionType;
 
+    @Column(name = "construction_status", length = 50)
+    private String constructionStatus;
+
     @Column(name = "property_age", length = 50)
     private String propertyAge;
 
@@ -396,6 +399,14 @@ public class Property {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public String getConstructionStatus() {
+        return constructionStatus;
+    }
+
+    public void setConstructionStatus(String constructionStatus) {
+        this.constructionStatus = constructionStatus;
     }
 
     public String getPropertyAge() {
