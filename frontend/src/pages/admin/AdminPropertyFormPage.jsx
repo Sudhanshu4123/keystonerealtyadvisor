@@ -452,7 +452,7 @@ export default function AdminPropertyFormPage() {
           {formData.listingType !== 'PG_CO_LIVING' && (
             <div>
               <label className="form-label">Property Category *</label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem', marginBottom: !['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && Boolean(formData.propertyType) ? '1.25rem' : '0' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '0.75rem', marginBottom: !['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && Boolean(formData.propertyType) ? '1.25rem' : '0' }}>
                 {[
                   { id: 'APARTMENT', label: 'Apartment' },
                   { id: 'STUDIO', label: 'Studio' },
@@ -487,8 +487,8 @@ export default function AdminPropertyFormPage() {
                 ))}
               </div>
 
-              {/* BHK Selection directly below Property Category (Hidden for Apartment, Plot, Retail Shop) */}
-              {!['APARTMENT', 'PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && Boolean(formData.propertyType) && (
+              {/* BHK Selection directly below Property Category (Hidden only for Plot, Retail Shop) */}
+              {!['PLOT', 'RETAIL_SHOP'].includes(formData.propertyType) && Boolean(formData.propertyType) && (
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.375rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                     <label className="form-label" style={{ margin: 0 }}>BHK Configuration *</label>
