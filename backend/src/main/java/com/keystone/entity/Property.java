@@ -132,6 +132,36 @@ public class Property {
     @Column(name = "furnishing_details", columnDefinition = "TEXT")
     private String furnishingDetails;
 
+    @Column(name = "pg_name", length = 200)
+    private String pgName;
+
+    @Column(name = "total_beds")
+    private Integer totalBeds;
+
+    @Column(name = "pg_for", length = 50)
+    private String pgFor;
+
+    @Column(name = "best_suited_for", length = 100)
+    private String bestSuitedFor;
+
+    @Column(name = "meals_available")
+    private Boolean mealsAvailable;
+
+    @Column(name = "notice_period", length = 50)
+    private String noticePeriod;
+
+    @Column(name = "pg_rules", columnDefinition = "TEXT")
+    private String pgRules;
+
+    @Column(name = "common_areas", columnDefinition = "TEXT")
+    private String commonAreas;
+
+    @Column(name = "property_managed_by", length = 100)
+    private String propertyManagedBy;
+
+    @Column(name = "manager_stays_at_property")
+    private Boolean managerStaysAtProperty;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
@@ -535,5 +565,85 @@ public class Property {
 
     public void setBachelorPreference(String bachelorPreference) {
         this.bachelorPreference = bachelorPreference;
+    }
+
+    public String getPgName() {
+        return pgName;
+    }
+
+    public void setPgName(String pgName) {
+        this.pgName = pgName;
+    }
+
+    public Integer getTotalBeds() {
+        return totalBeds;
+    }
+
+    public void setTotalBeds(Integer totalBeds) {
+        this.totalBeds = totalBeds;
+    }
+
+    public String getPgFor() {
+        return pgFor;
+    }
+
+    public void setPgFor(String pgFor) {
+        this.pgFor = pgFor;
+    }
+
+    public String getBestSuitedFor() {
+        return bestSuitedFor;
+    }
+
+    public void setBestSuitedFor(String bestSuitedFor) {
+        this.bestSuitedFor = bestSuitedFor;
+    }
+
+    public Boolean getMealsAvailable() {
+        return mealsAvailable;
+    }
+
+    public void setMealsAvailable(Boolean mealsAvailable) {
+        this.mealsAvailable = mealsAvailable;
+    }
+
+    public String getNoticePeriod() {
+        return noticePeriod;
+    }
+
+    public void setNoticePeriod(String noticePeriod) {
+        this.noticePeriod = noticePeriod;
+    }
+
+    public String getPgRules() {
+        return pgRules;
+    }
+
+    public void setPgRules(String pgRules) {
+        this.pgRules = pgRules;
+    }
+
+    public String getCommonAreas() {
+        return commonAreas;
+    }
+
+    public void setCommonAreas(String commonAreas) {
+        this.commonAreas = commonAreas;
+    }
+
+    public String getPropertyManagedBy() {
+        return propertyManagedBy;
+    }
+
+    public void setPropertyManagedBy(String propertyManagedBy) {
+        this.propertyManagedBy = propertyManagedBy;
+    }
+
+    public Boolean getManagerStaysAtProperty() {
+        return managerStaysAtProperty;
+    }
+
+    public void setManagerStaysAtProperty(Boolean managerStaysAtProperty) {
+        this.managerStaysAtProperty = managerStaysAtProperty;
     }
 }

@@ -80,6 +80,16 @@ public class PropertyMapper {
         property.setBrokerage(request.getBrokerage());
         property.setAmenities(request.getAmenities());
         property.setFurnishingDetails(request.getFurnishingDetails());
+        property.setPgName(request.getPgName());
+        property.setTotalBeds(request.getTotalBeds());
+        property.setPgFor(request.getPgFor());
+        property.setBestSuitedFor(request.getBestSuitedFor());
+        property.setMealsAvailable(request.getMealsAvailable());
+        property.setNoticePeriod(request.getNoticePeriod());
+        property.setPgRules(request.getPgRules());
+        property.setCommonAreas(request.getCommonAreas());
+        property.setPropertyManagedBy(request.getPropertyManagedBy());
+        property.setManagerStaysAtProperty(request.getManagerStaysAtProperty());
         return property;
     }
 
@@ -119,6 +129,16 @@ public class PropertyMapper {
         property.setBrokerage(request.getBrokerage());
         property.setAmenities(request.getAmenities());
         property.setFurnishingDetails(request.getFurnishingDetails());
+        property.setPgName(request.getPgName());
+        property.setTotalBeds(request.getTotalBeds());
+        property.setPgFor(request.getPgFor());
+        property.setBestSuitedFor(request.getBestSuitedFor());
+        property.setMealsAvailable(request.getMealsAvailable());
+        property.setNoticePeriod(request.getNoticePeriod());
+        property.setPgRules(request.getPgRules());
+        property.setCommonAreas(request.getCommonAreas());
+        property.setPropertyManagedBy(request.getPropertyManagedBy());
+        property.setManagerStaysAtProperty(request.getManagerStaysAtProperty());
         if (request.getSlug() != null && !request.getSlug().trim().isEmpty()) {
             property.setSlug(request.getSlug().trim());
         } else if (property.getSlug() == null || property.getSlug().trim().isEmpty()) {
@@ -170,6 +190,16 @@ public class PropertyMapper {
         response.setBrokerage(property.getBrokerage());
         response.setAmenities(property.getAmenities());
         response.setFurnishingDetails(property.getFurnishingDetails());
+        response.setPgName(property.getPgName());
+        response.setTotalBeds(property.getTotalBeds());
+        response.setPgFor(property.getPgFor());
+        response.setBestSuitedFor(property.getBestSuitedFor());
+        response.setMealsAvailable(property.getMealsAvailable());
+        response.setNoticePeriod(property.getNoticePeriod());
+        response.setPgRules(property.getPgRules());
+        response.setCommonAreas(property.getCommonAreas());
+        response.setPropertyManagedBy(property.getPropertyManagedBy());
+        response.setManagerStaysAtProperty(property.getManagerStaysAtProperty());
         if (property.getProject() != null) {
             response.setProjectId(property.getProject().getId());
             response.setProjectName(property.getProject().getName());

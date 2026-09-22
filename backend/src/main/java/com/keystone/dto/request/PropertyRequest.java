@@ -96,6 +96,17 @@ public class PropertyRequest {
 
     private String furnishingDetails;
 
+    private String pgName;
+    private Integer totalBeds;
+    private String pgFor;
+    private String bestSuitedFor;
+    private Boolean mealsAvailable;
+    private String noticePeriod;
+    private String pgRules;
+    private String commonAreas;
+    private String propertyManagedBy;
+    private Boolean managerStaysAtProperty;
+
     private Long projectId;
 
     public PropertyRequest() {
@@ -388,5 +399,85 @@ public class PropertyRequest {
 
     public void setBachelorPreference(String bachelorPreference) {
         this.bachelorPreference = bachelorPreference;
+    }
+
+    public String getPgName() {
+        return pgName;
+    }
+
+    public void setPgName(String pgName) {
+        this.pgName = pgName;
+    }
+
+    public Integer getTotalBeds() {
+        return totalBeds;
+    }
+
+    public void setTotalBeds(Integer totalBeds) {
+        this.totalBeds = totalBeds;
+    }
+
+    public String getPgFor() {
+        return pgFor;
+    }
+
+    public void setPgFor(String pgFor) {
+        this.pgFor = pgFor;
+    }
+
+    public String getBestSuitedFor() {
+        return bestSuitedFor;
+    }
+
+    public void setBestSuitedFor(String bestSuitedFor) {
+        this.bestSuitedFor = bestSuitedFor;
+    }
+
+    public Boolean getMealsAvailable() {
+        return mealsAvailable;
+    }
+
+    public void setMealsAvailable(Boolean mealsAvailable) {
+        this.mealsAvailable = mealsAvailable;
+    }
+
+    public String getNoticePeriod() {
+        return noticePeriod;
+    }
+
+    public void setNoticePeriod(String noticePeriod) {
+        this.noticePeriod = noticePeriod;
+    }
+
+    public String getPgRules() {
+        return pgRules;
+    }
+
+    public void setPgRules(String pgRules) {
+        this.pgRules = pgRules;
+    }
+
+    public String getCommonAreas() {
+        return commonAreas;
+    }
+
+    public void setCommonAreas(String commonAreas) {
+        this.commonAreas = commonAreas;
+    }
+
+    public String getPropertyManagedBy() {
+        return propertyManagedBy;
+    }
+
+    public void setPropertyManagedBy(String propertyManagedBy) {
+        this.propertyManagedBy = propertyManagedBy;
+    }
+
+    public Boolean getManagerStaysAtProperty() {
+        return managerStaysAtProperty;
+    }
+
+    public void setManagerStaysAtProperty(Boolean managerStaysAtProperty) {
+        this.managerStaysAtProperty = managerStaysAtProperty;
     }
 }
