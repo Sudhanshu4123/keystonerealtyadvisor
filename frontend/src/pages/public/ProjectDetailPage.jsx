@@ -74,7 +74,7 @@ export default function ProjectDetailPage() {
       };
 
       await enquiryService.createEnquiry(payload);
-      success('Your consultation inquiry has been transmitted to Keystone Realty Advisor. Our senior associate will contact you shortly.');
+      success('Your consultation request has been received by Keystone Realty Advisor. A dedicated senior advisor will connect with you shortly.');
       setEnquiryModalOpen(false);
       setEnquiryForm({ name: '', email: '', phone: '', message: '' });
     } catch (err) {

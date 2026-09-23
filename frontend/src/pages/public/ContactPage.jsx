@@ -117,10 +117,10 @@ export default function ContactPage() {
                   <CheckCircle2 size={32} />
                 </div>
                 <h3 style={{ fontSize: '1.375rem', fontWeight: 600, marginBottom: '0.75rem' }}>
-                  Enquiry Dispatched
+                  Consultation Request Received
                 </h3>
-                <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-                  Your advisory request has been forwarded to our senior team at <strong>Keystone Realty Advisor</strong>. We will review your requirements and respond promptly.
+                <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.6 }}>
+                  Your advisory request has been securely delivered to our senior team at <strong>Keystone Realty Advisor</strong>. A dedicated property advisor will review your criteria and connect with you within 24 business hours.
                 </p>
                 <button type="button" onClick={() => setSubmitted(false)} className="btn btn-outline-gold">
                   Send Another Enquiry
@@ -129,7 +129,7 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit}>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1.5rem' }}>
-                  Send an Advisory Enquiry
+                  Schedule an Advisory Consultation
                 </h3>
 
                 <div className="form-group">
@@ -165,7 +165,7 @@ export default function ContactPage() {
                       id="contact-phone"
                       type="tel"
                       className="form-control"
-                      placeholder="+1 (555) 000-0000"
+                      placeholder="+91 98765 43210"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     />
@@ -173,22 +173,25 @@ export default function ContactPage() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label" htmlFor="contact-message">Advisory Requirements / Details *</label>
+                  <label className="form-label" htmlFor="contact-message">Advisory Requirements / Investment Details *</label>
                   <textarea
                     id="contact-message"
                     required
                     rows={5}
                     className="form-control"
-                    placeholder="Describe the property types, locations, or advisory services you are interested in..."
+                    placeholder="Describe your preferred location, property type, budget, or specific advisory requirements..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   />
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block btn-lg" disabled={submitting} style={{ marginTop: '0.75rem' }}>
+                <button type="submit" className="btn btn-primary btn-block btn-lg" disabled={submitting} style={{ marginTop: '0.75rem', gap: '0.5rem' }}>
                   <Send size={16} />
-                  <span>{submitting ? 'Submitting...' : 'Submit Enquiry'}</span>
+                  <span>{submitting ? 'Connecting...' : 'Request Advisory Consultation'}</span>
                 </button>
+                <div style={{ textAlign: 'center', marginTop: '0.75rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  🔒 100% Confidential • Direct Senior Advisor Desk • Zero Spam
+                </div>
               </form>
             )}
           </div>

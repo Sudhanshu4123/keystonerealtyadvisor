@@ -1004,55 +1004,17 @@ export default function PropertyDetailPage() {
               </>
             )}
 
-            {/* Society Amenities Section */}
-            {(() => {
-              let parsedAmenities = [];
-              if (property.amenities) {
-                try {
-                  parsedAmenities = JSON.parse(property.amenities);
-                } catch (e) {
-                  parsedAmenities = property.amenities.split(',').map((s) => s.trim()).filter(Boolean);
-                }
-              }
-              if (!Array.isArray(parsedAmenities) || parsedAmenities.length === 0) return null;
-
-              return (
-                <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
-                  <h3 style={{ fontSize: '1.1875rem', fontWeight: 600, marginBottom: '1.25rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-                    Society Amenities & Features
-                  </h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '0.75rem' }}>
-                    {parsedAmenities.map((amenity, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          backgroundColor: '#F8FAFC',
-                          padding: '0.5rem 0.75rem',
-                          borderRadius: 'var(--radius-sm)',
-                          border: '1px solid var(--border-color)',
-                          fontSize: '0.8125rem',
-                          fontWeight: 500,
-                        }}
-                      >
-                        <Check size={14} color="var(--color-gold-500)" strokeWidth={3} />
-                        <span>{amenity}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })()}
-
             {/* Property Description */}
             <div className="card" style={{ padding: '2rem', marginBottom: '2rem' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
-                Property Description
+                Property Description & Overview
               </h3>
               <div style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.9375rem', whiteSpace: 'pre-line' }}>
-                {property.description || 'No extended description provided for this listing.'}
+                {property.description || (
+                  `This verified ${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType?.replace(/_/g, ' ') || 'property'} is available for ${property.listingType === 'RENT' ? 'lease' : 'acquisition'} in ${property.location || property.city || 'a prime micro-market'}. ` +
+                  `Featuring ${property.builtUpArea || property.area || 'spacious'} sq ft of thoughtfully planned layout, ${property.furnished?.replace(/_/g, ' ').toLowerCase() || 'standard'} interiors, and verified clear-title documentation. ` +
+                  `For comprehensive legal due diligence, title records, or to schedule a confidential private inspection, connect directly with our advisory desk.`
+                )}
               </div>
             </div>
           </div>
@@ -1072,13 +1034,13 @@ export default function PropertyDetailPage() {
                 <div>
                   <div style={{ fontWeight: 700, fontSize: '0.9375rem', lineHeight: 1.1 }}>KEYSTONE REALTY ADVISOR</div>
                   <div style={{ fontSize: '0.6875rem', color: 'var(--color-gold-600)', textTransform: 'uppercase', fontWeight: 600 }}>
-                    Advisory Representation
+                    Client Representation Desk
                   </div>
                 </div>
               </div>
 
               <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: 1.5 }}>
-                Interested in this property or need advisory representation? Our senior advisors provide confidential consultations.
+                Interested in this property or need private representation? Our senior advisors provide confidential consultations and transaction governance.
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
@@ -1088,7 +1050,7 @@ export default function PropertyDetailPage() {
                   className="btn btn-primary btn-block btn-lg"
                 >
                   <MessageSquare size={18} />
-                  <span>Enquire on this Property</span>
+                  <span>Book Confidential Site Visit</span>
                 </button>
 
                 <a
@@ -1125,7 +1087,7 @@ export default function PropertyDetailPage() {
               <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem', fontSize: '0.8125rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <ShieldCheck size={16} color="var(--color-gold-500)" />
-                  <span>Direct Advisor Contact</span>
+                  <span>100% Title Verified & Discretion Guaranteed</span>
                 </div>
                 <a
                   href="tel:+919911956274"

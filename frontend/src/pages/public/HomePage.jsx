@@ -14,7 +14,11 @@ import {
   ArrowRight,
   Landmark,
   Layers,
-  Award
+  Award,
+  CheckCircle2,
+  Lock,
+  FileCheck2,
+  Users
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -150,7 +154,7 @@ export default function HomePage() {
         }}
       >
         <div className="container">
-          <div style={{ maxWidth: '820px', margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
             <span
               style={{
                 display: 'inline-flex',
@@ -169,7 +173,7 @@ export default function HomePage() {
               }}
             >
               <ShieldCheck size={14} />
-              <span>Keystone Realty Advisor</span>
+              <span>Institutional Real Estate Advisory</span>
             </span>
 
             <h1
@@ -182,7 +186,7 @@ export default function HomePage() {
                 color: '#FFFFFF',
               }}
             >
-              Strategic Real Estate Advisory & Property Representation
+              Institutional Real Estate Advisory & Luxury Property Representation
             </h1>
 
             <p
@@ -193,7 +197,7 @@ export default function HomePage() {
                 marginBottom: '2.5rem',
               }}
             >
-              Providing institutional-quality guidance, premium residential acquisitions, and commercial real estate portfolio advisory.
+              Guiding discerning homeowners, family offices, and commercial operators with verified property acquisitions, transparent valuation models, and complete transaction governance.
             </p>
 
             {/* Hero Search Box */}
@@ -256,9 +260,9 @@ export default function HomePage() {
                 <option value="PLOT">Plot / Land</option>
               </select>
 
-              <button type="submit" className="btn btn-primary" aria-label="Search properties" style={{ padding: '0.6875rem 1.5rem' }}>
+              <button type="submit" className="btn btn-primary" aria-label="Search properties" style={{ padding: '0.6875rem 1.5rem', gap: '0.5rem' }}>
                 <Search size={16} />
-                <span>Search</span>
+                <span>Search Properties</span>
               </button>
             </form>
           </div>
@@ -278,11 +282,11 @@ export default function HomePage() {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '1rem' }}>
             {[
-              { type: 'APARTMENT', label: 'Apartments', icon: Building2 },
+              { type: 'APARTMENT', label: 'Luxury Apartments', icon: Building2 },
               { type: 'VILLA', label: 'Villas & Mansions', icon: Landmark },
               { type: 'PENTHOUSE', label: 'Penthouses', icon: Layers },
               { type: 'COMMERCIAL', label: 'Commercial Spaces', icon: TrendingUp },
-              { type: 'LAND', label: 'Development Land', icon: Compass },
+              { type: 'PLOT', label: 'Plots & Land', icon: Compass },
             ].map((item) => (
               <Link
                 key={item.type}
@@ -319,6 +323,114 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* About Us & The Keystone Advantage Section */}
+      <section className="section" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-color)' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '3.5rem', alignItems: 'center' }} className="about-grid">
+            <div>
+              <span className="section-subtitle">About Keystone Realty Advisor</span>
+              <h2 className="section-title" style={{ textAlign: 'left', marginBottom: '1.25rem' }}>
+                Uncompromising Due Diligence. Absolute Discretion.
+              </h2>
+              <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '1.25rem' }}>
+                At <strong>Keystone Realty Advisor</strong>, we re-engineer property acquisition and real estate advisory through institutional-grade governance. Unlike volume brokers, our practice operates with complete fiduciary transparency, representing discerning buyers, private investors, and corporate occupiers.
+              </p>
+              <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '2rem' }}>
+                Every asset in our portfolio undergoes rigorous legal screening, physical on-site audits, RERA regulatory compliance validation, and fair-market price benchmarking before representation.
+              </p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <CheckCircle2 size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '0.9375rem', color: 'var(--text-primary)' }}>100% Title Verified</strong>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Pre-screened legal titles & approvals</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <Lock size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '0.9375rem', color: 'var(--text-primary)' }}>Zero Spam & Direct Desk</strong>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Strict privacy with senior advisor contact</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <FileCheck2 size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '0.9375rem', color: 'var(--text-primary)' }}>RERA & Builder Audits</strong>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Proven developer delivery track records</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <TrendingUp size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ display: 'block', fontSize: '0.9375rem', color: 'var(--text-primary)' }}>Yield Optimization</strong>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>Data-driven micro-market analytics</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Credibility & Metrics Showcase Card */}
+            <div
+              style={{
+                backgroundColor: 'var(--color-dark-950)',
+                color: '#FFFFFF',
+                borderRadius: 'var(--radius-lg)',
+                padding: '2.5rem',
+                border: '1px solid #1E293B',
+                boxShadow: 'var(--shadow-xl)',
+                position: 'relative',
+              }}
+            >
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-gold-400)', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '1.5rem' }}>
+                <Award size={16} />
+                <span>The Keystone Standard</span>
+              </div>
+
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1.5rem', lineHeight: 1.3 }}>
+                Strategic Property Advisory Designed for Long-Term Capital Preservation
+              </h3>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem', borderTop: '1px solid #1E293B', paddingTop: '1.5rem' }}>
+                <div>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>100%</div>
+                  <div style={{ fontSize: '0.8125rem', color: '#94A3B8', marginTop: '2px' }}>Verified Legal Due Diligence</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>RERA</div>
+                  <div style={{ fontSize: '0.8125rem', color: '#94A3B8', marginTop: '2px' }}>Approved Partner Projects</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>₹0</div>
+                  <div style={{ fontSize: '0.8125rem', color: '#94A3B8', marginTop: '2px' }}>Hidden Transaction Markups</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>NDA</div>
+                  <div style={{ fontSize: '0.8125rem', color: '#94A3B8', marginTop: '2px' }}>Confidential Client Representation</div>
+                </div>
+              </div>
+
+              <Link to="/contact" className="btn btn-primary btn-block" style={{ justifyContent: 'center' }}>
+                Schedule a Confidential Consultation
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <style>{`
+          @media (max-width: 900px) {
+            .about-grid {
+              grid-template-columns: 1fr !important;
+              gap: 2.5rem !important;
+            }
+          }
+        `}</style>
       </section>
 
       {/* Featured Real Estate Projects Section */}
@@ -381,7 +493,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid-3">
-            <div className="card" style={{ padding: '2rem' }}>
+            <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column' }}>
               <div
                 style={{
                   width: '48px',
@@ -398,14 +510,18 @@ export default function HomePage() {
                 <Landmark size={24} />
               </div>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.75rem' }}>
-                Acquisition & Representation
+                Bespoke Acquisition & Representation
               </h3>
-              <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
-                Comprehensive due diligence, property identification, transaction structuring, and negotiation for high-value residential and commercial assets.
+              <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                Discreet property identification, comprehensive title search audits, transaction structuring, and contract negotiation for high-value residences and penthouses.
               </p>
+              <Link to="/advisory" style={{ marginTop: 'auto', color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span>Learn about acquisition</span>
+                <ArrowRight size={14} />
+              </Link>
             </div>
 
-            <div className="card" style={{ padding: '2rem' }}>
+            <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column' }}>
               <div
                 style={{
                   width: '48px',
@@ -422,14 +538,18 @@ export default function HomePage() {
                 <TrendingUp size={24} />
               </div>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.75rem' }}>
-                Portfolio Strategy & Leasing
+                Commercial Leasing & Corporate Strategy
               </h3>
-              <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
-                Strategic positioning for income-generating assets, commercial leasing advisory, tenancy optimization, and yield evaluation across prime sectors.
+              <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                Strategic positioning for income-generating assets, commercial leasing advisory, tenancy optimization, and yield evaluation across prime commercial corridors.
               </p>
+              <Link to="/advisory" style={{ marginTop: 'auto', color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span>Learn about leasing</span>
+                <ArrowRight size={14} />
+              </Link>
             </div>
 
-            <div className="card" style={{ padding: '2rem' }}>
+            <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column' }}>
               <div
                 style={{
                   width: '48px',
@@ -446,11 +566,15 @@ export default function HomePage() {
                 <ShieldCheck size={24} />
               </div>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.75rem' }}>
-                Asset Valuation & Feasibility
+                Asset Valuation & Feasibility Studies
               </h3>
-              <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
-                Data-driven market comparative assessments, land development feasibility studies, and strategic exit structuring.
+              <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
+                Data-driven market comparative assessments, land development feasibility studies, risk profiling, and structured exit planning for capital preservation.
               </p>
+              <Link to="/advisory" style={{ marginTop: 'auto', color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                <span>Learn about valuation</span>
+                <ArrowRight size={14} />
+              </Link>
             </div>
           </div>
         </div>
@@ -466,19 +590,23 @@ export default function HomePage() {
           borderTop: '1px solid #1E293B',
         }}
       >
-        <div className="container" style={{ textAlign: 'center', maxWidth: '640px' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1rem' }}>
+        <div className="container" style={{ textAlign: 'center', maxWidth: '680px' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--color-gold-400)', fontSize: '0.8125rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>
+            <Lock size={14} />
+            <span>Confidential Client Engagement</span>
+          </span>
+          <h2 style={{ fontSize: '2.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1rem', letterSpacing: '-0.01em' }}>
             Looking for Strategic Real Estate Guidance?
           </h2>
-          <p style={{ fontSize: '1rem', color: '#94A3B8', marginBottom: '2rem' }}>
-            Connect with our advisory desk for private consultations regarding property acquisition, listings, or market evaluation.
+          <p style={{ fontSize: '1.0625rem', color: '#94A3B8', marginBottom: '2rem', lineHeight: 1.6 }}>
+            Connect with our advisory desk for private consultations regarding premium acquisitions, commercial representation, or independent asset valuation.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Link to="/contact" className="btn btn-primary btn-lg">
-              Contact Advisory Desk
+              Book Confidential Consultation
             </Link>
             <Link to="/properties" className="btn btn-outline-gold btn-lg">
-              Browse Listings
+              Explore Verified Properties
             </Link>
           </div>
         </div>
