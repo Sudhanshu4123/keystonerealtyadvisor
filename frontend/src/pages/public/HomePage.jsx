@@ -39,9 +39,19 @@ export default function HomePage() {
           projectService.getFeaturedProjects(),
         ]);
 
-        if (propRes.status === 'fulfilled' && propRes.value?.success && propRes.value.data) {
+        if (propRes.status === 'fulfilled' && propRes.value?.success && Array.isArray(propRes.value.data) && propRes.value.data.length > 0) {
           setFeaturedProperties(propRes.value.data);
+        } else {
+          try {
+            const allProps = await propertyService.searchProperties({ size: 6 });
+            if (allProps?.success && allProps.data?.content && allProps.data.content.length > 0) {
+              setFeaturedProperties(allProps.data.content);
+            }
+          } catch (fallbackErr) {
+            console.error('Failed to load recent properties:', fallbackErr);
+          }
         }
+
         if (projData.status === 'fulfilled' && projData.value) {
           const pList = projData.value.data || (Array.isArray(projData.value) ? projData.value : []);
           setFeaturedProjects(pList);

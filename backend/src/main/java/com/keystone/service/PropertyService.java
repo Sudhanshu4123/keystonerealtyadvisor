@@ -204,6 +204,9 @@ public class PropertyService {
     @Transactional(readOnly = true)
     public List<PropertyResponse> getFeaturedAvailableProperties(Long currentUserId) {
         List<Property> properties = propertyRepository.findTop6ByStatusOrderByCreatedAtDesc(PropertyStatus.AVAILABLE);
+        if (properties.isEmpty()) {
+            properties = propertyRepository.findAll(PageRequest.of(0, 6, Sort.by(Sort.Direction.DESC, "createdAt"))).getContent();
+        }
         return properties.stream()
                 .map(p -> {
                     boolean isFav = currentUserId != null && favoriteRepository.existsByUserIdAndPropertyId(currentUserId, p.getId());
