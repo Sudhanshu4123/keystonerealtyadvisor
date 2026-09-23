@@ -164,20 +164,54 @@ export default function PropertyCard({ property, onFavoriteToggle }) {
             color: 'var(--text-secondary)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="Bedrooms">
-            <Bed size={15} color="var(--color-dark-500)" />
-            <span><strong>{property.bedrooms}</strong> Beds</span>
-          </div>
+          {property.listingType === 'PG_CO_LIVING' ? (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="Beds Available">
+                <Bed size={15} color="var(--color-gold-600)" />
+                <span><strong>{property.totalBeds || 'PG'}</strong> Beds</span>
+              </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="Bathrooms">
-            <Bath size={15} color="var(--color-dark-500)" />
-            <span><strong>{property.bathrooms}</strong> Baths</span>
-          </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="PG For">
+                <span style={{
+                  padding: '0.125rem 0.5rem',
+                  backgroundColor: '#F1F5F9',
+                  borderRadius: '4px',
+                  fontWeight: 600,
+                  fontSize: '0.75rem',
+                  color: 'var(--color-navy-900)'
+                }}>
+                  {property.pgFor || 'Co-Living'}
+                </span>
+              </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="Area">
-            <Square size={14} color="var(--color-dark-500)" />
-            <span><strong>{property.area}</strong> sqft</span>
-          </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="Meals">
+                <span style={{
+                  color: property.mealsAvailable ? '#16A34A' : 'var(--text-muted)',
+                  fontWeight: 600,
+                  fontSize: '0.75rem'
+                }}>
+                  {property.mealsAvailable ? 'Food Included' : 'Self Cook'}
+                </span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="Bedrooms">
+                <Bed size={15} color="var(--color-dark-500)" />
+                <span><strong>{property.bedrooms}</strong> Beds</span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="Bathrooms">
+                <Bath size={15} color="var(--color-dark-500)" />
+                <span><strong>{property.bathrooms}</strong> Baths</span>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }} title="Area">
+                <Square size={14} color="var(--color-dark-500)" />
+                <span><strong>{property.area}</strong> sqft</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
