@@ -85,7 +85,6 @@ export default function HomePage() {
         title="Keystone Realty Advisor | Trusted Real Estate Consultancy & Luxury Property Advisors"
         description="Discover verified residential homes, high-yield commercial investments, and strategic real estate advisory with Keystone Realty Advisor. Honest market valuations and end-to-end transaction integrity."
         keywords="Keystone Realty Advisor, buy residential property, luxury apartments, commercial property advisory, verified real estate, property investment India, real estate consultancy"
-        canonicalUrl="/"
         schema={{
           '@context': 'https://schema.org',
           '@graph': [

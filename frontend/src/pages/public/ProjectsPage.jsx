@@ -115,7 +115,6 @@ export default function ProjectsPage() {
         title="Luxury Real Estate Projects & Developments | Keystone Realty Advisor"
         description="Explore verified residential townships, luxury high-rises, commercial hubs, and plotted communities. RERA verified credentials, master plans, and official pricing."
         keywords="real estate projects, luxury apartments, new residential projects, commercial towers, RERA approved projects, Keystone Realty Advisor"
-        canonicalUrl="/projects"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Projects', path: '/projects' },

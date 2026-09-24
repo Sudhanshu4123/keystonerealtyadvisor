@@ -105,7 +105,6 @@ export default function PropertiesPage() {
         title="Verified Properties for Sale & Rent | Keystone Realty Advisor"
         description="Browse thoroughly verified residential apartments, luxury villas, builder floors, and commercial spaces. Reviewed for clear titles and authentic market pricing."
         keywords="verified properties, flats for sale, apartments for rent, luxury villas, commercial spaces, real estate investments, Keystone Realty Advisor"
-        canonicalUrl="/properties"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Properties', path: '/properties' },
