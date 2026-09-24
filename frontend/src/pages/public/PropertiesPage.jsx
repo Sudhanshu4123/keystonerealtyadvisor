@@ -37,6 +37,62 @@ export default function PropertiesPage() {
   });
   const [loading, setLoading] = useState(true);
 
+  // Sync state from URL search params when URL changes (e.g. from hero chips or back/forward)
+  useEffect(() => {
+    const nextQuery = searchParams.get('query') || '';
+    const nextCity = searchParams.get('city') || '';
+    const nextLocation = searchParams.get('location') || '';
+    const nextPropertyType = searchParams.get('propertyType') || '';
+    const nextListingType = searchParams.get('listingType') || '';
+    const nextMinPrice = searchParams.get('minPrice') || '';
+    const nextMaxPrice = searchParams.get('maxPrice') || '';
+    const nextBedrooms = searchParams.get('bedrooms') || '';
+    const nextBathrooms = searchParams.get('bathrooms') || '';
+    const nextFurnished = searchParams.get('furnished') || '';
+    const nextStatus = searchParams.get('status') || '';
+    const nextSortBy = searchParams.get('sortBy') || 'createdAt';
+    const nextSortDirection = searchParams.get('sortDirection') || 'DESC';
+    const nextPage = Number(searchParams.get('page')) || 0;
+
+    setFilters((prev) => {
+      if (
+        prev.query === nextQuery &&
+        prev.city === nextCity &&
+        prev.location === nextLocation &&
+        prev.propertyType === nextPropertyType &&
+        prev.listingType === nextListingType &&
+        prev.minPrice === nextMinPrice &&
+        prev.maxPrice === nextMaxPrice &&
+        prev.bedrooms === nextBedrooms &&
+        prev.bathrooms === nextBathrooms &&
+        prev.furnished === nextFurnished &&
+        prev.status === nextStatus &&
+        prev.sortBy === nextSortBy &&
+        prev.sortDirection === nextSortDirection &&
+        prev.page === nextPage
+      ) {
+        return prev;
+      }
+      return {
+        ...prev,
+        query: nextQuery,
+        city: nextCity,
+        location: nextLocation,
+        propertyType: nextPropertyType,
+        listingType: nextListingType,
+        minPrice: nextMinPrice,
+        maxPrice: nextMaxPrice,
+        bedrooms: nextBedrooms,
+        bathrooms: nextBathrooms,
+        furnished: nextFurnished,
+        status: nextStatus,
+        sortBy: nextSortBy,
+        sortDirection: nextSortDirection,
+        page: nextPage,
+      };
+    });
+  }, [searchParams]);
+
   useEffect(() => {
     async function fetchProperties() {
       setLoading(true);
@@ -59,23 +115,21 @@ export default function PropertiesPage() {
     }
 
     fetchProperties();
-
-    // Sync state to URL search parameters
-    const params = new URLSearchParams();
-    Object.keys(filters).forEach((key) => {
-      if (filters[key] !== '' && filters[key] !== null && filters[key] !== undefined) {
-        params.set(key, filters[key]);
-      }
-    });
-    setSearchParams(params, { replace: true });
-  }, [filters, setSearchParams]);
+  }, [filters]);
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
+    const params = new URLSearchParams();
+    Object.keys(newFilters).forEach((key) => {
+      if (newFilters[key] !== '' && newFilters[key] !== null && newFilters[key] !== undefined && key !== 'size') {
+        params.set(key, newFilters[key]);
+      }
+    });
+    setSearchParams(params);
   };
 
   const handleResetFilters = () => {
-    setFilters({
+    const defaultFilters = {
       query: '',
       city: '',
       location: '',
@@ -91,20 +145,54 @@ export default function PropertiesPage() {
       sortDirection: 'DESC',
       page: 0,
       size: 12,
-    });
+    };
+    setFilters(defaultFilters);
+    setSearchParams({});
   };
 
   const handlePageChange = (newPage) => {
-    setFilters((prev) => ({ ...prev, page: newPage }));
+    const updated = { ...filters, page: newPage };
+    setFilters(updated);
+    const params = new URLSearchParams();
+    Object.keys(updated).forEach((key) => {
+      if (updated[key] !== '' && updated[key] !== null && updated[key] !== undefined && key !== 'size') {
+        params.set(key, updated[key]);
+      }
+    });
+    setSearchParams(params);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Dynamic heading & SEO depending on search query / keyword
+  const isFlatForRentGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'RENT' && filters.propertyType === 'APARTMENT';
+  const isFlatForSaleGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'SALE' && filters.propertyType === 'APARTMENT';
+
+  const pageTitle = isFlatForRentGurugram
+    ? 'Flat for Rent in Gurugram | Verified Rental Apartments | Keystone Realty Advisor'
+    : isFlatForSaleGurugram
+    ? 'Flats for Sale in Gurugram | Luxury Apartments | Keystone Realty Advisor'
+    : filters.city
+    ? `Verified Properties in ${filters.city} | Keystone Realty Advisor`
+    : 'Verified Properties for Sale & Rent | Keystone Realty Advisor';
+
+  const headingTitle = isFlatForRentGurugram
+    ? 'Flats for Rent in Gurugram'
+    : isFlatForSaleGurugram
+    ? 'Flats for Sale in Gurugram'
+    : filters.city
+    ? `Properties in ${filters.city}`
+    : 'Verified Properties for Sale & Rent';
+
+  const pageDescription = isFlatForRentGurugram
+    ? 'Explore verified 1 BHK, 2 BHK, 3 BHK, and luxury flats for rent in Gurugram. Direct owner listings, gated societies, prime Golf Course Road, Cyber City, and Dwarka Expressway locations.'
+    : 'Browse thoroughly verified residential apartments, luxury villas, builder floors, and commercial spaces. Reviewed for clear titles and authentic market pricing.';
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Verified Properties for Sale & Rent | Keystone Realty Advisor"
-        description="Browse thoroughly verified residential apartments, luxury villas, builder floors, and commercial spaces. Reviewed for clear titles and authentic market pricing."
-        keywords="verified properties, flats for sale, apartments for rent, luxury villas, commercial spaces, real estate investments, Keystone Realty Advisor"
+        title={pageTitle}
+        description={pageDescription}
+        keywords="flat for rent in gurugram, flats in gurugram, rent apartment gurugram, verified properties, flats for sale, Keystone Realty Advisor"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Properties', path: '/properties' },
@@ -112,8 +200,8 @@ export default function PropertiesPage() {
         schema={{
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: 'Verified Real Estate Properties for Sale & Rent',
-          description: 'Browse verified residential and commercial properties available for sale and rent.',
+          name: headingTitle,
+          description: pageDescription,
           url: 'https://keystonerealtyadvisor.com/properties'
         }}
       />
@@ -125,7 +213,7 @@ export default function PropertiesPage() {
         <div style={{ marginBottom: '2rem' }}>
           <span className="section-subtitle">Property Portfolio</span>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-            <h1 className="section-title" style={{ marginBottom: 0 }}>Verified Properties for Sale & Rent</h1>
+            <h1 className="section-title" style={{ marginBottom: 0 }}>{headingTitle}</h1>
             <span style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
               Showing <strong>{pageInfo.totalElements}</strong> {pageInfo.totalElements === 1 ? 'property' : 'properties'}
             </span>

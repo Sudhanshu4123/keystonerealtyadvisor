@@ -112,6 +112,40 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Popular Keyword Searches */}
+          <div>
+            <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
+              Popular Searches
+            </h3>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
+              <li>
+                <Link to="/properties?city=Gurugram&listingType=RENT&propertyType=APARTMENT" style={{ color: '#CBD5E1', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  <span>Flat for Rent in Gurugram</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties?city=Gurugram&listingType=SALE&propertyType=APARTMENT" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Flats for Sale in Gurugram
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties?city=Gurugram&propertyType=VILLA" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Luxury Villas in Gurugram
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties?city=Gurugram&listingType=LEASE" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Commercial Lease Gurugram
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties?city=Gurugram&propertyType=INDEPENDENT_FLOOR" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Independent Floors Gurugram
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact Direct */}
           <div>
             <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>

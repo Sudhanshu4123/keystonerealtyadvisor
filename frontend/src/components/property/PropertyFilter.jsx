@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, RotateCcw, Filter, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, RotateCcw, Filter, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
 
 export default function PropertyFilter({ filters, onFilterChange, onReset }) {
   const [expanded, setExpanded] = useState(false);
@@ -32,6 +32,12 @@ export default function PropertyFilter({ filters, onFilterChange, onReset }) {
     return 'newest';
   };
 
+  const isFlatRentGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'RENT' && filters.propertyType === 'APARTMENT';
+  const isFlatSaleGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'SALE' && filters.propertyType === 'APARTMENT';
+  const isVillaGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.propertyType === 'VILLA';
+  const isCommercialGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'LEASE';
+  const isFloorGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.propertyType === 'INDEPENDENT_FLOOR';
+
   return (
     <div
       style={{
@@ -43,6 +49,93 @@ export default function PropertyFilter({ filters, onFilterChange, onReset }) {
         boxShadow: 'var(--shadow-sm)',
       }}
     >
+      {/* Quick Search Keyword Chips */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '0.5rem',
+          marginBottom: '1.25rem',
+          paddingBottom: '1.25rem',
+          borderBottom: '1px solid var(--border-color)',
+        }}
+      >
+        <span style={{ color: 'var(--text-secondary)', fontSize: '0.8125rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.375rem', marginRight: '0.25rem' }}>
+          <Sparkles size={14} color="var(--color-primary-600)" /> Popular Searches:
+        </span>
+        <button
+          type="button"
+          onClick={() => onFilterChange({ ...filters, city: 'Gurugram', listingType: 'RENT', propertyType: 'APARTMENT', query: '', page: 0 })}
+          className={`btn btn-sm ${isFlatRentGurugram ? 'btn-primary' : 'btn-outline'}`}
+          style={{
+            borderRadius: '9999px',
+            padding: '0.3rem 0.875rem',
+            fontSize: '0.8125rem',
+            fontWeight: isFlatRentGurugram ? 600 : 500,
+            borderColor: isFlatRentGurugram ? 'transparent' : 'var(--border-color)',
+          }}
+        >
+          🔥 Flat for rent in Gurugram
+        </button>
+        <button
+          type="button"
+          onClick={() => onFilterChange({ ...filters, city: 'Gurugram', listingType: 'SALE', propertyType: 'APARTMENT', query: '', page: 0 })}
+          className={`btn btn-sm ${isFlatSaleGurugram ? 'btn-primary' : 'btn-outline'}`}
+          style={{
+            borderRadius: '9999px',
+            padding: '0.3rem 0.875rem',
+            fontSize: '0.8125rem',
+            fontWeight: isFlatSaleGurugram ? 600 : 500,
+            borderColor: isFlatSaleGurugram ? 'transparent' : 'var(--border-color)',
+          }}
+        >
+          Flats for sale in Gurugram
+        </button>
+        <button
+          type="button"
+          onClick={() => onFilterChange({ ...filters, city: 'Gurugram', propertyType: 'VILLA', listingType: '', query: '', page: 0 })}
+          className={`btn btn-sm ${isVillaGurugram ? 'btn-primary' : 'btn-outline'}`}
+          style={{
+            borderRadius: '9999px',
+            padding: '0.3rem 0.875rem',
+            fontSize: '0.8125rem',
+            fontWeight: isVillaGurugram ? 600 : 500,
+            borderColor: isVillaGurugram ? 'transparent' : 'var(--border-color)',
+          }}
+        >
+          Luxury Villas Gurugram
+        </button>
+        <button
+          type="button"
+          onClick={() => onFilterChange({ ...filters, city: 'Gurugram', listingType: 'LEASE', propertyType: '', query: '', page: 0 })}
+          className={`btn btn-sm ${isCommercialGurugram ? 'btn-primary' : 'btn-outline'}`}
+          style={{
+            borderRadius: '9999px',
+            padding: '0.3rem 0.875rem',
+            fontSize: '0.8125rem',
+            fontWeight: isCommercialGurugram ? 600 : 500,
+            borderColor: isCommercialGurugram ? 'transparent' : 'var(--border-color)',
+          }}
+        >
+          Commercial Lease Gurugram
+        </button>
+        <button
+          type="button"
+          onClick={() => onFilterChange({ ...filters, city: 'Gurugram', propertyType: 'INDEPENDENT_FLOOR', listingType: '', query: '', page: 0 })}
+          className={`btn btn-sm ${isFloorGurugram ? 'btn-primary' : 'btn-outline'}`}
+          style={{
+            borderRadius: '9999px',
+            padding: '0.3rem 0.875rem',
+            fontSize: '0.8125rem',
+            fontWeight: isFloorGurugram ? 600 : 500,
+            borderColor: isFloorGurugram ? 'transparent' : 'var(--border-color)',
+          }}
+        >
+          Independent Floors Gurugram
+        </button>
+      </div>
+
       {/* Top Search & Primary Filter Bar */}
       <div
         style={{
