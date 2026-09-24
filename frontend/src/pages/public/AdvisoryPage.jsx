@@ -10,6 +10,7 @@ export default function AdvisoryPage() {
         title="Institutional Real Estate Advisory & Investment Consultancy | Keystone Realty Advisor"
         description="Institutional-grade property consultancy: bespoke luxury acquisitions, corporate leasing strategy, asset valuation, and transaction due diligence tailored to your investment criteria."
         keywords="real estate advisory services, property consultancy, commercial leasing advisor, asset valuation, luxury home acquisition, Keystone Realty Advisor"
+        canonicalUrl="/advisory"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Advisory Services', path: '/advisory' },
