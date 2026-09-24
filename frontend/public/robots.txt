@@ -50,13 +50,11 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-# Disallow private administration, authentication, and internal user dashboards
+# Disallow private administration and internal user dashboards
 Disallow: /admin/
 Disallow: /admin/*
 Disallow: /dashboard/
 Disallow: /dashboard/*
-Disallow: /login
-Disallow: /register
 Disallow: /api/admin/
 Disallow: /api/users/
 Disallow: /api/favorites/
