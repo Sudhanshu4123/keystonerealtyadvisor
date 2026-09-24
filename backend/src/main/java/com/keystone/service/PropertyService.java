@@ -93,11 +93,20 @@ public class PropertyService {
             }
 
             if (StringUtils.hasText(criteria.getCity())) {
-                predicates.add(cb.equal(cb.lower(root.get("city")), criteria.getCity().toLowerCase()));
+                String cityLower = criteria.getCity().toLowerCase().trim();
+                if ("gurugram".equals(cityLower) || "gurgaon".equals(cityLower)) {
+                    Predicate cityG1 = cb.like(cb.lower(root.get("city")), "%gurugram%");
+                    Predicate cityG2 = cb.like(cb.lower(root.get("city")), "%gurgaon%");
+                    Predicate locG1 = cb.like(cb.lower(root.get("location")), "%gurugram%");
+                    Predicate locG2 = cb.like(cb.lower(root.get("location")), "%gurgaon%");
+                    predicates.add(cb.or(cityG1, cityG2, locG1, locG2));
+                } else {
+                    predicates.add(cb.like(cb.lower(root.get("city")), "%" + cityLower + "%"));
+                }
             }
 
             if (StringUtils.hasText(criteria.getLocation())) {
-                predicates.add(cb.like(cb.lower(root.get("location")), "%" + criteria.getLocation().toLowerCase() + "%"));
+                predicates.add(cb.like(cb.lower(root.get("location")), "%" + criteria.getLocation().toLowerCase().trim() + "%"));
             }
 
             if (criteria.getPropertyType() != null) {

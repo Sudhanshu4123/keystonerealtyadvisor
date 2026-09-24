@@ -50,6 +50,7 @@ public class SitemapController {
         // 1. Static Core Pages
         addUrl(xml, baseUrl + "/", today, "daily", "1.0", baseUrl + "/keystone-logo.png", "Keystone Realty Advisor");
         addUrl(xml, baseUrl + "/properties", today, "daily", "0.9", null, null);
+        addUrl(xml, baseUrl + "/flats-for-rent-in-gurugram", today, "daily", "0.95", null, null);
         addUrl(xml, baseUrl + "/projects", today, "daily", "0.9", null, null);
         addUrl(xml, baseUrl + "/advisory", today, "monthly", "0.8", null, null);
         addUrl(xml, baseUrl + "/contact", today, "monthly", "0.8", null, null);

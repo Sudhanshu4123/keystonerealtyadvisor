@@ -292,7 +292,7 @@ export default function HomePage() {
               </span>
               <button
                 type="button"
-                onClick={() => navigate('/properties?city=Gurugram&listingType=RENT&propertyType=APARTMENT')}
+                onClick={() => navigate('/flats-for-rent-in-gurugram')}
                 aria-label="Search flat for rent in Gurugram"
                 className="hero-keyword-chip"
                 style={{

@@ -22,6 +22,7 @@ import ContactPage from './pages/public/ContactPage';
 import TermsPage from './pages/public/TermsPage';
 import PrivacyPage from './pages/public/PrivacyPage';
 import NotFoundPage from './pages/public/NotFoundPage';
+import FlatsForRentGurugramPage from './pages/public/FlatsForRentGurugramPage';
 
 // Auth Pages
 import LoginPage from './pages/auth/LoginPage';
@@ -52,6 +53,8 @@ export default function App() {
             <Route element={<MainLayout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/properties" element={<PropertiesPage />} />
+              <Route path="/flats-for-rent-in-gurugram" element={<FlatsForRentGurugramPage />} />
+              <Route path="/flats-for-rent-in-gurgaon" element={<FlatsForRentGurugramPage />} />
               <Route path="/properties/:id" element={<PropertyDetailPage />} />
               <Route path="/properties/slug/:slug" element={<PropertyDetailPage />} />
               <Route path="/property" element={<PropertyDetailPage />} />
