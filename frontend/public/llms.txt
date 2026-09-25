@@ -11,6 +11,7 @@
 
 ## Core Navigation & URLs
 - [Properties Portfolio](https://keystonerealtyadvisor.com/properties): Browse verified residential apartments, villas, penthouses, and commercial spaces.
+- [Flats for Rent in Gurugram](https://keystonerealtyadvisor.com/flats-for-rent-in-gurugram): Verified 1, 2, 3, and 4 BHK rental apartments and luxury societies in Gurugram / Gurgaon.
 - [Development Projects](https://keystonerealtyadvisor.com/projects): Explore RERA-approved townships and premier developer projects.
 - [Advisory Services](https://keystonerealtyadvisor.com/advisory): Strategic asset consulting, legal due diligence, and portfolio representation.
 - [Contact & Consultation](https://keystonerealtyadvisor.com/contact): Direct advisory desk, booking consultations, and client care.

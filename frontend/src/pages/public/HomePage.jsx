@@ -72,6 +72,13 @@ export default function HomePage() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    const rawQuery = (searchParams.query || '').trim().toLowerCase();
+    
+    if (rawQuery.includes('rent') && (rawQuery.includes('gurugram') || rawQuery.includes('gurgaon'))) {
+      navigate('/flats-for-rent-in-gurugram');
+      return;
+    }
+
     const query = new URLSearchParams();
     if (searchParams.query) query.append('query', searchParams.query);
     if (searchParams.listingType) query.append('listingType', searchParams.listingType);
@@ -83,8 +90,8 @@ export default function HomePage() {
     <div>
       <SEO
         title="Keystone Realty Advisor | Trusted Real Estate Consultancy & Luxury Property Advisors"
-        description="Discover verified residential homes, high-yield commercial investments, and strategic real estate advisory with Keystone Realty Advisor. Honest market valuations and end-to-end transaction integrity."
-        keywords="Keystone Realty Advisor, buy residential property, luxury apartments, commercial property advisory, verified real estate, property investment India, real estate consultancy"
+        description="Discover verified residential homes, flats for rent in Gurugram, high-yield commercial investments, and strategic real estate advisory with Keystone Realty Advisor. Honest market valuations and end-to-end transaction integrity."
+        keywords="flat for rent in gurugram, flat for rent in gurgaon, flats for rent in gurgaon, apartments for rent in gurugram, 2 bhk flat for rent in gurgaon, 3 bhk for rent in gurgaon, Keystone Realty Advisor, buy residential property, luxury apartments, commercial property advisory, verified real estate, property investment India, real estate consultancy"
         schema={{
           '@context': 'https://schema.org',
           '@graph': [
@@ -220,7 +227,7 @@ export default function HomePage() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Location or keywords..."
+                  placeholder="Location or keywords (e.g. flat for rent in gurugram)..."
                   aria-label="Search properties by location or keywords"
                   value={searchParams.query}
                   onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
@@ -265,130 +272,6 @@ export default function HomePage() {
                 <span>Search Properties</span>
               </button>
             </form>
-
-            {/* Popular Search Keyword Chips */}
-            <div
-              style={{
-                marginTop: '1.25rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-                gap: '0.5rem',
-              }}
-            >
-              <span
-                style={{
-                  color: '#94A3B8',
-                  fontSize: '0.8125rem',
-                  fontWeight: 500,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.375rem',
-                  marginRight: '0.25rem',
-                }}
-              >
-                <TrendingUp size={14} color="#E5C058" /> Popular Searches:
-              </span>
-              <button
-                type="button"
-                onClick={() => navigate('/flats-for-rent-in-gurugram')}
-                aria-label="Search flat for rent in Gurugram"
-                className="hero-keyword-chip"
-                style={{
-                  backgroundColor: 'rgba(229, 192, 88, 0.15)',
-                  border: '1px solid rgba(229, 192, 88, 0.45)',
-                  color: '#E5C058',
-                  padding: '0.35rem 0.875rem',
-                  borderRadius: '9999px',
-                  cursor: 'pointer',
-                  fontSize: '0.8125rem',
-                  fontWeight: 600,
-                  transition: 'all 0.2s ease',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.375rem',
-                }}
-              >
-                <span>🔥 Flat for rent in Gurugram</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/properties?city=Gurugram&listingType=SALE&propertyType=APARTMENT')}
-                aria-label="Search flats for sale in Gurugram"
-                className="hero-keyword-chip"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#E2E8F0',
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '9999px',
-                  cursor: 'pointer',
-                  fontSize: '0.8125rem',
-                  fontWeight: 500,
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                Flats for sale in Gurugram
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/properties?city=Gurugram&propertyType=VILLA')}
-                aria-label="Search luxury villas in Gurugram"
-                className="hero-keyword-chip"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#E2E8F0',
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '9999px',
-                  cursor: 'pointer',
-                  fontSize: '0.8125rem',
-                  fontWeight: 500,
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                Luxury Villas Gurugram
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/properties?city=Gurugram&listingType=LEASE')}
-                aria-label="Search commercial lease in Gurugram"
-                className="hero-keyword-chip"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#E2E8F0',
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '9999px',
-                  cursor: 'pointer',
-                  fontSize: '0.8125rem',
-                  fontWeight: 500,
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                Commercial Lease Gurugram
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/properties?city=Gurugram&propertyType=INDEPENDENT_FLOOR')}
-                aria-label="Search independent floors in Gurugram"
-                className="hero-keyword-chip"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  color: '#E2E8F0',
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: '9999px',
-                  cursor: 'pointer',
-                  fontSize: '0.8125rem',
-                  fontWeight: 500,
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                Independent Floors Gurugram
-              </button>
-            </div>
           </div>
         </div>
 
@@ -397,12 +280,6 @@ export default function HomePage() {
             .hero-search-form {
               grid-template-columns: 1fr !important;
             }
-          }
-          .hero-keyword-chip:hover {
-            transform: translateY(-1px);
-            background-color: rgba(229, 192, 88, 0.25) !important;
-            border-color: #E5C058 !important;
-            color: #FFFFFF !important;
           }
         `}</style>
       </section>
