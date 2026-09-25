@@ -77,17 +77,20 @@ export default function PropertiesInDelhiPage() {
         }
 
         const res = await propertyService.searchProperties(queryParams);
-        if (res.success && res.data && res.data.content && res.data.content.length > 0) {
-          setProperties(res.data.content);
+        if (res.success && res.data && Array.isArray(res.data.content)) {
+          // Strict city filter: only keep properties belonging to Delhi
+          const delhiProps = res.data.content.filter((p) => {
+            const city = (p.city || '').toLowerCase();
+            const loc = (p.location || '').toLowerCase();
+            return city.includes('delhi') || loc.includes('delhi');
+          });
+          setProperties(delhiProps);
         } else {
-          // Fallback to recent/featured listings if exact match in seed db is expanding
-          const fallbackRes = await propertyService.getFeaturedProperties();
-          if (fallbackRes.success && fallbackRes.data) {
-            setProperties(fallbackRes.data);
-          }
+          setProperties([]);
         }
       } catch (err) {
         console.error('Failed to load properties in Delhi:', err);
+        setProperties([]);
       } finally {
         setLoading(false);
       }
@@ -387,21 +390,27 @@ export default function PropertiesInDelhiPage() {
               style={{
                 backgroundColor: '#FFFFFF',
                 borderRadius: 'var(--radius-lg)',
-                padding: '3rem 2rem',
+                padding: '3.5rem 2rem',
                 textAlign: 'center',
                 border: '1px solid var(--border-color)',
+                boxShadow: 'var(--shadow-sm)',
               }}
             >
               <Building2 size={48} color="var(--color-gold-500)" style={{ margin: '0 auto 1rem' }} />
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-                Looking for specific properties in Delhi?
+              <h3 style={{ fontSize: '1.35rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+                No Active Listings in Delhi Right Now
               </h3>
-              <p style={{ color: 'var(--text-secondary)', maxWidth: '480px', margin: '0 auto 1.5rem', fontSize: '0.9375rem' }}>
-                Our private portfolio holds exclusive luxury builder floors and commercial properties across South Delhi and Dwarka.
+              <p style={{ color: 'var(--text-secondary)', maxWidth: '520px', margin: '0 auto 1.5rem', fontSize: '0.9375rem', lineHeight: 1.6 }}>
+                We are currently reviewing and verifying new properties in Delhi. Any new Delhi property listed in the system will automatically appear on this page.
               </p>
-              <a href="tel:+919911956274" className="btn btn-primary" style={{ gap: '0.5rem' }}>
-                <Phone size={16} /> Contact Delhi Desk: +91 9911956274
-              </a>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                <Link to="/properties" className="btn btn-secondary" style={{ padding: '0.625rem 1.25rem' }}>
+                  Browse All Properties
+                </Link>
+                <a href="tel:+919911956274" className="btn btn-primary" style={{ gap: '0.5rem', padding: '0.625rem 1.25rem' }}>
+                  <Phone size={16} /> Contact Delhi Desk: +91 9911956274
+                </a>
+              </div>
             </div>
           )}
 

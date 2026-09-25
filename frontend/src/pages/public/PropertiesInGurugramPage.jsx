@@ -77,17 +77,20 @@ export default function PropertiesInGurugramPage() {
         }
 
         const res = await propertyService.searchProperties(queryParams);
-        if (res.success && res.data && res.data.content && res.data.content.length > 0) {
-          setProperties(res.data.content);
+        if (res.success && res.data && Array.isArray(res.data.content)) {
+          // Strict city filter: only keep properties belonging to Gurugram / Gurgaon
+          const gurugramProps = res.data.content.filter((p) => {
+            const city = (p.city || '').toLowerCase();
+            const loc = (p.location || '').toLowerCase();
+            return city.includes('gurugram') || city.includes('gurgaon') || loc.includes('gurugram') || loc.includes('gurgaon');
+          });
+          setProperties(gurugramProps);
         } else {
-          // Fallback to recent/featured listings if exact match in seed db is expanding
-          const fallbackRes = await propertyService.getFeaturedProperties();
-          if (fallbackRes.success && fallbackRes.data) {
-            setProperties(fallbackRes.data);
-          }
+          setProperties([]);
         }
       } catch (err) {
         console.error('Failed to load properties in Gurugram:', err);
+        setProperties([]);
       } finally {
         setLoading(false);
       }

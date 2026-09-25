@@ -74,17 +74,20 @@ export default function FlatsForRentGurugramPage() {
         }
 
         const res = await propertyService.searchProperties(queryParams);
-        if (res.success && res.data && res.data.content) {
-          setProperties(res.data.content);
+        if (res.success && res.data && Array.isArray(res.data.content)) {
+          const gurugramRentals = res.data.content.filter((p) => {
+            const city = (p.city || '').toLowerCase();
+            const loc = (p.location || '').toLowerCase();
+            const isGurgaon = city.includes('gurugram') || city.includes('gurgaon') || loc.includes('gurugram') || loc.includes('gurgaon');
+            return isGurgaon;
+          });
+          setProperties(gurugramRentals);
         } else {
-          // If no specific rentals match yet in DB, fetch featured properties as fallback
-          const fallbackRes = await propertyService.getFeaturedProperties();
-          if (fallbackRes.success && fallbackRes.data) {
-            setProperties(fallbackRes.data);
-          }
+          setProperties([]);
         }
       } catch (err) {
         console.error('Failed to load flats for rent in Gurugram:', err);
+        setProperties([]);
       } finally {
         setLoading(false);
       }
