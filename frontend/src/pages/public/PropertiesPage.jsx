@@ -170,18 +170,18 @@ export default function PropertiesPage() {
   const pageTitle = isFlatForRentGurugram
     ? 'Flat for Rent in Gurugram | Verified Rental Apartments | Keystone Realty Advisor'
     : isFlatForSaleGurugram
-    ? 'Flats for Sale in Gurugram | Luxury Apartments | Keystone Realty Advisor'
-    : filters.city
-    ? `Verified Properties in ${filters.city} | Keystone Realty Advisor`
-    : 'Verified Properties for Sale & Rent | Keystone Realty Advisor';
+      ? 'Flats for Sale in Gurugram | Luxury Apartments | Keystone Realty Advisor'
+      : filters.city
+        ? `Verified Properties in ${filters.city} | Keystone Realty Advisor`
+        : 'Verified Properties for Sale & Rent | Keystone Realty Advisor';
 
   const headingTitle = isFlatForRentGurugram
     ? 'Flats for Rent in Gurugram'
     : isFlatForSaleGurugram
-    ? 'Flats for Sale in Gurugram'
-    : filters.city
-    ? `Properties in ${filters.city}`
-    : 'Verified Properties for Sale & Rent';
+      ? 'Flats for Sale in Gurugram'
+      : filters.city
+        ? `Properties in ${filters.city}`
+        : 'Verified Properties for Sale & Rent';
 
   const pageDescription = isFlatForRentGurugram
     ? 'Explore verified 1 BHK, 2 BHK, 3 BHK, and luxury flats for rent in Gurugram. Direct owner listings, gated societies, prime Golf Course Road, Cyber City, and Dwarka Expressway locations.'

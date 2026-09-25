@@ -119,28 +119,28 @@ export default function Footer() {
             </h3>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
               <li>
-                <Link to="/flats-for-rent-in-gurugram" style={{ color: '#CBD5E1', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
-                  <span>Flat for Rent in Gurugram</span>
+                <Link to="/properties-in-delhi" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Properties in Delhi
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties-in-gurugram" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Properties in Gurugram
+                </Link>
+              </li>
+              <li>
+                <Link to="/properties-in-noida" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Properties in Noida
+                </Link>
+              </li>
+              <li>
+                <Link to="/flats-for-rent-in-gurugram" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Flats for Rent in Gurgaon
                 </Link>
               </li>
               <li>
                 <Link to="/properties?city=Gurugram&listingType=SALE&propertyType=APARTMENT" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
-                  Flats for Sale in Gurugram
-                </Link>
-              </li>
-              <li>
-                <Link to="/properties?city=Gurugram&propertyType=VILLA" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
-                  Luxury Villas in Gurugram
-                </Link>
-              </li>
-              <li>
-                <Link to="/properties?city=Gurugram&listingType=LEASE" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
-                  Commercial Lease Gurugram
-                </Link>
-              </li>
-              <li>
-                <Link to="/properties?city=Gurugram&propertyType=INDEPENDENT_FLOOR" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
-                  Independent Floors Gurugram
+                  Flats for Sale in Delhi NCR
                 </Link>
               </li>
             </ul>

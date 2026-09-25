@@ -1,126 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="format-detection" content="telephone=no" />
-    
-    <!-- Google Consent Mode v2 (Default Configuration) -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      
-      // Read saved consent from localStorage if available
-      var savedConsent = 'denied';
-      try {
-        if (localStorage.getItem('keystone_cookie_consent') === 'accepted') {
-          savedConsent = 'granted';
-        }
-      } catch (e) {}
 
-      gtag('consent', 'default', {
-        'ad_storage': savedConsent,
-        'ad_user_data': savedConsent,
-        'ad_personalization': savedConsent,
-        'analytics_storage': savedConsent,
-        'wait_for_update': 500
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- Google Consent Mode v2 (Default Configuration) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+
+    // Read saved consent from localStorage if available
+    var savedConsent = 'denied';
+    try {
+      if (localStorage.getItem('keystone_cookie_consent') === 'accepted') {
+        savedConsent = 'granted';
+      }
+    } catch (e) { }
+
+    gtag('consent', 'default', {
+      'ad_storage': savedConsent,
+      'ad_user_data': savedConsent,
+      'ad_personalization': savedConsent,
+      'analytics_storage': savedConsent,
+      'wait_for_update': 500
+    });
+
+    // Defer third-party tags to prevent render blocking and optimize FCP / LCP
+    function initAnalyticsScripts() {
+      // Google Tag Manager
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+          'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-NWK5WD3S');
+
+      // Google tag (gtag.js)
+      var gt = document.createElement('script');
+      gt.async = true;
+      gt.src = 'https://www.googletagmanager.com/gtag/js?id=G-WWLV22CZ5G';
+      document.head.appendChild(gt);
+      gtag('js', new Date());
+      gtag('config', 'G-WWLV22CZ5G');
+
+      // Microsoft Clarity Analytics
+      (function (c, l, a, r, i, t, y) {
+        c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+        t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "yjkokvsg26");
+    }
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(initAnalyticsScripts, { timeout: 2500 });
+    } else {
+      window.addEventListener('load', function () {
+        setTimeout(initAnalyticsScripts, 1000);
       });
+    }
+  </script>
 
-      // Defer third-party tags to prevent render blocking and optimize FCP / LCP
-      function initAnalyticsScripts() {
-        // Google Tag Manager
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-NWK5WD3S');
+  <!-- Google Search & Browser Favicons (Compliant with Google Favicon Guidelines) -->
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-        // Google tag (gtag.js)
-        var gt = document.createElement('script');
-        gt.async = true;
-        gt.src = 'https://www.googletagmanager.com/gtag/js?id=G-WWLV22CZ5G';
-        document.head.appendChild(gt);
-        gtag('js', new Date());
-        gtag('config', 'G-WWLV22CZ5G');
+  <!-- LLM / AI Search Engine (AEO) Discovery -->
+  <link rel="help" type="text/plain" href="/llms.txt" title="LLM Context" />
+  <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full LLM Knowledge Base" />
 
-        // Microsoft Clarity Analytics
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "yjkokvsg26");
-      }
+  <!-- Primary Meta Tags -->
+  <title>Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants</title>
+  <meta name="title" content="Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants" />
+  <meta name="description"
+    content="Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation with complete integrity and due diligence." />
+  <meta name="keywords"
+    content="flat for rent in gurugram, flat for rent in gurgaon, flats for rent in gurgaon, apartments for rent in gurugram, 2 bhk flat for rent in gurgaon, 3 bhk for rent in gurgaon, Keystone Realty Advisor, real estate advisory, property consultancy, buy luxury apartments, commercial property investment, verified properties, property valuation, RERA approved projects" />
+  <meta name="author" content="Keystone Realty Advisor" />
+  <meta name="theme-color" content="#0B132B" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
 
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(initAnalyticsScripts, { timeout: 2500 });
-      } else {
-        window.addEventListener('load', function() {
-          setTimeout(initAnalyticsScripts, 1000);
-        });
-      }
-    </script>
-    
-    <!-- Google Search & Browser Favicons (Compliant with Google Favicon Guidelines) -->
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    
-    <!-- LLM / AI Search Engine (AEO) Discovery -->
-    <link rel="help" type="text/plain" href="/llms.txt" title="LLM Context" />
-    <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full LLM Knowledge Base" />
+  <!-- Bing Webmaster Verification -->
+  <meta name="msvalidate.01" content="B8CB4F570ADD1E9189C2E724DC8F41E7" />
 
-    <!-- Primary Meta Tags -->
-    <title>Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants</title>
-    <meta name="title" content="Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants" />
-    <meta name="description" content="Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation with complete integrity and due diligence." />
-    <meta name="keywords" content="flat for rent in gurugram, flat for rent in gurgaon, flats for rent in gurgaon, apartments for rent in gurugram, 2 bhk flat for rent in gurgaon, 3 bhk for rent in gurgaon, Keystone Realty Advisor, real estate advisory, property consultancy, buy luxury apartments, commercial property investment, verified properties, property valuation, RERA approved projects" />
-    <meta name="author" content="Keystone Realty Advisor" />
-    <meta name="theme-color" content="#0B132B" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    
-    <!-- Bing Webmaster Verification -->
-    <meta name="msvalidate.01" content="B8CB4F570ADD1E9189C2E724DC8F41E7" />
+  <!-- Global Geographic & Distribution Meta Tags -->
+  <meta name="target_country" content="IN" />
+  <meta name="coverage" content="Worldwide" />
+  <meta name="distribution" content="Global" />
+  <meta name="rating" content="General" />
 
-    <!-- Global Geographic & Distribution Meta Tags -->
-    <meta name="target_country" content="IN" />
-    <meta name="coverage" content="Worldwide" />
-    <meta name="distribution" content="Global" />
-    <meta name="rating" content="General" />
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Keystone Realty Advisor" />
+  <meta property="og:title" content="Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants" />
+  <meta property="og:description"
+    content="Discover verified residential homes, high-yield commercial investments, and strategic real estate advisory built on transparent due diligence and client trust." />
+  <meta property="og:image" content="https://keystonerealtyadvisor.com/keystone-logo.webp" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+  <meta property="og:locale" content="en_IN" />
 
-    <!-- Open Graph / Facebook / LinkedIn -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Keystone Realty Advisor" />
-    <meta property="og:title" content="Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants" />
-    <meta property="og:description" content="Discover verified residential homes, high-yield commercial investments, and strategic real estate advisory built on transparent due diligence and client trust." />
-    <meta property="og:image" content="https://keystonerealtyadvisor.com/keystone-logo.webp" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:locale" content="en_IN" />
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Keystone Realty Advisor | Trusted Real Estate Advisory" />
+  <meta name="twitter:description"
+    content="Expert property consultancy, verified residential acquisitions, and commercial investments with complete transparency." />
+  <meta name="twitter:image" content="https://keystonerealtyadvisor.com/keystone-logo.webp" />
 
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Keystone Realty Advisor | Trusted Real Estate Advisory" />
-    <meta name="twitter:description" content="Expert property consultancy, verified residential acquisitions, and commercial investments with complete transparency." />
-    <meta name="twitter:image" content="https://keystonerealtyadvisor.com/keystone-logo.webp" />
+  <!-- Google Fonts - Preconnected & Non-blocking Swap -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+  </noscript>
 
-    <!-- Google Fonts - Preconnected & Non-blocking Swap -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
-    </noscript>
-
-    <!-- Default JSON-LD Knowledge Graph for Search Engines & LLMs (AEO/LLMO) -->
-    <script type="application/ld+json">
+  <!-- Default JSON-LD Knowledge Graph for Search Engines & LLMs (AEO/LLMO) -->
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
@@ -194,14 +206,16 @@
       ]
     }
     </script>
-  </head>
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWK5WD3S"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+</head>
 
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWK5WD3S" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

@@ -73,7 +73,7 @@ export default function HomePage() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const rawQuery = (searchParams.query || '').trim().toLowerCase();
-    
+
     if (rawQuery.includes('rent') && (rawQuery.includes('gurugram') || rawQuery.includes('gurgaon'))) {
       navigate('/flats-for-rent-in-gurugram');
       return;

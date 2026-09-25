@@ -128,7 +128,7 @@ export default function ProjectsPage() {
         }}
       />
       <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.5rem' }}>
-        
+
         {/* Semantic Breadcrumbs */}
         <Breadcrumbs items={[{ label: 'Projects' }]} />
 

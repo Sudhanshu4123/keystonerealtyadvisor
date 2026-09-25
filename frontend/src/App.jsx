@@ -23,6 +23,9 @@ import TermsPage from './pages/public/TermsPage';
 import PrivacyPage from './pages/public/PrivacyPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 import FlatsForRentGurugramPage from './pages/public/FlatsForRentGurugramPage';
+import PropertiesInDelhiPage from './pages/public/PropertiesInDelhiPage';
+import PropertiesInGurugramPage from './pages/public/PropertiesInGurugramPage';
+import PropertiesInNoidaPage from './pages/public/PropertiesInNoidaPage';
 
 // Auth Pages
 import LoginPage from './pages/auth/LoginPage';
@@ -53,6 +56,14 @@ export default function App() {
             <Route element={<MainLayout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/properties" element={<PropertiesPage />} />
+              <Route path="/properties-in-delhi" element={<PropertiesInDelhiPage />} />
+              <Route path="/flats-in-delhi" element={<PropertiesInDelhiPage />} />
+              <Route path="/properties-in-gurugram" element={<PropertiesInGurugramPage />} />
+              <Route path="/properties-in-gurgaon" element={<PropertiesInGurugramPage />} />
+              <Route path="/flats-in-gurugram" element={<PropertiesInGurugramPage />} />
+              <Route path="/flats-in-gurgaon" element={<PropertiesInGurugramPage />} />
+              <Route path="/properties-in-noida" element={<PropertiesInNoidaPage />} />
+              <Route path="/flats-in-noida" element={<PropertiesInNoidaPage />} />
               <Route path="/flats-for-rent-in-gurugram" element={<FlatsForRentGurugramPage />} />
               <Route path="/flats-for-rent-in-gurgaon" element={<FlatsForRentGurugramPage />} />
               <Route path="/properties/:id" element={<PropertyDetailPage />} />
