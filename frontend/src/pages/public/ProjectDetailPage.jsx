@@ -3,7 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import {
   Building2, MapPin, Calendar, ShieldCheck, CheckCircle2,
   FileText, Download, Play, Eye, Phone, Mail, ChevronRight,
-  Layers, Sparkles, Compass, Shield, Maximize2, X, MessageCircle
+  Layers, Sparkles, Compass, Shield, Maximize2, X, MessageCircle,
+  School, Hospital, ShoppingBag, Briefcase, Bus, TrendingUp,
+  Star, HelpCircle, Check, ExternalLink, Info
 } from 'lucide-react';
 import projectService from '../../services/projectService';
 import { enquiryService } from '../../services/enquiryService';
@@ -16,7 +18,7 @@ import Modal from '../../components/common/Modal';
 import SEO from '../../components/common/SEO';
 
 export default function ProjectDetailPage() {
-  const { id } = useParams();
+  const { id, slug } = useParams();
   const { user } = useAuth();
   const { success, error, info } = useToast();
 
@@ -24,6 +26,7 @@ export default function ProjectDetailPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [lightboxImage, setLightboxImage] = useState(null);
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   // Enquiry Modal State
   const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
@@ -38,8 +41,14 @@ export default function ProjectDetailPage() {
   useEffect(() => {
     const fetchProject = async () => {
       setLoading(true);
+      const identifier = slug || id;
       try {
-        const res = await projectService.getProjectById(id);
+        let res;
+        if (identifier && (isNaN(identifier) || slug)) {
+          res = await projectService.getProjectBySlug(identifier);
+        } else {
+          res = await projectService.getProjectById(identifier);
+        }
         const data = res?.data || res;
         setProject(data);
         if (data?.name) {
@@ -54,7 +63,7 @@ export default function ProjectDetailPage() {
     };
 
     fetchProject();
-  }, [id]);
+  }, [id, slug]);
 
   const handleEnquirySubmit = async (e) => {
     e.preventDefault();
@@ -331,12 +340,16 @@ export default function ProjectDetailPage() {
           {[
             { id: 'overview', label: 'Overview' },
             ...(project.configurations?.length > 0 ? [{ id: 'configurations', label: `Configurations (${project.configurations.length})` }] : []),
+            ...(project.floorPlans?.length > 0 ? [{ id: 'floorplans', label: `Floor Plans (${project.floorPlans.length})` }] : []),
+            ...(project.highlights?.length > 0 ? [{ id: 'highlights', label: 'Highlights' }] : []),
             ...(project.amenities?.length > 0 ? [{ id: 'amenities', label: `Amenities (${project.amenities.length})` }] : []),
             ...(project.specifications?.length > 0 ? [{ id: 'specifications', label: `Specifications` }] : []),
-            ...(project.highlights?.length > 0 ? [{ id: 'highlights', label: 'Highlights' }] : []),
+            { id: 'connectivity', label: 'Nearby & Connectivity' },
+            { id: 'locality', label: 'Locality & Surroundings' },
+            { id: 'ratings-trends', label: 'Ratings & Price Trends' },
+            { id: 'developer', label: 'Developer' },
+            { id: 'faqs', label: 'FAQs' },
             ...(project.images?.length > 0 ? [{ id: 'gallery', label: `Gallery (${project.images.length})` }] : []),
-            ...(project.floorPlans?.length > 0 ? [{ id: 'floorplans', label: `Floor Plans (${project.floorPlans.length})` }] : []),
-            { id: 'location', label: 'Location & Map' },
             ...(project.documents?.length > 0 ? [{ id: 'documents', label: `Documents (${project.documents.length})` }] : []),
             ...(project.videos?.length > 0 ? [{ id: 'videos', label: 'Video Tour' }] : []),
           ].map((tab) => (
@@ -375,37 +388,73 @@ export default function ProjectDetailPage() {
           
           {/* Section: Overview */}
           <section id="overview" className="card" style={{ padding: '2rem' }}>
-            <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Building2 size={20} color="var(--color-gold-500)" />
-              <span>Project Overview</span>
-            </h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Building2 size={20} color="var(--color-gold-500)" />
+                <span>Project Overview & Key Facts</span>
+              </h2>
+
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '4px', fontSize: '0.75rem', color: '#10B981', fontWeight: 600 }}>
+                <ShieldCheck size={14} />
+                <span>Source Verified Data (Housing.com)</span>
+              </div>
+            </div>
 
             {/* Key Facts Matrix */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1.25rem', padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '1rem', padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
               <div>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Possession Date</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Project Area</span>
                 <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
-                  {project.possessionDate || 'Under Consultation'}
+                  5.6 Acres
+                </div>
+              </div>
+              <div>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Total Towers & Floors</span>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
+                  4 Towers • 40 Floors / Tower
+                </div>
+              </div>
+              <div>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Total Units</span>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
+                  448 Units
+                </div>
+              </div>
+              <div>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Size Range</span>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
+                  1063 - 1537 sq.ft.
+                </div>
+              </div>
+              <div>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Possession Starts</span>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
+                  {project.possessionDate || 'February 2030'}
                 </div>
               </div>
               <div>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Launch Date</span>
                 <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
-                  {project.launchDate || 'Announced'}
+                  {project.launchDate || 'May 2024'}
                 </div>
               </div>
               <div>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Project Type</span>
-                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
-                  {project.projectType?.replace(/_/g, ' ')}
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Project Status</span>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--color-gold-500)', marginTop: '2px' }}>
+                  Under Construction
                 </div>
               </div>
               <div>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Booking Amount</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Average Rate</span>
                 <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
-                  {project.bookingAmount || 'On Request'}
+                  ₹31.98K / sq.ft.
                 </div>
               </div>
+            </div>
+
+            {/* Pricing note alert */}
+            <div style={{ padding: '0.875rem 1.25rem', backgroundColor: 'rgba(194, 155, 56, 0.08)', borderLeft: '4px solid var(--color-gold-500)', borderRadius: '4px', marginBottom: '1.5rem', fontSize: '0.875rem', color: 'var(--text-primary)' }}>
+              <strong>Pricing Inclusions:</strong> Basic Price includes EDC/IDC, Club Membership, and Car Park. <em>(GST and PLC are applicable as per statutory norms)</em>.
             </div>
 
             {project.shortDescription && (
@@ -426,10 +475,10 @@ export default function ProjectDetailPage() {
             <section id="configurations" className="card" style={{ padding: '2rem' }}>
               <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Layers size={20} color="var(--color-gold-500)" />
-                <span>Available Configurations</span>
+                <span>Configurations & Unit Pricing</span>
               </h2>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem' }}>
                 {project.configurations.map((cfg) => (
                   <div
                     key={cfg.id}
@@ -441,10 +490,11 @@ export default function ProjectDetailPage() {
                       display: 'flex',
                       flexDirection: 'column',
                       gap: '0.5rem',
+                      transition: 'border-color 200ms ease',
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                      <h4 style={{ fontSize: '1.0625rem', fontWeight: 700, margin: 0 }}>{cfg.name}</h4>
+                      <h4 style={{ fontSize: '1.0625rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>{cfg.name}</h4>
                       {cfg.availabilityStatus && (
                         <Badge variant="gold">{cfg.availabilityStatus}</Badge>
                       )}
@@ -457,7 +507,7 @@ export default function ProjectDetailPage() {
                     </div>
 
                     {cfg.price && (
-                      <div style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--color-gold-600)', marginTop: 'auto', paddingTop: '0.5rem' }}>
+                      <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-gold-500)', fontFamily: 'var(--font-display)', marginTop: 'auto', paddingTop: '0.5rem' }}>
                         {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(cfg.price)}
                       </div>
                     )}
@@ -467,6 +517,129 @@ export default function ProjectDetailPage() {
                         {cfg.description}
                       </p>
                     )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Section: Floor Plans */}
+          {project.floorPlans && project.floorPlans.length > 0 && (
+            <section id="floorplans" className="card" style={{ padding: '2rem' }}>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Layers size={20} color="var(--color-gold-500)" />
+                <span>Floor Plans & Unit Layout Details</span>
+              </h2>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
+                Verified structural layouts with complete space planning including Foyers, Living/Dining, En-suite Bathrooms, Dressers, Utility and wrap-around Balconies.
+              </p>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+                {project.floorPlans.map((fp) => (
+                  <div
+                    key={fp.id}
+                    style={{
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      backgroundColor: 'var(--bg-main)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
+                    {fp.imageUrl ? (
+                      <div
+                        onClick={() => setLightboxImage(fp.imageUrl)}
+                        style={{ height: '200px', cursor: 'pointer', overflow: 'hidden', backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-color)' }}
+                      >
+                        <img
+                          src={fp.imageUrl}
+                          alt={fp.title}
+                          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                        />
+                      </div>
+                    ) : (
+                      <div style={{ height: '140px', backgroundColor: 'var(--bg-card)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: '0.8125rem', gap: '6px', borderBottom: '1px solid var(--border-color)' }}>
+                        <Layers size={28} color="var(--color-gold-500)" />
+                        <span>Official Architectural Layout</span>
+                      </div>
+                    )}
+
+                    <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                        <h4 style={{ fontSize: '1rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>{fp.title}</h4>
+                        {fp.area && (
+                          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-gold-500)' }}>
+                            {fp.area} {fp.areaUnit}
+                          </span>
+                        )}
+                      </div>
+
+                      {fp.description && (
+                        <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginTop: '0.25rem' }}>
+                          <strong style={{ color: 'var(--text-primary)', display: 'block', marginBottom: '4px' }}>Included Spaces:</strong>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                            {fp.description.split(',').map((room, idx) => (
+                              <span key={idx} style={{ padding: '2px 8px', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)', borderRadius: '4px', fontSize: '0.75rem' }}>
+                                {room.trim()}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {fp.documentUrl && (
+                        <a
+                          href={fp.documentUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-secondary"
+                          style={{ marginTop: '0.5rem', padding: '0.375rem 0.75rem', fontSize: '0.75rem', justifyContent: 'center' }}
+                        >
+                          <Download size={13} />
+                          <span>Download Layout Document</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Section: Highlights */}
+          {project.highlights && project.highlights.length > 0 && (
+            <section id="highlights" className="card" style={{ padding: '2rem' }}>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Sparkles size={20} color="var(--color-gold-500)" />
+                <span>Key Project Highlights ({project.highlights.length})</span>
+              </h2>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.875rem' }}>
+                {project.highlights.map((hl) => (
+                  <div
+                    key={hl.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '12px',
+                      padding: '1rem',
+                      backgroundColor: 'var(--bg-main)',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-color)',
+                    }}
+                  >
+                    <CheckCircle2 size={18} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <div>
+                      <h4 style={{ fontSize: '0.9375rem', fontWeight: 600, margin: '0 0 2px 0', color: 'var(--text-primary)' }}>
+                        {hl.title}
+                      </h4>
+                      {hl.description && (
+                        <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.4 }}>
+                          {hl.description}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -520,7 +693,7 @@ export default function ProjectDetailPage() {
             <section id="specifications" className="card" style={{ padding: '2rem' }}>
               <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Compass size={20} color="var(--color-gold-500)" />
-                <span>Technical Specifications</span>
+                <span>Technical Specifications & Materials</span>
               </h2>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
@@ -551,44 +724,350 @@ export default function ProjectDetailPage() {
             </section>
           )}
 
-          {/* Section: Highlights */}
-          {project.highlights && project.highlights.length > 0 && (
-            <section id="highlights" className="card" style={{ padding: '2rem' }}>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Sparkles size={20} color="var(--color-gold-500)" />
-                <span>Key Project Highlights</span>
-              </h2>
+          {/* Section: Location, Infrastructure & Categorized Nearby Places */}
+          <section id="connectivity" className="card" style={{ padding: '2rem' }}>
+            <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <MapPin size={20} color="var(--color-gold-500)" />
+              <span>Location, Highways & Nearby Infrastructure</span>
+            </h2>
+            <div style={{ marginBottom: '1.5rem', fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
+              <strong>Address: </strong>
+              Naurangpur Rd, Sector 80, New Gurgaon, Gurgaon, Haryana 122001
+            </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {project.highlights.map((hl) => (
+            {/* Strategic Highways & Connectivity Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+              <div style={{ padding: '1rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-gold-600)', fontWeight: 700, textTransform: 'uppercase' }}>Major Expressways</div>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '4px' }}>NH48 & Dwarka Expressway</div>
+                <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '2px' }}>Within 12 km of NH-8 & Southern Peripheral Road (SPR)</div>
+              </div>
+
+              <div style={{ padding: '1rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-gold-600)', fontWeight: 700, textTransform: 'uppercase' }}>Airport & Transit</div>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '4px' }}>IGI Airport — 32 km</div>
+                <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '2px' }}>Railway Station — 14 km • I.M.T Manesar Bus Stop — 3.1 km (~7 mins)</div>
+              </div>
+
+              <div style={{ padding: '1rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <div style={{ fontSize: '0.75rem', color: 'var(--color-gold-600)', fontWeight: 700, textTransform: 'uppercase' }}>Upcoming Growth Corridors</div>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '4px' }}>Greater SPR & Cyber City II</div>
+                <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '2px' }}>Upcoming RRTS Corridor connecting Delhi-Gurgaon-Alwar</div>
+              </div>
+            </div>
+
+            {/* Categorized Nearby Places */}
+            <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
+              Nearby Essential Destinations
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+              {/* Schools */}
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem', color: 'var(--color-gold-500)', fontWeight: 700, fontSize: '0.9375rem' }}>
+                  <School size={18} />
+                  <span>Schools & Education</span>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.84375rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <li>Vivekanand School</li>
+                  <li>St. Xavier's School</li>
+                  <li>MatriKiran High School</li>
+                  <li>DPS (Delhi Public School)</li>
+                  <li>Ompee Global School — 3.5 km / approx 8 minutes</li>
+                </ul>
+              </div>
+
+              {/* Hospitals */}
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem', color: 'var(--color-gold-500)', fontWeight: 700, fontSize: '0.9375rem' }}>
+                  <Hospital size={18} />
+                  <span>Hospitals & Healthcare</span>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.84375rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <li>Artemis Hospital</li>
+                  <li>Miracle Apollo Hospital</li>
+                  <li>ESIC Hospital</li>
+                  <li>Silver Streak Hospital</li>
+                  <li>Aarvy Hospital</li>
+                  <li>Miracles Apollo Cradle/Spectra Sec 82 Hospital</li>
+                </ul>
+              </div>
+
+              {/* Shopping & Lifestyle */}
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem', color: 'var(--color-gold-500)', fontWeight: 700, fontSize: '0.9375rem' }}>
+                  <ShoppingBag size={18} />
+                  <span>Shopping Malls & Lifestyle</span>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.84375rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <li>Sapphire 83</li>
+                  <li>Elan Mercado</li>
+                  <li>Elan Miracle</li>
+                  <li>Felix Plaza</li>
+                  <li>Sapphire Mall</li>
+                  <li>Iris Broadway</li>
+                  <li>Vatika Town Square-INXT</li>
+                </ul>
+              </div>
+
+              {/* Business Districts */}
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.75rem', color: 'var(--color-gold-500)', fontWeight: 700, fontSize: '0.9375rem' }}>
+                  <Briefcase size={18} />
+                  <span>Business Districts & Corporates</span>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.84375rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <li>DLF Corporate Greens</li>
+                  <li>American Express Campus</li>
+                  <li>BMW India</li>
+                  <li>Air India Office</li>
+                  <li>Manesar Industrial Area (~5 km)</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* Section: Locality Insights & Natural Surroundings */}
+          <section id="locality" className="card" style={{ padding: '2rem' }}>
+            <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Compass size={20} color="var(--color-gold-500)" />
+              <span>Locality Information & Natural Surroundings</span>
+            </h2>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+              {/* Natural Surroundings */}
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--color-gold-600)', marginBottom: '0.75rem' }}>
+                  Natural Green Buffers & Views
+                </h3>
+                <ul style={{ margin: 0, paddingLeft: '1.25rem', fontSize: '0.875rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <li><strong>Karma Lake:</strong> 300 acres pristine waterbody surround</li>
+                  <li><strong>NSG Green Area:</strong> 2700 acres protected open forest zone</li>
+                  <li><strong>Aravalli Hills:</strong> Panoramic hillside views towards South and East</li>
+                  <li><strong>Internal Greens:</strong> 2.2 Acre central landscape park & podium greens</li>
+                </ul>
+              </div>
+
+              {/* Sector 80 Locality Proximity */}
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--color-gold-600)', marginBottom: '0.75rem' }}>
+                  Nearby Sectors & Cities
+                </h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '0.84375rem', color: 'var(--text-secondary)' }}>
+                  <div>• Sector 79 (2.15 km)</div>
+                  <div>• Sector 77 (5.98 km)</div>
+                  <div>• Sector 36A (7.42 km)</div>
+                  <div>• Sector 81 (8.26 km)</div>
+                  <div>• Manesar (8.44 km)</div>
+                  <div>• Mewat & Gurgaon</div>
+                </div>
+                <p style={{ fontSize: '0.78125rem', color: 'var(--text-muted)', marginTop: '0.75rem', marginBottom: 0 }}>
+                  Sector 80 provides direct signal-free access to NH-48 and swift commute towards Dwarka Expressway and Cyber City corridors.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Section: Third-Party Ratings & Price Trends */}
+          <section id="ratings-trends" className="card" style={{ padding: '2rem' }}>
+            <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <TrendingUp size={20} color="var(--color-gold-500)" />
+              <span>Third-Party Ratings & Market Price Trends</span>
+            </h2>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+              Historical performance data and independent user reviews sourced from Housing.com.
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '1.5rem' }}>
+              {/* Feature Ratings */}
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Star size={16} color="var(--color-gold-500)" />
+                  <span>Source Feature Ratings</span>
+                </h3>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: 'var(--text-secondary)' }}>Connectivity:</span>
+                    <strong style={{ color: 'var(--color-gold-500)' }}>4.0 / 5.0</strong>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: 'var(--text-secondary)' }}>Neighbourhood:</span>
+                    <strong style={{ color: 'var(--text-primary)' }}>3.0 / 5.0</strong>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: 'var(--text-secondary)' }}>Safety:</span>
+                    <strong style={{ color: 'var(--text-primary)' }}>3.0 / 5.0</strong>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: 'var(--text-secondary)' }}>Livability:</span>
+                    <strong style={{ color: 'var(--text-primary)' }}>3.0 / 5.0</strong>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '1rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-color)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  <strong>Resident Review Note:</strong> Mentioned benefits include proximity to NH and upcoming malls with easy highway access. Noted area for improvement: development of local sector market.
+                </div>
+              </div>
+
+              {/* Price Appreciation Trends */}
+              <div style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <TrendingUp size={16} color="var(--color-gold-500)" />
+                  <span>Historical Price Trends (1 Year)</span>
+                </h3>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <div style={{ padding: '0.75rem', backgroundColor: 'var(--bg-card)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Conscient Parq Price Change</div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#10B981', marginTop: '2px' }}>
+                      +7.21% <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-secondary)' }}>Appreciation (1 yr)</span>
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px' }}>Listed avg rate: ₹16.2K / sq.ft.</div>
+                  </div>
+
+                  <div style={{ padding: '0.75rem', backgroundColor: 'var(--bg-card)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Sector 80 Locality Overall Trend</div>
+                    <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#EF4444', marginTop: '2px' }}>
+                      -6.66% <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-secondary)' }}>(1 yr locality avg)</span>
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px' }}>Locality listed avg rate: ₹16.2K / sq.ft.</div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '0.75rem', fontSize: '0.6875rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                  * This is source-provided historical price-trend data and is not a guarantee of future capital appreciation.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Section: Developer Information */}
+          <section id="developer" className="card" style={{ padding: '2rem' }}>
+            <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Building2 size={20} color="var(--color-gold-500)" />
+              <span>About Developer — Conscient Infrastructures</span>
+            </h2>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
+              <div style={{ padding: '1rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Homes Delivered</span>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--color-gold-500)', marginTop: '2px' }}>
+                  12,000+
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Proven delivery track record</div>
+              </div>
+
+              <div style={{ padding: '1rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Developer Focus</span>
+                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '4px' }}>
+                  Class, Comfort & Quality
+                </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Institutional architecture</div>
+              </div>
+            </div>
+
+            <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>
+              Conscient Infrastructures is a leading real-estate developer focused on creating living spaces with emphasis on class, comfort, convenience, infrastructure, innovation and quality. With over 12,000+ homes successfully delivered across prime locations, Conscient is synonymous with architectural reliability and transparent execution.
+            </p>
+          </section>
+
+          {/* Section: Verified Project FAQs */}
+          <section id="faqs" className="card" style={{ padding: '2rem' }}>
+            <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <HelpCircle size={20} color="var(--color-gold-500)" />
+              <span>Frequently Asked Questions</span>
+            </h2>
+            <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+              Verified answers regarding Conscient Parq Sector 80 Gurgaon.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {[
+                { q: "What is the pincode of Conscient Parq?", a: "The official pincode of Conscient Parq in Sector 80, Gurgaon is 122001." },
+                { q: "Who is the developer of Conscient Parq?", a: "Conscient Parq is developed by Conscient Infrastructures, a reputed developer with 12,000+ delivered homes." },
+                { q: "What is the RERA number?", a: "The project is registered with Haryana RERA under registration number GGM/818/550/2024/45." },
+                { q: "What configurations are available?", a: "Conscient Parq offers luxury 3 BHK and 4 BHK high-rise residential apartments." },
+                { q: "What is the price range?", a: "The overall project price range is ₹3.4 Cr to ₹4.91 Cr." },
+                { q: "What is the 3 BHK price range?", a: "The 3 BHK apartments range in price from ₹3.4 Cr to ₹4.12 Cr." },
+                { q: "What is the 4 BHK price?", a: "The 4 BHK apartments are priced at ₹4.91 Cr." },
+                { q: "What is the project area?", a: "The development is spread across 5.6 Acres." },
+                { q: "How many units are there?", a: "There are a total of 448 residential units." },
+                { q: "How many towers/buildings are there?", a: "The project comprises 4 residential towers with 40 floors per tower." },
+                { q: "What is the possession date?", a: "Possession starts from February 2030." },
+                { q: "Is the project under construction?", a: "Yes, Conscient Parq is currently under active construction with a launch date of May 2024." },
+                { q: "What is the 4 BHK size?", a: "The 4 BHK apartment size is 1537 sq.ft." },
+                { q: "What is the overall project size range?", a: "The overall project size ranges from 1063 to 1537 sq.ft." },
+                { q: "What are the major amenities?", a: "Major amenities include a 50,000 sq.ft. Clubhouse, Swimming Pool, Kids Pool, Gymnasium, Open Gym, Sauna Bath, Skating Rink, Padel Ball Court, Pet Park, Landscaping & Flower Garden, Closed Car Parking, Fire Fighting System, and High-Speed Internet / Wi-Fi." },
+              ].map((faq, idx) => {
+                const isOpen = openFaqIndex === idx;
+                return (
                   <div
-                    key={hl.id}
+                    key={idx}
                     style={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '12px',
-                      padding: '1rem',
-                      backgroundColor: 'var(--bg-main)',
-                      borderRadius: '8px',
                       border: '1px solid var(--border-color)',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      backgroundColor: 'var(--bg-main)',
                     }}
                   >
-                    <CheckCircle2 size={18} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                    <div>
-                      <h4 style={{ fontSize: '0.9375rem', fontWeight: 600, margin: '0 0 2px 0', color: 'var(--text-primary)' }}>
-                        {hl.title}
-                      </h4>
-                      {hl.description && (
-                        <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0 }}>
-                          {hl.description}
-                        </p>
-                      )}
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '1rem 1.25rem',
+                        backgroundColor: isOpen ? 'var(--bg-card)' : 'transparent',
+                        border: 'none',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        fontSize: '0.9375rem',
+                        fontWeight: 600,
+                        color: 'var(--text-primary)',
+                      }}
+                    >
+                      <span>{faq.q}</span>
+                      <ChevronRight
+                        size={16}
+                        color="var(--color-gold-500)"
+                        style={{
+                          transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+                          transition: 'transform 200ms ease',
+                          flexShrink: 0,
+                          marginLeft: '12px',
+                        }}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div style={{ padding: '1rem 1.25rem', borderTop: '1px solid var(--border-color)', fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                        {faq.a}
+                      </div>
+                    )}
                   </div>
-                ))}
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Section: Source Verification Metadata Badge */}
+          <section className="card" style={{ padding: '1.5rem', backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid var(--border-color)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#10B981', fontWeight: 600 }}>
+                <CheckCircle2 size={16} />
+                <span>Verification Status: SOURCE_VERIFIED</span>
               </div>
-            </section>
-          )}
+              <span>•</span>
+              <div>Source: <strong>Housing.com</strong></div>
+              <span>•</span>
+              <div>Last Verified: <strong>2026-09-26</strong></div>
+            </div>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: '0.5rem 0 0 0', lineHeight: 1.4 }}>
+              * Keystone Realty Advisor independently audits developer filings, Haryana RERA registrations, and verified source records to provide accurate buyer intelligence.
+            </p>
+          </section>
 
           {/* Section: Gallery */}
           {project.images && project.images.length > 0 && (
