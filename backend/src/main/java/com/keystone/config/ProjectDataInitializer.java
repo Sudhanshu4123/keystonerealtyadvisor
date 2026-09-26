@@ -125,20 +125,20 @@ public class ProjectDataInitializer implements CommandLineRunner {
         addHighlight(project, "Two Levels of Green Spaces", "Multi-tiered landscaped gardens at ground level and elevated podium.", 17);
 
         // 8. Amenities
-        addAmenity(project, "Swimming Pool", AmenityCategory.LEISURE, "Droplets", 1);
-        addAmenity(project, "Kid's Pool", AmenityCategory.LEISURE, "Smile", 2);
-        addAmenity(project, "Gymnasium", AmenityCategory.SPORTS, "Dumbbell", 3);
-        addAmenity(project, "Open Gym", AmenityCategory.SPORTS, "Activity", 4);
-        addAmenity(project, "Sauna Bath", AmenityCategory.LEISURE, "Flame", 5);
-        addAmenity(project, "Skating Rink", AmenityCategory.SPORTS, "Compass", 6);
-        addAmenity(project, "50,000 sq.ft. Clubhouse", AmenityCategory.LEISURE, "Building2", 7);
-        addAmenity(project, "Padel Ball Court", AmenityCategory.SPORTS, "Trophy", 8);
-        addAmenity(project, "Pet Park", AmenityCategory.CONVENIENCE, "Heart", 9);
-        addAmenity(project, "Landscaping & Tree Planting", AmenityCategory.ECO, "Trees", 10);
-        addAmenity(project, "Flower Garden", AmenityCategory.ECO, "Flower2", 11);
-        addAmenity(project, "Closed Car Parking", AmenityCategory.SAFETY, "Car", 12);
-        addAmenity(project, "Fire Fighting System", AmenityCategory.SAFETY, "ShieldAlert", 13);
-        addAmenity(project, "Internet / Wi-Fi", AmenityCategory.CONVENIENCE, "Wifi", 14);
+        addAmenity(project, "Swimming Pool", AmenityCategory.RECREATION, "Droplets", 1);
+        addAmenity(project, "Kid's Pool", AmenityCategory.RECREATION, "Smile", 2);
+        addAmenity(project, "Gymnasium", AmenityCategory.FITNESS, "Dumbbell", 3);
+        addAmenity(project, "Open Gym", AmenityCategory.FITNESS, "Activity", 4);
+        addAmenity(project, "Sauna Bath", AmenityCategory.RECREATION, "Flame", 5);
+        addAmenity(project, "Skating Rink", AmenityCategory.RECREATION, "Compass", 6);
+        addAmenity(project, "50,000 sq.ft. Clubhouse", AmenityCategory.COMMUNITY, "Building2", 7);
+        addAmenity(project, "Padel Ball Court", AmenityCategory.FITNESS, "Trophy", 8);
+        addAmenity(project, "Pet Park", AmenityCategory.OUTDOOR, "Heart", 9);
+        addAmenity(project, "Landscaping & Tree Planting", AmenityCategory.OUTDOOR, "Trees", 10);
+        addAmenity(project, "Flower Garden", AmenityCategory.OUTDOOR, "Flower2", 11);
+        addAmenity(project, "Closed Car Parking", AmenityCategory.PARKING, "Car", 12);
+        addAmenity(project, "Fire Fighting System", AmenityCategory.SECURITY, "ShieldAlert", 13);
+        addAmenity(project, "Internet / Wi-Fi", AmenityCategory.UTILITIES, "Wifi", 14);
 
         // 9. Specifications
         addSpec(project, SpecificationCategory.FLOORING, "Living / Dining Flooring", "Imported Marble Flooring", 1);
@@ -147,13 +147,13 @@ public class ProjectDataInitializer implements CommandLineRunner {
         addSpec(project, SpecificationCategory.FLOORING, "Kitchen Flooring", "Marble Flooring", 4);
         addSpec(project, SpecificationCategory.FLOORING, "Toilets Flooring", "Marble Flooring", 5);
         addSpec(project, SpecificationCategory.FLOORING, "Balcony Flooring", "Anti Skid Tiles", 6);
-        addSpec(project, SpecificationCategory.FITTINGS, "Toilets Fittings", "CP fittings, Branded Sanitary Fittings", 7);
+        addSpec(project, SpecificationCategory.BATHROOM, "Toilets Fittings", "CP fittings, Branded Sanitary Fittings", 7);
         addSpec(project, SpecificationCategory.KITCHEN, "Kitchen Fittings", "Modular Kitchen with Chimney, HOB & Exhaust Fan", 8);
         addSpec(project, SpecificationCategory.DOORS_WINDOWS, "Doors", "Decorative Main Door", 9);
-        addSpec(project, SpecificationCategory.WALLS_CEILING, "Interior Walls", "Acrylic Emulsion Paint", 10);
-        addSpec(project, SpecificationCategory.WALLS_CEILING, "Exterior Finish", "Gypsum Finish", 11);
-        addSpec(project, SpecificationCategory.WALLS_CEILING, "Kitchen Walls", "Ceramic Tiles", 12);
-        addSpec(project, SpecificationCategory.WALLS_CEILING, "Toilets Walls", "Ceramic Tiles", 13);
+        addSpec(project, SpecificationCategory.STRUCTURE, "Interior Walls", "Acrylic Emulsion Paint", 10);
+        addSpec(project, SpecificationCategory.STRUCTURE, "Exterior Finish", "Gypsum Finish", 11);
+        addSpec(project, SpecificationCategory.KITCHEN, "Kitchen Walls", "Ceramic Tiles", 12);
+        addSpec(project, SpecificationCategory.BATHROOM, "Toilets Walls", "Ceramic Tiles", 13);
 
         projectRepository.save(project);
         log.info("Successfully initialized Conscient Parq project (ID: {}, Slug: {})", project.getId(), project.getSlug());
