@@ -90,7 +90,7 @@ public class Project {
     @Column(name = "price_per_sqft", precision = 12, scale = 2)
     private BigDecimal pricePerSqft;
 
-    @Column(name = "price_type", length = 50)
+    @Column(name = "price_type", length = 255)
     private String priceType; // e.g. "All Inclusive", "Base Price", "On Request"
 
     @Column(name = "maintenance_charges", length = 100)

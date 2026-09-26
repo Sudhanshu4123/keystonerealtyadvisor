@@ -65,7 +65,7 @@ public class ProjectDataInitializer implements CommandLineRunner {
         project.setMinPrice(new BigDecimal("34000000.00")); // ₹3.4 Cr
         project.setMaxPrice(new BigDecimal("49100000.00")); // ₹4.91 Cr
         project.setPricePerSqft(new BigDecimal("31980.00")); // ₹31.98K/sq.ft.
-        project.setPriceType("₹3.4 Cr - ₹4.91 Cr (Basic Price includes EDC/IDC, Club Membership and Car Park. GST and PLC applicable)");
+        project.setPriceType("₹3.4 Cr - ₹4.91 Cr");
         project.setBookingAmount("10% on Booking");
         project.setMaintenanceCharges("As per standard society handover norms");
 
@@ -158,13 +158,19 @@ public class ProjectDataInitializer implements CommandLineRunner {
         projectRepository.save(project);
         log.info("Successfully initialized Conscient Parq project (ID: {}, Slug: {})", project.getId(), project.getSlug());
 
-        // Clean up older non-verified demo projects if any
-        List<Project> allProjects = projectRepository.findAll();
-        for (Project p : allProjects) {
-            if (!slug.equals(p.getSlug()) && (p.getName() != null && (p.getName().contains("Grand View") || p.getName().contains("Sample") || p.getName().contains("Demo")))) {
-                log.info("Removing demo project: {}", p.getName());
-                projectRepository.delete(p);
+        // Safely deactivate older demo projects without triggering foreign key violations
+        try {
+            List<Project> allProjects = projectRepository.findAll();
+            for (Project p : allProjects) {
+                if (!slug.equals(p.getSlug()) && (p.getName() != null && (p.getName().contains("Grand View") || p.getName().contains("Sample") || p.getName().contains("Demo")))) {
+                    log.info("Deactivating demo project: {}", p.getName());
+                    p.setStatus(ProjectStatus.DRAFT);
+                    p.setIsFeatured(false);
+                    projectRepository.save(p);
+                }
             }
+        } catch (Exception ex) {
+            log.warn("Could not archive demo projects: {}", ex.getMessage());
         }
     }
 
