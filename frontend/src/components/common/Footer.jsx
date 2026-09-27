@@ -99,47 +99,63 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Practice Areas */}
+          {/* Prime Projects & Townships */}
           <div>
             <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
-              Advisory Practice
+              Featured Projects
             </h3>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem', color: '#CBD5E1' }}>
-              <li>Residential Property Acquisition</li>
-              <li>Commercial Real Estate Leasing</li>
-              <li>Real Estate Portfolio Advisory</li>
-              <li>Asset Valuation & Feasibility</li>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
+              <li>
+                <Link to="/projects/conscient-parq-sector-80-gurgaon" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Conscient Parq Sector 80
+                </Link>
+              </li>
+              <li>
+                <Link to="/projects" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  All Real Estate Projects
+                </Link>
+              </li>
+              <li>
+                <Link to="/advisory" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Residential Acquisition
+                </Link>
+              </li>
+              <li>
+                <Link to="/advisory" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  Commercial Leasing Advisory
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Popular Keyword Searches */}
+          {/* Popular Location Searches */}
           <div>
             <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
               Popular Searches
             </h3>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
               <li>
-                <Link to="/properties-in-delhi" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                <Link to="/properties-in-delhi" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
                   Properties in Delhi
                 </Link>
               </li>
               <li>
-                <Link to="/properties-in-gurugram" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                <Link to="/properties-in-gurugram" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
                   Properties in Gurugram
                 </Link>
               </li>
               <li>
-                <Link to="/properties-in-noida" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                <Link to="/properties-in-noida" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
                   Properties in Noida
                 </Link>
               </li>
               <li>
-                <Link to="/flats-for-rent-in-gurugram" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                <Link to="/flats-for-rent-in-gurugram" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
                   Flats for Rent in Gurgaon
                 </Link>
               </li>
               <li>
-                <Link to="/properties?city=Gurugram&listingType=SALE&propertyType=APARTMENT" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                <Link to="/properties" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
                   Flats for Sale in Delhi NCR
                 </Link>
               </li>

@@ -133,18 +133,18 @@ export default function PropertyDetailPage() {
   if (property.status === 'UNDER_OFFER') statusBadgeVariant = 'warning';
   if (property.status === 'SOLD' || property.status === 'RENTED') statusBadgeVariant = 'danger';
 
-  const propertySlug = getPropertySlug(property);
-  const canonicalPath = `/properties/${propertySlug}`;
+  const rawTitle = property.title || 'Verified Property';
+  const cleanTitle = rawTitle.length > 40 ? `${rawTitle.slice(0, 37)}...` : rawTitle;
+  const pageTitle = `${cleanTitle}${property.city ? ` in ${property.city}` : ''} | Keystone Realty`;
+  const pageDesc = property.description
+    ? `${property.description.slice(0, 130)}... Verified title & advisor support.`
+    : `${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType || 'Property'} for ${property.listingType === 'RENT' ? 'rent' : 'sale'} in ${property.location || property.city || 'Delhi NCR'}. Verified listing.`;
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
-        title={`${property.title}${property.city ? ` in ${property.city}` : ''} | Keystone Realty Advisor`}
-        description={
-          property.description
-            ? `${property.description.slice(0, 150)}... Contact Keystone Realty Advisor for verified details and site visits.`
-            : `${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType || 'Property'} for ${property.listingType === 'RENT' ? 'rent' : 'sale'} in ${property.location || property.city || 'prime location'}. Clear titles & verified property documentation.`
-        }
+        title={pageTitle}
+        description={pageDesc}
         keywords={`${property.title}, ${property.propertyType || 'Property'}, ${property.city || ''}, ${property.location || ''}, buy property, real estate advisor`}
         canonicalUrl={canonicalPath}
         ogImage={property.images?.[0]?.url || property.imageUrl || '/keystone-logo.png'}
@@ -1015,6 +1015,79 @@ export default function PropertyDetailPage() {
                   `Featuring ${property.builtUpArea || property.area || 'spacious'} sq ft of thoughtfully planned layout, ${property.furnished?.replace(/_/g, ' ').toLowerCase() || 'standard'} interiors, and verified clear-title documentation. ` +
                   `For comprehensive legal due diligence, title records, or to schedule a confidential private inspection, connect directly with our advisory desk.`
                 )}
+              </div>
+            </div>
+
+            {/* Contextual Internal Links Section */}
+            <div className="card" style={{ padding: '1.5rem 2rem', marginBottom: '2rem', backgroundColor: '#F8FAFC', border: '1px solid var(--border-color)' }}>
+              <h4 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
+                Explore Related Properties & Projects
+              </h4>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                <Link
+                  to="/properties"
+                  className="btn btn-secondary"
+                  style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}
+                >
+                  ← All Available Properties
+                </Link>
+                {property.city && property.city.toLowerCase().includes('delhi') && (
+                  <Link
+                    to="/properties-in-delhi"
+                    className="btn btn-secondary"
+                    style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}
+                  >
+                    Properties in Delhi
+                  </Link>
+                )}
+                {property.city && (property.city.toLowerCase().includes('gurugram') || property.city.toLowerCase().includes('gurgaon')) && (
+                  <>
+                    <Link
+                      to="/properties-in-gurugram"
+                      className="btn btn-secondary"
+                      style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}
+                    >
+                      Properties in Gurugram
+                    </Link>
+                    <Link
+                      to="/flats-for-rent-in-gurugram"
+                      className="btn btn-secondary"
+                      style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}
+                    >
+                      Flats for Rent Gurugram
+                    </Link>
+                  </>
+                )}
+                {property.city && property.city.toLowerCase().includes('noida') && (
+                  <Link
+                    to="/properties-in-noida"
+                    className="btn btn-secondary"
+                    style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}
+                  >
+                    Properties in Noida
+                  </Link>
+                )}
+                <Link
+                  to="/projects/conscient-parq-sector-80-gurgaon"
+                  className="btn btn-secondary"
+                  style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}
+                >
+                  Conscient Parq Gurgaon
+                </Link>
+                <Link
+                  to="/projects"
+                  className="btn btn-secondary"
+                  style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}
+                >
+                  Real Estate Projects
+                </Link>
+                <Link
+                  to="/contact"
+                  className="btn btn-secondary"
+                  style={{ fontSize: '0.8125rem', padding: '0.375rem 0.75rem' }}
+                >
+                  Contact Advisor
+                </Link>
               </div>
             </div>
           </div>

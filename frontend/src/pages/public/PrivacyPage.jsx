@@ -9,8 +9,8 @@ export default function PrivacyPage() {
       <SEO
         title="Privacy Policy | Keystone Realty Advisor"
         description="Learn how Keystone Realty Advisor protects client confidentiality, secures personal information, and maintains institutional data privacy standards."
+        canonicalUrl="/privacy"
         keywords="privacy policy, data protection, client confidentiality, real estate privacy, Keystone Realty Advisor"
-        canonicalUrl="https://keystonerealtyadvisor.com/privacy"
       />
 
       {/* Header Banner */}

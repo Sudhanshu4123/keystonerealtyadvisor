@@ -89,9 +89,10 @@ export default function HomePage() {
   return (
     <div>
       <SEO
-        title="Keystone Realty Advisor | Trusted Real Estate Consultancy & Luxury Property Advisors"
-        description="Discover verified residential homes, flats for rent in Gurugram, high-yield commercial investments, and strategic real estate advisory with Keystone Realty Advisor. Honest market valuations and end-to-end transaction integrity."
-        keywords="flat for rent in gurugram, flat for rent in gurgaon, flats for rent in gurgaon, apartments for rent in gurugram, 2 bhk flat for rent in gurgaon, 3 bhk for rent in gurgaon, Keystone Realty Advisor, buy residential property, luxury apartments, commercial property advisory, verified real estate, property investment India, real estate consultancy"
+        title="Real Estate Advisory & Property Consultants | Keystone Realty"
+        description="Discover verified residential homes, luxury apartments, and commercial investments in Delhi NCR with complete due diligence and expert advisory."
+        keywords="flat for rent in gurugram, properties in delhi, properties in gurugram, properties in noida, buy luxury apartments, real estate advisory, Keystone Realty"
+        canonicalUrl="/"
         schema={{
           '@context': 'https://schema.org',
           '@graph': [
@@ -583,6 +584,85 @@ export default function HomePage() {
                 <ArrowRight size={14} />
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Prime Micro-Markets & High-Growth Destinations */}
+      <section className="section" style={{ backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)' }}>
+        <div className="container">
+          <div className="section-header text-center" style={{ marginBottom: '2.5rem' }}>
+            <span className="section-subtitle">Regional Markets</span>
+            <h2 className="section-title">Explore Verified Properties by Prime City</h2>
+            <p className="section-description">
+              Direct access to curated residential inventory, high-rise apartments, luxury villas, and commercial hubs across NCR.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
+            <Link
+              to="/properties-in-delhi"
+              className="card"
+              style={{ padding: '1.5rem', textDecoration: 'none', transition: 'all 200ms ease', border: '1px solid var(--border-color)', backgroundColor: '#FFFFFF' }}
+            >
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-gold-600)', textTransform: 'uppercase' }}>National Capital</div>
+              <h3 style={{ fontSize: '1.1875rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0.25rem 0 0.5rem 0' }}>Properties in Delhi</h3>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                Luxury builder floors, South Delhi residences, and prime residential developments.
+              </p>
+              <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-gold-600)', fontSize: '0.8125rem', fontWeight: 600 }}>
+                <span>Explore Delhi Listings</span>
+                <ArrowRight size={14} />
+              </div>
+            </Link>
+
+            <Link
+              to="/properties-in-gurugram"
+              className="card"
+              style={{ padding: '1.5rem', textDecoration: 'none', transition: 'all 200ms ease', border: '1px solid var(--border-color)', backgroundColor: '#FFFFFF' }}
+            >
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-gold-600)', textTransform: 'uppercase' }}>Millennium City</div>
+              <h3 style={{ fontSize: '1.1875rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0.25rem 0 0.5rem 0' }}>Properties in Gurugram</h3>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                Golf Course Ext, Dwarka Expressway luxury high-rises, and gated townships.
+              </p>
+              <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-gold-600)', fontSize: '0.8125rem', fontWeight: 600 }}>
+                <span>Explore Gurugram Listings</span>
+                <ArrowRight size={14} />
+              </div>
+            </Link>
+
+            <Link
+              to="/properties-in-noida"
+              className="card"
+              style={{ padding: '1.5rem', textDecoration: 'none', transition: 'all 200ms ease', border: '1px solid var(--border-color)', backgroundColor: '#FFFFFF' }}
+            >
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-gold-600)', textTransform: 'uppercase' }}>Expressway Corridor</div>
+              <h3 style={{ fontSize: '1.1875rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0.25rem 0 0.5rem 0' }}>Properties in Noida</h3>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                Noida Expressway & Sector 150 luxury condominiums and commercial IT parks.
+              </p>
+              <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-gold-600)', fontSize: '0.8125rem', fontWeight: 600 }}>
+                <span>Explore Noida Listings</span>
+                <ArrowRight size={14} />
+              </div>
+            </Link>
+
+            <Link
+              to="/flats-for-rent-in-gurugram"
+              className="card"
+              style={{ padding: '1.5rem', textDecoration: 'none', transition: 'all 200ms ease', border: '1px solid var(--border-color)', backgroundColor: '#FFFFFF' }}
+            >
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-gold-600)', textTransform: 'uppercase' }}>Rental Portfolio</div>
+              <h3 style={{ fontSize: '1.1875rem', fontWeight: 700, color: 'var(--text-primary)', margin: '0.25rem 0 0.5rem 0' }}>Flats for Rent Gurugram</h3>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+                Furnished, semi-furnished 2 & 3 BHK luxury rental apartments for executives and families.
+              </p>
+              <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-gold-600)', fontSize: '0.8125rem', fontWeight: 600 }}>
+                <span>Explore Rental Listings</span>
+                <ArrowRight size={14} />
+              </div>
+            </Link>
           </div>
         </div>
       </section>

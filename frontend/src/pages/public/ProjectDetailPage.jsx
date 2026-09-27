@@ -166,24 +166,28 @@ export default function ProjectDetailPage() {
     return acc;
   }, {});
 
+  const projectCanonical = `/projects/${project.slug || project.id}`;
+  const rawProjectTitle = project.name || 'Luxury Real Estate Project';
+  const cleanProjectTitle = rawProjectTitle.length > 40 ? `${rawProjectTitle.slice(0, 37)}...` : rawProjectTitle;
+  const projectPageTitle = `${cleanProjectTitle}${project.city ? ` in ${project.city}` : ''} | Keystone Realty`;
+  const projectPageDesc = project.shortDescription
+    ? (project.shortDescription.length > 150 ? `${project.shortDescription.slice(0, 145)}...` : project.shortDescription)
+    : `${project.name} by ${project.builderName || 'reputed developer'} in ${project.locality ? `${project.locality}, ` : ''}${project.city || 'Delhi NCR'}. Verified details.`;
+
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh', paddingBottom: '5rem' }}>
       <SEO
-        title={`${project.name}${project.city ? ` in ${project.city}` : ''} | Keystone Realty Advisor`}
-        description={
-          project.shortDescription ||
-          (project.description
-            ? `${project.description.slice(0, 150)}... Contact Keystone Realty Advisor for verified master plans and booking assistance.`
-            : `${project.name} by ${project.builderName || 'reputed developers'} located in ${project.locality ? `${project.locality}, ` : ''}${project.city || ''}. Verified floor plans, RERA compliance, and official pricing details.`)
-        }
-        keywords={`${project.name}, ${project.builderName || ''}, real estate projects in ${project.city || ''}, ${project.locality || ''}, buy flat in ${project.name}, Keystone Realty Advisor`}
+        title={projectPageTitle}
+        description={projectPageDesc}
+        keywords={`${project.name}, ${project.builderName || ''}, real estate projects in ${project.city || ''}, ${project.locality || ''}, buy flat in ${project.name}, Keystone Realty`}
+        canonicalUrl={projectCanonical}
         ogImage={project.coverImageUrl || project.galleryImages?.[0]?.imageUrl || '/keystone-logo.png'}
         geoPlacename={project.locality && project.city ? `${project.locality}, ${project.city}, India` : (project.city ? `${project.city}, India` : (project.locality ? `${project.locality}, India` : null))}
         locality={project.city || project.locality || null}
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Projects', path: '/projects' },
-          { name: project.name, path: `/projects/${project.id}` },
+          { name: project.name, path: projectCanonical },
         ]}
         schema={{
           '@context': 'https://schema.org',

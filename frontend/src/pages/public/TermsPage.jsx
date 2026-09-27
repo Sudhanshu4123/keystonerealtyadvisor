@@ -7,10 +7,10 @@ export default function TermsPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', paddingBottom: '5rem' }}>
       <SEO
-        title="Terms & Conditions | Keystone Realty Advisor"
-        description="Read the official Terms and Conditions of Keystone Realty Advisor governing our real estate consultancy, property representations, verification processes, and client advisory engagements."
+        title="Terms & Conditions | Keystone Realty"
+        description="Official terms and conditions governing real estate consultancy, property representations, and client advisory engagements with Keystone Realty Advisor."
+        canonicalUrl="/terms"
         keywords="terms and conditions, real estate advisory agreement, property consultancy terms, Keystone Realty Advisor terms"
-        canonicalUrl="https://keystonerealtyadvisor.com/terms"
       />
 
       {/* Header Banner */}

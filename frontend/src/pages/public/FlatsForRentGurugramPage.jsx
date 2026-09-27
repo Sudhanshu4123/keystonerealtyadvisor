@@ -161,9 +161,10 @@ export default function FlatsForRentGurugramPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Flats for Rent in Gurgaon | Apartments for Rent in Gurugram | Keystone Realty"
-        description="Explore verified 1, 2, 3 & 4 BHK flats for rent in Gurugram (Gurgaon). Verified owner apartments, gated societies, Golf Course Road, DLF & Cyber City from ₹15,000/mo."
-        keywords="flats for rent in gurgaon, flat for rent in gurugram, apartments for rent in gurgaon, 2 bhk flat for rent in gurgaon, 3 bhk for rent gurgaon, flat in gurgaon rent, no brokerage flats gurgaon, house for rent in gurugram"
+        title="Flats for Rent in Gurgaon | Rental Apartments Gurugram"
+        description="Find verified 1, 2, 3 & 4 BHK flats for rent in Gurugram. Verified apartments in gated societies on Golf Course Rd, Cyber City & Dwarka Expressway."
+        canonicalUrl="/flats-for-rent-in-gurugram"
+        keywords="flats for rent in gurgaon, flat for rent in gurugram, apartments for rent in gurgaon, 2 bhk flat for rent in gurgaon, 3 bhk for rent gurgaon"
         geoPlacename="Gurugram"
         geoRegion="IN-HR"
         breadcrumbs={[
@@ -225,6 +226,36 @@ export default function FlatsForRentGurugramPage() {
             onPageChange={handlePageChange}
           />
         )}
+
+        {/* Explore Other NCR Markets Internal Links */}
+        <div className="card" style={{ marginTop: '3rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+          <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            Explore Verified Real Estate Across NCR
+          </h3>
+          <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+            Looking for investment or ownership opportunities beyond rentals? Explore top new launch projects and verified properties for sale.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Buy in Gurugram
+            </a>
+            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Delhi
+            </a>
+            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Noida
+            </a>
+            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Conscient Parq Gurgaon
+            </a>
+            <a href="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              All New Launch Projects
+            </a>
+            <a href="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Schedule Rental Consultation
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

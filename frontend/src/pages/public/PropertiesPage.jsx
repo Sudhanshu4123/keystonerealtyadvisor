@@ -168,12 +168,12 @@ export default function PropertiesPage() {
   const isFlatForSaleGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'SALE' && filters.propertyType === 'APARTMENT';
 
   const pageTitle = isFlatForRentGurugram
-    ? 'Flat for Rent in Gurugram | Verified Rental Apartments | Keystone Realty Advisor'
+    ? 'Flats for Rent in Gurugram | Keystone Realty'
     : isFlatForSaleGurugram
-      ? 'Flats for Sale in Gurugram | Luxury Apartments | Keystone Realty Advisor'
+      ? 'Flats for Sale in Gurugram | Keystone Realty'
       : filters.city
-        ? `Verified Properties in ${filters.city} | Keystone Realty Advisor`
-        : 'Verified Properties for Sale & Rent | Keystone Realty Advisor';
+        ? `Properties in ${filters.city} | Keystone Realty`
+        : 'Properties for Sale & Rent | Keystone Realty';
 
   const headingTitle = isFlatForRentGurugram
     ? 'Flats for Rent in Gurugram'
@@ -184,14 +184,15 @@ export default function PropertiesPage() {
         : 'Verified Properties for Sale & Rent';
 
   const pageDescription = isFlatForRentGurugram
-    ? 'Explore verified 1 BHK, 2 BHK, 3 BHK, and luxury flats for rent in Gurugram. Direct owner listings, gated societies, prime Golf Course Road, Cyber City, and Dwarka Expressway locations.'
-    : 'Browse thoroughly verified residential apartments, luxury villas, builder floors, and commercial spaces. Reviewed for clear titles and authentic market pricing.';
+    ? 'Explore verified 1, 2, 3 & 4 BHK flats for rent in Gurugram. Direct owner listings in prime Golf Course Rd, Cyber City & Dwarka Expressway societies.'
+    : 'Browse verified residential apartments, luxury villas, builder floors, and commercial spaces across Delhi NCR with clear titles and transparent pricing.';
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
         title={pageTitle}
         description={pageDescription}
+        canonicalUrl="/properties"
         keywords="flat for rent in gurugram, flats in gurugram, rent apartment gurugram, verified properties, flats for sale, Keystone Realty Advisor"
         breadcrumbs={[
           { name: 'Home', path: '/' },
@@ -244,6 +245,36 @@ export default function PropertiesPage() {
           hasPrevious={pageInfo.hasPrevious}
           onPageChange={handlePageChange}
         />
+
+        {/* Explore Specific Regional Portfolios */}
+        <div className="card" style={{ marginTop: '3rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+          <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            Explore Verified Regional Real Estate
+          </h3>
+          <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+            Browse curated high-demand cities and townships with verified legal titles and dedicated investment guidance.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Delhi
+            </a>
+            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Gurugram
+            </a>
+            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Noida
+            </a>
+            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Flats for Rent Gurugram
+            </a>
+            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Conscient Parq Sector 80
+            </a>
+            <a href="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              New Launch Projects
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

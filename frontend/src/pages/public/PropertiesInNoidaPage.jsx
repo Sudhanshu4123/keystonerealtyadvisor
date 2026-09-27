@@ -157,9 +157,10 @@ export default function PropertiesInNoidaPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Properties in Noida | Luxury Flats, Villas & Commercial in Noida | Keystone Realty"
-        description="Search from verified properties in Noida & Greater Noida. Explore luxury 2, 3, 4 BHK apartments, villas, and commercial real estate on Noida Expressway, Sector 150, and Greater Noida West."
-        keywords="properties in noida, flats in noida, buy property in noida, flats in greater noida west, noida expressway apartments, property for sale in noida, commercial property noida, Keystone Realty Advisor"
+        title="Properties in Noida | Luxury Flats & Apartments | Keystone"
+        description="Search verified properties in Noida & Greater Noida. Explore luxury 2, 3, 4 BHK apartments and commercial real estate on Noida Expressway & Sector 150."
+        keywords="properties in noida, flats in noida, buy property in noida, noida expressway apartments, commercial property noida, Keystone Realty"
+        canonicalUrl="/properties-in-noida"
         geoPlacename="Noida"
         geoRegion="IN-UP"
         breadcrumbs={[
@@ -221,6 +222,36 @@ export default function PropertiesInNoidaPage() {
             onPageChange={handlePageChange}
           />
         )}
+
+        {/* Explore Other NCR Markets Internal Links */}
+        <div className="card" style={{ marginTop: '3rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+          <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            Explore Verified Real Estate Across NCR
+          </h3>
+          <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+            Looking for opportunities in Delhi, Gurgaon or township projects? Browse verified selections.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Delhi
+            </a>
+            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Gurugram
+            </a>
+            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Flats for Rent Gurugram
+            </a>
+            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Conscient Parq Gurgaon
+            </a>
+            <a href="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              All Projects Portfolio
+            </a>
+            <a href="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Speak with Advisor
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

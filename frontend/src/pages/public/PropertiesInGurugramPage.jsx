@@ -157,9 +157,10 @@ export default function PropertiesInGurugramPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Properties in Gurugram | Luxury Flats, Villas & Commercial in Gurgaon"
-        description="Search from verified properties in Gurugram (Gurgaon). Explore luxury 2, 3, 4 BHK apartments, penthouses, villas, and commercial real estate on Golf Course Road, Dwarka Expressway & DLF."
-        keywords="properties in gurugram, properties in gurgaon, flats in gurugram, luxury apartments in gurugram, buy property in gurgaon, property for sale in gurgaon, real estate in gurgaon, villas in gurgaon, Keystone Realty Advisor"
+        title="Properties in Gurugram | Luxury Flats & Apartments | Keystone"
+        description="Search verified properties in Gurugram (Gurgaon). Explore luxury 2, 3, 4 BHK apartments, penthouses, and high-rises on Golf Course Road & Dwarka Expressway."
+        keywords="properties in gurugram, properties in gurgaon, flats in gurugram, luxury apartments gurgaon, buy property in gurgaon, Keystone Realty"
+        canonicalUrl="/properties-in-gurugram"
         geoPlacename="Gurugram"
         geoRegion="IN-HR"
         breadcrumbs={[
@@ -221,6 +222,36 @@ export default function PropertiesInGurugramPage() {
             onPageChange={handlePageChange}
           />
         )}
+
+        {/* Explore Other NCR Markets Internal Links */}
+        <div className="card" style={{ marginTop: '3rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+          <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            Explore Verified Real Estate Across NCR
+          </h3>
+          <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+            Looking for luxury townships or rental properties in Gurgaon and NCR? Check out verified developments.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Flats for Rent Gurugram
+            </a>
+            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Conscient Parq Sector 80
+            </a>
+            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Delhi
+            </a>
+            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Noida
+            </a>
+            <a href="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              All Projects Portfolio
+            </a>
+            <a href="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Speak with Advisor
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

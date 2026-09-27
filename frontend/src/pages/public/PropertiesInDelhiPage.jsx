@@ -157,9 +157,10 @@ export default function PropertiesInDelhiPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Properties in Delhi | Luxury Flats, Builder Floors & Real Estate | Keystone Realty"
-        description="Search from verified properties in Delhi. Explore luxury apartments, builder floors, independent houses, and commercial real estate in South Delhi, Dwarka, and Central Delhi."
-        keywords="properties in delhi, flats in delhi, buy property in delhi, builder floors in south delhi, luxury apartments delhi, real estate in delhi, property for sale in delhi, flats for rent in delhi, Keystone Realty Advisor"
+        title="Properties in Delhi | Flats & Builder Floors | Keystone"
+        description="Search verified properties in Delhi. Explore luxury flats, builder floors, and residential homes in South & Central Delhi with verified legal due diligence."
+        keywords="properties in delhi, flats in delhi, buy property in delhi, builder floors in delhi, luxury apartments delhi, Keystone Realty"
+        canonicalUrl="/properties-in-delhi"
         geoPlacename="Delhi"
         geoRegion="IN-DL"
         breadcrumbs={[
@@ -221,6 +222,36 @@ export default function PropertiesInDelhiPage() {
             onPageChange={handlePageChange}
           />
         )}
+
+        {/* Explore Other NCR Markets Internal Links */}
+        <div className="card" style={{ marginTop: '3rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+          <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            Explore Verified Real Estate Across NCR
+          </h3>
+          <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+            Looking for opportunities beyond Delhi? Explore curated high-rises and luxury townships in neighbouring growth corridors.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Gurugram
+            </a>
+            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Noida
+            </a>
+            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Flats for Rent Gurugram
+            </a>
+            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Conscient Parq Gurgaon
+            </a>
+            <a href="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              All Projects Portfolio
+            </a>
+            <a href="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Speak with Advisor
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

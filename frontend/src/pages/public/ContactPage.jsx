@@ -57,8 +57,9 @@ export default function ContactPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3.5rem 0 5rem' }}>
       <SEO
-        title="Contact & Confidential Real Estate Consultation | Keystone Realty Advisor"
-        description="Schedule a confidential consultation with Keystone Realty Advisor. Direct phone +91 9911956274 or submit an inquiry for verified property advice and site inspections."
+        title="Contact Keystone Realty | Gurgaon & Delhi NCR"
+        description="Schedule a confidential consultation with Keystone Realty Advisor. Direct phone +91 9911956274 for verified property advice, buying and site inspections."
+        canonicalUrl="/contact"
         keywords="contact real estate advisor, property consultation, Keystone Realty Advisor phone, property enquiry, real estate help desk"
         breadcrumbs={[
           { name: 'Home', path: '/' },
@@ -239,6 +240,36 @@ export default function ContactPage() {
                 All consultations and investor communications with Keystone Realty Advisor are conducted under strict non-disclosure protocols.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Explore Portfolios Cross-links */}
+        <div className="card" style={{ marginTop: '3.5rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)', maxWidth: '1020px', margin: '3.5rem auto 0' }}>
+          <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            Explore Portfolios Across Delhi NCR
+          </h3>
+          <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+            Looking to explore specific listings or luxury developments right now?
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Gurugram
+            </a>
+            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Delhi
+            </a>
+            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Noida
+            </a>
+            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Flats for Rent Gurugram
+            </a>
+            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Conscient Parq Sector 80
+            </a>
+            <a href="/advisory" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Advisory Practice
+            </a>
           </div>
         </div>
 
