@@ -139,6 +139,7 @@ export default function PropertyDetailPage() {
   const pageDesc = property.description
     ? `${property.description.slice(0, 130)}... Verified title & advisor support.`
     : `${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType || 'Property'} for ${property.listingType === 'RENT' ? 'rent' : 'sale'} in ${property.location || property.city || 'Delhi NCR'}. Verified listing.`;
+  const canonicalPath = property.slug ? `/properties/${property.slug}` : `/properties/${property.id}`;
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>

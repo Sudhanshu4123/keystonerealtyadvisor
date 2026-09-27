@@ -78,14 +78,14 @@ export default function Navbar() {
           style={{
             display: 'none',
             alignItems: 'center',
-            gap: '1.5rem',
+            gap: '2rem',
           }}
           className="desktop-nav"
         >
           <NavLink
             to="/"
             style={({ isActive }) => ({
-              fontSize: '0.875rem',
+              fontSize: '0.9375rem',
               fontWeight: 500,
               color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
             })}
@@ -95,7 +95,7 @@ export default function Navbar() {
           <NavLink
             to="/properties"
             style={({ isActive }) => ({
-              fontSize: '0.875rem',
+              fontSize: '0.9375rem',
               fontWeight: 500,
               color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
             })}
@@ -103,39 +103,9 @@ export default function Navbar() {
             Properties
           </NavLink>
           <NavLink
-            to="/properties-in-delhi"
-            style={({ isActive }) => ({
-              fontSize: '0.875rem',
-              fontWeight: 500,
-              color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
-            })}
-          >
-            Delhi
-          </NavLink>
-          <NavLink
-            to="/properties-in-gurugram"
-            style={({ isActive }) => ({
-              fontSize: '0.875rem',
-              fontWeight: 500,
-              color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
-            })}
-          >
-            Gurugram
-          </NavLink>
-          <NavLink
-            to="/properties-in-noida"
-            style={({ isActive }) => ({
-              fontSize: '0.875rem',
-              fontWeight: 500,
-              color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
-            })}
-          >
-            Noida
-          </NavLink>
-          <NavLink
             to="/projects"
             style={({ isActive }) => ({
-              fontSize: '0.875rem',
+              fontSize: '0.9375rem',
               fontWeight: 500,
               color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
             })}
@@ -145,17 +115,17 @@ export default function Navbar() {
           <NavLink
             to="/advisory"
             style={({ isActive }) => ({
-              fontSize: '0.875rem',
+              fontSize: '0.9375rem',
               fontWeight: 500,
               color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
             })}
           >
-            Advisory
+            Advisory Services
           </NavLink>
           <NavLink
             to="/contact"
             style={({ isActive }) => ({
-              fontSize: '0.875rem',
+              fontSize: '0.9375rem',
               fontWeight: 500,
               color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
             })}
@@ -382,75 +352,7 @@ export default function Navbar() {
                   backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
                 })}
               >
-                All Properties
-              </NavLink>
-
-              <NavLink
-                to="/properties-in-delhi"
-                onClick={() => setMobileMenuOpen(false)}
-                style={({ isActive }) => ({
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '0.75rem 1rem',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
-                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
-                })}
-              >
-                Properties in Delhi
-              </NavLink>
-
-              <NavLink
-                to="/properties-in-gurugram"
-                onClick={() => setMobileMenuOpen(false)}
-                style={({ isActive }) => ({
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '0.75rem 1rem',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
-                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
-                })}
-              >
-                Properties in Gurugram
-              </NavLink>
-
-              <NavLink
-                to="/properties-in-noida"
-                onClick={() => setMobileMenuOpen(false)}
-                style={({ isActive }) => ({
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '0.75rem 1rem',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
-                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
-                })}
-              >
-                Properties in Noida
-              </NavLink>
-
-              <NavLink
-                to="/flats-for-rent-in-gurugram"
-                onClick={() => setMobileMenuOpen(false)}
-                style={({ isActive }) => ({
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '0.75rem 1rem',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: '1rem',
-                  fontWeight: 600,
-                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
-                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
-                })}
-              >
-                Flats for Rent Gurugram
+                Properties
               </NavLink>
 
               <NavLink
