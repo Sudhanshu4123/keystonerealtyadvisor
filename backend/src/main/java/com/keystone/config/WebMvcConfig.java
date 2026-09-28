@@ -17,6 +17,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+        try {
+            java.nio.file.Files.createDirectories(uploadPath);
+            java.nio.file.Files.createDirectories(uploadPath.resolve("projects"));
+            java.nio.file.Files.createDirectories(uploadPath.resolve("properties"));
+        } catch (Exception ignored) {}
+
         String uploadUri = uploadPath.toUri().toString();
 
         if (!uploadUri.endsWith("/")) {
