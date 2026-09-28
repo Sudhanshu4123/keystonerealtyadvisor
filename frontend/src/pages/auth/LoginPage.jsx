@@ -46,9 +46,9 @@ export default function LoginPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
       <SEO
-        title="Client & Partner Login | Keystone Realty Advisor"
-        description="Sign in to your Keystone Realty Advisor account to manage saved properties, track active enquiries, and view exclusive real estate opportunities."
-        noIndex={false}
+        title="Client Login | Keystone Realty"
+        description="Sign in to your Keystone Realty Advisor account to manage saved properties and consultations."
+        noIndex={true}
       />
       <div className="card" style={{ maxWidth: '440px', width: '100%', padding: '2.5rem' }}>
         {/* Logo Header */}

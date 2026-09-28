@@ -56,9 +56,9 @@ export default function RegisterPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
       <SEO
-        title="Create a Client Account | Keystone Realty Advisor"
-        description="Register with Keystone Realty Advisor to save preferred luxury properties, track advisory requests, and gain direct access to verified real estate opportunities."
-        noIndex={false}
+        title="Create Account | Keystone Realty"
+        description="Register with Keystone Realty Advisor to save preferred luxury properties and inquiries."
+        noIndex={true}
       />
       <div className="card" style={{ maxWidth: '480px', width: '100%', padding: '2.5rem' }}>
         {/* Logo Header */}

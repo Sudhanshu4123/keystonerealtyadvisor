@@ -157,7 +157,7 @@ export default function PropertiesInNoidaPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Properties in Noida | Luxury Flats & Apartments | Keystone"
+        title="Properties in Noida | Luxury Flats | Keystone"
         description="Search verified properties in Noida & Greater Noida. Explore luxury 2, 3, 4 BHK apartments and commercial real estate on Noida Expressway & Sector 150."
         keywords="properties in noida, flats in noida, buy property in noida, noida expressway apartments, commercial property noida, Keystone Realty"
         canonicalUrl="/properties-in-noida"

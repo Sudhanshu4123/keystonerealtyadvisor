@@ -157,7 +157,7 @@ export default function PropertiesInDelhiPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Properties in Delhi | Flats & Builder Floors | Keystone"
+        title="Properties in Delhi | Luxury Flats | Keystone"
         description="Search verified properties in Delhi. Explore luxury flats, builder floors, and residential homes in South & Central Delhi with verified legal due diligence."
         keywords="properties in delhi, flats in delhi, buy property in delhi, builder floors in delhi, luxury apartments delhi, Keystone Realty"
         canonicalUrl="/properties-in-delhi"

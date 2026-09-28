@@ -157,7 +157,7 @@ export default function PropertiesInGurugramPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Properties in Gurugram | Luxury Flats & Apartments | Keystone"
+        title="Properties in Gurugram | Luxury Flats | Keystone"
         description="Search verified properties in Gurugram (Gurgaon). Explore luxury 2, 3, 4 BHK apartments, penthouses, and high-rises on Golf Course Road & Dwarka Expressway."
         keywords="properties in gurugram, properties in gurgaon, flats in gurugram, luxury apartments gurgaon, buy property in gurgaon, Keystone Realty"
         canonicalUrl="/properties-in-gurugram"
