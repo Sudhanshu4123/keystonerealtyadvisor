@@ -170,9 +170,19 @@ export default function ProjectDetailPage() {
   const rawProjectTitle = project.name || 'Luxury Real Estate Project';
   const cleanProjectTitle = rawProjectTitle.length > 40 ? `${rawProjectTitle.slice(0, 37)}...` : rawProjectTitle;
   const projectPageTitle = `${cleanProjectTitle}${project.city ? ` in ${project.city}` : ''} | Keystone Realty`;
-  const projectPageDesc = project.shortDescription
-    ? (project.shortDescription.length > 150 ? `${project.shortDescription.slice(0, 145)}...` : project.shortDescription)
-    : `${project.name} by ${project.builderName || 'reputed developer'} in ${project.locality ? `${project.locality}, ` : ''}${project.city || 'Delhi NCR'}. Verified details.`;
+
+  let projectPageDesc = project.shortDescription || '';
+  if (projectPageDesc.length < 120 || projectPageDesc.length > 155) {
+    const builder = project.builderName ? ` by ${project.builderName}` : '';
+    const loc = project.locality ? ` at ${project.locality}, ${project.city || 'Delhi NCR'}` : ` in ${project.city || 'Delhi NCR'}`;
+    projectPageDesc = `Explore ${project.name}${builder}${loc}. Verified RERA approvals, luxury amenities, master plan & price list with Keystone Realty.`;
+    if (projectPageDesc.length > 155) {
+      projectPageDesc = `Explore ${project.name}${loc}. Verified RERA approvals, luxury amenities, master floor plans & pricing with Keystone Realty.`;
+    }
+    if (projectPageDesc.length > 155) {
+      projectPageDesc = projectPageDesc.slice(0, 152).trim() + '...';
+    }
+  }
 
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh', paddingBottom: '5rem' }}>

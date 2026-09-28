@@ -34,9 +34,7 @@ export default function SEO({
     'Keystone Realty Advisor, real estate advisory, buy property, luxury apartments, commercial property investment, verified properties, real estate consultancy, property valuation, RERA approved projects';
 
   const fullTitle = title
-    ? title.includes(siteName)
-      ? title
-      : `${title} | ${siteName}`
+    ? (title.includes('Keystone') ? title : `${title} | Keystone Realty`)
     : defaultTitle;
   const metaDescription = description || defaultDescription;
   const metaKeywords = keywords || defaultKeywords;

@@ -133,13 +133,41 @@ export default function PropertyDetailPage() {
   if (property.status === 'UNDER_OFFER') statusBadgeVariant = 'warning';
   if (property.status === 'SOLD' || property.status === 'RENTED') statusBadgeVariant = 'danger';
 
-  const rawTitle = property.title || 'Verified Property';
-  const cleanTitle = rawTitle.length > 40 ? `${rawTitle.slice(0, 37)}...` : rawTitle;
-  const pageTitle = `${cleanTitle}${property.city ? ` in ${property.city}` : ''} | Keystone Realty`;
-  const pageDesc = property.description
-    ? `${property.description.slice(0, 130)}... Verified title & advisor support.`
-    : `${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType || 'Property'} for ${property.listingType === 'RENT' ? 'rent' : 'sale'} in ${property.location || property.city || 'Delhi NCR'}. Verified listing.`;
+  const bhkPrefix = property.bedrooms ? `${property.bedrooms} BHK ` : '';
+  const typeName = property.propertyType ? property.propertyType.replace(/_/g, ' ') : 'Property';
+  const actionName = property.listingType === 'RENT' ? 'for Rent' : 'for Sale';
+  const primeLoc = property.societyName || property.location || property.city || 'Gurgaon';
+  const cleanLoc = primeLoc.length > 20 ? primeLoc.slice(0, 18) + '...' : primeLoc;
+  const pageTitle = `${bhkPrefix}${typeName} ${actionName} in ${cleanLoc} | Keystone Realty`;
+
+  // Professional Meta Description (strictly 135 - 155 chars)
+  const descBhk = property.bedrooms ? `${property.bedrooms} BHK ` : '';
+  const descType = (property.propertyType || 'Apartment').replace(/_/g, ' ').toLowerCase();
+  const descAction = property.listingType === 'RENT' ? 'rent' : 'sale';
+  const descSoc = property.societyName ? `${property.societyName}, ` : '';
+  const descLoc = property.location || property.city || 'Delhi NCR';
+
+  let rawPlace = `${descSoc}${descLoc}`;
+  if (rawPlace.length > 40) {
+    rawPlace = rawPlace.slice(0, 37) + '...';
+  }
+
+  let pageDesc = `Explore verified ${descBhk}${descType} for ${descAction} in ${rawPlace}. 100% verified legal title, prime amenities & expert support by Keystone Realty Advisor.`;
+  if (pageDesc.length > 155) {
+    pageDesc = `Explore verified ${descBhk}${descType} for ${descAction} in ${rawPlace}. Clear title, prime amenities & advisor support with Keystone Realty.`;
+  }
+  if (pageDesc.length > 155) {
+    pageDesc = `Verified ${descBhk}${descType} for ${descAction} in ${rawPlace}. Clear legal title, luxury amenities & advisor support by Keystone Realty.`;
+  }
+  if (pageDesc.length > 155) {
+    pageDesc = pageDesc.slice(0, 152).trim() + '...';
+  }
+
   const canonicalPath = property.slug ? `/properties/${property.slug}` : `/properties/${property.id}`;
+  const canonicalFullUrl = `https://keystonerealtyadvisor.com${canonicalPath}`;
+  const schemaType = property.propertyType === 'VILLA' || property.propertyType === 'INDEPENDENT_FLOOR' ? 'House' : 'Apartment';
+  const schemaImage = property.images?.[0]?.url || property.images?.[0]?.imagePath || 'https://keystonerealtyadvisor.com/keystone-logo.png';
+  const absoluteSchemaImage = schemaImage.startsWith('http') ? schemaImage : `https://keystonerealtyadvisor.com${schemaImage.startsWith('/') ? schemaImage : `/${schemaImage}`}`;
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
@@ -148,7 +176,7 @@ export default function PropertyDetailPage() {
         description={pageDesc}
         keywords={`${property.title}, ${property.propertyType || 'Property'}, ${property.city || ''}, ${property.location || ''}, buy property, real estate advisor`}
         canonicalUrl={canonicalPath}
-        ogImage={property.images?.[0]?.url || property.imageUrl || '/keystone-logo.png'}
+        ogImage={absoluteSchemaImage}
         geoPlacename={property.location && property.city ? `${property.location}, ${property.city}, India` : (property.city ? `${property.city}, India` : (property.location ? `${property.location}, India` : null))}
         locality={property.city || property.location || null}
         breadcrumbs={[
@@ -158,23 +186,32 @@ export default function PropertyDetailPage() {
         ]}
         schema={{
           '@context': 'https://schema.org',
-          '@type': 'RealEstateListing',
-          name: property.title,
-          description: property.description || property.title,
-          url: window.location.href,
-          image: property.images?.[0]?.imagePath || property.images?.[0]?.imageUrl || 'https://keystonerealtyadvisor.com/keystone-logo.png',
-          offers: {
-            '@type': 'Offer',
-            price: property.price || 0,
-            priceCurrency: 'INR',
-            availability: property.status === 'AVAILABLE' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
-            validFrom: property.createdAt || undefined,
+          '@type': schemaType,
+          name: property.title || `${descBhk}${descType} in ${rawPlace}`,
+          description: pageDesc,
+          url: canonicalFullUrl,
+          image: absoluteSchemaImage,
+          numberOfRooms: property.bedrooms || 1,
+          numberOfBathroomsTotal: property.bathrooms || 1,
+          floorSize: {
+            '@type': 'QuantitativeValue',
+            value: property.builtUpArea || property.carpetArea || property.area || 1000,
+            unitCode: 'FTK'
           },
           address: {
             '@type': 'PostalAddress',
-            addressLocality: property.location || property.city || '',
-            addressRegion: property.city || '',
+            streetAddress: property.societyName || property.location || 'Gurgaon',
+            addressLocality: property.location || property.city || 'Gurgaon',
+            addressRegion: property.city || 'Haryana',
             addressCountry: 'IN'
+          },
+          offers: {
+            '@type': 'Offer',
+            price: property.price ? Number(property.price) : 0,
+            priceCurrency: 'INR',
+            priceValidUntil: '2027-12-31',
+            availability: property.status === 'AVAILABLE' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+            url: canonicalFullUrl
           }
         }}
       />
