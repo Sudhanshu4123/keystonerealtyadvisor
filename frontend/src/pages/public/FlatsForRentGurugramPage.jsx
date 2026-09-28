@@ -161,7 +161,7 @@ export default function FlatsForRentGurugramPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Flats for Rent in Gurgaon | Rental Apartments Gurugram"
+        title="Flats for Rent in Gurgaon | Keystone Realty"
         description="Find verified 1, 2, 3 & 4 BHK flats for rent in Gurugram. Verified apartments in gated societies on Golf Course Rd, Cyber City & Dwarka Expressway."
         canonicalUrl="/flats-for-rent-in-gurugram"
         keywords="flats for rent in gurgaon, flat for rent in gurugram, apartments for rent in gurgaon, 2 bhk flat for rent in gurgaon, 3 bhk for rent gurgaon"

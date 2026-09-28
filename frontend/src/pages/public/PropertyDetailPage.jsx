@@ -134,11 +134,16 @@ export default function PropertyDetailPage() {
   if (property.status === 'SOLD' || property.status === 'RENTED') statusBadgeVariant = 'danger';
 
   const bhkPrefix = property.bedrooms ? `${property.bedrooms} BHK ` : '';
-  const typeName = property.propertyType ? property.propertyType.replace(/_/g, ' ') : 'Property';
+  const rawType = property.propertyType === 'INDEPENDENT_FLOOR' ? 'Floor' : (property.propertyType ? property.propertyType.replace(/_/g, ' ') : 'Property');
   const actionName = property.listingType === 'RENT' ? 'for Rent' : 'for Sale';
   const primeLoc = property.societyName || property.location || property.city || 'Gurgaon';
-  const cleanLoc = primeLoc.length > 20 ? primeLoc.slice(0, 18) + '...' : primeLoc;
-  const pageTitle = `${bhkPrefix}${typeName} ${actionName} in ${cleanLoc} | Keystone Realty`;
+  
+  // Format concise title strictly under 58 characters
+  const baseTitle = `${bhkPrefix}${rawType} ${actionName} in `;
+  const suffix = ' | Keystone';
+  const maxLocLen = Math.max(58 - baseTitle.length - suffix.length, 5);
+  const cleanLoc = primeLoc.length > maxLocLen ? primeLoc.slice(0, maxLocLen - 3).trim() + '...' : primeLoc;
+  const pageTitle = `${baseTitle}${cleanLoc}${suffix}`;
 
   // Professional Meta Description (strictly 135 - 155 chars)
   const descBhk = property.bedrooms ? `${property.bedrooms} BHK ` : '';
