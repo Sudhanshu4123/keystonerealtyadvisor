@@ -91,7 +91,7 @@ export default function SEO({
     // If noIndex is true (e.g. Admin Panel, Dashboard, User Account), completely hide from search engines
     if (noIndex) {
       setMetaTag('name', 'robots', 'noindex, nofollow, noarchive, nosnippet');
-      removeMetaTag('name', 'description');
+      setMetaTag('name', 'description', metaDescription);
       removeMetaTag('name', 'keywords');
       removeMetaTag('name', 'geo.region');
       removeMetaTag('name', 'geo.placename');
