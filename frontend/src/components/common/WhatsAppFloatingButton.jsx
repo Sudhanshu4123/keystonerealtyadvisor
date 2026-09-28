@@ -11,7 +11,7 @@ export default function WhatsAppFloatingButton({
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(defaultMessage)}`;
+  const whatsappUrl = `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodeURIComponent(defaultMessage)}`;
 
   return (
     <div
@@ -70,7 +70,7 @@ export default function WhatsAppFloatingButton({
       <a
         href={whatsappUrl}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="nofollow noopener noreferrer"
         onMouseEnter={() => setShowTooltip(true)}
         aria-label="Chat with Keystone Realty Advisor on WhatsApp"
         style={{

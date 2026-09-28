@@ -1165,9 +1165,9 @@ export default function PropertyDetailPage() {
                 </button>
 
                 <a
-                  href={`https://wa.me/919911956274?text=${encodeURIComponent(`Hello Keystone Realty Advisor, I am interested in: ${property.title} (Ref #${property.id})${property.location || property.city ? ` located in ${property.location ? `${property.location}, ` : ''}${property.city || ''}` : ''}. Please share verified details.`)}`}
+                  href={`https://api.whatsapp.com/send/?phone=919911956274&text=${encodeURIComponent(`Hello Keystone Realty Advisor, I am interested in: ${property.title} (Ref #${property.id})${property.location || property.city ? ` located in ${property.location ? `${property.location}, ` : ''}${property.city || ''}` : ''}. Please share verified details.`)}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="nofollow noopener noreferrer"
                   className="btn btn-block"
                   style={{
                     backgroundColor: '#25D366',

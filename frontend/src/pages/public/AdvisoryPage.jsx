@@ -282,9 +282,9 @@ export default function AdvisoryPage() {
               Book Private Consultation
             </Link>
             <a
-              href="https://wa.me/919911956274?text=Hello%20Keystone%20Realty%20Advisor%2C%20I%20would%20like%20to%20schedule%20a%20private%20advisory%20consultation."
+              href="https://api.whatsapp.com/send/?phone=919911956274&text=Hello%20Keystone%20Realty%20Advisor%2C%20I%20would%20like%20to%20schedule%20a%20private%20advisory%20consultation."
               target="_blank"
-              rel="noopener noreferrer"
+              rel="nofollow noopener noreferrer"
               className="btn btn-lg"
               style={{
                 backgroundColor: '#25D366',

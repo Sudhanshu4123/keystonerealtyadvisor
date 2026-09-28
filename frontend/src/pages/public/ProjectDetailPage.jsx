@@ -313,9 +313,9 @@ export default function ProjectDetailPage() {
               </button>
 
               <a
-                href={`https://wa.me/919911956274?text=${encodeURIComponent(`Hello Keystone Realty Advisor, I would like to inquire about the project: ${project.name}${project.locality || project.city ? ` located in ${project.locality ? `${project.locality}, ` : ''}${project.city || ''}` : ''}. Please share the brochure and current pricing.`)}`}
+                href={`https://api.whatsapp.com/send/?phone=919911956274&text=${encodeURIComponent(`Hello Keystone Realty Advisor, I would like to inquire about the project: ${project.name}${project.locality || project.city ? ` located in ${project.locality ? `${project.locality}, ` : ''}${project.city || ''}` : ''}. Please share the brochure and current pricing.`)}`}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 className="btn"
                 style={{
                   width: '100%',
