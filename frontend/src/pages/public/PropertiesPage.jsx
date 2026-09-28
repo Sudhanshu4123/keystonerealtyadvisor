@@ -163,29 +163,53 @@ export default function PropertiesPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Dynamic heading & SEO depending on search query / keyword
+  // Dynamic heading & SEO depending on search query / filter parameters
+  const formatTypeName = (type) => {
+    if (!type) return '';
+    if (type === 'APARTMENT') return 'Flats & Apartments';
+    if (type === 'VILLA') return 'Luxury Villas';
+    if (type === 'INDEPENDENT_FLOOR') return 'Builder Floors';
+    if (type === 'PENTHOUSE') return 'Luxury Penthouses';
+    if (type === 'PLOT') return 'Plots & Land';
+    if (type === 'COMMERCIAL') return 'Commercial Spaces';
+    if (type === 'PG_CO_LIVING') return 'PG & Co-Living Spaces';
+    return type.replace(/_/g, ' ');
+  };
+
   const isFlatForRentGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'RENT' && filters.propertyType === 'APARTMENT';
   const isFlatForSaleGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'SALE' && filters.propertyType === 'APARTMENT';
 
-  const pageTitle = isFlatForRentGurugram
-    ? 'Flats for Rent in Gurugram | Keystone Realty'
-    : isFlatForSaleGurugram
-      ? 'Flats for Sale in Gurugram | Keystone Realty'
-      : filters.city
-        ? `Properties in ${filters.city} | Keystone Realty`
-        : 'Properties for Sale & Rent | Keystone Realty';
+  let pageTitle = 'Properties for Sale & Rent | Keystone Realty';
+  let headingTitle = 'Verified Properties for Sale & Rent';
+  let pageDescription = 'Browse verified residential apartments, luxury villas, builder floors, and commercial spaces across Delhi NCR with clear titles and transparent pricing.';
 
-  const headingTitle = isFlatForRentGurugram
-    ? 'Flats for Rent in Gurugram'
-    : isFlatForSaleGurugram
-      ? 'Flats for Sale in Gurugram'
-      : filters.city
-        ? `Properties in ${filters.city}`
-        : 'Verified Properties for Sale & Rent';
-
-  const pageDescription = isFlatForRentGurugram
-    ? 'Explore verified 1, 2, 3 & 4 BHK flats for rent in Gurugram. Direct owner listings in prime Golf Course Rd, Cyber City & Dwarka Expressway societies.'
-    : 'Browse verified residential apartments, luxury villas, builder floors, and commercial spaces across Delhi NCR with clear titles and transparent pricing.';
+  if (isFlatForRentGurugram) {
+    pageTitle = 'Flats for Rent in Gurugram | Keystone Realty';
+    headingTitle = 'Flats for Rent in Gurugram';
+    pageDescription = 'Explore verified 1, 2, 3 & 4 BHK flats for rent in Gurugram. Direct owner listings in prime Golf Course Rd, Cyber City & Dwarka Expressway societies.';
+  } else if (isFlatForSaleGurugram) {
+    pageTitle = 'Flats for Sale in Gurugram | Keystone Realty';
+    headingTitle = 'Flats for Sale in Gurugram';
+    pageDescription = 'Explore verified luxury flats and apartments for sale in Gurugram with clear titles, prime locations, and expert advisor support from Keystone Realty.';
+  } else if (filters.propertyType && filters.city) {
+    const formattedType = formatTypeName(filters.propertyType);
+    pageTitle = `${formattedType} in ${filters.city} | Keystone Realty`;
+    headingTitle = `${formattedType} in ${filters.city}`;
+    pageDescription = `Explore verified ${formattedType.toLowerCase()} in ${filters.city}. Clear legal titles, prime locations, and expert advisor assistance with Keystone Realty.`;
+  } else if (filters.propertyType) {
+    const formattedType = formatTypeName(filters.propertyType);
+    pageTitle = `${formattedType} for Sale & Rent | Keystone`;
+    headingTitle = `Verified ${formattedType} in Delhi NCR`;
+    pageDescription = `Explore verified ${formattedType.toLowerCase()} in Delhi NCR with clear legal titles, prime locations, and expert property advisory by Keystone Realty.`;
+  } else if (filters.city) {
+    pageTitle = `Properties in ${filters.city} | Keystone Realty`;
+    headingTitle = `Verified Properties in ${filters.city}`;
+    pageDescription = `Explore verified residential and commercial properties in ${filters.city} with clear titles, transparent pricing, and expert guidance by Keystone Realty.`;
+  } else if (filters.listingType === 'RENT') {
+    pageTitle = 'Properties for Rent in Delhi NCR | Keystone Realty';
+    headingTitle = 'Properties for Rent in Delhi NCR';
+    pageDescription = 'Find verified rental properties, residential flats, builder floors, and commercial spaces in Delhi NCR with verified owners and transparent terms.';
+  }
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
