@@ -190,13 +190,17 @@ public class PropertyService {
             } catch (Exception ignored) {}
         }
 
-        // 4. If still not found, check dynamically generated slugs
+        // 4. If still not found, check dynamically generated slugs and persist slug to index
         if (property == null) {
             List<Property> all = propertyRepository.findAll();
             for (Property p : all) {
                 String generated = propertyMapper.generateSlug(p.getTitle(), p.getLocation(), p.getCity(), p.getId());
                 if (identifier.equalsIgnoreCase(generated) || identifier.equalsIgnoreCase(p.getSlug())) {
                     property = p;
+                    if (p.getSlug() == null || !p.getSlug().equalsIgnoreCase(generated)) {
+                        p.setSlug(generated);
+                        propertyRepository.save(p);
+                    }
                     break;
                 }
             }

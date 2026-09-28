@@ -110,6 +110,9 @@ export default function PropertyDetailPage() {
   if (loading) {
     return (
       <div className="container" style={{ padding: '5rem 0', textAlign: 'center' }}>
+        <h1 style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', border: 0 }}>
+          Property Details | Keystone Realty Advisor
+        </h1>
         <p style={{ color: 'var(--text-secondary)' }}>Loading property information...</p>
       </div>
     );

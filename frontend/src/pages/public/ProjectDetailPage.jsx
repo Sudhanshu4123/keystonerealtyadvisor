@@ -118,6 +118,9 @@ export default function ProjectDetailPage() {
   if (loading) {
     return (
       <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh', padding: '3rem 0' }}>
+        <h1 style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', border: 0 }}>
+          Luxury Real Estate Projects | Keystone Realty Advisor
+        </h1>
         <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem' }}>
           <LoadingSkeleton height="380px" borderRadius="12px" />
           <div style={{ marginTop: '2rem', display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
@@ -138,7 +141,7 @@ export default function ProjectDetailPage() {
       <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div className="card" style={{ padding: '3rem', textAlign: 'center', maxWidth: '500px' }}>
           <Building2 size={48} color="var(--color-gold-500)" style={{ margin: '0 auto 1.5rem auto' }} />
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>Project Not Found</h2>
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>Project Not Found</h1>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9375rem' }}>
             The requested real estate project is either unavailable or has not been published yet.
           </p>
