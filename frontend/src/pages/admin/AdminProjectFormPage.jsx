@@ -1,14 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
-  Building2, Save, ArrowLeft, Eye, Upload, Trash2, Plus,
-  Layers, Sparkles, Compass, MapPin, DollarSign, FileText,
-  Play, ShieldCheck, CheckCircle2, AlertCircle, X, Check
+  Building2, Save, ArrowLeft, Plus, Trash2, Check,
+  MapPin, IndianRupee, ShieldCheck, FileText, Camera,
+  Sparkles, Layers, Video, FileCheck, CheckCircle2, Star
 } from 'lucide-react';
-import projectService from '../../services/projectService';
+import { projectService } from '../../services/projectService';
 import { useToast } from '../../hooks/useToast';
-import Badge from '../../components/common/Badge';
-import LoadingSkeleton from '../../components/common/LoadingSkeleton';
+import ImageUploader from '../../components/admin/ImageUploader';
+
+const POPULAR_AMENITIES = [
+  { name: 'Swimming Pool', category: 'RECREATION' },
+  { name: 'Clubhouse & Lounge', category: 'RECREATION' },
+  { name: 'Gymnasium & Fitness Center', category: 'SPORTS' },
+  { name: '24x7 Security & CCTV', category: 'SECURITY' },
+  { name: '100% Power Backup', category: 'INFRASTRUCTURE' },
+  { name: 'Landscaped Gardens & Parks', category: 'ENVIRONMENT' },
+  { name: "Children's Play Area", category: 'RECREATION' },
+  { name: 'Jogging & Cycling Track', category: 'SPORTS' },
+  { name: 'Tennis & Badminton Court', category: 'SPORTS' },
+  { name: 'EV Charging Station', category: 'ECO_FRIENDLY' },
+  { name: 'Spa & Wellness Center', category: 'RECREATION' },
+  { name: 'Yoga & Meditation Deck', category: 'SPORTS' },
+  { name: 'Multi-purpose Party Hall', category: 'RECREATION' },
+  { name: 'High Speed Elevators', category: 'INFRASTRUCTURE' },
+  { name: 'Rainwater Harvesting', category: 'ECO_FRIENDLY' },
+  { name: 'Indoor Games Room', category: 'RECREATION' },
+];
 
 export default function AdminProjectFormPage() {
   const { id } = useParams();
@@ -16,16 +34,16 @@ export default function AdminProjectFormPage() {
   const navigate = useNavigate();
   const { success, error, info } = useToast();
 
-  const [activeTab, setActiveTab] = useState('basic');
   const [loading, setLoading] = useState(isEditMode);
-  const [saving, setSaving] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState(false);
 
-  // Core Project Form State
+  // Core Form Data
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
     projectType: 'RESIDENTIAL',
-    status: 'DRAFT',
+    status: 'UNDER_CONSTRUCTION',
     shortDescription: '',
     description: '',
     builderName: '',
@@ -36,7 +54,7 @@ export default function AdminProjectFormPage() {
     address: '',
     locality: '',
     city: '',
-    state: '',
+    state: 'Haryana',
     country: 'India',
     pincode: '',
     latitude: '',
@@ -56,28 +74,57 @@ export default function AdminProjectFormPage() {
     isFeatured: false,
   });
 
-  // Sub-entities state (loaded in edit mode)
-  const [configurations, setConfigurations] = useState([]);
-  const [amenities, setAmenities] = useState([]);
-  const [specifications, setSpecifications] = useState([]);
-  const [highlights, setHighlights] = useState([]);
-  const [images, setImages] = useState([]);
-  const [floorPlans, setFloorPlans] = useState([]);
-  const [documents, setDocuments] = useState([]);
-  const [videos, setVideos] = useState([]);
+  // Images state
+  const [existingImages, setExistingImages] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
-  // Sub-forms local states for adding items
-  const [newConfig, setNewConfig] = useState({ name: '', bedrooms: '', bathrooms: '', area: '', areaUnit: 'SQFT', price: '', availabilityStatus: 'Available', description: '' });
-  const [newAmenity, setNewAmenity] = useState({ name: '', category: 'RECREATION' });
-  const [newSpec, setNewSpec] = useState({ category: 'STRUCTURE', title: '', details: '' });
-  const [newHighlight, setNewHighlight] = useState({ title: '', description: '' });
-  const [newFloorPlan, setNewFloorPlan] = useState({ title: '', configurationName: '', area: '', areaUnit: 'SQFT', description: '' });
-  const [floorPlanFile, setFloorPlanFile] = useState(null);
-  const [newDoc, setNewDoc] = useState({ documentName: '', documentType: 'BROCHURE', isPublic: true });
-  const [docFile, setDocFile] = useState(null);
-  const [newVideo, setNewVideo] = useState({ title: '', videoUrl: '', videoType: 'YOUTUBE' });
+  // Selected Amenities (names)
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [customAmenityInput, setCustomAmenityInput] = useState('');
 
-  // Fetch project details in edit mode
+  // Highlights list
+  const [highlightsList, setHighlightsList] = useState([]);
+  const [newHighlightTitle, setNewHighlightTitle] = useState('');
+  const [newHighlightDesc, setNewHighlightDesc] = useState('');
+
+  // Configurations list
+  const [configurationsList, setConfigurationsList] = useState([]);
+  const [newConfig, setNewConfig] = useState({
+    name: '',
+    bedrooms: '',
+    bathrooms: '',
+    area: '',
+    areaUnit: 'SQFT',
+    price: '',
+    availabilityStatus: 'Available'
+  });
+
+  // Videos
+  const [videoList, setVideoList] = useState([]);
+  const [newVideoUrl, setNewVideoUrl] = useState('');
+  const [newVideoTitle, setNewVideoTitle] = useState('');
+
+  // Brochure
+  const [brochureFile, setBrochureFile] = useState(null);
+  const [existingDocuments, setExistingDocuments] = useState([]);
+
+  // Pill button styling helper
+  const pillSelectStyle = (isActive) => ({
+    padding: '0.5rem 1.25rem',
+    borderRadius: 'var(--radius-full)',
+    border: isActive ? '1.5px solid var(--color-gold-500)' : '1px solid var(--border-color)',
+    backgroundColor: isActive ? '#FEF3C7' : '#FFFFFF',
+    color: isActive ? 'var(--color-gold-700)' : 'var(--text-primary)',
+    fontWeight: isActive ? 600 : 500,
+    fontSize: '0.875rem',
+    cursor: 'pointer',
+    transition: 'all var(--transition-fast)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+  });
+
+  // Load project details if in Edit Mode
   useEffect(() => {
     if (isEditMode) {
       const fetchProjectDetails = async () => {
@@ -90,7 +137,7 @@ export default function AdminProjectFormPage() {
               name: data.name || '',
               slug: data.slug || '',
               projectType: data.projectType || 'RESIDENTIAL',
-              status: data.status || 'DRAFT',
+              status: data.status || 'UNDER_CONSTRUCTION',
               shortDescription: data.shortDescription || '',
               description: data.description || '',
               builderName: data.builderName || '',
@@ -100,15 +147,15 @@ export default function AdminProjectFormPage() {
               address: data.address || '',
               locality: data.locality || '',
               city: data.city || '',
-              state: data.state || '',
+              state: data.state || 'Haryana',
               country: data.country || 'India',
               pincode: data.pincode || '',
-              latitude: data.latitude || '',
-              longitude: data.longitude || '',
+              latitude: data.latitude != null ? String(data.latitude) : '',
+              longitude: data.longitude != null ? String(data.longitude) : '',
               mapUrl: data.mapUrl || '',
-              minPrice: data.minPrice || '',
-              maxPrice: data.maxPrice || '',
-              pricePerSqft: data.pricePerSqft || '',
+              minPrice: data.minPrice != null ? String(data.minPrice) : '',
+              maxPrice: data.maxPrice != null ? String(data.maxPrice) : '',
+              pricePerSqft: data.pricePerSqft != null ? String(data.pricePerSqft) : '',
               priceType: data.priceType || 'Base Price',
               maintenanceCharges: data.maintenanceCharges || '',
               bookingAmount: data.bookingAmount || '',
@@ -118,17 +165,19 @@ export default function AdminProjectFormPage() {
               isFeatured: Boolean(data.isFeatured),
             });
 
-            setConfigurations(data.configurations || []);
-            setAmenities(data.amenities || []);
-            setSpecifications(data.specifications || []);
-            setHighlights(data.highlights || []);
-            setImages(data.images || []);
-            setFloorPlans(data.floorPlans || []);
-            setDocuments(data.documents || []);
-            setVideos(data.videos || []);
+            setExistingImages(data.images || []);
+            setExistingDocuments(data.documents || []);
+            setVideoList(data.videos || []);
+            setConfigurationsList(data.configurations || []);
+            setHighlightsList(data.highlights || []);
+
+            // Set amenities
+            if (data.amenities && Array.isArray(data.amenities)) {
+              setSelectedAmenities(data.amenities.map(a => a.name));
+            }
           }
         } catch (err) {
-          error('Failed to load project details for editing.');
+          error('Failed to load project details.');
         } finally {
           setLoading(false);
         }
@@ -138,87 +187,29 @@ export default function AdminProjectFormPage() {
     }
   }, [id, isEditMode]);
 
-  // Handle Main Form Input Changes
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  // Save Main Project (Create or Update)
-  const handleSaveProject = async (targetStatus = null) => {
-    if (!formData.name || !formData.locality || !formData.city) {
-      error('Project Name, Locality, and City are required fields.');
-      return;
-    }
-
-    setSaving(true);
-    try {
-      const payload = {
-        ...formData,
-        minPrice: formData.minPrice ? parseFloat(formData.minPrice) : null,
-        maxPrice: formData.maxPrice ? parseFloat(formData.maxPrice) : null,
-        pricePerSqft: formData.pricePerSqft ? parseFloat(formData.pricePerSqft) : null,
-        latitude: formData.latitude ? parseFloat(formData.latitude) : null,
-        longitude: formData.longitude ? parseFloat(formData.longitude) : null,
-        status: targetStatus || formData.status,
-      };
-
-      if (isEditMode) {
-        const res = await projectService.updateProject(id, payload);
-        const updated = res?.data || res;
-        success('Project details updated successfully.');
-        setFormData((prev) => ({ ...prev, status: updated.status }));
-      } else {
-        const res = await projectService.createProject(payload);
-        const created = res?.data || res;
-        success('Project created successfully. You can now configure amenities, media, and floor plans.');
-        navigate(`/admin/projects/edit/${created.id}`);
-      }
-    } catch (err) {
-      error(err.response?.data?.message || 'Failed to save project.');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // Upload Images
-  const handleImageUpload = async (e) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    if (!isEditMode) {
-      info('Please save the basic project information first before uploading images.');
-      return;
-    }
-
-    const uploadData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      uploadData.append('files', files[i]);
-    }
-
-    try {
-      const uploaded = await projectService.uploadProjectImages(id, uploadData, 'GALLERY', images.length === 0);
-      success(`${uploaded.length} image(s) uploaded successfully.`);
-      setImages((prev) => [...prev, ...uploaded]);
-    } catch (err) {
-      error('Failed to upload images. Ensure files are valid JPG/PNG/WEBP.');
-    }
-  };
-
+  // Handle image deletions
   const handleDeleteImage = async (imageId) => {
+    if (!id) return;
     try {
       await projectService.deleteProjectImage(imageId);
-      setImages((prev) => prev.filter((img) => img.id !== imageId));
-      success('Image removed from gallery.');
+      setExistingImages((prev) => prev.filter((img) => img.id !== imageId));
+      success('Image removed.');
     } catch (err) {
       error('Failed to delete image.');
     }
   };
 
-  const handleSetCover = async (imageId) => {
+  // Handle set primary/cover image
+  const handleSetPrimary = async (imageId) => {
+    if (!id) return;
     try {
       await projectService.setProjectCoverImage(id, imageId);
-      setImages((prev) =>
-        prev.map((img) => ({ ...img, isCover: img.id === imageId }))
+      setExistingImages((prev) =>
+        prev.map((img) => ({
+          ...img,
+          isPrimary: img.id === imageId || img.isCover,
+          isCover: img.id === imageId,
+        }))
       );
       success('Cover image updated.');
     } catch (err) {
@@ -226,1559 +217,967 @@ export default function AdminProjectFormPage() {
     }
   };
 
-  // Configurations CRUD
-  const handleAddConfiguration = async (e) => {
-    e.preventDefault();
-    if (!isEditMode) {
-      info('Please save the project first.');
+  // Amenities toggle
+  const toggleAmenity = (name) => {
+    setSelectedAmenities((prev) =>
+      prev.includes(name) ? prev.filter((a) => a !== name) : [...prev, name]
+    );
+  };
+
+  const handleAddCustomAmenity = () => {
+    if (!customAmenityInput.trim()) return;
+    const name = customAmenityInput.trim();
+    if (!selectedAmenities.includes(name)) {
+      setSelectedAmenities((prev) => [...prev, name]);
+    }
+    setCustomAmenityInput('');
+  };
+
+  // Highlights handlers
+  const handleAddHighlightItem = () => {
+    if (!newHighlightTitle.trim()) return;
+    setHighlightsList((prev) => [
+      ...prev,
+      { title: newHighlightTitle.trim(), description: newHighlightDesc.trim() }
+    ]);
+    setNewHighlightTitle('');
+    setNewHighlightDesc('');
+  };
+
+  const handleRemoveHighlightItem = async (index, highlightObj) => {
+    if (highlightObj?.id && isEditMode) {
+      try {
+        await projectService.deleteHighlight(highlightObj.id);
+      } catch (e) {
+        error('Failed to delete highlight.');
+        return;
+      }
+    }
+    setHighlightsList((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Configurations handlers
+  const handleAddConfigItem = () => {
+    if (!newConfig.name.trim()) {
+      error('Configuration name (e.g. 3 BHK Luxury) is required.');
       return;
     }
-    if (!newConfig.name) {
-      error('Configuration name is required (e.g. 3 BHK Luxury).');
+    setConfigurationsList((prev) => [...prev, { ...newConfig }]);
+    setNewConfig({
+      name: '',
+      bedrooms: '',
+      bathrooms: '',
+      area: '',
+      areaUnit: 'SQFT',
+      price: '',
+      availabilityStatus: 'Available'
+    });
+  };
+
+  const handleRemoveConfigItem = async (index, configObj) => {
+    if (configObj?.id && isEditMode) {
+      try {
+        await projectService.deleteConfiguration(configObj.id);
+      } catch (e) {
+        error('Failed to delete configuration.');
+        return;
+      }
+    }
+    setConfigurationsList((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Video handlers
+  const handleAddVideoItem = () => {
+    if (!newVideoUrl.trim()) return;
+    setVideoList((prev) => [
+      ...prev,
+      { title: newVideoTitle.trim() || 'Project Video Walkthrough', videoUrl: newVideoUrl.trim(), videoType: 'YOUTUBE' }
+    ]);
+    setNewVideoUrl('');
+    setNewVideoTitle('');
+  };
+
+  const handleRemoveVideoItem = async (index, videoObj) => {
+    if (videoObj?.id && isEditMode) {
+      try {
+        await projectService.deleteVideo(videoObj.id);
+      } catch (e) {
+        error('Failed to delete video.');
+        return;
+      }
+    }
+    setVideoList((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // Form Submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.name.trim()) {
+      error('Please enter the Project Name.');
+      return;
+    }
+    if (!formData.locality.trim() || !formData.city.trim()) {
+      error('Please enter City and Locality.');
       return;
     }
 
+    const payload = {
+      ...formData,
+      name: formData.name.trim(),
+      slug: formData.slug.trim() || undefined,
+      minPrice: formData.minPrice ? parseFloat(formData.minPrice) : null,
+      maxPrice: formData.maxPrice ? parseFloat(formData.maxPrice) : null,
+      pricePerSqft: formData.pricePerSqft ? parseFloat(formData.pricePerSqft) : null,
+      latitude: formData.latitude ? parseFloat(formData.latitude) : null,
+      longitude: formData.longitude ? parseFloat(formData.longitude) : null,
+    };
+
+    setSubmitting(true);
     try {
-      const payload = {
-        ...newConfig,
-        bedrooms: newConfig.bedrooms ? parseInt(newConfig.bedrooms, 10) : null,
-        bathrooms: newConfig.bathrooms ? parseInt(newConfig.bathrooms, 10) : null,
-        area: newConfig.area ? parseFloat(newConfig.area) : null,
-        price: newConfig.price ? parseFloat(newConfig.price) : null,
-      };
-      const res = await projectService.addConfiguration(id, payload);
-      const created = res?.data || res;
-      setConfigurations((prev) => [...prev, created]);
-      setNewConfig({ name: '', bedrooms: '', bathrooms: '', area: '', areaUnit: 'SQFT', price: '', availabilityStatus: 'Available', description: '' });
-      success('Unit configuration added.');
+      let projectId = id;
+
+      if (isEditMode) {
+        await projectService.updateProject(id, payload);
+        success('Project updated successfully.');
+      } else {
+        const res = await projectService.createProject(payload);
+        const created = res?.data || res;
+        projectId = created.id;
+        success('Project created successfully.');
+      }
+
+      // Upload Images if any selected
+      if (selectedFiles.length > 0 && projectId) {
+        setUploadingImages(true);
+        try {
+          await projectService.uploadProjectImages(projectId, selectedFiles, 'GALLERY', true);
+          success('Images uploaded successfully.');
+        } catch (imgErr) {
+          error('Project saved, but some images failed to upload.');
+        }
+      }
+
+      // Upload Brochure Document if selected
+      if (brochureFile && projectId) {
+        try {
+          const docData = new FormData();
+          docData.append('file', brochureFile);
+          docData.append('documentName', `${formData.name} Brochure`);
+          docData.append('documentType', 'BROCHURE');
+          docData.append('isPublic', true);
+          await projectService.uploadProjectDocument(projectId, docData);
+        } catch (docErr) {
+          // non-critical
+        }
+      }
+
+      // Save Amenities if new project
+      if (!isEditMode && projectId && selectedAmenities.length > 0) {
+        for (const amenName of selectedAmenities) {
+          try {
+            await projectService.addAmenity(projectId, { name: amenName, category: 'RECREATION' });
+          } catch (e) {
+            // ignore item error
+          }
+        }
+      }
+
+      // Save Highlights if new project
+      if (!isEditMode && projectId && highlightsList.length > 0) {
+        for (const hl of highlightsList) {
+          try {
+            await projectService.addHighlight(projectId, hl);
+          } catch (e) {
+            // ignore
+          }
+        }
+      }
+
+      // Save Configurations if new project
+      if (!isEditMode && projectId && configurationsList.length > 0) {
+        for (const cfg of configurationsList) {
+          try {
+            await projectService.addConfiguration(projectId, {
+              ...cfg,
+              bedrooms: cfg.bedrooms ? parseInt(cfg.bedrooms, 10) : null,
+              bathrooms: cfg.bathrooms ? parseInt(cfg.bathrooms, 10) : null,
+              area: cfg.area ? parseFloat(cfg.area) : null,
+              price: cfg.price ? parseFloat(cfg.price) : null,
+            });
+          } catch (e) {
+            // ignore
+          }
+        }
+      }
+
+      // Save Videos if new project
+      if (!isEditMode && projectId && videoList.length > 0) {
+        for (const v of videoList) {
+          try {
+            await projectService.addVideo(projectId, v);
+          } catch (e) {
+            // ignore
+          }
+        }
+      }
+
+      navigate('/admin/projects');
     } catch (err) {
-      error('Failed to add configuration.');
-    }
-  };
-
-  const handleDeleteConfig = async (configId) => {
-    try {
-      await projectService.deleteConfiguration(configId);
-      setConfigurations((prev) => prev.filter((c) => c.id !== configId));
-      success('Configuration removed.');
-    } catch (err) {
-      error('Failed to delete configuration.');
-    }
-  };
-
-  // Amenities CRUD
-  const handleAddAmenity = async (e) => {
-    e.preventDefault();
-    if (!isEditMode) return info('Please save the project first.');
-    if (!newAmenity.name) return error('Amenity name is required.');
-
-    try {
-      const res = await projectService.addAmenity(id, newAmenity);
-      const created = res?.data || res;
-      setAmenities((prev) => [...prev, created]);
-      setNewAmenity({ name: '', category: 'RECREATION' });
-      success('Amenity added.');
-    } catch (err) {
-      error('Failed to add amenity.');
-    }
-  };
-
-  const handleDeleteAmenity = async (amenityId) => {
-    try {
-      await projectService.deleteAmenity(amenityId);
-      setAmenities((prev) => prev.filter((a) => a.id !== amenityId));
-      success('Amenity removed.');
-    } catch (err) {
-      error('Failed to delete amenity.');
-    }
-  };
-
-  // Specifications CRUD
-  const handleAddSpecification = async (e) => {
-    e.preventDefault();
-    if (!isEditMode) return info('Please save the project first.');
-    if (!newSpec.title || !newSpec.details) return error('Both title and details are required.');
-
-    try {
-      const res = await projectService.addSpecification(id, newSpec);
-      const created = res?.data || res;
-      setSpecifications((prev) => [...prev, created]);
-      setNewSpec({ category: 'STRUCTURE', title: '', details: '' });
-      success('Specification entry added.');
-    } catch (err) {
-      error('Failed to add specification.');
-    }
-  };
-
-  const handleDeleteSpecification = async (specId) => {
-    try {
-      await projectService.deleteSpecification(specId);
-      setSpecifications((prev) => prev.filter((s) => s.id !== specId));
-      success('Specification removed.');
-    } catch (err) {
-      error('Failed to delete specification.');
-    }
-  };
-
-  // Highlights CRUD
-  const handleAddHighlight = async (e) => {
-    e.preventDefault();
-    if (!isEditMode) return info('Please save the project first.');
-    if (!newHighlight.title) return error('Highlight title is required.');
-
-    try {
-      const res = await projectService.addHighlight(id, newHighlight);
-      const created = res?.data || res;
-      setHighlights((prev) => [...prev, created]);
-      setNewHighlight({ title: '', description: '' });
-      success('Highlight added.');
-    } catch (err) {
-      error('Failed to add highlight.');
-    }
-  };
-
-  const handleDeleteHighlight = async (hlId) => {
-    try {
-      await projectService.deleteHighlight(hlId);
-      setHighlights((prev) => prev.filter((h) => h.id !== hlId));
-      success('Highlight removed.');
-    } catch (err) {
-      error('Failed to delete highlight.');
-    }
-  };
-
-  // Floor Plans CRUD
-  const handleAddFloorPlan = async (e) => {
-    e.preventDefault();
-    if (!isEditMode) return info('Please save the project first.');
-    if (!newFloorPlan.title) return error('Floor plan title is required.');
-
-    const uploadData = new FormData();
-    const planDataBlob = new Blob([JSON.stringify({
-      ...newFloorPlan,
-      area: newFloorPlan.area ? parseFloat(newFloorPlan.area) : null,
-    })], { type: 'application/json' });
-
-    uploadData.append('data', planDataBlob);
-    if (floorPlanFile) {
-      uploadData.append('image', floorPlanFile);
-    }
-
-    try {
-      const res = await projectService.addFloorPlan(id, uploadData);
-      const created = res?.data || res;
-      setFloorPlans((prev) => [...prev, created]);
-      setNewFloorPlan({ title: '', configurationName: '', area: '', areaUnit: 'SQFT', description: '' });
-      setFloorPlanFile(null);
-      success('Floor plan added successfully.');
-    } catch (err) {
-      error('Failed to add floor plan.');
-    }
-  };
-
-  const handleDeleteFloorPlan = async (fpId) => {
-    try {
-      await projectService.deleteFloorPlan(fpId);
-      setFloorPlans((prev) => prev.filter((f) => f.id !== fpId));
-      success('Floor plan removed.');
-    } catch (err) {
-      error('Failed to delete floor plan.');
-    }
-  };
-
-  // Documents CRUD
-  const handleAddDocument = async (e) => {
-    e.preventDefault();
-    if (!isEditMode) return info('Please save the project first.');
-    if (!docFile) return error('Please select a PDF/document file to upload.');
-
-    const uploadData = new FormData();
-    uploadData.append('file', docFile);
-    uploadData.append('documentName', newDoc.documentName || docFile.name);
-    uploadData.append('documentType', newDoc.documentType);
-    uploadData.append('isPublic', newDoc.isPublic);
-
-    try {
-      const res = await projectService.uploadProjectDocument(id, uploadData);
-      const created = res?.data || res;
-      setDocuments((prev) => [...prev, created]);
-      setNewDoc({ documentName: '', documentType: 'BROCHURE', isPublic: true });
-      setDocFile(null);
-      success('Document uploaded to vault.');
-    } catch (err) {
-      error('Failed to upload document.');
-    }
-  };
-
-  const handleDeleteDocument = async (docId) => {
-    try {
-      await projectService.deleteProjectDocument(docId);
-      setDocuments((prev) => prev.filter((d) => d.id !== docId));
-      success('Document deleted.');
-    } catch (err) {
-      error('Failed to delete document.');
-    }
-  };
-
-  // Videos CRUD
-  const handleAddVideo = async (e) => {
-    e.preventDefault();
-    if (!isEditMode) return info('Please save the project first.');
-    if (!newVideo.title || !newVideo.videoUrl) return error('Title and Video URL are required.');
-
-    try {
-      const res = await projectService.addVideo(id, newVideo);
-      const created = res?.data || res;
-      setVideos((prev) => [...prev, created]);
-      setNewVideo({ title: '', videoUrl: '', videoType: 'YOUTUBE' });
-      success('Video link registered.');
-    } catch (err) {
-      error('Failed to add video link.');
-    }
-  };
-
-  const handleDeleteVideo = async (videoId) => {
-    try {
-      await projectService.deleteVideo(videoId);
-      setVideos((prev) => prev.filter((v) => v.id !== videoId));
-      success('Video link removed.');
-    } catch (err) {
-      error('Failed to delete video.');
+      error(err.response?.data?.message || err.message || 'Failed to save project.');
+    } finally {
+      setSubmitting(false);
+      setUploadingImages(false);
     }
   };
 
   if (loading) {
     return (
-      <div style={{ padding: '3rem 0' }}>
-        <div className="container" style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <LoadingSkeleton height="60px" />
-          <div style={{ marginTop: '1.5rem' }}>
-            <LoadingSkeleton height="400px" />
-          </div>
+      <div style={{ padding: '4rem 1.5rem', textAlign: 'center' }}>
+        <div style={{ fontSize: '1.125rem', color: 'var(--text-secondary)' }}>
+          Loading project data...
         </div>
       </div>
     );
   }
 
-  const navTabs = [
-    { id: 'basic', label: '1. Basic Information', icon: Building2 },
-    { id: 'location', label: '2. Location & Map', icon: MapPin },
-    { id: 'pricing', label: '3. Pricing & Booking', icon: DollarSign },
-    { id: 'configurations', label: `4. Configurations (${configurations.length})`, icon: Layers },
-    { id: 'amenities', label: `5. Amenities (${amenities.length})`, icon: Sparkles },
-    { id: 'specifications', label: `6. Specifications (${specifications.length})`, icon: Compass },
-    { id: 'highlights', label: `7. Highlights (${highlights.length})`, icon: CheckCircle2 },
-    { id: 'gallery', label: `8. Media & Gallery (${images.length})`, icon: Upload },
-    { id: 'floorplans', label: `9. Floor Plans (${floorPlans.length})`, icon: Layers },
-    { id: 'documents', label: `10. Documents (${documents.length})`, icon: FileText },
-    { id: 'videos', label: `11. Video Tours (${videos.length})`, icon: Play },
-    { id: 'publish', label: '12. Review & Publish', icon: ShieldCheck },
-  ];
-
   return (
-    <div style={{ padding: '2rem 0 5rem 0', backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
-      <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.5rem' }}>
-        
-        {/* Header Navigation Bar */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Link to="/admin/projects" className="btn btn-secondary" style={{ padding: '8px' }}>
-              <ArrowLeft size={16} />
-            </Link>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '1.5rem 1rem 4rem' }}>
+      
+      {/* Top Back Navigation */}
+      <div style={{ marginBottom: '1.5rem' }}>
+        <Link
+          to="/admin/projects"
+          className="btn btn-outline btn-sm"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
+        >
+          <ArrowLeft size={16} />
+          <span>Back to Projects</span>
+        </Link>
+      </div>
+
+      {/* SINGLE UNIFIED WHITE CARD CONTAINER */}
+      <div
+        className="card"
+        style={{
+          padding: '2.5rem',
+          backgroundColor: '#FFFFFF',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+          borderRadius: 'var(--radius-lg)'
+        }}
+      >
+        {/* Header Title */}
+        <div style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
             <div>
-              <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>Project CMS Editor</div>
-              <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0 }}>
-                {isEditMode ? (formData.name || 'Edit Project') : 'Create New Development'}
+              <span style={{ color: 'var(--color-gold-600)', fontSize: '0.8125rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                Project Management
+              </span>
+              <h1 style={{ fontSize: '1.625rem', fontWeight: 700, margin: '0.25rem 0 0' }}>
+                {isEditMode ? `Edit Project: ${formData.name || `#${id}`}` : 'Create Real Estate Project'}
               </h1>
             </div>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {isEditMode && (
-              <Link
-                to={`/projects/${id}`}
-                target="_blank"
-                className="btn btn-secondary"
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <Eye size={15} />
-                <span>Live Preview</span>
-              </Link>
-            )}
-
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => handleSaveProject('DRAFT')}
-              disabled={saving}
-            >
-              Save Draft
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => handleSaveProject(formData.status === 'DRAFT' ? 'PUBLISHED' : formData.status)}
-              disabled={saving}
-              style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-            >
-              <Save size={15} />
-              <span>{saving ? 'Saving...' : formData.status === 'PUBLISHED' ? 'Save Changes' : 'Save & Publish'}</span>
-            </button>
+            <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.375rem 0.875rem', borderRadius: 'var(--radius-full)', fontSize: '0.8125rem', fontWeight: 600 }}>
+              {formData.status?.replace(/_/g, ' ') || 'UNDER CONSTRUCTION'}
+            </div>
           </div>
         </div>
 
-        {/* Tab Stepper Navigation */}
-        <div className="card" style={{ padding: '0.5rem', marginBottom: '2rem', display: 'flex', gap: '0.5rem', overflowX: 'auto' }}>
-          {navTabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveTab(tab.id)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '0.625rem 1rem',
-                  borderRadius: '6px',
-                  border: 'none',
-                  backgroundColor: isActive ? 'var(--color-gold-600)' : 'transparent',
-                  color: isActive ? '#0B0F19' : 'var(--text-secondary)',
-                  fontWeight: isActive ? 700 : 500,
-                  fontSize: '0.8125rem',
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'all 150ms ease',
-                }}
-              >
-                <Icon size={14} />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
-        {/* ========================================================================= */}
-        {/* TAB 1: BASIC INFORMATION */}
-        {/* ========================================================================= */}
-        {activeTab === 'basic' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Basic Project Information</h2>
-            
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-              <div>
-                <label className="label">Project Name *</label>
-                <input
-                  type="text"
-                  required
-                  className="input-field"
-                  placeholder="e.g. Keystone Sky Villas"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="label">Project Type *</label>
-                <select
-                  className="input-field"
-                  value={formData.projectType}
-                  onChange={(e) => handleInputChange('projectType', e.target.value)}
+          {/* 1. PROJECT TYPE */}
+          <div>
+            <label className="form-label" style={{ fontWeight: 600, marginBottom: '0.75rem', display: 'block' }}>
+              Project Type *
+            </label>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              {[
+                { value: 'RESIDENTIAL', label: 'Residential Development' },
+                { value: 'COMMERCIAL', label: 'Commercial Complex' },
+                { value: 'VILLA', label: 'Luxury Villas & Floors' },
+                { value: 'PLOTTED_DEVELOPMENT', label: 'Plotted Development' },
+                { value: 'MIXED_USE', label: 'Mixed Use' }
+              ].map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  style={pillSelectStyle(formData.projectType === item.value)}
+                  onClick={() => setFormData({ ...formData, projectType: item.value })}
                 >
-                  <option value="RESIDENTIAL">Residential</option>
-                  <option value="COMMERCIAL">Commercial</option>
-                  <option value="VILLA">Villa & Independent Houses</option>
-                  <option value="PLOTTED_DEVELOPMENT">Plotted Development</option>
-                  <option value="MIXED_USE">Mixed Use</option>
-                  <option value="INDUSTRIAL">Industrial</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="label">Developer / Builder Name</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="e.g. Keystone Realty Infrastructure"
-                  value={formData.builderName}
-                  onChange={(e) => handleInputChange('builderName', e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="label">RERA Number</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="e.g. UPRERAPRJ123456"
-                  value={formData.reraNumber}
-                  onChange={(e) => handleInputChange('reraNumber', e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="label">Possession Date</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="e.g. Ready to Move, Dec 2026, Q3 2027"
-                  value={formData.possessionDate}
-                  onChange={(e) => handleInputChange('possessionDate', e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="label">Launch Date</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="e.g. January 2025"
-                  value={formData.launchDate}
-                  onChange={(e) => handleInputChange('launchDate', e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="label">Short Summary Description</label>
-              <input
-                type="text"
-                className="input-field"
-                placeholder="High-level 1-sentence value proposition for card listings..."
-                value={formData.shortDescription}
-                onChange={(e) => handleInputChange('shortDescription', e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label className="label">Comprehensive Project Description</label>
-              <textarea
-                rows={6}
-                className="input-field"
-                placeholder="Detailed architectural concept, master layout highlights, construction standards..."
-                value={formData.description}
-                onChange={(e) => handleInputChange('description', e.target.value)}
-              />
-            </div>
-
-            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-              <div>
-                <label className="label">SEO Meta Title</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="Custom SEO Title Tag..."
-                  value={formData.seoTitle}
-                  onChange={(e) => handleInputChange('seoTitle', e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="label">SEO Meta Description</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="Meta description for search engines..."
-                  value={formData.seoDescription}
-                  onChange={(e) => handleInputChange('seoDescription', e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <input
-                type="checkbox"
-                id="isFeatured"
-                checked={formData.isFeatured}
-                onChange={(e) => handleInputChange('isFeatured', e.target.checked)}
-                style={{ width: '16px', height: '16px' }}
-              />
-              <label htmlFor="isFeatured" style={{ fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer' }}>
-                Feature this development on homepage showcase
-              </label>
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
-        )}
 
-        {/* ========================================================================= */}
-        {/* TAB 2: LOCATION & MAP */}
-        {/* ========================================================================= */}
-        {activeTab === 'location' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Location & Geographical Details</h2>
+          {/* 2. PROJECT STATUS */}
+          <div>
+            <label className="form-label" style={{ fontWeight: 600, marginBottom: '0.75rem', display: 'block' }}>
+              Construction & Launch Status *
+            </label>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+              {[
+                { value: 'UPCOMING', label: 'New Launch / Upcoming' },
+                { value: 'UNDER_CONSTRUCTION', label: 'Under Construction' },
+                { value: 'READY_TO_MOVE', label: 'Ready to Move' },
+                { value: 'COMPLETED', label: 'Completed' },
+                { value: 'DRAFT', label: 'Draft' }
+              ].map((item) => (
+                <button
+                  key={item.value}
+                  type="button"
+                  style={pillSelectStyle(formData.status === item.value)}
+                  onClick={() => setFormData({ ...formData, status: item.value })}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-              <div style={{ gridColumn: '1 / -1' }}>
-                <label className="label">Street Address</label>
+          {/* 3. BASIC & DEVELOPER DETAILS */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <Building2 size={18} color="var(--color-gold-600)" />
+              <span>Project & Developer Details</span>
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-name">Project Name *</label>
                 <input
+                  id="proj-name"
                   type="text"
-                  className="input-field"
-                  placeholder="e.g. Sector 65, Golf Course Extension Road"
-                  value={formData.address}
-                  onChange={(e) => handleInputChange('address', e.target.value)}
+                  required
+                  className="form-control"
+                  placeholder="e.g. Keystone Skyvillas, Godrej Aristocrat"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">Locality / Sector *</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-builder">Builder / Developer Name</label>
                 <input
+                  id="proj-builder"
                   type="text"
-                  required
-                  className="input-field"
-                  placeholder="e.g. Sector 65"
-                  value={formData.locality}
-                  onChange={(e) => handleInputChange('locality', e.target.value)}
+                  className="form-control"
+                  placeholder="e.g. Keystone Developers, DLF, Godrej"
+                  value={formData.builderName}
+                  onChange={(e) => setFormData({ ...formData, builderName: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">City *</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-rera">RERA Registration Number</label>
                 <input
+                  id="proj-rera"
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. RC/REP/HARERA/GGM/2024/01"
+                  value={formData.reraNumber}
+                  onChange={(e) => setFormData({ ...formData, reraNumber: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-launch">Launch Date</label>
+                <input
+                  id="proj-launch"
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Q1 2024 or Jan 2024"
+                  value={formData.launchDate}
+                  onChange={(e) => setFormData({ ...formData, launchDate: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-possession">Possession Date</label>
+                <input
+                  id="proj-possession"
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Dec 2027 or Ready to Move"
+                  value={formData.possessionDate}
+                  onChange={(e) => setFormData({ ...formData, possessionDate: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Featured on Homepage?</label>
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.25rem' }}>
+                  <button
+                    type="button"
+                    style={pillSelectStyle(formData.isFeatured === true)}
+                    onClick={() => setFormData({ ...formData, isFeatured: true })}
+                  >
+                    ⭐ Yes, Featured
+                  </button>
+                  <button
+                    type="button"
+                    style={pillSelectStyle(formData.isFeatured === false)}
+                    onClick={() => setFormData({ ...formData, isFeatured: false })}
+                  >
+                    Standard
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 4. LOCATION DETAILS */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <MapPin size={18} color="var(--color-gold-600)" />
+              <span>Location & Connectivity</span>
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-city">City *</label>
+                <input
+                  id="proj-city"
                   type="text"
                   required
-                  className="input-field"
-                  placeholder="e.g. Gurgaon"
+                  className="form-control"
+                  placeholder="e.g. Gurgaon, Delhi, Noida, Mumbai"
                   value={formData.city}
-                  onChange={(e) => handleInputChange('city', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">State</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-locality">Locality / Sector *</label>
                 <input
+                  id="proj-locality"
                   type="text"
-                  className="input-field"
-                  placeholder="e.g. Haryana"
+                  required
+                  className="form-control"
+                  placeholder="e.g. Sector 54, Golf Course Extension Road"
+                  value={formData.locality}
+                  onChange={(e) => setFormData({ ...formData, locality: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-address">Full Address / Landmark</label>
+                <input
+                  id="proj-address"
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Opp. Horizon Center, Golf Course Road"
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-state">State</label>
+                <input
+                  id="proj-state"
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Haryana, Delhi NCR, Maharashtra"
                   value={formData.state}
-                  onChange={(e) => handleInputChange('state', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, state: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">Pincode</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-pincode">Pincode</label>
                 <input
+                  id="proj-pincode"
                   type="text"
-                  className="input-field"
-                  placeholder="e.g. 122001"
+                  className="form-control"
+                  placeholder="e.g. 122002"
                   value={formData.pincode}
-                  onChange={(e) => handleInputChange('pincode', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">GPS Latitude (Optional)</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-mapurl">Google Map Link / Embed URL</label>
                 <input
-                  type="number"
-                  step="any"
-                  className="input-field"
-                  placeholder="e.g. 28.4089"
-                  value={formData.latitude}
-                  onChange={(e) => handleInputChange('latitude', e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="label">GPS Longitude (Optional)</label>
-                <input
-                  type="number"
-                  step="any"
-                  className="input-field"
-                  placeholder="e.g. 77.0678"
-                  value={formData.longitude}
-                  onChange={(e) => handleInputChange('longitude', e.target.value)}
-                />
-              </div>
-
-              <div style={{ gridColumn: '1 / -1' }}>
-                <label className="label">Google Maps URL (Optional)</label>
-                <input
+                  id="proj-mapurl"
                   type="url"
-                  className="input-field"
+                  className="form-control"
                   placeholder="https://maps.google.com/..."
                   value={formData.mapUrl}
-                  onChange={(e) => handleInputChange('mapUrl', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, mapUrl: e.target.value })}
                 />
               </div>
             </div>
           </div>
-        )}
 
-        {/* ========================================================================= */}
-        {/* TAB 3: PRICING & BOOKING */}
-        {/* ========================================================================= */}
-        {activeTab === 'pricing' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Pricing Structure & Terms</h2>
+          {/* 5. PRICING & FINANCIALS */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <IndianRupee size={18} color="var(--color-gold-600)" />
+              <span>Pricing & Investment Range</span>
+            </h3>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
-              <div>
-                <label className="label">Minimum / Starting Price (₹)</label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-minprice">Starting / Minimum Price (₹)</label>
                 <input
+                  id="proj-minprice"
                   type="number"
-                  className="input-field"
+                  className="form-control"
                   placeholder="e.g. 15000000 (1.5 Cr)"
                   value={formData.minPrice}
-                  onChange={(e) => handleInputChange('minPrice', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, minPrice: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">Maximum Price (₹)</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-maxprice">Maximum Price (₹)</label>
                 <input
+                  id="proj-maxprice"
                   type="number"
-                  className="input-field"
+                  className="form-control"
                   placeholder="e.g. 45000000 (4.5 Cr)"
                   value={formData.maxPrice}
-                  onChange={(e) => handleInputChange('maxPrice', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, maxPrice: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">Price Per Sq Ft (₹)</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-sqft">Price Per Sq.ft (₹)</label>
                 <input
+                  id="proj-sqft"
                   type="number"
-                  className="input-field"
-                  placeholder="e.g. 12500"
+                  className="form-control"
+                  placeholder="e.g. 14500"
                   value={formData.pricePerSqft}
-                  onChange={(e) => handleInputChange('pricePerSqft', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, pricePerSqft: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">Price Type</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-booking">Booking Amount</label>
                 <input
+                  id="proj-booking"
                   type="text"
-                  className="input-field"
-                  placeholder="e.g. Base Price, All Inclusive, On Request"
-                  value={formData.priceType}
-                  onChange={(e) => handleInputChange('priceType', e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className="label">Booking Amount Terms</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="e.g. 10% on Booking, ₹5 Lakhs Initial Token"
+                  className="form-control"
+                  placeholder="e.g. 10 Lakhs or 10%"
                   value={formData.bookingAmount}
-                  onChange={(e) => handleInputChange('bookingAmount', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, bookingAmount: e.target.value })}
                 />
               </div>
 
-              <div>
-                <label className="label">Maintenance Charges</label>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-maint">Maintenance Charges</label>
                 <input
+                  id="proj-maint"
                   type="text"
-                  className="input-field"
-                  placeholder="e.g. ₹4.5 / sqft / month"
+                  className="form-control"
+                  placeholder="e.g. ₹4.5 / sqft/month"
                   value={formData.maintenanceCharges}
-                  onChange={(e) => handleInputChange('maintenanceCharges', e.target.value)}
+                  onChange={(e) => setFormData({ ...formData, maintenanceCharges: e.target.value })}
                 />
               </div>
             </div>
           </div>
-        )}
 
-        {/* ========================================================================= */}
-        {/* TAB 4: CONFIGURATIONS */}
-        {/* ========================================================================= */}
-        {activeTab === 'configurations' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Unit Configurations</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Add specific apartment/villa types available within this development.
-              </p>
-            </div>
+          {/* 6. OVERVIEW & DESCRIPTIONS */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <FileText size={18} color="var(--color-gold-600)" />
+              <span>Overview & Description</span>
+            </h3>
 
-            {/* Existing Configurations Table */}
-            {configurations.length > 0 ? (
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.875rem' }}>
-                  <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border-color)', color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase' }}>
-                      <th style={{ padding: '0.75rem' }}>Name</th>
-                      <th style={{ padding: '0.75rem' }}>Beds / Baths</th>
-                      <th style={{ padding: '0.75rem' }}>Area</th>
-                      <th style={{ padding: '0.75rem' }}>Price</th>
-                      <th style={{ padding: '0.75rem' }}>Status</th>
-                      <th style={{ padding: '0.75rem', textAlign: 'right' }}>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {configurations.map((cfg) => (
-                      <tr key={cfg.id} style={{ borderBottom: '1px solid var(--border-color)' }}>
-                        <td style={{ padding: '0.75rem', fontWeight: 600 }}>{cfg.name}</td>
-                        <td style={{ padding: '0.75rem' }}>{cfg.bedrooms || '-'} BHK / {cfg.bathrooms || '-'} Baths</td>
-                        <td style={{ padding: '0.75rem' }}>{cfg.area ? `${cfg.area} ${cfg.areaUnit}` : '-'}</td>
-                        <td style={{ padding: '0.75rem', color: 'var(--color-gold-600)', fontWeight: 600 }}>
-                          {cfg.price ? `₹${(cfg.price / 100000).toFixed(2)} L` : 'On Request'}
-                        </td>
-                        <td style={{ padding: '0.75rem' }}>
-                          <Badge variant="gold">{cfg.availabilityStatus || 'Available'}</Badge>
-                        </td>
-                        <td style={{ padding: '0.75rem', textAlign: 'right' }}>
-                          <button
-                            type="button"
-                            onClick={() => handleDeleteConfig(cfg.id)}
-                            className="btn btn-secondary"
-                            style={{ padding: '4px 8px', color: '#EF4444' }}
-                          >
-                            <Trash2 size={13} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-shortdesc">Short Tagline / Summary</label>
+                <input
+                  id="proj-shortdesc"
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Ultra luxury 3 & 4 BHK residences with private terrace and panoramic Aravalli views"
+                  value={formData.shortDescription}
+                  onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+                />
               </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-main)', borderRadius: '8px', color: 'var(--text-muted)' }}>
-                No configurations added yet. Add your first unit configuration below.
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="proj-desc">Detailed Project Description</label>
+                <textarea
+                  id="proj-desc"
+                  rows={4}
+                  className="form-control"
+                  placeholder="Describe the architectural design, master plan, high-end specifications, neighborhood advantages, and lifestyle offerings..."
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* 7. PROJECT IMAGES & MEDIA UPLOADER */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <Camera size={18} color="var(--color-gold-600)" />
+              <span>Project Photos & Cover Image</span>
+            </h3>
+
+            <ImageUploader
+              existingImages={existingImages}
+              onFilesSelected={(files) => setSelectedFiles((prev) => [...prev, ...files])}
+              onDeleteExisting={handleDeleteImage}
+              onSetPrimary={handleSetPrimary}
+              uploading={uploadingImages}
+            />
+
+            {/* Selected new files preview badge list */}
+            {selectedFiles.length > 0 && (
+              <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#F8FAFC', borderRadius: 'var(--radius-sm)', border: '1px solid #E2E8F0' }}>
+                <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#334155', marginBottom: '0.5rem' }}>
+                  Ready to upload ({selectedFiles.length} files selected):
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {selectedFiles.map((file, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        fontSize: '0.75rem',
+                        padding: '4px 8px',
+                        backgroundColor: '#FFFFFF',
+                        border: '1px solid #CBD5E1',
+                        borderRadius: 'var(--radius-sm)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      <span>{file.name}</span>
+                      <button
+                        type="button"
+                        onClick={() => setSelectedFiles((prev) => prev.filter((_, i) => i !== idx))}
+                        style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontWeight: 700, padding: 0 }}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
-
-            {/* Add New Configuration Form */}
-            <form onSubmit={handleAddConfiguration} style={{ padding: '1.5rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, margin: 0 }}>Add New Unit Configuration</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
-                <div>
-                  <label className="label">Config Name *</label>
-                  <input
-                    type="text"
-                    required
-                    className="input-field"
-                    placeholder="e.g. 3 BHK Luxury"
-                    value={newConfig.name}
-                    onChange={(e) => setNewConfig({ ...newConfig, name: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="label">Bedrooms</label>
-                  <input
-                    type="number"
-                    className="input-field"
-                    placeholder="e.g. 3"
-                    value={newConfig.bedrooms}
-                    onChange={(e) => setNewConfig({ ...newConfig, bedrooms: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="label">Bathrooms</label>
-                  <input
-                    type="number"
-                    className="input-field"
-                    placeholder="e.g. 3"
-                    value={newConfig.bathrooms}
-                    onChange={(e) => setNewConfig({ ...newConfig, bathrooms: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="label">Super Area</label>
-                  <input
-                    type="number"
-                    className="input-field"
-                    placeholder="e.g. 1850"
-                    value={newConfig.area}
-                    onChange={(e) => setNewConfig({ ...newConfig, area: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="label">Unit</label>
-                  <select
-                    className="input-field"
-                    value={newConfig.areaUnit}
-                    onChange={(e) => setNewConfig({ ...newConfig, areaUnit: e.target.value })}
-                  >
-                    <option value="SQFT">SQFT</option>
-                    <option value="SQYD">SQYD</option>
-                    <option value="SQM">SQM</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="label">Price (₹)</label>
-                  <input
-                    type="number"
-                    className="input-field"
-                    placeholder="e.g. 18000000"
-                    value={newConfig.price}
-                    onChange={(e) => setNewConfig({ ...newConfig, price: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Plus size={15} />
-                  <span>Add Configuration</span>
-                </button>
-              </div>
-            </form>
           </div>
-        )}
 
-        {/* ========================================================================= */}
-        {/* TAB 5: AMENITIES */}
-        {/* ========================================================================= */}
-        {activeTab === 'amenities' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Project Amenities</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Manage authentic lifestyle and infrastructure amenities by category.
-              </p>
-            </div>
+          {/* 8. AMENITIES SELECTION */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <Sparkles size={18} color="var(--color-gold-600)" />
+              <span>Amenities & Lifestyle Features</span>
+            </h3>
 
-            {/* List Existing Amenities */}
-            {amenities.length > 0 ? (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.75rem' }}>
-                {amenities.map((amenity) => (
-                  <div
-                    key={amenity.id}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1rem' }}>
+              {POPULAR_AMENITIES.map((item) => {
+                const isSelected = selectedAmenities.includes(item.name);
+                return (
+                  <button
+                    key={item.name}
+                    type="button"
+                    onClick={() => toggleAmenity(item.name)}
                     style={{
-                      padding: '0.75rem 1rem',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--bg-main)',
-                      display: 'flex',
+                      padding: '0.45rem 0.9rem',
+                      borderRadius: 'var(--radius-full)',
+                      fontSize: '0.8125rem',
+                      fontWeight: isSelected ? 600 : 400,
+                      cursor: 'pointer',
+                      border: isSelected ? '1.5px solid var(--color-gold-500)' : '1px solid var(--border-color)',
+                      backgroundColor: isSelected ? '#FEF3C7' : '#FFFFFF',
+                      color: isSelected ? 'var(--color-gold-800)' : 'var(--text-primary)',
+                      display: 'inline-flex',
                       alignItems: 'center',
-                      justifyContent: 'space-between',
-                      fontSize: '0.875rem',
+                      gap: '0.375rem',
+                      transition: 'all var(--transition-fast)'
                     }}
                   >
-                    <div>
-                      <div style={{ fontWeight: 600 }}>{amenity.name}</div>
-                      <div style={{ fontSize: '0.6875rem', color: 'var(--color-gold-600)', textTransform: 'uppercase' }}>
-                        {amenity.category}
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteAmenity(amenity.id)}
-                      style={{ background: 'transparent', border: 'none', color: '#EF4444', cursor: 'pointer' }}
-                    >
-                      <X size={15} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-main)', borderRadius: '8px', color: 'var(--text-muted)' }}>
-                No amenities registered. Enter actual amenities below.
-              </div>
-            )}
-
-            {/* Add Amenity Form */}
-            <form onSubmit={handleAddAmenity} style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-              <div style={{ flex: '1 1 200px' }}>
-                <label className="label">Amenity Name *</label>
-                <input
-                  type="text"
-                  required
-                  className="input-field"
-                  placeholder="e.g. Olympic Size Swimming Pool"
-                  value={newAmenity.name}
-                  onChange={(e) => setNewAmenity({ ...newAmenity, name: e.target.value })}
-                />
-              </div>
-
-              <div style={{ minWidth: '180px' }}>
-                <label className="label">Category</label>
-                <select
-                  className="input-field"
-                  value={newAmenity.category}
-                  onChange={(e) => setNewAmenity({ ...newAmenity, category: e.target.value })}
-                >
-                  <option value="SECURITY">Security</option>
-                  <option value="RECREATION">Recreation</option>
-                  <option value="FITNESS">Fitness</option>
-                  <option value="PARKING">Parking</option>
-                  <option value="UTILITIES">Utilities</option>
-                  <option value="COMMUNITY">Community</option>
-                  <option value="OUTDOOR">Outdoor</option>
-                  <option value="OTHER">Other</option>
-                </select>
-              </div>
-
-              <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px', height: '42px' }}>
-                <Plus size={15} />
-                <span>Add Amenity</span>
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 6: SPECIFICATIONS */}
-        {/* ========================================================================= */}
-        {activeTab === 'specifications' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Technical Specifications</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Structure, flooring, electrical, plumbing, and finish details.
-              </p>
+                    {isSelected && <Check size={14} color="var(--color-gold-600)" />}
+                    <span>{item.name}</span>
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Existing Specs */}
-            {specifications.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {specifications.map((spec) => (
-                  <div
-                    key={spec.id}
-                    style={{
-                      padding: '1rem',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--bg-main)',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'var(--color-gold-600)', textTransform: 'uppercase' }}>
-                        {spec.category}
-                      </div>
-                      <div style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginTop: '2px' }}>
-                        {spec.title}
-                      </div>
-                      <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                        {spec.details}
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteSpecification(spec.id)}
-                      style={{ background: 'transparent', border: 'none', color: '#EF4444', cursor: 'pointer' }}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-main)', borderRadius: '8px', color: 'var(--text-muted)' }}>
-                No specifications added yet. Add structural specifications below.
-              </div>
-            )}
-
-            {/* Add Spec Form */}
-            <form onSubmit={handleAddSpecification} style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, margin: 0 }}>Add Specification Entry</h3>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: '1rem' }}>
-                <div>
-                  <label className="label">Category</label>
-                  <select
-                    className="input-field"
-                    value={newSpec.category}
-                    onChange={(e) => setNewSpec({ ...newSpec, category: e.target.value })}
-                  >
-                    <option value="STRUCTURE">Structure</option>
-                    <option value="FLOORING">Flooring</option>
-                    <option value="DOORS_WINDOWS">Doors & Windows</option>
-                    <option value="ELECTRICAL">Electrical</option>
-                    <option value="PLUMBING">Plumbing</option>
-                    <option value="KITCHEN">Kitchen</option>
-                    <option value="BATHROOM">Bathroom</option>
-                    <option value="SECURITY">Security</option>
-                    <option value="OTHER">Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="label">Title / Item *</label>
-                  <input
-                    type="text"
-                    required
-                    className="input-field"
-                    placeholder="e.g. Master Bedroom Flooring"
-                    value={newSpec.title}
-                    onChange={(e) => setNewSpec({ ...newSpec, title: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="label">Specification Details *</label>
-                <input
-                  type="text"
-                  required
-                  className="input-field"
-                  placeholder="e.g. Imported Italian Marble with anti-skid coating"
-                  value={newSpec.details}
-                  onChange={(e) => setNewSpec({ ...newSpec, details: e.target.value })}
-                />
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Plus size={15} />
-                  <span>Add Specification</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 7: HIGHLIGHTS */}
-        {/* ========================================================================= */}
-        {activeTab === 'highlights' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Project Highlights</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Key standout value propositions and location connectivity highlights.
-              </p>
-            </div>
-
-            {highlights.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {highlights.map((hl) => (
-                  <div
-                    key={hl.id}
-                    style={{
-                      padding: '1rem',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--bg-main)',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontWeight: 600, fontSize: '0.9375rem' }}>{hl.title}</div>
-                      {hl.description && (
-                        <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                          {hl.description}
-                        </div>
-                      )}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteHighlight(hl.id)}
-                      style={{ background: 'transparent', border: 'none', color: '#EF4444', cursor: 'pointer' }}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-main)', borderRadius: '8px', color: 'var(--text-muted)' }}>
-                No highlights added. Add your project highlights below.
-              </div>
-            )}
-
-            {/* Add Highlight Form */}
-            <form onSubmit={handleAddHighlight} style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, margin: 0 }}>Add Project Highlight</h3>
-              <div>
-                <label className="label">Highlight Title *</label>
-                <input
-                  type="text"
-                  required
-                  className="input-field"
-                  placeholder="e.g. 5 Minutes from Rapid Metro Station"
-                  value={newHighlight.title}
-                  onChange={(e) => setNewHighlight({ ...newHighlight, title: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="label">Short Description (Optional)</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  placeholder="e.g. Direct seamless connectivity to Cyber City and NH-8"
-                  value={newHighlight.description}
-                  onChange={(e) => setNewHighlight({ ...newHighlight, description: e.target.value })}
-                />
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Plus size={15} />
-                  <span>Add Highlight</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 8: MEDIA & GALLERY */}
-        {/* ========================================================================= */}
-        {activeTab === 'gallery' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Project Media & Gallery</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Upload verified architectural photography and select the project cover image.
-              </p>
-            </div>
-
-            {/* Image Upload Dropzone */}
-            <div
-              style={{
-                border: '2px dashed var(--border-color)',
-                borderRadius: '8px',
-                padding: '2.5rem',
-                textAlign: 'center',
-                backgroundColor: 'var(--bg-main)',
-                cursor: 'pointer',
-              }}
-              onClick={() => document.getElementById('projectGalleryInput').click()}
-            >
-              <Upload size={36} color="var(--color-gold-500)" style={{ margin: '0 auto 0.75rem auto' }} />
-              <div style={{ fontWeight: 600, fontSize: '0.9375rem' }}>Click to select project images</div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-                Supported formats: JPG, PNG, WEBP. Max 10MB per file.
-              </div>
+            {/* Custom Amenity Adder */}
+            <div style={{ display: 'flex', gap: '0.5rem', maxWidth: '400px' }}>
               <input
-                id="projectGalleryInput"
-                type="file"
-                multiple
-                accept="image/jpeg,image/png,image/webp"
-                style={{ display: 'none' }}
-                onChange={handleImageUpload}
+                type="text"
+                className="form-control"
+                placeholder="Add custom amenity..."
+                value={customAmenityInput}
+                onChange={(e) => setCustomAmenityInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddCustomAmenity();
+                  }
+                }}
               />
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={handleAddCustomAmenity}
+              >
+                <Plus size={16} />
+                <span>Add</span>
+              </button>
             </div>
-
-            {/* Uploaded Images Grid */}
-            {images.length > 0 ? (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
-                {images.map((img) => (
-                  <div
-                    key={img.id}
-                    style={{
-                      height: '180px',
-                      borderRadius: '8px',
-                      overflow: 'hidden',
-                      position: 'relative',
-                      border: img.isCover ? '2px solid var(--color-gold-500)' : '1px solid var(--border-color)',
-                      backgroundColor: '#0B0F19',
-                    }}
-                  >
-                    <img src={img.imageUrl} alt="Gallery" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-
-                    {img.isCover && (
-                      <span style={{ position: 'absolute', top: '8px', left: '8px', padding: '2px 8px', backgroundColor: 'var(--color-gold-500)', color: '#000', borderRadius: '4px', fontSize: '0.6875rem', fontWeight: 700 }}>
-                        COVER
-                      </span>
-                    )}
-
-                    <div style={{ position: 'absolute', bottom: '8px', right: '8px', display: 'flex', gap: '4px' }}>
-                      {!img.isCover && (
-                        <button
-                          type="button"
-                          onClick={() => handleSetCover(img.id)}
-                          className="btn btn-secondary"
-                          style={{ padding: '4px 6px', fontSize: '0.6875rem' }}
-                          title="Set as Cover Image"
-                        >
-                          Set Cover
-                        </button>
-                      )}
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteImage(img.id)}
-                        className="btn btn-secondary"
-                        style={{ padding: '4px 6px', color: '#EF4444' }}
-                        title="Delete Image"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-main)', borderRadius: '8px', color: 'var(--text-muted)' }}>
-                No gallery images uploaded yet.
-              </div>
-            )}
           </div>
-        )}
 
-        {/* ========================================================================= */}
-        {/* TAB 9: FLOOR PLANS */}
-        {/* ========================================================================= */}
-        {activeTab === 'floorplans' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Project Floor Plans</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Upload verified architectural floor plans and unit layout drawings.
-              </p>
-            </div>
+          {/* 9. KEY HIGHLIGHTS */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <ShieldCheck size={18} color="var(--color-gold-600)" />
+              <span>Project Key Highlights</span>
+            </h3>
 
-            {floorPlans.length > 0 ? (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1rem' }}>
-                {floorPlans.map((fp) => (
+            {highlightsList.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
+                {highlightsList.map((hl, idx) => (
                   <div
-                    key={fp.id}
+                    key={idx}
                     style={{
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '8px',
-                      overflow: 'hidden',
-                      backgroundColor: 'var(--bg-main)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
-                  >
-                    {fp.imageUrl && (
-                      <div style={{ height: '160px', backgroundColor: '#FFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src={fp.imageUrl} alt={fp.title} style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'contain' }} />
-                      </div>
-                    )}
-                    <div style={{ padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div>
-                        <div style={{ fontWeight: 600, fontSize: '0.9375rem' }}>{fp.title}</div>
-                        {fp.area && <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{fp.area} {fp.areaUnit}</div>}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteFloorPlan(fp.id)}
-                        style={{ background: 'transparent', border: 'none', color: '#EF4444', cursor: 'pointer' }}
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-main)', borderRadius: '8px', color: 'var(--text-muted)' }}>
-                No floor plans uploaded. Add a floor plan below.
-              </div>
-            )}
-
-            {/* Add Floor Plan Form */}
-            <form onSubmit={handleAddFloorPlan} style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, margin: 0 }}>Add Floor Plan</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                <div>
-                  <label className="label">Plan Title *</label>
-                  <input
-                    type="text"
-                    required
-                    className="input-field"
-                    placeholder="e.g. 3 BHK Unit Plan Type A"
-                    value={newFloorPlan.title}
-                    onChange={(e) => setNewFloorPlan({ ...newFloorPlan, title: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="label">Area</label>
-                  <input
-                    type="number"
-                    className="input-field"
-                    placeholder="e.g. 1950"
-                    value={newFloorPlan.area}
-                    onChange={(e) => setNewFloorPlan({ ...newFloorPlan, area: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="label">Floor Plan Image File</label>
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    className="input-field"
-                    onChange={(e) => setFloorPlanFile(e.target.files[0])}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Plus size={15} />
-                  <span>Upload Floor Plan</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 10: DOCUMENTS VAULT */}
-        {/* ========================================================================= */}
-        {activeTab === 'documents' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Document Vault</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Upload official PDF brochures, price lists, and payment schedules.
-              </p>
-            </div>
-
-            {documents.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {documents.map((doc) => (
-                  <div
-                    key={doc.id}
-                    style={{
-                      padding: '1rem',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--bg-main)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <FileText size={20} color="var(--color-gold-500)" />
-                      <div>
-                        <div style={{ fontWeight: 600, fontSize: '0.9375rem' }}>{doc.documentName}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                          {doc.documentType} • {doc.isPublic ? 'Publicly Visible' : 'Private Admin Only'}
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteDocument(doc.id)}
-                      style={{ background: 'transparent', border: 'none', color: '#EF4444', cursor: 'pointer' }}
-                    >
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-main)', borderRadius: '8px', color: 'var(--text-muted)' }}>
-                No documents uploaded. Upload brochures or price lists below.
-              </div>
-            )}
-
-            {/* Upload Document Form */}
-            <form onSubmit={handleAddDocument} style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, margin: 0 }}>Upload Document</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                <div>
-                  <label className="label">Document Display Name</label>
-                  <input
-                    type="text"
-                    className="input-field"
-                    placeholder="e.g. Official Brochure 2026"
-                    value={newDoc.documentName}
-                    onChange={(e) => setNewDoc({ ...newDoc, documentName: e.target.value })}
-                  />
-                </div>
-                <div>
-                  <label className="label">Document Type</label>
-                  <select
-                    className="input-field"
-                    value={newDoc.documentType}
-                    onChange={(e) => setNewDoc({ ...newDoc, documentType: e.target.value })}
-                  >
-                    <option value="BROCHURE">Brochure</option>
-                    <option value="PRICE_LIST">Price List</option>
-                    <option value="PAYMENT_PLAN">Payment Plan</option>
-                    <option value="MASTER_PLAN">Master Plan</option>
-                    <option value="FLOOR_PLAN">Floor Plan</option>
-                    <option value="SPECIFICATION_SHEET">Specification Sheet</option>
-                    <option value="LEGAL_APPROVALS">Legal Approvals</option>
-                    <option value="OTHER">Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="label">PDF / Document File *</label>
-                  <input
-                    type="file"
-                    required
-                    accept=".pdf,.doc,.docx,image/*"
-                    className="input-field"
-                    onChange={(e) => setDocFile(e.target.files[0])}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <input
-                    type="checkbox"
-                    id="isDocPublic"
-                    checked={newDoc.isPublic}
-                    onChange={(e) => setNewDoc({ ...newDoc, isPublic: e.target.checked })}
-                  />
-                  <label htmlFor="isDocPublic" style={{ fontSize: '0.8125rem', cursor: 'pointer' }}>
-                    Make visible for public download
-                  </label>
-                </div>
-
-                <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Upload size={14} />
-                  <span>Upload to Vault</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 11: VIDEO TOURS */}
-        {/* ========================================================================= */}
-        {activeTab === 'videos' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Project Video Tours</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Embed official project walkthroughs, sample apartment tours, and drone videos.
-              </p>
-            </div>
-
-            {videos.length > 0 ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {videos.map((vid) => (
-                  <div
-                    key={vid.id}
-                    style={{
-                      padding: '1rem',
-                      borderRadius: '6px',
-                      border: '1px solid var(--border-color)',
-                      backgroundColor: 'var(--bg-main)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
+                      padding: '0.625rem 1rem',
+                      backgroundColor: '#F8FAFC',
+                      borderRadius: 'var(--radius-sm)',
+                      border: '1px solid var(--border-color)'
                     }}
                   >
                     <div>
-                      <div style={{ fontWeight: 600, fontSize: '0.9375rem' }}>{vid.title}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{vid.videoUrl}</div>
+                      <div style={{ fontWeight: 600, fontSize: '0.875rem' }}>{hl.title}</div>
+                      {hl.description && (
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{hl.description}</div>
+                      )}
                     </div>
                     <button
                       type="button"
-                      onClick={() => handleDeleteVideo(vid.id)}
-                      style={{ background: 'transparent', border: 'none', color: '#EF4444', cursor: 'pointer' }}
+                      onClick={() => handleRemoveHighlightItem(idx, hl)}
+                      style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer' }}
                     >
-                      <Trash2 size={14} />
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 ))}
               </div>
-            ) : (
-              <div style={{ padding: '1.5rem', textAlign: 'center', backgroundColor: 'var(--bg-main)', borderRadius: '8px', color: 'var(--text-muted)' }}>
-                No video tours linked yet.
+            )}
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.5rem', alignItems: 'end' }}>
+              <div className="form-group" style={{ margin: 0 }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Highlight Title (e.g. 2 min to Rapid Metro)"
+                  value={newHighlightTitle}
+                  onChange={(e) => setNewHighlightTitle(e.target.value)}
+                />
+              </div>
+              <div className="form-group" style={{ margin: 0 }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Short note (optional)"
+                  value={newHighlightDesc}
+                  onChange={(e) => setNewHighlightDesc(e.target.value)}
+                />
+              </div>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={handleAddHighlightItem}
+                style={{ height: '40px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+              >
+                <Plus size={16} />
+                <span>Add Highlight</span>
+              </button>
+            </div>
+          </div>
+
+          {/* 10. UNIT CONFIGURATIONS (BHK Types) */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <Layers size={18} color="var(--color-gold-600)" />
+              <span>Unit Configurations (BHK Variants)</span>
+            </h3>
+
+            {configurationsList.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
+                {configurationsList.map((cfg, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '0.75rem 1rem',
+                      backgroundColor: '#F8FAFC',
+                      borderRadius: 'var(--radius-sm)',
+                      border: '1px solid var(--border-color)'
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: '0.875rem' }}>{cfg.name}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                        {cfg.bedrooms ? `${cfg.bedrooms} Bed` : ''} {cfg.bathrooms ? `| ${cfg.bathrooms} Bath` : ''} {cfg.area ? `| ${cfg.area} ${cfg.areaUnit || 'SQFT'}` : ''} {cfg.price ? `| ₹${Number(cfg.price).toLocaleString('en-IN')}` : ''}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveConfigItem(idx, cfg)}
+                      style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer' }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
 
-            {/* Add Video Form */}
-            <form onSubmit={handleAddVideo} style={{ padding: '1.25rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)', display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-              <div style={{ flex: '1 1 200px' }}>
-                <label className="label">Video Title *</label>
-                <input
-                  type="text"
-                  required
-                  className="input-field"
-                  placeholder="e.g. 3 BHK Sample Flat Walkthrough"
-                  value={newVideo.title}
-                  onChange={(e) => setNewVideo({ ...newVideo, title: e.target.value })}
-                />
-              </div>
-
-              <div style={{ flex: '1 1 300px' }}>
-                <label className="label">YouTube / Vimeo URL *</label>
-                <input
-                  type="url"
-                  required
-                  className="input-field"
-                  placeholder="https://www.youtube.com/watch?v=..."
-                  value={newVideo.videoUrl}
-                  onChange={(e) => setNewVideo({ ...newVideo, videoUrl: e.target.value })}
-                />
-              </div>
-
-              <button type="submit" className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '6px', height: '42px' }}>
-                <Plus size={15} />
-                <span>Add Video</span>
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 12: REVIEW & PUBLISH */}
-        {/* ========================================================================= */}
-        {activeTab === 'publish' && (
-          <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>Review & Publication Status</h2>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                Configure publication visibility and verify required sections before publishing live.
-              </p>
-            </div>
-
-            {/* Status Selector Box */}
-            <div style={{ padding: '1.5rem', backgroundColor: 'var(--bg-main)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-              <label className="label" style={{ fontSize: '0.9375rem', fontWeight: 700 }}>Current Project Status</label>
-              <select
-                className="input-field"
-                value={formData.status}
-                onChange={(e) => handleInputChange('status', e.target.value)}
-                style={{ maxWidth: '300px', marginTop: '0.5rem', fontWeight: 600 }}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.5rem', alignItems: 'end' }}>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Name (e.g. 3 BHK Luxury)"
+                value={newConfig.name}
+                onChange={(e) => setNewConfig({ ...newConfig, name: e.target.value })}
+              />
+              <input
+                type="number"
+                className="form-control"
+                placeholder="BHK (Beds)"
+                value={newConfig.bedrooms}
+                onChange={(e) => setNewConfig({ ...newConfig, bedrooms: e.target.value })}
+              />
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Area (Sq.ft)"
+                value={newConfig.area}
+                onChange={(e) => setNewConfig({ ...newConfig, area: e.target.value })}
+              />
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Price (₹)"
+                value={newConfig.price}
+                onChange={(e) => setNewConfig({ ...newConfig, price: e.target.value })}
+              />
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={handleAddConfigItem}
+                style={{ height: '40px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
               >
-                <option value="DRAFT">DRAFT (Hidden from public website)</option>
-                <option value="PUBLISHED">PUBLISHED (Visible to all public visitors)</option>
-                <option value="UNPUBLISHED">UNPUBLISHED</option>
-                <option value="UNDER_CONSTRUCTION">UNDER CONSTRUCTION</option>
-                <option value="READY_TO_MOVE">READY TO MOVE</option>
-                <option value="COMPLETED">COMPLETED</option>
-                <option value="SOLD_OUT">SOLD OUT</option>
-              </select>
+                <Plus size={16} />
+                <span>Add Unit</span>
+              </button>
             </div>
+          </div>
 
-            {/* Summary Checklist */}
+          {/* 11. BROCHURE & VIDEO WALKTHROUGH */}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <Video size={18} color="var(--color-gold-600)" />
+              <span>Brochure & Video Walkthrough</span>
+            </h3>
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1rem' }}>
-              <div style={{ padding: '1rem', border: '1px solid var(--border-color)', borderRadius: '6px' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Configurations</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{configurations.length} Added</div>
+              <div className="form-group">
+                <label className="form-label">Project Brochure (PDF)</label>
+                <input
+                  type="file"
+                  accept=".pdf"
+                  className="form-control"
+                  onChange={(e) => setBrochureFile(e.target.files?.[0] || null)}
+                />
+                {brochureFile && (
+                  <div style={{ fontSize: '0.75rem', color: 'var(--color-gold-700)', marginTop: '4px' }}>
+                    Selected: {brochureFile.name}
+                  </div>
+                )}
+                {existingDocuments.length > 0 && (
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                    Uploaded Documents: {existingDocuments.map(d => d.documentName).join(', ')}
+                  </div>
+                )}
               </div>
-              <div style={{ padding: '1rem', border: '1px solid var(--border-color)', borderRadius: '6px' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Amenities</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{amenities.length} Added</div>
-              </div>
-              <div style={{ padding: '1rem', border: '1px solid var(--border-color)', borderRadius: '6px' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Gallery Images</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{images.length} Uploaded</div>
-              </div>
-              <div style={{ padding: '1rem', border: '1px solid var(--border-color)', borderRadius: '6px' }}>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Floor Plans</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 700 }}>{floorPlans.length} Added</div>
-              </div>
-            </div>
 
-            {/* Action Bar */}
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => handleSaveProject('DRAFT')}
-                disabled={saving}
-              >
-                Save as Draft
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => handleSaveProject('PUBLISHED')}
-                disabled={saving}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <Check size={16} />
-                <span>Publish Project Live</span>
-              </button>
+              <div className="form-group">
+                <label className="form-label">YouTube Video / Virtual Tour Link</label>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input
+                    type="url"
+                    className="form-control"
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    value={newVideoUrl}
+                    onChange={(e) => setNewVideoUrl(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    onClick={handleAddVideoItem}
+                  >
+                    Add
+                  </button>
+                </div>
+                {videoList.length > 0 && (
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                    {videoList.length} video link(s) registered
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        )}
 
+          {/* SUBMIT BUTTON BAR */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              gap: '1rem',
+              borderTop: '1px solid var(--border-color)',
+              paddingTop: '1.75rem',
+              marginTop: '1rem'
+            }}
+          >
+            <Link to="/admin/projects" className="btn btn-outline" style={{ minWidth: '100px', textAlign: 'center' }}>
+              Cancel
+            </Link>
+
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={submitting || uploadingImages}
+              style={{
+                minWidth: '200px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                padding: '0.75rem 1.5rem',
+                fontSize: '0.9375rem',
+                fontWeight: 600
+              }}
+            >
+              <Save size={18} />
+              <span>
+                {submitting || uploadingImages
+                  ? 'Saving Project...'
+                  : isEditMode
+                  ? 'Update Project'
+                  : 'Publish Project'}
+              </span>
+            </button>
+          </div>
+
+        </form>
       </div>
     </div>
   );
