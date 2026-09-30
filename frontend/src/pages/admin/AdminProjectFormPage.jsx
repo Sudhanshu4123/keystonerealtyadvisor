@@ -847,11 +847,11 @@ export default function AdminProjectFormPage() {
             </div>
           </div>
 
-          {/* 7. PROJECT IMAGES & MEDIA UPLOADER */}
+          {/* 7. PROJECT PHOTOS & VIDEOS UPLOADER */}
           <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
             <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
               <Camera size={18} color="var(--color-gold-600)" />
-              <span>Project Photos & Cover Image</span>
+              <span>Project Photos & Videos</span>
             </h3>
 
             <ImageUploader
@@ -860,6 +860,7 @@ export default function AdminProjectFormPage() {
               onDeleteExisting={handleDeleteImage}
               onSetPrimary={handleSetPrimary}
               uploading={uploadingImages}
+              title="Managed Project Photos & Videos"
             />
 
             {/* Selected new files preview badge list */}
@@ -869,30 +870,33 @@ export default function AdminProjectFormPage() {
                   Ready to upload ({selectedFiles.length} files selected):
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {selectedFiles.map((file, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        fontSize: '0.75rem',
-                        padding: '4px 8px',
-                        backgroundColor: '#FFFFFF',
-                        border: '1px solid #CBD5E1',
-                        borderRadius: 'var(--radius-sm)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      <span>{file.name}</span>
-                      <button
-                        type="button"
-                        onClick={() => setSelectedFiles((prev) => prev.filter((_, i) => i !== idx))}
-                        style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontWeight: 700, padding: 0 }}
+                  {selectedFiles.map((file, idx) => {
+                    const isVid = file.type?.startsWith('video/') || /\.(mp4|mov|webm|mkv|avi|m4v)$/i.test(file.name);
+                    return (
+                      <div
+                        key={idx}
+                        style={{
+                          fontSize: '0.75rem',
+                          padding: '4px 8px',
+                          backgroundColor: '#FFFFFF',
+                          border: '1px solid #CBD5E1',
+                          borderRadius: 'var(--radius-sm)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px'
+                        }}
                       >
-                        ×
-                      </button>
-                    </div>
-                  ))}
+                        <span>{isVid ? '🎬' : '📷'} {file.name}</span>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedFiles((prev) => prev.filter((_, i) => i !== idx))}
+                          style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontWeight: 700, padding: 0 }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
