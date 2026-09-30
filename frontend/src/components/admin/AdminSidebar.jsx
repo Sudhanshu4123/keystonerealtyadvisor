@@ -4,7 +4,6 @@ import { useAuth } from '../../hooks/useAuth';
 import {
   LayoutDashboard,
   Building,
-  PlusCircle,
   MessageSquare,
   Users,
   ExternalLink,
@@ -110,26 +109,6 @@ export default function AdminSidebar({ isOpen, onClose }) {
         </NavLink>
 
         <NavLink
-          to="/admin/projects/new"
-          onClick={onClose}
-          style={({ isActive }) => ({
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            padding: '0.625rem 0.875rem',
-            borderRadius: 'var(--radius-sm)',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            color: isActive ? '#FFFFFF' : '#94A3B8',
-            backgroundColor: isActive ? '#1E293B' : 'transparent',
-            borderLeft: isActive ? '3px solid var(--color-gold-500)' : '3px solid transparent',
-          })}
-        >
-          <PlusCircle size={18} />
-          <span>Add Project</span>
-        </NavLink>
-
-        <NavLink
           to="/admin/properties"
           end
           onClick={onClose}
@@ -148,26 +127,6 @@ export default function AdminSidebar({ isOpen, onClose }) {
         >
           <Building size={18} />
           <span>Properties</span>
-        </NavLink>
-
-        <NavLink
-          to="/admin/properties/new"
-          onClick={onClose}
-          style={({ isActive }) => ({
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem',
-            padding: '0.625rem 0.875rem',
-            borderRadius: 'var(--radius-sm)',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            color: isActive ? '#FFFFFF' : '#94A3B8',
-            backgroundColor: isActive ? '#1E293B' : 'transparent',
-            borderLeft: isActive ? '3px solid var(--color-gold-500)' : '3px solid transparent',
-          })}
-        >
-          <PlusCircle size={18} />
-          <span>Add Property</span>
         </NavLink>
 
         <NavLink
