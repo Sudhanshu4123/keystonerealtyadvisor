@@ -16,10 +16,10 @@ export default function ImageUploader({
   const isVideoMedia = (item) => {
     if (!item) return false;
     if (item instanceof File) {
-      return item.type?.startsWith('video/') || /\.(mp4|mov|webm|mkv|avi|m4v)$/i.test(item.name || '');
+      return item.type?.startsWith('video/') || /\.mp4$/i.test(item.name || '');
     }
     const url = item.imagePath || item.imageUrl || item.url || (typeof item === 'string' ? item : '');
-    return /\.(mp4|mov|webm|mkv|avi|m4v)(\?.*)?$/i.test(url) || url.includes('/video/upload/');
+    return /\.mp4(\?.*)?$/i.test(url) || url.includes('/video/upload/');
   };
 
   const getMediaUrl = (img) => {
@@ -28,26 +28,54 @@ export default function ImageUploader({
     return img.imagePath || img.imageUrl || img.url || '';
   };
 
-  const validateAndFilterFiles = (rawFiles) => {
-    const validImageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'avif'];
-    const validVideoExtensions = ['mp4', 'mov', 'webm', 'mkv', 'avi', 'm4v'];
+  const getVideoDuration = (file) => {
+    return new Promise((resolve) => {
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+      const url = URL.createObjectURL(file);
+      video.src = url;
+
+      video.onloadedmetadata = () => {
+        URL.revokeObjectURL(url);
+        resolve(video.duration);
+      };
+
+      video.onerror = () => {
+        URL.revokeObjectURL(url);
+        resolve(0);
+      };
+    });
+  };
+
+  const validateAndFilterFiles = async (rawFiles) => {
+    const validImageExtensions = ['jpg', 'jpeg', 'png'];
+    const validVideoExtensions = ['mp4'];
     const validFiles = [];
-    let hasInvalid = false;
+    let hasInvalidFormat = false;
 
     for (const file of rawFiles) {
       const ext = file.name ? file.name.split('.').pop().toLowerCase() : '';
-      const isImg = file.type.startsWith('image/') || validImageExtensions.includes(ext);
-      const isVid = file.type.startsWith('video/') || validVideoExtensions.includes(ext);
+      const isImg = (file.type === 'image/jpeg' || file.type === 'image/png' || validImageExtensions.includes(ext)) && ext !== 'webp' && file.type !== 'image/webp';
+      const isVid = (file.type === 'video/mp4' || validVideoExtensions.includes(ext));
 
-      if (isImg || isVid) {
+      if (isImg) {
         validFiles.push(file);
+      } else if (isVid) {
+        // Check 5-minute (300 seconds) duration limit
+        const duration = await getVideoDuration(file);
+        if (duration > 300) {
+          const minutes = Math.ceil(duration / 60);
+          error(`Video "${file.name}" exceeds 5 minutes (${minutes} min). Please upload a video under 5 minutes.`);
+        } else {
+          validFiles.push(file);
+        }
       } else {
-        hasInvalid = true;
+        hasInvalidFormat = true;
       }
     }
 
-    if (hasInvalid) {
-      error('Unsupported file format. Please upload JPG, PNG, WEBP photos or MP4, MOV, WEBM videos.');
+    if (hasInvalidFormat) {
+      error('Only JPG, JPEG, PNG photos and MP4 videos are allowed. (WEBP and other formats are not supported).');
     }
 
     if (validFiles.length > 0) {
@@ -55,17 +83,17 @@ export default function ImageUploader({
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
-      validateAndFilterFiles(Array.from(e.target.files));
+      await validateAndFilterFiles(Array.from(e.target.files));
       e.target.value = '';
     }
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      validateAndFilterFiles(Array.from(e.dataTransfer.files));
+      await validateAndFilterFiles(Array.from(e.dataTransfer.files));
     }
   };
 
@@ -90,7 +118,7 @@ export default function ImageUploader({
           ref={fileInputRef}
           type="file"
           multiple
-          accept="image/*,video/*,.jpg,.jpeg,.png,.webp,.mp4,.mov,.webm,.mkv,.avi"
+          accept=".jpg,.jpeg,.png,.mp4,image/jpeg,image/png,video/mp4"
           style={{ display: 'none' }}
           onChange={handleFileChange}
         />
@@ -110,11 +138,8 @@ export default function ImageUploader({
         >
           <UploadCloud size={24} />
         </div>
-        <p style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
+        <p style={{ fontSize: '0.9375rem', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
           Click to upload photos or videos, or drag & drop
-        </p>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-          JPG, PNG, WEBP photos or MP4, MOV, WEBM videos (up to 100MB each)
         </p>
       </div>
 
