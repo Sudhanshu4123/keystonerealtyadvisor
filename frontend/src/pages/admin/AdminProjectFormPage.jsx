@@ -3,29 +3,62 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   Building2, Save, ArrowLeft, Plus, Trash2, Check,
   MapPin, IndianRupee, ShieldCheck, FileText, Camera,
-  Sparkles, Layers, Video, FileCheck, CheckCircle2, Star
+  Sparkles, Layers, Video, FileCheck, CheckCircle2, Star,
+  Lock, Fingerprint, Dumbbell, ArrowUpDown, Droplets,
+  Waves, Car, BatteryCharging, Zap, Shield, Home,
+  Wifi, Coffee, Sliders, Activity, Sun, Heart
 } from 'lucide-react';
 import { projectService } from '../../services/projectService';
 import { useToast } from '../../hooks/useToast';
 import ImageUploader from '../../components/admin/ImageUploader';
 
-const POPULAR_AMENITIES = [
-  { name: 'Swimming Pool', category: 'RECREATION' },
-  { name: 'Clubhouse & Lounge', category: 'RECREATION' },
-  { name: 'Gymnasium & Fitness Center', category: 'SPORTS' },
-  { name: '24x7 Security & CCTV', category: 'SECURITY' },
-  { name: '100% Power Backup', category: 'INFRASTRUCTURE' },
-  { name: 'Landscaped Gardens & Parks', category: 'ENVIRONMENT' },
-  { name: "Children's Play Area", category: 'RECREATION' },
-  { name: 'Jogging & Cycling Track', category: 'SPORTS' },
-  { name: 'Tennis & Badminton Court', category: 'SPORTS' },
-  { name: 'EV Charging Station', category: 'ECO_FRIENDLY' },
-  { name: 'Spa & Wellness Center', category: 'RECREATION' },
-  { name: 'Yoga & Meditation Deck', category: 'SPORTS' },
-  { name: 'Multi-purpose Party Hall', category: 'RECREATION' },
-  { name: 'High Speed Elevators', category: 'INFRASTRUCTURE' },
-  { name: 'Rainwater Harvesting', category: 'ECO_FRIENDLY' },
-  { name: 'Indoor Games Room', category: 'RECREATION' },
+const AMENITY_SECTIONS = [
+  {
+    title: 'Security Amenities',
+    items: [
+      { label: 'CCTV', icon: Camera },
+      { label: 'Gated Community', icon: Lock },
+      { label: 'Security', icon: ShieldCheck },
+      { label: 'Biometric', icon: Fingerprint },
+      { label: 'Intercom', icon: Shield },
+    ]
+  },
+  {
+    title: 'Top Amenities',
+    items: [
+      { label: 'Gym', icon: Dumbbell },
+      { label: 'Lift', icon: ArrowUpDown },
+      { label: 'Regular Water Supply', icon: Droplets },
+      { label: 'Swimming Pool', icon: Waves },
+      { label: 'Reserved Parking', icon: Car },
+      { label: 'Power Backup', icon: BatteryCharging },
+      { label: 'Clubhouse', icon: Building2 },
+      { label: 'Park / Garden', icon: Sparkles },
+      { label: 'Kids Play Area', icon: Home },
+      { label: 'Jogging Track', icon: Activity },
+    ]
+  },
+  {
+    title: 'Recreation & Sports',
+    items: [
+      { label: 'Tennis Court', icon: Sliders },
+      { label: 'Badminton Court', icon: Activity },
+      { label: 'TT Table', icon: Sliders },
+      { label: 'Party Hall', icon: Sparkles },
+      { label: 'Spa & Wellness', icon: Heart },
+      { label: 'Yoga Deck', icon: Sun },
+    ]
+  },
+  {
+    title: 'Services & Infrastructure',
+    items: [
+      { label: 'EV Charging', icon: BatteryCharging },
+      { label: 'Rainwater Harvesting', icon: Droplets },
+      { label: 'Solar Lighting', icon: Sun },
+      { label: 'Internet/Wi-Fi Connectivity', icon: Wifi },
+      { label: 'Cafeteria & Lounge', icon: Coffee },
+    ]
+  }
 ];
 
 export default function AdminProjectFormPage() {
@@ -866,65 +899,127 @@ export default function AdminProjectFormPage() {
           </div>
 
           {/* 8. AMENITIES SELECTION */}
-          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
-              <Sparkles size={18} color="var(--color-gold-600)" />
-              <span>Amenities & Lifestyle Features</span>
-            </h3>
-
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1rem' }}>
-              {POPULAR_AMENITIES.map((item) => {
-                const isSelected = selectedAmenities.includes(item.name);
-                return (
-                  <button
-                    key={item.name}
-                    type="button"
-                    onClick={() => toggleAmenity(item.name)}
-                    style={{
-                      padding: '0.45rem 0.9rem',
-                      borderRadius: 'var(--radius-full)',
-                      fontSize: '0.8125rem',
-                      fontWeight: isSelected ? 600 : 400,
-                      cursor: 'pointer',
-                      border: isSelected ? '1.5px solid var(--color-gold-500)' : '1px solid var(--border-color)',
-                      backgroundColor: isSelected ? '#FEF3C7' : '#FFFFFF',
-                      color: isSelected ? 'var(--color-gold-800)' : 'var(--text-primary)',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.375rem',
-                      transition: 'all var(--transition-fast)'
-                    }}
-                  >
-                    {isSelected && <Check size={14} color="var(--color-gold-600)" />}
-                    <span>{item.name}</span>
-                  </button>
-                );
-              })}
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
+                <Sparkles size={18} color="var(--color-gold-600)" />
+                <span>Amenities & Lifestyle Features</span>
+              </h3>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
+                Select all applicable amenities and features for this development project
+              </p>
             </div>
 
+            {/* Categorized Icon Cards (Security, Top, Recreation, Infrastructure) */}
+            {AMENITY_SECTIONS.map((section) => (
+              <div key={section.title}>
+                <label className="form-label" style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.75rem', display: 'block' }}>
+                  {section.title}
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.75rem' }}>
+                  {section.items.map((item) => {
+                    const isSelected = selectedAmenities.includes(item.label);
+                    const IconComponent = item.icon;
+                    return (
+                      <button
+                        key={item.label}
+                        type="button"
+                        style={{
+                          padding: '1rem 0.5rem',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.5rem',
+                          borderRadius: 'var(--radius-md)',
+                          minHeight: '85px',
+                          textAlign: 'center',
+                          border: isSelected ? '1.5px solid var(--color-gold-500)' : '1px solid var(--border-color)',
+                          backgroundColor: isSelected ? '#FEF3C7' : '#FFFFFF',
+                          color: isSelected ? 'var(--color-gold-900)' : 'var(--text-primary)',
+                          fontWeight: isSelected ? 600 : 500,
+                          cursor: 'pointer',
+                          transition: 'all var(--transition-fast)'
+                        }}
+                        onClick={() => toggleAmenity(item.label)}
+                      >
+                        <IconComponent size={24} color={isSelected ? 'var(--color-gold-700)' : '#64748B'} />
+                        <span style={{ fontSize: '0.8125rem' }}>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+
+            {/* Other / Custom Selected Amenities */}
+            {selectedAmenities.filter(name => !AMENITY_SECTIONS.some(sec => sec.items.some(it => it.label === name))).length > 0 && (
+              <div>
+                <label className="form-label" style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.5rem', display: 'block' }}>
+                  Other Selected Amenities
+                </label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {selectedAmenities
+                    .filter(name => !AMENITY_SECTIONS.some(sec => sec.items.some(it => it.label === name)))
+                    .map((name) => (
+                      <div
+                        key={name}
+                        style={{
+                          fontSize: '0.8125rem',
+                          padding: '0.35rem 0.75rem',
+                          backgroundColor: '#FEF3C7',
+                          border: '1.5px solid var(--color-gold-500)',
+                          borderRadius: 'var(--radius-full)',
+                          color: 'var(--color-gold-900)',
+                          fontWeight: 600,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px'
+                        }}
+                      >
+                        <span>{name}</span>
+                        <button
+                          type="button"
+                          onClick={() => toggleAmenity(name)}
+                          style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', fontWeight: 700, padding: 0 }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+
             {/* Custom Amenity Adder */}
-            <div style={{ display: 'flex', gap: '0.5rem', maxWidth: '400px' }}>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Add custom amenity..."
-                value={customAmenityInput}
-                onChange={(e) => setCustomAmenityInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    handleAddCustomAmenity();
-                  }
-                }}
-              />
-              <button
-                type="button"
-                className="btn btn-outline btn-sm"
-                onClick={handleAddCustomAmenity}
-              >
-                <Plus size={16} />
-                <span>Add</span>
-              </button>
+            <div>
+              <label className="form-label" style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.375rem', display: 'block' }}>
+                Add Custom Amenity
+              </label>
+              <div style={{ display: 'flex', gap: '0.5rem', maxWidth: '420px' }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Helipad, Golf Simulator, Infinity Pool..."
+                  value={customAmenityInput}
+                  onChange={(e) => setCustomAmenityInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAddCustomAmenity();
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline btn-sm"
+                  onClick={handleAddCustomAmenity}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                >
+                  <Plus size={16} />
+                  <span>Add</span>
+                </button>
+              </div>
             </div>
           </div>
 
