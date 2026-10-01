@@ -1,9 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
+import { Mail, MapPin, Phone, ShieldCheck, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+
+  const socialLinks = [
+    {
+      name: 'Facebook',
+      icon: Facebook,
+      href: '#', // Placeholder - link will be updated later
+      ariaLabel: 'Follow Keystone Realty on Facebook',
+    },
+    {
+      name: 'Instagram',
+      icon: Instagram,
+      href: '#', // Placeholder - link will be updated later
+      ariaLabel: 'Follow Keystone Realty on Instagram',
+    },
+    {
+      name: 'LinkedIn',
+      icon: Linkedin,
+      href: '#', // Placeholder - link will be updated later
+      ariaLabel: 'Connect with Keystone Realty on LinkedIn',
+    },
+  ];
 
   return (
     <footer
@@ -49,9 +70,66 @@ export default function Footer() {
             <p style={{ fontSize: '0.875rem', color: '#CBD5E1', lineHeight: 1.6, marginBottom: '1.25rem' }}>
               Professional real estate advisory practice providing institutional property evaluation, residential acquisitions, and commercial leasing advisory.
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#E5C058', fontSize: '0.8125rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#E5C058', fontSize: '0.8125rem', marginBottom: '1.25rem' }}>
               <ShieldCheck size={16} />
               <span>Certified Advisory Services</span>
+            </div>
+
+            {/* Social Media Links */}
+            <div>
+              <div style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#94A3B8', marginBottom: '0.75rem' }}>
+                Follow Us
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+                {socialLinks.map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <a
+                      key={social.name}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.ariaLabel}
+                      title={social.name}
+                      onClick={(e) => {
+                        if (social.href === '#' || !social.href) {
+                          e.preventDefault();
+                        }
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        backgroundColor: '#1E293B',
+                        border: '1px solid #334155',
+                        color: '#CBD5E1',
+                        textDecoration: 'none',
+                        transition: 'all 0.2s ease',
+                        cursor: 'pointer',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#E5C058';
+                        e.currentTarget.style.borderColor = '#E5C058';
+                        e.currentTarget.style.color = '#0F172A';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(229, 192, 88, 0.3)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = '#1E293B';
+                        e.currentTarget.style.borderColor = '#334155';
+                        e.currentTarget.style.color = '#CBD5E1';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <Icon size={18} />
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
