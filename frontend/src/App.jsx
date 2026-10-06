@@ -27,6 +27,9 @@ import PropertiesInDelhiPage from './pages/public/PropertiesInDelhiPage';
 import PropertiesInGurugramPage from './pages/public/PropertiesInGurugramPage';
 import PropertiesInNoidaPage from './pages/public/PropertiesInNoidaPage';
 
+// Programmatic SEO Master Landing Page
+import ProgrammaticLandingPage from './pages/public/ProgrammaticLandingPage';
+
 // Auth Pages
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -56,6 +59,8 @@ export default function App() {
             <Route element={<MainLayout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/properties" element={<PropertiesPage />} />
+              
+              {/* City Landing Pages */}
               <Route path="/properties-in-delhi" element={<PropertiesInDelhiPage />} />
               <Route path="/flats-in-delhi" element={<PropertiesInDelhiPage />} />
               <Route path="/properties-in-gurugram" element={<PropertiesInGurugramPage />} />
@@ -66,6 +71,33 @@ export default function App() {
               <Route path="/flats-in-noida" element={<PropertiesInNoidaPage />} />
               <Route path="/flats-for-rent-in-gurugram" element={<FlatsForRentGurugramPage />} />
               <Route path="/flats-for-rent-in-gurgaon" element={<FlatsForRentGurugramPage />} />
+
+              {/* Programmatic High-Intent SEO Routes */}
+              <Route path="/flats-for-sale-in-gurugram" element={<ProgrammaticLandingPage presetSlug="flats-for-sale-in-gurugram" />} />
+              <Route path="/flats-for-sale-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="flats-for-sale-in-gurugram" />} />
+              <Route path="/flats-for-sale-in-delhi" element={<ProgrammaticLandingPage presetSlug="flats-for-sale-in-delhi" />} />
+              <Route path="/flats-for-sale-in-noida" element={<ProgrammaticLandingPage presetSlug="flats-for-sale-in-noida" />} />
+              <Route path="/flats-for-rent-in-delhi" element={<ProgrammaticLandingPage presetSlug="flats-for-rent-in-delhi" />} />
+              <Route path="/flats-for-rent-in-noida" element={<ProgrammaticLandingPage presetSlug="flats-for-rent-in-noida" />} />
+              
+              <Route path="/3-bhk-flats-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="3-bhk-flats-in-gurgaon" />} />
+              <Route path="/3-bhk-flats-in-gurugram" element={<ProgrammaticLandingPage presetSlug="3-bhk-flats-in-gurgaon" />} />
+              <Route path="/2-bhk-flats-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="2-bhk-flats-in-gurgaon" />} />
+              <Route path="/2-bhk-flats-in-gurugram" element={<ProgrammaticLandingPage presetSlug="2-bhk-flats-in-gurgaon" />} />
+              <Route path="/4-bhk-flats-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="4-bhk-flats-in-gurgaon" />} />
+              <Route path="/4-bhk-flats-in-gurugram" element={<ProgrammaticLandingPage presetSlug="4-bhk-flats-in-gurgaon" />} />
+              
+              <Route path="/luxury-villas-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="luxury-villas-in-gurgaon" />} />
+              <Route path="/luxury-villas-in-gurugram" element={<ProgrammaticLandingPage presetSlug="luxury-villas-in-gurgaon" />} />
+              <Route path="/luxury-villas-in-delhi" element={<ProgrammaticLandingPage presetSlug="luxury-villas-in-delhi" />} />
+              <Route path="/builder-floors-in-delhi" element={<ProgrammaticLandingPage presetSlug="builder-floors-in-delhi" />} />
+              <Route path="/builder-floors-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="builder-floors-in-gurgaon" />} />
+              <Route path="/commercial-properties-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="commercial-properties-in-gurgaon" />} />
+              <Route path="/commercial-properties-in-delhi" element={<ProgrammaticLandingPage presetSlug="commercial-properties-in-delhi" />} />
+              
+              {/* Universal Programmatic Explorer Route */}
+              <Route path="/explore/:slug" element={<ProgrammaticLandingPage />} />
+
               <Route path="/properties/:id" element={<PropertyDetailPage />} />
               <Route path="/properties/slug/:slug" element={<PropertyDetailPage />} />
               <Route path="/property" element={<PropertyDetailPage />} />

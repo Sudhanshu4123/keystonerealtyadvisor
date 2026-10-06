@@ -258,6 +258,39 @@ export default function Footer() {
             </ul>
           </div>
         </div>
+
+        {/* Programmatic SEO Hub Matrix Strip */}
+        <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid #1E293B' }}>
+          <div style={{ fontSize: '0.8125rem', fontWeight: 700, color: '#E5C058', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1rem' }}>
+            Popular Real Estate Searches (Programmatic Hub)
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.8125rem', color: '#94A3B8', lineHeight: 1.6 }}>
+            <div>
+              <strong style={{ color: '#E2E8F0', marginRight: '0.5rem' }}>Gurugram & NCR:</strong>
+              <Link to="/flats-for-rent-in-gurugram" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Flats for Rent in Gurgaon</Link> •{' '}
+              <Link to="/flats-for-sale-in-gurugram" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Flats for Sale in Gurgaon</Link> •{' '}
+              <Link to="/3-bhk-flats-in-gurgaon" style={{ color: '#CBD5E1', textDecoration: 'none' }}>3 BHK Flats in Gurgaon</Link> •{' '}
+              <Link to="/2-bhk-flats-in-gurgaon" style={{ color: '#CBD5E1', textDecoration: 'none' }}>2 BHK Flats in Gurgaon</Link> •{' '}
+              <Link to="/4-bhk-flats-in-gurgaon" style={{ color: '#CBD5E1', textDecoration: 'none' }}>4 BHK Luxury Flats Gurgaon</Link> •{' '}
+              <Link to="/luxury-villas-in-gurgaon" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Villas in Gurgaon</Link> •{' '}
+              <Link to="/builder-floors-in-gurgaon" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Builder Floors in Gurgaon</Link> •{' '}
+              <Link to="/commercial-properties-in-gurgaon" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Commercial Properties in Gurgaon</Link>
+            </div>
+
+            <div>
+              <strong style={{ color: '#E2E8F0', marginRight: '0.5rem' }}>Delhi & Noida:</strong>
+              <Link to="/properties-in-delhi" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Properties in Delhi</Link> •{' '}
+              <Link to="/flats-for-sale-in-delhi" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Flats for Sale in Delhi</Link> •{' '}
+              <Link to="/flats-for-rent-in-delhi" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Flats for Rent in Delhi</Link> •{' '}
+              <Link to="/builder-floors-in-delhi" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Builder Floors in Delhi</Link> •{' '}
+              <Link to="/luxury-villas-in-delhi" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Luxury Villas in Delhi</Link> •{' '}
+              <Link to="/properties-in-noida" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Properties in Noida</Link> •{' '}
+              <Link to="/flats-for-sale-in-noida" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Flats for Sale in Noida</Link> •{' '}
+              <Link to="/flats-for-rent-in-noida" style={{ color: '#CBD5E1', textDecoration: 'none' }}>Flats for Rent in Noida</Link>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );
