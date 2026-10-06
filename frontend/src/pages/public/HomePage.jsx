@@ -269,7 +269,7 @@ export default function HomePage() {
       {/* Property Categories exploration */}
       <section className="section-sm" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-color)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(135px, 1fr))', gap: '0.75rem' }}>
             {[
               { type: 'APARTMENT', label: 'Luxury Apartments', icon: Building2 },
               { type: 'VILLA', label: 'Villas & Mansions', icon: Landmark },

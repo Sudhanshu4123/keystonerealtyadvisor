@@ -39,7 +39,7 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
       <div
         style={{
           position: 'relative',
-          height: '460px',
+          height: 'clamp(240px, 52vw, 460px)',
           borderRadius: 'var(--radius-lg)',
           overflow: 'hidden',
           backgroundColor: '#0B0F19',

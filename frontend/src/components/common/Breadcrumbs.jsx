@@ -43,12 +43,13 @@ export default function Breadcrumbs({ items = [] }) {
 
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
+          const targetUrl = item.path || item.href;
           return (
             <li key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
               <ChevronRight size={13} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
-              {item.path && !isLast ? (
+              {targetUrl && !isLast ? (
                 <Link
-                  to={item.path}
+                  to={targetUrl}
                   style={{
                     color: 'var(--text-secondary)',
                     textDecoration: 'none',
@@ -63,7 +64,7 @@ export default function Breadcrumbs({ items = [] }) {
                   style={{
                     color: isLast ? 'var(--text-primary)' : 'var(--text-secondary)',
                     fontWeight: isLast ? 600 : 400,
-                    maxWidth: '280px',
+                    maxWidth: 'clamp(130px, 45vw, 280px)',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',

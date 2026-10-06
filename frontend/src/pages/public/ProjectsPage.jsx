@@ -160,7 +160,7 @@ export default function ProjectsPage() {
         >
           {/* Top Search & Primary Action Row */}
           <form onSubmit={handleSearchSubmit} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
-            <div style={{ flex: 1, minWidth: '280px', position: 'relative' }}>
+            <div style={{ flex: '1 1 200px', minWidth: 0, position: 'relative' }}>
               <Search
                 size={18}
                 color="var(--color-light-400)"

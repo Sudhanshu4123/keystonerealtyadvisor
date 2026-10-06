@@ -689,6 +689,8 @@ select.input-field {
   .modal-content {
     max-height: 85vh;
     border-radius: var(--radius-md);
+    margin: 0.5rem;
+    width: calc(100% - 1rem);
   }
 
   .modal-header, .modal-body, .modal-footer {
@@ -702,7 +704,7 @@ select.input-field {
     padding-right: 1rem;
   }
 
-  .section { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  .section { padding-top: 2.25rem; padding-bottom: 2.25rem; }
   .section-title { font-size: 1.375rem; }
   .section-subtitle { font-size: 0.75rem; }
 
@@ -723,6 +725,29 @@ select.input-field {
     border-right: none;
     border-radius: 0;
   }
+
+  .auth-card {
+    padding: 1.5rem 1.25rem !important;
+  }
+}
+
+/* Mobile-Friendly Utilities */
+.touch-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.touch-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.min-w-0 {
+  min-width: 0 !important;
+}
+
+.break-word {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 /* ==========================================================================

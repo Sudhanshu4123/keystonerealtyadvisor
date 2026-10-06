@@ -50,7 +50,7 @@ export default function LoginPage() {
         description="Sign in to your Keystone Realty Advisor account to manage saved properties, track consultation requests, and explore verified luxury listings."
         noIndex={true}
       />
-      <div className="card" style={{ maxWidth: '440px', width: '100%', padding: '2.5rem' }}>
+      <div className="card auth-card" style={{ maxWidth: '440px', width: '100%', padding: '2.5rem' }}>
         {/* Logo Header */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.75rem' }}>

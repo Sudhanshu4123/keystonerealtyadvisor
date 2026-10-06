@@ -11,9 +11,12 @@ export default function NotFoundPage() {
         description="The page you are looking for could not be found. Return to Keystone Realty Advisor homepage."
         noIndex={true}
       />
-      <div className="container" style={{ maxWidth: '540px' }}>
+      <div className="container" style={{ maxWidth: '540px', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+          Page Not Found (404)
+        </h1>
         <EmptyState
-          title="Page Not Found (404)"
+          title=""
           description="The requested page could not be located. Please verify the URL or return to our homepage."
           actionLabel="Return to Homepage"
           actionLink="/"

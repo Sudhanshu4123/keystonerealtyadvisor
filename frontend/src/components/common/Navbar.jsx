@@ -134,58 +134,77 @@ export default function Navbar() {
           </NavLink>
         </nav>
 
-        {/* Right Action Area */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {isAuthenticated ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', position: 'relative' }}>
-              <Link
-                to="/dashboard/favorites"
-                className="btn btn-ghost btn-sm"
-                title="View Saved Properties"
-                aria-label="View Saved Properties"
-                style={{ display: 'inline-flex', padding: '0.5rem' }}
-              >
-                <Heart size={18} />
-              </Link>
-
-              {/* User Dropdown Trigger */}
-              <button
-                type="button"
-                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="btn btn-primary btn-sm"
-                style={{ gap: '0.5rem', fontWeight: 600 }}
-                aria-label="User Account Menu"
-              >
-                <User size={16} />
-                <span style={{ maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {user?.role === 'ADMIN' ? 'Admin Portal' : (user?.name?.split(' ')[0] ? `${user.name.split(' ')[0]}'s Account` : 'My Account')}
-                </span>
-              </button>
-
-              {/* Dropdown Menu */}
-              {userDropdownOpen && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 'calc(100% + 8px)',
-                    right: 0,
-                    width: '220px',
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: 'var(--radius-md)',
-                    boxShadow: 'var(--shadow-lg)',
-                    padding: '0.5rem 0',
-                    zIndex: 200,
-                  }}
+          {/* Right Action Area */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {isAuthenticated ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', position: 'relative' }}>
+                <Link
+                  to="/dashboard/favorites"
+                  className="btn btn-ghost btn-sm"
+                  title="View Saved Properties"
+                  aria-label="View Saved Properties"
+                  style={{ display: 'inline-flex', padding: '0.5rem' }}
                 >
-                  <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)' }}>
-                    <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{user?.name}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{user?.email}</div>
-                  </div>
+                  <Heart size={18} />
+                </Link>
 
-                  {isAdmin && (
+                {/* User Dropdown Trigger */}
+                <button
+                  type="button"
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  className="btn btn-primary btn-sm desktop-auth-btn"
+                  style={{ gap: '0.5rem', fontWeight: 600 }}
+                  aria-label="User Account Menu"
+                >
+                  <User size={16} />
+                  <span style={{ maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {user?.role === 'ADMIN' ? 'Admin Portal' : (user?.name?.split(' ')[0] ? `${user.name.split(' ')[0]}'s Account` : 'My Account')}
+                  </span>
+                </button>
+
+                {/* Dropdown Menu */}
+                {userDropdownOpen && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 8px)',
+                      right: 0,
+                      width: '220px',
+                      backgroundColor: '#FFFFFF',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: 'var(--radius-md)',
+                      boxShadow: 'var(--shadow-lg)',
+                      padding: '0.5rem 0',
+                      zIndex: 200,
+                    }}
+                  >
+                    <div style={{ padding: '0.75rem 1rem', borderBottom: '1px solid var(--border-color)' }}>
+                      <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{user?.name}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{user?.email}</div>
+                    </div>
+
+                    {isAdmin && (
+                      <Link
+                        to="/admin"
+                        className="btn-ghost"
+                        onClick={() => setUserDropdownOpen(false)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          padding: '0.625rem 1rem',
+                          fontSize: '0.875rem',
+                          color: 'var(--color-gold-600)',
+                          fontWeight: 600,
+                        }}
+                      >
+                        <ShieldCheck size={16} />
+                        Admin Console
+                      </Link>
+                    )}
+
                     <Link
-                      to="/admin"
+                      to="/dashboard"
                       className="btn-ghost"
                       onClick={() => setUserDropdownOpen(false)}
                       style={{
@@ -194,94 +213,75 @@ export default function Navbar() {
                         gap: '0.5rem',
                         padding: '0.625rem 1rem',
                         fontSize: '0.875rem',
-                        color: 'var(--color-gold-600)',
-                        fontWeight: 600,
                       }}
                     >
-                      <ShieldCheck size={16} />
-                      Admin Console
+                      <LayoutDashboard size={16} />
+                      User Dashboard
                     </Link>
-                  )}
 
-                  <Link
-                    to="/dashboard"
-                    className="btn-ghost"
-                    onClick={() => setUserDropdownOpen(false)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.625rem 1rem',
-                      fontSize: '0.875rem',
-                    }}
-                  >
-                    <LayoutDashboard size={16} />
-                    User Dashboard
-                  </Link>
+                    <Link
+                      to="/dashboard/favorites"
+                      className="btn-ghost"
+                      onClick={() => setUserDropdownOpen(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        padding: '0.625rem 1rem',
+                        fontSize: '0.875rem',
+                      }}
+                    >
+                      <Heart size={16} />
+                      Saved Properties
+                    </Link>
 
-                  <Link
-                    to="/dashboard/favorites"
-                    className="btn-ghost"
-                    onClick={() => setUserDropdownOpen(false)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.625rem 1rem',
-                      fontSize: '0.875rem',
-                    }}
-                  >
-                    <Heart size={16} />
-                    Saved Properties
-                  </Link>
+                    <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.25rem 0' }} />
 
-                  <div style={{ borderTop: '1px solid var(--border-color)', margin: '0.25rem 0' }} />
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        padding: '0.625rem 1rem',
+                        fontSize: '0.875rem',
+                        width: '100%',
+                        background: 'none',
+                        border: 'none',
+                        textAlign: 'left',
+                        color: 'var(--color-danger)',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <LogOut size={16} />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="desktop-auth-btn" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Link to="/login" className="btn btn-ghost btn-sm">
+                  Sign In
+                </Link>
+                <Link to="/register" className="btn btn-primary btn-sm">
+                  Register
+                </Link>
+              </div>
+            )}
 
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.625rem 1rem',
-                      fontSize: '0.875rem',
-                      width: '100%',
-                      background: 'none',
-                      border: 'none',
-                      textAlign: 'left',
-                      color: 'var(--color-danger)',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <LogOut size={16} />
-                    Sign Out
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Link to="/login" className="btn btn-ghost btn-sm">
-                Sign In
-              </Link>
-              <Link to="/register" className="btn btn-primary btn-sm">
-                Register
-              </Link>
-            </div>
-          )}
-
-          {/* Mobile Menu Toggle */}
-          <button
-            type="button"
-            className="btn btn-ghost btn-sm mobile-toggle"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{ padding: '0.5rem', display: 'none' }}
-            aria-label="Toggle navigation menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+            {/* Mobile Menu Toggle */}
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm mobile-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              style={{ padding: '0.5rem', display: 'none' }}
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
       </div>
 
       {/* Mobile Drawer Backdrop & Menu */}
@@ -514,6 +514,9 @@ export default function Navbar() {
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .mobile-toggle { display: inline-flex !important; }
+        }
+        @media (max-width: 640px) {
+          .desktop-auth-btn { display: none !important; }
         }
       `}</style>
     </header>

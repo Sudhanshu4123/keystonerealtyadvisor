@@ -60,7 +60,7 @@ export default function RegisterPage() {
         description="Create your Keystone Realty Advisor account to save verified luxury properties, schedule private property viewings, and connect with advisors."
         noIndex={true}
       />
-      <div className="card" style={{ maxWidth: '480px', width: '100%', padding: '2.5rem' }}>
+      <div className="card auth-card" style={{ maxWidth: '480px', width: '100%', padding: '2.5rem' }}>
         {/* Logo Header */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.75rem' }}>

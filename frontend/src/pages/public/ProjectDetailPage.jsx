@@ -206,15 +206,31 @@ export default function ProjectDetailPage() {
           '@context': 'https://schema.org',
           '@type': 'RealEstateListing',
           name: project.name,
-          description: project.description || project.name,
-          url: window.location.href,
+          description: project.description || project.shortDescription || project.name,
+          url: projectCanonical.startsWith('http') ? projectCanonical : `https://keystonerealtyadvisor.com${projectCanonical}`,
           image: project.coverImageUrl || 'https://keystonerealtyadvisor.com/keystone-logo.png',
+          ...(project.builderName ? {
+            author: {
+              '@type': 'Organization',
+              name: project.builderName
+            }
+          } : {}),
           address: {
             '@type': 'PostalAddress',
+            streetAddress: project.address || project.locality || '',
             addressLocality: project.locality || project.city || '',
-            addressRegion: project.state || '',
+            addressRegion: project.state || 'Haryana',
             addressCountry: 'IN'
-          }
+          },
+          ...(project.minPrice || project.maxPrice ? {
+            offers: {
+              '@type': 'AggregateOffer',
+              priceCurrency: 'INR',
+              lowPrice: project.minPrice || project.maxPrice,
+              highPrice: project.maxPrice || project.minPrice,
+              offerCount: project.totalUnits || 1
+            }
+          } : {})
         }}
       />
       {/* 1. Breadcrumb & Navigation */}

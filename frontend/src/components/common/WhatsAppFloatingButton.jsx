@@ -15,10 +15,11 @@ export default function WhatsAppFloatingButton({
 
   return (
     <div
+      className="whatsapp-float-wrapper"
       style={{
         position: 'fixed',
-        bottom: '28px',
-        right: '28px',
+        bottom: '24px',
+        right: '24px',
         zIndex: 9999,
         display: 'flex',
         alignItems: 'center',
@@ -28,6 +29,7 @@ export default function WhatsAppFloatingButton({
       {/* Tooltip Popup */}
       {showTooltip && (
         <div
+          className="whatsapp-float-tooltip"
           style={{
             backgroundColor: '#0F172A',
             color: '#FFFFFF',
@@ -73,9 +75,10 @@ export default function WhatsAppFloatingButton({
         rel="nofollow noopener noreferrer"
         onMouseEnter={() => setShowTooltip(true)}
         aria-label="Chat with Keystone Realty Advisor on WhatsApp"
+        className="whatsapp-float-btn"
         style={{
-          width: '56px',
-          height: '56px',
+          width: '54px',
+          height: '54px',
           borderRadius: '50%',
           backgroundColor: '#25D366',
           color: '#FFFFFF',
@@ -97,8 +100,24 @@ export default function WhatsAppFloatingButton({
           e.currentTarget.style.boxShadow = '0 8px 24px rgba(37, 211, 102, 0.45)';
         }}
       >
-        <MessageCircle size={30} fill="#FFFFFF" color="#25D366" />
+        <MessageCircle size={28} fill="#FFFFFF" color="#25D366" />
       </a>
+
+      <style>{`
+        @media (max-width: 480px) {
+          .whatsapp-float-wrapper {
+            bottom: 16px !important;
+            right: 16px !important;
+          }
+          .whatsapp-float-btn {
+            width: 48px !important;
+            height: 48px !important;
+          }
+          .whatsapp-float-tooltip {
+            display: none !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
