@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none">
+  <g transform="translate(4, 6)">
+    <rect width="28" height="28" rx="6" fill="#15803D" />
+    <circle cx="14" cy="11" r="7" fill="#86EFAC" />
+    <rect x="12.5" y="16" width="3" height="8" fill="#FFFFFF" rx="1" />
+  </g>
+  <text x="38" y="21" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="13" fill="#15803D" letter-spacing="0.5">CENTRAL</text>
+  <text x="96" y="21" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="800" font-size="13" fill="#0F172A" letter-spacing="0.5">PARK</text>
+  <text x="39" y="31" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="600" font-size="6.5" fill="#64748B" letter-spacing="1">LUXURY RESIDENCES</text>
+</svg>

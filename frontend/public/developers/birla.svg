@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 40" fill="none">
+  <g transform="translate(4, 6)">
+    <circle cx="14" cy="14" r="13" fill="#B91C1C" />
+    <circle cx="14" cy="14" r="8" fill="#F97316" />
+    <text x="14" y="19" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="13" fill="#FFFFFF" text-anchor="middle">B</text>
+  </g>
+  <text x="38" y="21" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="14" fill="#B91C1C">BIRLA</text>
+  <text x="88" y="21" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="14" fill="#0F172A">ESTATES</text>
+  <text x="39" y="32" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="600" font-size="6.5" fill="#64748B" letter-spacing="1">ADITYA BIRLA GROUP</text>
+</svg>

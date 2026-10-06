@@ -141,7 +141,8 @@ export default function Navbar() {
               <Link
                 to="/dashboard/favorites"
                 className="btn btn-ghost btn-sm"
-                title="Saved Properties"
+                title="View Saved Properties"
+                aria-label="View Saved Properties"
                 style={{ display: 'inline-flex', padding: '0.5rem' }}
               >
                 <Heart size={18} />
@@ -151,12 +152,13 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="btn btn-outline btn-sm"
-                style={{ gap: '0.5rem' }}
+                className="btn btn-primary btn-sm"
+                style={{ gap: '0.5rem', fontWeight: 600 }}
+                aria-label="User Account Menu"
               >
                 <User size={16} />
                 <span style={{ maxWidth: '120px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {user?.name?.split(' ')[0] || 'Account'}
+                  {user?.role === 'ADMIN' ? 'Admin Portal' : (user?.name?.split(' ')[0] ? `${user.name.split(' ')[0]}'s Account` : 'My Account')}
                 </span>
               </button>
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" fill="none">
+  <g transform="translate(4, 7)">
+    <circle cx="13" cy="13" r="11" stroke="#0284C7" stroke-width="3" fill="none" />
+    <circle cx="21" cy="13" r="11" stroke="#38BDF8" stroke-width="3" fill="none" />
+    <circle cx="17" cy="13" r="4" fill="#EAB308" />
+  </g>
+  <text x="44" y="26" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="16" fill="#0369A1" letter-spacing="0.5">SMART</text>
+  <text x="110" y="26" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="16" fill="#0F172A" letter-spacing="0.5">WORLD</text>
+</svg>

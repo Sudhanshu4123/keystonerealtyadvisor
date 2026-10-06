@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, MapPin, Phone, ShieldCheck, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Mail, Phone, ShieldCheck, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   const socialLinks = [
     {
       name: 'Facebook',
@@ -21,7 +19,7 @@ export default function Footer() {
     {
       name: 'LinkedIn',
       icon: Linkedin,
-      href: '#', // Placeholder - link will be updated later
+      href: 'https://www.linkedin.com/company/keyston-realty-advisor/',
       ariaLabel: 'Connect with Keystone Realty on LinkedIn',
     },
   ];
@@ -35,13 +33,12 @@ export default function Footer() {
         marginTop: 'auto',
       }}
     >
-      <div className="container" style={{ paddingTop: '4rem', paddingBottom: '3rem' }}>
+      <div className="container" style={{ paddingTop: '3.5rem', paddingBottom: '3.5rem' }}>
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
             gap: '3rem',
-            marginBottom: '3rem',
           }}
         >
           {/* Company Column */}
@@ -135,7 +132,7 @@ export default function Footer() {
 
           {/* Quick Navigation */}
           <div>
-            <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 600, color: '#FFFFFF', letterSpacing: '0.01em', marginBottom: '1.25rem' }}>
               Navigation
             </h3>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
@@ -179,7 +176,7 @@ export default function Footer() {
 
           {/* Prime Projects & Townships */}
           <div>
-            <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 600, color: '#FFFFFF', letterSpacing: '0.01em', marginBottom: '1.25rem' }}>
               Featured Projects
             </h3>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
@@ -208,7 +205,7 @@ export default function Footer() {
 
           {/* Popular Location Searches */}
           <div>
-            <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 600, color: '#FFFFFF', letterSpacing: '0.01em', marginBottom: '1.25rem' }}>
               Popular Searches
             </h3>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
@@ -242,50 +239,23 @@ export default function Footer() {
 
           {/* Contact Direct */}
           <div>
-            <h3 style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1.25rem' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 600, color: '#FFFFFF', letterSpacing: '0.01em', marginBottom: '1.25rem' }}>
               Keystone Direct
             </h3>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.875rem', fontSize: '0.875rem', color: '#CBD5E1' }}>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-                <Mail size={16} color="#E5C058" />
-                <span>keystonerealtyhepldesk@gmail.com</span>
+                <Mail size={16} color="#E5C058" style={{ flexShrink: 0 }} />
+                <a href="mailto:keystonerealtyhepldesk@gmail.com" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  keystonerealtyhepldesk@gmail.com
+                </a>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
-                <Phone size={16} color="#E5C058" />
-                <span>+91 9911956274</span>
-              </li>
-              <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.625rem' }}>
-                <MapPin size={16} color="#E5C058" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <span>Executive Office, Financial District</span>
+                <Phone size={16} color="#E5C058" style={{ flexShrink: 0 }} />
+                <a href="tel:+919911956274" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  +91 9911956274
+                </a>
               </li>
             </ul>
-          </div>
-        </div>
-
-        <div
-          style={{
-            paddingTop: '2rem',
-            borderTop: '1px solid #1E293B',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1rem',
-            fontSize: '0.8125rem',
-            color: '#94A3B8',
-          }}
-        >
-          <div>
-            &copy; {currentYear} <strong style={{ color: '#E2E8F0' }}>Keystone Realty Advisor</strong>. All rights reserved.
-          </div>
-          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <Link to="/terms" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
-              Terms & Conditions
-            </Link>
-            <Link to="/privacy" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
-              Privacy Policy
-            </Link>
-            <span style={{ color: '#CBD5E1' }}>Confidentiality Guaranteed</span>
           </div>
         </div>
       </div>

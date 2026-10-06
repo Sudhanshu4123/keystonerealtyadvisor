@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 40" fill="none">
+  <g transform="translate(6, 6)">
+    <circle cx="14" cy="14" r="13" stroke="#C29B38" stroke-width="2.5" fill="none" />
+    <path d="M14 6 L14 22 M8 12 L20 12 M9 17 L19 17" stroke="#A88225" stroke-width="2" stroke-linecap="round" />
+  </g>
+  <text x="42" y="24" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="700" font-size="17" fill="#0F172A" letter-spacing="-0.3">conscient</text>
+  <text x="43" y="33" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="500" font-size="6.5" fill="#C29B38" letter-spacing="1">WHERE VALUES MEET</text>
+</svg>
