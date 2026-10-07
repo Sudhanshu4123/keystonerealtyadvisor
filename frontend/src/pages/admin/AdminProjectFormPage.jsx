@@ -75,8 +75,8 @@ export default function AdminProjectFormPage() {
   const [formData, setFormData] = useState({
     name: '',
     slug: '',
-    projectType: 'RESIDENTIAL',
-    status: 'UNDER_CONSTRUCTION',
+    projectType: '',
+    status: '',
     shortDescription: '',
     description: '',
     builderName: '',
@@ -107,7 +107,7 @@ export default function AdminProjectFormPage() {
     isFeatured: false,
   });
 
-  const [projectCategory, setProjectCategory] = useState('Residential Property');
+  const [projectCategory, setProjectCategory] = useState('');
 
   // Images state
   const [existingImages, setExistingImages] = useState([]);
@@ -357,6 +357,18 @@ export default function AdminProjectFormPage() {
 
     if (!formData.name.trim()) {
       error('Please enter the Project Name.');
+      return;
+    }
+    if (!projectCategory) {
+      error('Please select Project Category.');
+      return;
+    }
+    if (!formData.projectType) {
+      error('Please select Project Sub Category.');
+      return;
+    }
+    if (!formData.status) {
+      error('Please select Construction & Launch Status.');
       return;
     }
     if (!formData.locality.trim() || !formData.city.trim()) {
@@ -640,6 +652,7 @@ export default function AdminProjectFormPage() {
                 outline: 'none',
               }}
             >
+              <option value="">Select Status</option>
               <option value="UNDER_CONSTRUCTION">Under Construction</option>
               <option value="UPCOMING">New Launch / Upcoming</option>
               <option value="READY_TO_MOVE">Ready to Move</option>
