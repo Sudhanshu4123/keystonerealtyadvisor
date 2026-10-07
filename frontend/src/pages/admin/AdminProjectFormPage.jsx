@@ -727,26 +727,6 @@ export default function AdminProjectFormPage() {
                   onChange={(e) => setFormData({ ...formData, possessionDate: e.target.value })}
                 />
               </div>
-
-              <div className="form-group">
-                <label className="form-label">Featured on Homepage?</label>
-                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.25rem' }}>
-                  <button
-                    type="button"
-                    style={pillSelectStyle(formData.isFeatured === true)}
-                    onClick={() => setFormData({ ...formData, isFeatured: true })}
-                  >
-                    ⭐ Yes, Featured
-                  </button>
-                  <button
-                    type="button"
-                    style={pillSelectStyle(formData.isFeatured === false)}
-                    onClick={() => setFormData({ ...formData, isFeatured: false })}
-                  >
-                    Standard
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
 
