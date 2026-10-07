@@ -643,8 +643,6 @@ export default function AdminProjectFormPage() {
               <option value="UNDER_CONSTRUCTION">Under Construction</option>
               <option value="UPCOMING">New Launch / Upcoming</option>
               <option value="READY_TO_MOVE">Ready to Move</option>
-              <option value="COMPLETED">Completed</option>
-              <option value="DRAFT">Draft</option>
             </select>
           </div>
 
