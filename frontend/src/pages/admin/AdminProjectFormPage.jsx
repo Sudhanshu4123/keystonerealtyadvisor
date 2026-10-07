@@ -601,11 +601,17 @@ export default function AdminProjectFormPage() {
                 )}
                 {projectCategory === 'Commercial Property' && (
                   <>
-                    <option value="COMMERCIAL">Commercial Complex & Retail Shops</option>
-                    <option value="COMMERCIAL">Grade-A Office Spaces & IT Parks</option>
-                    <option value="COMMERCIAL">SCO Plots (Shop-Cum-Office)</option>
-                    <option value="MIXED_USE">Mixed-Use Commercial Hub</option>
-                    <option value="INDUSTRIAL">Industrial & Logistics Park</option>
+                    <option value="AGRICULTURAL_LAND">Agricultural/Farm Land</option>
+                    <option value="BANQUET_HALL">Banquet Hall & Guest House</option>
+                    <option value="BUSINESS_CENTER">Business Center</option>
+                    <option value="COMMERCIAL_LAND">Commercial Lands /Inst. Land</option>
+                    <option value="COMMERCIAL_SHOPS">Commercial Shops</option>
+                    <option value="FACTORY_INDUSTRIAL">Factory / Industrial Building</option>
+                    <option value="HOTEL_RESTAURANT">Hotel & Restaurant</option>
+                    <option value="INDUSTRIAL_LAND">Industrial Land / Plot</option>
+                    <option value="OFFICE_SPACE">Office Space</option>
+                    <option value="SHOWROOMS">Showrooms</option>
+                    <option value="WAREHOUSE_GODOWN">Warehouse/Godown</option>
                   </>
                 )}
               </select>
