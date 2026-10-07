@@ -610,27 +610,32 @@ export default function AdminProjectFormPage() {
 
           {/* 2. PROJECT STATUS */}
           <div>
-            <label className="form-label" style={{ fontWeight: 600, marginBottom: '0.75rem', display: 'block' }}>
-              Construction & Launch Status *
+            <label className="form-label" style={{ fontWeight: 600, marginBottom: '0.5rem', display: 'block', color: 'var(--text-primary)' }}>
+              Construction & Launch Status : *
             </label>
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              {[
-                { value: 'UPCOMING', label: 'New Launch / Upcoming' },
-                { value: 'UNDER_CONSTRUCTION', label: 'Under Construction' },
-                { value: 'READY_TO_MOVE', label: 'Ready to Move' },
-                { value: 'COMPLETED', label: 'Completed' },
-                { value: 'DRAFT', label: 'Draft' }
-              ].map((item) => (
-                <button
-                  key={item.value}
-                  type="button"
-                  style={pillSelectStyle(formData.status === item.value)}
-                  onClick={() => setFormData({ ...formData, status: item.value })}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
+            <select
+              className="form-control"
+              value={formData.status}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              style={{
+                width: '100%',
+                maxWidth: '400px',
+                padding: '0.6875rem 1rem',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--border-color)',
+                backgroundColor: '#FFFFFF',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                cursor: 'pointer',
+                outline: 'none',
+              }}
+            >
+              <option value="UNDER_CONSTRUCTION">Under Construction</option>
+              <option value="UPCOMING">New Launch / Upcoming</option>
+              <option value="READY_TO_MOVE">Ready to Move</option>
+              <option value="COMPLETED">Completed</option>
+              <option value="DRAFT">Draft</option>
+            </select>
           </div>
 
           {/* 3. BASIC & DEVELOPER DETAILS */}
