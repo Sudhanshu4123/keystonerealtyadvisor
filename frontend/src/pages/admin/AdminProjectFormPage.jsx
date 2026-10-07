@@ -589,10 +589,14 @@ export default function AdminProjectFormPage() {
                 <option value="">Select Sub Category</option>
                 {projectCategory === 'Residential Property' && (
                   <>
-                    <option value="RESIDENTIAL">Residential Apartments / High-Rise</option>
-                    <option value="VILLA">Luxury Villas & Independent Floors</option>
-                    <option value="PLOTTED_DEVELOPMENT">Plotted Development / Gated Land</option>
-                    <option value="MIXED_USE">Residential Mixed-Use Township</option>
+                    <option value="BUILDER_FLOOR">Builder Floor</option>
+                    <option value="FARM_HOUSE">Farm House</option>
+                    <option value="FLATS_APARTMENTS">Flats & Apartments</option>
+                    <option value="INDEPENDENT_HOUSE">Independent House</option>
+                    <option value="PENTHOUSE">Penthouse</option>
+                    <option value="RESIDENTIAL_PLOT">Residential Plot</option>
+                    <option value="STUDIO_APARTMENT">Studio Apartments</option>
+                    <option value="VILLA">Villa</option>
                   </>
                 )}
                 {projectCategory === 'Commercial Property' && (
