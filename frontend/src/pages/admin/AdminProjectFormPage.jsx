@@ -531,9 +531,6 @@ export default function AdminProjectFormPage() {
                 {isEditMode ? `Edit Project: ${formData.name || `#${id}`}` : 'Create Real Estate Project'}
               </h1>
             </div>
-            <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '0.375rem 0.875rem', borderRadius: 'var(--radius-full)', fontSize: '0.8125rem', fontWeight: 600 }}>
-              {formData.status?.replace(/_/g, ' ') || 'UNDER CONSTRUCTION'}
-            </div>
           </div>
         </div>
 
