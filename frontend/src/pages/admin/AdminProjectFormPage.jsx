@@ -107,6 +107,8 @@ export default function AdminProjectFormPage() {
     isFeatured: false,
   });
 
+  const [projectCategory, setProjectCategory] = useState('Residential Property');
+
   // Images state
   const [existingImages, setExistingImages] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -197,6 +199,13 @@ export default function AdminProjectFormPage() {
               seoDescription: data.seoDescription || '',
               isFeatured: Boolean(data.isFeatured),
             });
+
+            const currentType = data.projectType || 'RESIDENTIAL';
+            if (['COMMERCIAL', 'MIXED_USE', 'INDUSTRIAL'].includes(currentType)) {
+              setProjectCategory('Commercial Property');
+            } else {
+              setProjectCategory('Residential Property');
+            }
 
             setExistingImages(data.images || []);
             setExistingDocuments(data.documents || []);
@@ -518,28 +527,84 @@ export default function AdminProjectFormPage() {
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
-          {/* 1. PROJECT TYPE */}
-          <div>
-            <label className="form-label" style={{ fontWeight: 600, marginBottom: '0.75rem', display: 'block' }}>
-              Project Type *
-            </label>
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              {[
-                { value: 'RESIDENTIAL', label: 'Residential Development' },
-                { value: 'COMMERCIAL', label: 'Commercial Complex' },
-                { value: 'VILLA', label: 'Luxury Villas & Floors' },
-                { value: 'PLOTTED_DEVELOPMENT', label: 'Plotted Development' },
-                { value: 'MIXED_USE', label: 'Mixed Use' }
-              ].map((item) => (
-                <button
-                  key={item.value}
-                  type="button"
-                  style={pillSelectStyle(formData.projectType === item.value)}
-                  onClick={() => setFormData({ ...formData, projectType: item.value })}
-                >
-                  {item.label}
-                </button>
-              ))}
+          {/* 1. PROJECT CATEGORY & SUB CATEGORY */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+            <div>
+              <label className="form-label" style={{ fontWeight: 600, marginBottom: '0.5rem', display: 'block', color: 'var(--text-primary)' }}>
+                Project Category : *
+              </label>
+              <select
+                className="form-control"
+                value={projectCategory}
+                onChange={(e) => {
+                  const cat = e.target.value;
+                  setProjectCategory(cat);
+                  if (cat === 'Commercial Property') {
+                    setFormData({ ...formData, projectType: 'COMMERCIAL' });
+                  } else if (cat === 'Residential Property') {
+                    setFormData({ ...formData, projectType: 'RESIDENTIAL' });
+                  } else {
+                    setFormData({ ...formData, projectType: '' });
+                  }
+                }}
+                style={{
+                  width: '100%',
+                  padding: '0.6875rem 1rem',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: '#FFFFFF',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  outline: 'none',
+                }}
+              >
+                <option value="">Select Category</option>
+                <option value="Residential Property">Residential Property</option>
+                <option value="Commercial Property">Commercial Property</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="form-label" style={{ fontWeight: 600, marginBottom: '0.5rem', display: 'block', color: 'var(--text-primary)' }}>
+                Project Sub Category : *
+              </label>
+              <select
+                className="form-control"
+                value={formData.projectType}
+                onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                disabled={!projectCategory}
+                style={{
+                  width: '100%',
+                  padding: '0.6875rem 1rem',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: !projectCategory ? 'var(--bg-secondary)' : '#FFFFFF',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  cursor: !projectCategory ? 'not-allowed' : 'pointer',
+                  outline: 'none',
+                }}
+              >
+                <option value="">Select Sub Category</option>
+                {projectCategory === 'Residential Property' && (
+                  <>
+                    <option value="RESIDENTIAL">Residential Apartments / High-Rise</option>
+                    <option value="VILLA">Luxury Villas & Independent Floors</option>
+                    <option value="PLOTTED_DEVELOPMENT">Plotted Development / Gated Land</option>
+                    <option value="MIXED_USE">Residential Mixed-Use Township</option>
+                  </>
+                )}
+                {projectCategory === 'Commercial Property' && (
+                  <>
+                    <option value="COMMERCIAL">Commercial Complex & Retail Shops</option>
+                    <option value="COMMERCIAL">Grade-A Office Spaces & IT Parks</option>
+                    <option value="COMMERCIAL">SCO Plots (Shop-Cum-Office)</option>
+                    <option value="MIXED_USE">Mixed-Use Commercial Hub</option>
+                    <option value="INDUSTRIAL">Industrial & Logistics Park</option>
+                  </>
+                )}
+              </select>
             </div>
           </div>
 
