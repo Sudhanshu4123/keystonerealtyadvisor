@@ -83,7 +83,7 @@ CLOUDINARY_API_SECRET=81UKRoZlSzOgkntxnN7Jdf9e4_A
 
 CORS_ALLOWED_ORIGINS=http://localhost:3002,http://localhost:80,https://keystonerealtyadvisors.shrishyamassociate.com,https://keystonerealtyadvisors.com,https://keystonerealtyadvisor.com,https://www.keystonerealtyadvisor.com
 
-INITIAL_ADMIN_EMAIL=keystonerealtyhepldesk@gmail.com
+INITIAL_ADMIN_EMAIL=keystonexhelpdeskp@gmail.com
 INITIAL_ADMIN_PASSWORD=KeystoneAdmin2026!
 INITIAL_ADMIN_NAME=Keystone Executive Admin
 INITIAL_ADMIN_PHONE=9911956274

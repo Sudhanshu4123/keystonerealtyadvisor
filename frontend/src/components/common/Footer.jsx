@@ -245,8 +245,8 @@ export default function Footer() {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.875rem', fontSize: '0.875rem', color: '#CBD5E1' }}>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
                 <Mail size={16} color="#E5C058" style={{ flexShrink: 0 }} />
-                <a href="mailto:keystonerealtyhepldesk@gmail.com" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
-                  keystonerealtyhepldesk@gmail.com
+                <a href="mailto:keystonexhelpdeskp@gmail.com" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  keystonexhelpdeskp@gmail.com
                 </a>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>

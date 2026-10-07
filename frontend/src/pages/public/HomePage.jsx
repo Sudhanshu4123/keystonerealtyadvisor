@@ -106,7 +106,7 @@ export default function HomePage() {
               image: 'https://keystonerealtyadvisor.com/keystone-logo.png',
               description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and verified real estate transaction execution.',
               telephone: '+919911956274',
-              email: 'keystonerealtyhepldesk@gmail.com',
+              email: 'keystonexhelpdeskp@gmail.com',
               address: {
                 '@type': 'PostalAddress',
                 addressCountry: 'IN'

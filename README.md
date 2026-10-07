@@ -193,7 +193,7 @@ curl -I http://localhost/actuator/health
 
 ### Initial Administrator Access
 On first startup, the system automatically creates the root administrator account:
-* **Email**: `keystonerealtyhepldesk@gmail.com`
+* **Email**: `keystonexhelpdeskp@gmail.com`
 * **Password**: `KeystoneAdmin2026!`
 * **Phone**: `9911956274`
 
@@ -212,7 +212,7 @@ sudo /opt/keystone/scripts/setup-vps.sh
 # Request SSL Certificate:
 docker compose run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
-  --email keystonerealtyhepldesk@gmail.com \
+  --email keystonexhelpdeskp@gmail.com \
   -d yourdomain.com -d www.yourdomain.com \
   --agree-tos --force-renewal" certbot
 

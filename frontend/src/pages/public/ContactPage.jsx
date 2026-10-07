@@ -75,7 +75,7 @@ export default function ContactPage() {
             '@type': 'RealEstateAgent',
             name: 'Keystone Realty Advisor',
             telephone: '+919911956274',
-            email: 'keystonerealtyhepldesk@gmail.com',
+            email: 'keystonexhelpdeskp@gmail.com',
             address: {
               '@type': 'PostalAddress',
               addressCountry: 'IN'
@@ -225,7 +225,7 @@ export default function ContactPage() {
                   <Mail size={20} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
                   <div>
                     <strong style={{ display: 'block', color: 'var(--text-primary)' }}>Email</strong>
-                    <span style={{ color: 'var(--text-secondary)' }}>keystonerealtyhepldesk@gmail.com</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>keystonexhelpdeskp@gmail.com</span>
                   </div>
                 </div>
               </div>

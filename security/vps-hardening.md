@@ -103,7 +103,7 @@ To enable production SSL on your domain:
 ```bash
 docker compose run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
-  --email keystonerealtyhepldesk@gmail.com \
+  --email keystonexhelpdeskp@gmail.com \
   -d yourdomain.com -d www.yourdomain.com \
   --rsa-key-size 4096 \
   --agree-tos \

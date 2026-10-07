@@ -29,7 +29,7 @@ public class AuthService implements CommandLineRunner {
     private final JwtTokenProvider tokenProvider;
     private final UserMapper userMapper;
 
-    @Value("${app.admin.initial-email:keystonerealtyhepldesk@gmail.com}")
+    @Value("${app.admin.initial-email:keystonexhelpdeskp@gmail.com}")
     private String adminEmail;
 
     @Value("${app.admin.initial-password:KeystoneAdmin2026!}")
