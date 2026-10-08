@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { propertyService } from '../../services/propertyService';
 import PropertyFilter from '../../components/property/PropertyFilter';
 import PropertyGrid from '../../components/property/PropertyGrid';
@@ -223,33 +223,59 @@ export default function PropertiesInGurugramPage() {
           />
         )}
 
-        {/* Explore Other NCR Markets Internal Links */}
-        <div className="card" style={{ marginTop: '3rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
-          <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-            Explore Verified Real Estate Across NCR
-          </h3>
-          <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-            Looking for luxury townships or rental properties in Gurgaon and NCR? Check out verified developments.
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+        {/* Contextual Link Weaving: Research & Regional Markets */}
+        <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
+            <div>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+                Gurugram Locality Dossiers & Investment Guides
+              </h3>
+              <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
+                Explore comprehensive corridor analyses and HRERA verification guides before purchasing property in Gurugram.
+              </p>
+            </div>
+            <Link to="/insights" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
+              All Research Guides
+            </Link>
+          </div>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1.25rem' }}>
+            <Link to="/insights/dwarka-expressway-investment-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Dwarka Expressway Guide
+            </Link>
+            <Link to="/insights/golf-course-extension-road-luxury-hub" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Golf Course Ext Road Hub
+            </Link>
+            <Link to="/insights/hrera-gurugram-property-verification-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              HRERA Verification Handbook
+            </Link>
+            <Link to="/insights/south-delhi-vs-gurgaon-luxury-living" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              South Delhi vs Gurgaon Condos
+            </Link>
+          </div>
+
+          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
+            <Link to="/3-bhk-flats-in-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              3 BHK Flats in Gurgaon
+            </Link>
+            <Link to="/2-bhk-flats-in-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              2 BHK Flats in Gurgaon
+            </Link>
+            <Link to="/luxury-villas-in-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Luxury Villas in Gurgaon
+            </Link>
+            <Link to="/commercial-properties-in-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Commercial Properties Gurgaon
+            </Link>
+            <Link to="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Flats for Rent Gurugram
-            </a>
-            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Conscient Parq Sector 80
-            </a>
-            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              Properties in Delhi
-            </a>
-            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              Properties in Noida
-            </a>
-            <a href="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              All Projects Portfolio
-            </a>
-            <a href="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Speak with Advisor
-            </a>
+            </Link>
           </div>
         </div>
       </div>

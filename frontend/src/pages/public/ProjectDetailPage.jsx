@@ -1085,6 +1085,53 @@ export default function ProjectDetailPage() {
             </div>
           </section>
 
+          {/* Section: Contextual Corridor Research & Legal Due Diligence Weaving */}
+          <section className="card" style={{ padding: '2rem', backgroundColor: 'var(--bg-main)', border: '1px solid var(--border-color)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
+              <div>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+                  Corridor Research & Legal Due Diligence Dossiers
+                </h3>
+                <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
+                  In-depth market intelligence, master connectivity roadmaps, and HRERA compliance handbooks for this location.
+                </p>
+              </div>
+              <Link to="/insights" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
+                All Research Guides
+              </Link>
+            </div>
+
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1.25rem' }}>
+              <Link to="/insights/dwarka-expressway-investment-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                Dwarka Expressway & SPR Guide
+              </Link>
+              <Link to="/insights/golf-course-extension-road-luxury-hub" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                Golf Course Ext Road Hub
+              </Link>
+              <Link to="/insights/hrera-gurugram-property-verification-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                HRERA Step-by-Step Verification Guide
+              </Link>
+              <Link to="/insights/nri-real-estate-investment-india-fema-tax" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                NRI Real Estate & Tax Guide
+              </Link>
+            </div>
+
+            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
+              <Link to="/3-bhk-flats-in-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                3 BHK Flats in Gurgaon
+              </Link>
+              <Link to="/4-bhk-flats-in-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                4 BHK Flats in Gurgaon
+              </Link>
+              <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                Properties in Gurugram
+              </Link>
+              <Link to="/advisory" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                Keystone Advisory Services
+              </Link>
+            </div>
+          </section>
+
           {/* Section: Source Verification Metadata Badge */}
           <section className="card" style={{ padding: '1.5rem', backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid var(--border-color)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
