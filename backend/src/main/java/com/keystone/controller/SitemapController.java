@@ -67,6 +67,13 @@ public class SitemapController {
         addUrl(xml, baseUrl + "/terms", today, "monthly", "0.5", null, null);
         addUrl(xml, baseUrl + "/privacy", today, "monthly", "0.5", null, null);
         addUrl(xml, baseUrl + "/sitemap", today, "weekly", "0.7", null, null);
+        addUrl(xml, baseUrl + "/insights", today, "daily", "0.9", null, null);
+        addUrl(xml, baseUrl + "/insights/dwarka-expressway-investment-guide", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/insights/golf-course-extension-road-luxury-hub", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/insights/south-delhi-vs-gurgaon-luxury-living", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/insights/noida-expressway-vs-yamuna-expressway-investment", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/insights/hrera-gurugram-property-verification-guide", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/insights/nri-real-estate-investment-india-fema-tax", today, "weekly", "0.85", null, null);
 
         // 2. Dynamic Active Properties (Safe Fetch)
         try {

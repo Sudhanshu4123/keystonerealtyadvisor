@@ -123,6 +123,16 @@ export default function Navbar() {
             Advisory Services
           </NavLink>
           <NavLink
+            to="/insights"
+            style={({ isActive }) => ({
+              fontSize: '0.9375rem',
+              fontWeight: 500,
+              color: isActive ? 'var(--color-gold-500)' : 'var(--text-secondary)',
+            })}
+          >
+            Insights & Guides
+          </NavLink>
+          <NavLink
             to="/contact"
             style={({ isActive }) => ({
               fontSize: '0.9375rem',
@@ -389,6 +399,23 @@ export default function Navbar() {
                 })}
               >
                 Advisory Services
+              </NavLink>
+
+              <NavLink
+                to="/insights"
+                onClick={() => setMobileMenuOpen(false)}
+                style={({ isActive }) => ({
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: isActive ? 'var(--color-gold-600)' : 'var(--text-primary)',
+                  backgroundColor: isActive ? 'var(--color-gold-50)' : 'transparent',
+                })}
+              >
+                Insights & Guides
               </NavLink>
 
               <NavLink
