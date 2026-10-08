@@ -21,6 +21,7 @@ import AdvisoryPage from './pages/public/AdvisoryPage';
 import ContactPage from './pages/public/ContactPage';
 import TermsPage from './pages/public/TermsPage';
 import PrivacyPage from './pages/public/PrivacyPage';
+import SitemapPage from './pages/public/SitemapPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 import FlatsForRentGurugramPage from './pages/public/FlatsForRentGurugramPage';
 import PropertiesInDelhiPage from './pages/public/PropertiesInDelhiPage';
@@ -108,6 +109,7 @@ export default function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/sitemap" element={<SitemapPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Route>

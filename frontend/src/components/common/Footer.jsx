@@ -171,6 +171,11 @@ export default function Footer() {
                   Privacy Policy
                 </Link>
               </li>
+              <li>
+                <Link to="/sitemap" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
+                  HTML Sitemap
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -259,6 +264,39 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Bottom Copyright & Secondary Sitemap Bar */}
+        <div
+          style={{
+            marginTop: '3.5rem',
+            paddingTop: '1.5rem',
+            borderTop: '1px solid #1E293B',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            fontSize: '0.8125rem',
+            color: '#94A3B8',
+          }}
+        >
+          <div>
+            &copy; {new Date().getFullYear()} Keystone Realty Advisor. All rights reserved.
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+            <Link to="/terms" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+              Terms
+            </Link>
+            <Link to="/privacy" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+              Privacy
+            </Link>
+            <Link to="/sitemap" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+              HTML Sitemap
+            </Link>
+            <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+              XML Sitemap
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );

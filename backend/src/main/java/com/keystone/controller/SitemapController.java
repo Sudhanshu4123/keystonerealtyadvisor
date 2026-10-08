@@ -66,6 +66,7 @@ public class SitemapController {
         addUrl(xml, baseUrl + "/contact", today, "monthly", "0.8", null, null);
         addUrl(xml, baseUrl + "/terms", today, "monthly", "0.5", null, null);
         addUrl(xml, baseUrl + "/privacy", today, "monthly", "0.5", null, null);
+        addUrl(xml, baseUrl + "/sitemap", today, "weekly", "0.7", null, null);
 
         // 2. Dynamic Active Properties (Safe Fetch)
         try {

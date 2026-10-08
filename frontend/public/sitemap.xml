@@ -174,8 +174,16 @@
   <!-- Privacy Policy -->
   <url>
     <loc>https://keystonerealtyadvisor.com/privacy</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+
+  <!-- HTML Sitemap -->
+  <url>
+    <loc>https://keystonerealtyadvisor.com/sitemap</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
