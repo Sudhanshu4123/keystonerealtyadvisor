@@ -62,6 +62,7 @@ export default function SitemapPage() {
         { title: 'Real Estate Projects', path: '/projects', badge: 'Developments' },
         { title: 'Real Estate Advisory Services', path: '/advisory', badge: 'Services' },
         { title: 'Insights & Research Guides Hub', path: '/insights', badge: 'Knowledge' },
+        { title: 'Semantic Entity Map & Knowledge Graph', path: '/entity-map', badge: 'Schema' },
         { title: 'Contact Us & Enquiries', path: '/contact', badge: 'Support' },
         { title: 'Terms & Conditions', path: '/terms', badge: 'Legal' },
         { title: 'Privacy Policy', path: '/privacy', badge: 'Governance' },

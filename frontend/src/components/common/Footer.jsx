@@ -297,6 +297,9 @@ export default function Footer() {
             <Link to="/sitemap" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
               HTML Sitemap
             </Link>
+            <Link to="/entity-map" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
+              Entity Map
+            </Link>
             <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" style={{ color: '#94A3B8', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#E5C058')} onMouseLeave={(e) => (e.target.style.color = '#94A3B8')}>
               XML Sitemap
             </a>

@@ -22,6 +22,7 @@ import ContactPage from './pages/public/ContactPage';
 import TermsPage from './pages/public/TermsPage';
 import PrivacyPage from './pages/public/PrivacyPage';
 import SitemapPage from './pages/public/SitemapPage';
+import EntityMapPage from './pages/public/EntityMapPage';
 import InsightsHubPage from './pages/public/InsightsHubPage';
 import InsightDetailPage from './pages/public/InsightDetailPage';
 import NotFoundPage from './pages/public/NotFoundPage';
@@ -115,6 +116,7 @@ export default function App() {
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/sitemap" element={<SitemapPage />} />
+              <Route path="/entity-map" element={<EntityMapPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Route>

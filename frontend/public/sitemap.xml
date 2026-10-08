@@ -187,6 +187,14 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Semantic Entity Map & Knowledge Graph -->
+  <url>
+    <loc>https://keystonerealtyadvisor.com/entity-map</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
   <!-- Real Estate Knowledge & Insights Hub (Topical Map) -->
   <url>
     <loc>https://keystonerealtyadvisor.com/insights</loc>

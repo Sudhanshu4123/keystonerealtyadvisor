@@ -67,6 +67,7 @@ public class SitemapController {
         addUrl(xml, baseUrl + "/terms", today, "monthly", "0.5", null, null);
         addUrl(xml, baseUrl + "/privacy", today, "monthly", "0.5", null, null);
         addUrl(xml, baseUrl + "/sitemap", today, "weekly", "0.7", null, null);
+        addUrl(xml, baseUrl + "/entity-map", today, "monthly", "0.75", null, null);
         addUrl(xml, baseUrl + "/insights", today, "daily", "0.9", null, null);
         addUrl(xml, baseUrl + "/insights/dwarka-expressway-investment-guide", today, "weekly", "0.85", null, null);
         addUrl(xml, baseUrl + "/insights/golf-course-extension-road-luxury-hub", today, "weekly", "0.85", null, null);
