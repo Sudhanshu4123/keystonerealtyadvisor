@@ -35,5 +35,13 @@ backend/uploads/
 *.sln
 .DS_Store
 Thumbs.db
-*.log
+# Database dumps & Backups
+*.sql
+*.sql.gz
+*.dump
+*.bak
+backups/
 
+# Crash logs & Dumps
+hs_err_pid*.log
+replay_pid*.log
