@@ -56,18 +56,28 @@ public class AuthService implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        // Bootstrap initial administrator if not present
-        if (!userRepository.existsByEmail(adminEmail)) {
-            User admin = new User(
-                    adminName,
-                    adminEmail,
-                    adminPhone,
-                    passwordEncoder.encode(adminPassword),
-                    Role.ROLE_ADMIN,
-                    UserStatus.ACTIVE
-            );
-            userRepository.save(admin);
-        }
+        // Bootstrap or sync initial administrator credentials and active status
+        userRepository.findByEmail(adminEmail).ifPresentOrElse(
+                existingAdmin -> {
+                    existingAdmin.setName(adminName);
+                    existingAdmin.setPhone(adminPhone);
+                    existingAdmin.setPassword(passwordEncoder.encode(adminPassword));
+                    existingAdmin.setRole(Role.ROLE_ADMIN);
+                    existingAdmin.setStatus(UserStatus.ACTIVE);
+                    userRepository.save(existingAdmin);
+                },
+                () -> {
+                    User admin = new User(
+                            adminName,
+                            adminEmail,
+                            adminPhone,
+                            passwordEncoder.encode(adminPassword),
+                            Role.ROLE_ADMIN,
+                            UserStatus.ACTIVE
+                    );
+                    userRepository.save(admin);
+                }
+        );
     }
 
     @Transactional
