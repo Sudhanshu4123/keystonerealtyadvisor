@@ -76,11 +76,11 @@ export default function AdvisoryPage() {
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem', fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: 'auto', marginBottom: '1.75rem', paddingLeft: 0 }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <CheckCircle size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
-                  <span>Curated luxury portfolio screening across <Link to="/insights/golf-course-extension-road-luxury-hub" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>Golf Course Ext</Link> & <Link to="/insights/dwarka-expressway-investment-guide" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>Dwarka Expressway</Link></span>
+                  <span>Curated luxury portfolio screening across <Link to="/properties-in-gurugram" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>Gurugram Corridors</Link> & <Link to="/properties-in-delhi" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>South Delhi</Link></span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <CheckCircle size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
-                  <span>Rigorous title search & <Link to="/insights/hrera-gurugram-property-verification-guide" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>HRERA Escrow Audits</Link></span>
+                  <span>Rigorous title search & verified HRERA escrow audits</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <CheckCircle size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
@@ -113,7 +113,7 @@ export default function AdvisoryPage() {
                 Corporate Commercial Leasing & Representation
               </h3>
               <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                Strategic spatial advisory for corporate occupiers and commercial landlords, encompassing Grade-A office parks, high-street retail flagships, and lease optimization across <Link to="/insights/noida-expressway-vs-yamuna-expressway-investment" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>Noida</Link> & <Link to="/insights/golf-course-extension-road-luxury-hub" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>Gurugram</Link>.
+                Strategic spatial advisory for corporate occupiers and commercial landlords, encompassing Grade-A office parks, high-street retail flagships, and lease optimization across <Link to="/properties-in-noida" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>Noida</Link> & <Link to="/properties-in-gurugram" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>Gurugram</Link>.
               </p>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem', fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: 'auto', marginBottom: '1.75rem', paddingLeft: 0 }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -155,7 +155,7 @@ export default function AdvisoryPage() {
                 Asset Valuation, Due Diligence & NRI Desk
               </h3>
               <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                Independent real estate asset appraisals, micro-market comparative assessments, and dedicated <Link to="/insights/nri-real-estate-investment-india-fema-tax" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>NRI FEMA / Tax Advisory</Link> support.
+                Independent real estate asset appraisals, micro-market comparative assessments, and dedicated NRI FEMA / Tax Advisory support.
               </p>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.625rem', fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: 'auto', marginBottom: '1.75rem', paddingLeft: 0 }}>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -164,11 +164,11 @@ export default function AdvisoryPage() {
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <CheckCircle size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
-                  <span><Link to="/insights/nri-real-estate-investment-india-fema-tax" style={{ color: 'inherit', textDecoration: 'underline' }}>NRI NRE/NRO banking & 195 TDS repatriation</Link></span>
+                  <span>NRI NRE/NRO banking & 195 TDS repatriation guidance</span>
                 </li>
                 <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <CheckCircle size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
-                  <span><Link to="/insights/hrera-gurugram-property-verification-guide" style={{ color: 'inherit', textDecoration: 'underline' }}>RERA encumbrance & legal litigation scrutiny</Link></span>
+                  <span>RERA encumbrance & legal title litigation scrutiny</span>
                 </li>
               </ul>
               <Link to="/contact" className="btn btn-outline-gold" style={{ alignSelf: 'flex-start' }}>
@@ -224,44 +224,23 @@ export default function AdvisoryPage() {
             </div>
           </div>
 
-          {/* Contextual Link Weaving: Research & Property Portals */}
+          {/* Contextual Link Weaving: Prime Portfolios & Hubs */}
           <div className="card" style={{ marginTop: '3.5rem', padding: '2rem', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
               <div>
                 <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                  Institutional Research & Corridor Dossiers
+                  Explore Real Estate Portfolios & Prime Hubs
                 </h3>
                 <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
-                  Explore data-driven research papers, legal handbooks, and micro-market analyses published by our research desk.
+                  Browse verified listings, developer townships, and regional investment corridors across Delhi NCR.
                 </p>
               </div>
-              <Link to="/insights" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
-                View All Guides
+              <Link to="/properties" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
+                View All Properties
               </Link>
             </div>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1.5rem' }}>
-              <Link to="/insights/dwarka-expressway-investment-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-                Dwarka Expressway Guide
-              </Link>
-              <Link to="/insights/golf-course-extension-road-luxury-hub" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-                Golf Course Ext Road Hub
-              </Link>
-              <Link to="/insights/south-delhi-vs-gurgaon-luxury-living" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-                South Delhi vs Gurgaon Condos
-              </Link>
-              <Link to="/insights/noida-expressway-vs-yamuna-expressway-investment" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-                Noida vs Yamuna Expressway
-              </Link>
-              <Link to="/insights/hrera-gurugram-property-verification-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-                HRERA Verification Handbook
-              </Link>
-              <Link to="/insights/nri-real-estate-investment-india-fema-tax" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-                NRI Real Estate & Tax Guide
-              </Link>
-            </div>
-
-            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem', display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
               <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
                 Properties in Gurugram
               </Link>
@@ -277,8 +256,8 @@ export default function AdvisoryPage() {
               <Link to="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
                 Conscient Parq Sector 80
               </Link>
-              <Link to="/properties" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-                Browse All Properties
+              <Link to="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+                Featured Projects
               </Link>
             </div>
           </div>

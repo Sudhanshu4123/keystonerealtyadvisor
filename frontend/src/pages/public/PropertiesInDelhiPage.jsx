@@ -223,38 +223,23 @@ export default function PropertiesInDelhiPage() {
           />
         )}
 
-        {/* Contextual Link Weaving: Research & Regional Markets */}
+        {/* Contextual Link Weaving: Related Searches & Regional Markets */}
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
               <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Delhi Market Dossiers & Research Guides
+                Popular Property Searches in Delhi
               </h3>
               <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
-                Understand freehold FAR norms, builder floor title due diligence, and capital appreciation comparisons with Gurugram.
+                Explore luxury builder floors, independent villas, and commercial real estate across South Delhi and Delhi NCR.
               </p>
             </div>
-            <Link to="/insights" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
-              All Research Guides
+            <Link to="/properties" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
+              All Properties
             </Link>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1.25rem' }}>
-            <Link to="/insights/south-delhi-vs-gurgaon-luxury-living" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              South Delhi vs Gurgaon Condos Guide
-            </Link>
-            <Link to="/insights/dwarka-expressway-investment-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              Dwarka Expressway & West Delhi Guide
-            </Link>
-            <Link to="/insights/nri-real-estate-investment-india-fema-tax" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              NRI Real Estate & Tax Guide
-            </Link>
-            <Link to="/insights/hrera-gurugram-property-verification-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              RERA Due Diligence Handbook
-            </Link>
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
             <Link to="/builder-floors-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Builder Floors in Delhi
             </Link>
@@ -272,6 +257,9 @@ export default function PropertiesInDelhiPage() {
             </Link>
             <Link to="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Flats for Rent Gurugram
+            </Link>
+            <Link to="/advisory" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Keystone Advisory Services
             </Link>
             <Link to="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Speak with Advisor

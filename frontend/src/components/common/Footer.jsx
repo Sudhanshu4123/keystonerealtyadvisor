@@ -157,11 +157,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/insights" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
-                  Insights & Guides
-                </Link>
-              </li>
-              <li>
                 <Link to="/contact" style={{ color: '#CBD5E1' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
                   Enquiries & Contact
                 </Link>

@@ -223,38 +223,23 @@ export default function PropertiesInNoidaPage() {
           />
         )}
 
-        {/* Contextual Link Weaving: Research & Regional Markets */}
+        {/* Contextual Link Weaving: Related Searches & Regional Markets */}
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
               <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Noida & Greater Noida Market Dossiers
+                Popular Property Searches in Noida
               </h3>
               <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
-                Understand Jewar Airport catalysts, Sector 150 sports cities, and industrial corridor ROI in UP NCR.
+                Browse verified flats for sale, rental homes, and commercial spaces across Noida and Greater Noida corridors.
               </p>
             </div>
-            <Link to="/insights" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
-              All Research Guides
+            <Link to="/properties" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
+              All Properties
             </Link>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1.25rem' }}>
-            <Link to="/insights/noida-expressway-vs-yamuna-expressway-investment" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              Noida vs Yamuna Expressway Guide
-            </Link>
-            <Link to="/insights/nri-real-estate-investment-india-fema-tax" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              NRI Real Estate & Tax Guide
-            </Link>
-            <Link to="/insights/dwarka-expressway-investment-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              Dwarka Expressway & Gurugram Hub
-            </Link>
-            <Link to="/insights/hrera-gurugram-property-verification-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              RERA Due Diligence Handbook
-            </Link>
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
             <Link to="/flats-for-sale-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Flats for Sale in Noida
             </Link>
@@ -269,6 +254,9 @@ export default function PropertiesInNoidaPage() {
             </Link>
             <Link to="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Flats for Rent Gurugram
+            </Link>
+            <Link to="/advisory" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Keystone Advisory Services
             </Link>
             <Link to="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Speak with Advisor

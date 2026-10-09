@@ -223,38 +223,23 @@ export default function PropertiesInGurugramPage() {
           />
         )}
 
-        {/* Contextual Link Weaving: Research & Regional Markets */}
+        {/* Contextual Link Weaving: Related Searches & Corridors */}
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
               <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Gurugram Locality Dossiers & Investment Guides
+                Popular Property Searches in Gurugram
               </h3>
               <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
-                Explore comprehensive corridor analyses and HRERA verification guides before purchasing property in Gurugram.
+                Explore verified luxury configurations, rental homes, and township developments across Gurugram.
               </p>
             </div>
-            <Link to="/insights" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
-              All Research Guides
+            <Link to="/properties" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
+              All Properties
             </Link>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1.25rem' }}>
-            <Link to="/insights/dwarka-expressway-investment-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              Dwarka Expressway Guide
-            </Link>
-            <Link to="/insights/golf-course-extension-road-luxury-hub" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              Golf Course Ext Road Hub
-            </Link>
-            <Link to="/insights/hrera-gurugram-property-verification-guide" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              HRERA Verification Handbook
-            </Link>
-            <Link to="/insights/south-delhi-vs-gurgaon-luxury-living" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
-              South Delhi vs Gurgaon Condos
-            </Link>
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
             <Link to="/3-bhk-flats-in-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               3 BHK Flats in Gurgaon
             </Link>
@@ -272,6 +257,12 @@ export default function PropertiesInGurugramPage() {
             </Link>
             <Link to="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Conscient Parq Sector 80
+            </Link>
+            <Link to="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Delhi
+            </Link>
+            <Link to="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Properties in Noida
             </Link>
             <Link to="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Speak with Advisor

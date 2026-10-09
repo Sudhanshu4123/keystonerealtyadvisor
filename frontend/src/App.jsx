@@ -23,8 +23,6 @@ import TermsPage from './pages/public/TermsPage';
 import PrivacyPage from './pages/public/PrivacyPage';
 import SitemapPage from './pages/public/SitemapPage';
 import EntityMapPage from './pages/public/EntityMapPage';
-import InsightsHubPage from './pages/public/InsightsHubPage';
-import InsightDetailPage from './pages/public/InsightDetailPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 import FlatsForRentGurugramPage from './pages/public/FlatsForRentGurugramPage';
 import PropertiesInDelhiPage from './pages/public/PropertiesInDelhiPage';
@@ -109,9 +107,6 @@ export default function App() {
               <Route path="/projects/:id" element={<ProjectDetailPage />} />
               <Route path="/projects/slug/:slug" element={<ProjectDetailPage />} />
               <Route path="/advisory" element={<AdvisoryPage />} />
-              <Route path="/insights" element={<InsightsHubPage />} />
-              <Route path="/insights/:slug" element={<InsightDetailPage />} />
-              <Route path="/guides" element={<Navigate to="/insights" replace />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPage />} />

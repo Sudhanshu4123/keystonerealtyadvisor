@@ -266,7 +266,7 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-gold-600)', marginBottom: '0.75rem' }}>
             <Landmark size={20} />
             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-              Market Insights & Advisory for {config.city}
+              Market Overview & Advisory for {config.city}
             </h2>
           </div>
           <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '1.25rem' }}>
@@ -349,39 +349,18 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
               <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Corridor Research & Real Estate Guides
+                Explore Related Properties & Regional Hubs
               </h3>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
-                Understand micro-market price trajectories, infrastructure catalysts, and RERA compliance before investing.
+                Browse verified residential configurations, rental apartments, and new developer launches across Delhi NCR.
               </p>
             </div>
-            <Link to="/insights" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
-              All Research Guides
+            <Link to="/properties" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
+              All Properties
             </Link>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem', marginBottom: '1.25rem' }}>
-            <Link to="/insights/dwarka-expressway-investment-guide" className="btn btn-secondary btn-sm">
-              Dwarka Expressway Guide
-            </Link>
-            <Link to="/insights/golf-course-extension-road-luxury-hub" className="btn btn-secondary btn-sm">
-              Golf Course Ext Road Hub
-            </Link>
-            <Link to="/insights/south-delhi-vs-gurgaon-luxury-living" className="btn btn-secondary btn-sm">
-              South Delhi vs Gurgaon Condos
-            </Link>
-            <Link to="/insights/noida-expressway-vs-yamuna-expressway-investment" className="btn btn-secondary btn-sm">
-              Noida vs Yamuna Expressway
-            </Link>
-            <Link to="/insights/hrera-gurugram-property-verification-guide" className="btn btn-secondary btn-sm">
-              HRERA Verification Guide
-            </Link>
-            <Link to="/insights/nri-real-estate-investment-india-fema-tax" className="btn btn-secondary btn-sm">
-              NRI Real Estate Guide
-            </Link>
-          </div>
-
-          <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
             <Link to="/flats-for-rent-in-gurugram" className="btn btn-secondary btn-sm">
               Flats for Rent in Gurugram
             </Link>
@@ -411,6 +390,9 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
             </Link>
             <Link to="/projects" className="btn btn-secondary btn-sm">
               New Launch Projects
+            </Link>
+            <Link to="/advisory" className="btn btn-secondary btn-sm">
+              Advisory Services
             </Link>
           </div>
         </div>
