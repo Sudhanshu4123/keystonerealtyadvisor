@@ -7,6 +7,7 @@ import Pagination from '../../components/common/Pagination';
 import ConfirmModal from '../../components/admin/ConfirmModal';
 import { Building2, PlusCircle, Edit3, Trash2, Search, ExternalLink } from 'lucide-react';
 import { getPropertySlug } from '../../utils/slugify';
+import { formatPrice } from '../../utils/formatters';
 
 export default function AdminPropertiesPage() {
   const { success, error } = useToast();
@@ -84,16 +85,6 @@ export default function AdminPropertiesPage() {
     } catch (err) {
       error('Failed to update status.');
     }
-  };
-
-  const formatPrice = (val, listingType) => {
-    if (!val) return '-';
-    const num = new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(val);
-    return listingType === 'RENT' ? `${num}/mo` : num;
   };
 
   const getStatusBadgeVariant = (status) => {
@@ -261,7 +252,7 @@ export default function AdminPropertiesPage() {
 
                     <td>
                       <strong style={{ fontSize: '0.9375rem', color: 'var(--text-primary)' }}>
-                        {formatPrice(p.price, p.listingType)}
+                        {formatPrice(p.price, p.listingType, '-')}
                       </strong>
                     </td>
 

@@ -16,6 +16,7 @@ import LoadingSkeleton from '../../components/common/LoadingSkeleton';
 import NoImagePlaceholder from '../../components/common/NoImagePlaceholder';
 import Modal from '../../components/common/Modal';
 import SEO from '../../components/common/SEO';
+import { formatPriceRange as formatPrice, formatIndianCurrency } from '../../utils/formatters';
 
 export default function ProjectDetailPage() {
   const { id, slug } = useParams();
@@ -93,20 +94,6 @@ export default function ProjectDetailPage() {
     }
   };
 
-  const formatPrice = (min, max, priceType) => {
-    if (!min && !max) return priceType || 'Price on Request';
-    const formatValue = (num) => {
-      if (!num) return '';
-      if (num >= 10000000) return `₹${(num / 10000000).toFixed(2)} Cr`;
-      if (num >= 100000) return `₹${(num / 100000).toFixed(2)} L`;
-      return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
-    };
-
-    if (min && max && min !== max) return `${formatValue(min)} - ${formatValue(max)}`;
-    if (min) return `From ${formatValue(min)}`;
-    if (max) return `Up to ${formatValue(max)}`;
-    return priceType || 'Price on Request';
-  };
 
   const formatFileSize = (bytes) => {
     if (!bytes) return '';
@@ -541,7 +528,7 @@ export default function ProjectDetailPage() {
 
                     {cfg.price && (
                       <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-gold-500)', fontFamily: 'var(--font-display)', marginTop: 'auto', paddingTop: '0.5rem' }}>
-                        {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(cfg.price)}
+                        {formatIndianCurrency(cfg.price)}
                       </div>
                     )}
 

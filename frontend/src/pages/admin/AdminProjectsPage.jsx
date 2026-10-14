@@ -10,6 +10,7 @@ import Badge from '../../components/common/Badge';
 import ConfirmModal from '../../components/admin/ConfirmModal';
 import Pagination from '../../components/common/Pagination';
 import LoadingSkeleton from '../../components/common/LoadingSkeleton';
+import { formatPriceRange } from '../../utils/formatters';
 
 export default function AdminProjectsPage() {
   const { success, error } = useToast();
@@ -253,8 +254,7 @@ export default function AdminProjectsPage() {
 
                       {/* Price Range */}
                       <td style={{ padding: '1rem 1.25rem', fontWeight: 600, color: 'var(--color-gold-600)' }}>
-                        {proj.minPrice ? `₹${(proj.minPrice / 100000).toFixed(1)} L` : 'On Request'}
-                        {proj.maxPrice && proj.maxPrice !== proj.minPrice ? ` - ₹${(proj.maxPrice / 100000).toFixed(1)} L` : ''}
+                        {formatPriceRange(proj.minPrice, proj.maxPrice)}
                       </td>
 
                       {/* Status Dropdown */}

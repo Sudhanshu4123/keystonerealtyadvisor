@@ -4,31 +4,12 @@ import { Building2, MapPin, Calendar, Layers, ShieldCheck } from 'lucide-react';
 import NoImagePlaceholder from '../common/NoImagePlaceholder';
 import Badge from '../common/Badge';
 import { getProjectSlug } from '../../utils/slugify';
+import { formatPriceRange as formatPrice } from '../../utils/formatters';
 
 export default function ProjectCard({ project }) {
   const projectSlug = getProjectSlug(project);
   const projectUrl = `/projects/${projectSlug}`;
 
-  const formatPrice = (min, max, priceType) => {
-    if (!min && !max) return 'Price on Request';
-    
-    const formatValue = (num) => {
-      if (!num) return '';
-      if (num >= 10000000) {
-        return `₹${(num / 10000000).toFixed(2)} Cr`;
-      } else if (num >= 100000) {
-        return `₹${(num / 100000).toFixed(2)} L`;
-      }
-      return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
-    };
-
-    if (min && max && min !== max) {
-      return `${formatValue(min)} - ${formatValue(max)}`;
-    }
-    if (min) return `From ${formatValue(min)}`;
-    if (max) return `Up to ${formatValue(max)}`;
-    return priceType || 'Price on Request';
-  };
 
   // Status mapping
   let statusBadgeVariant = 'gold';

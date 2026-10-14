@@ -11,6 +11,7 @@ import {
 import { projectService } from '../../services/projectService';
 import { useToast } from '../../hooks/useToast';
 import ImageUploader from '../../components/admin/ImageUploader';
+import { formatIndianCurrency } from '../../utils/formatters';
 
 const AMENITY_SECTIONS = [
   {
@@ -1191,7 +1192,7 @@ export default function AdminProjectFormPage() {
                     <div>
                       <div style={{ fontWeight: 600, fontSize: '0.875rem' }}>{cfg.name}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                        {cfg.bedrooms ? `${cfg.bedrooms} Bed` : ''} {cfg.bathrooms ? `| ${cfg.bathrooms} Bath` : ''} {cfg.area ? `| ${cfg.area} ${cfg.areaUnit || 'SQFT'}` : ''} {cfg.price ? `| ₹${Number(cfg.price).toLocaleString('en-IN')}` : ''}
+                        {cfg.bedrooms ? `${cfg.bedrooms} Bed` : ''} {cfg.bathrooms ? `| ${cfg.bathrooms} Bath` : ''} {cfg.area ? `| ${cfg.area} ${cfg.areaUnit || 'SQFT'}` : ''} {cfg.price ? `| ${formatIndianCurrency(cfg.price)}` : ''}
                       </div>
                     </div>
                     <button
