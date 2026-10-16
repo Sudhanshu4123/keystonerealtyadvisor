@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { propertyService } from '../../services/propertyService';
 import PropertyFilter from '../../components/property/PropertyFilter';
 import PropertyGrid from '../../components/property/PropertyGrid';
@@ -161,7 +161,7 @@ export default function FlatsForRentGurugramPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Flats for Rent in Gurgaon | Keystone Realty"
+        title="Flats for Rent in Gurgaon | Keystone Realty Advisor"
         description="Find verified 1, 2, 3 & 4 BHK flats for rent in Gurugram. Verified apartments in gated societies on Golf Course Rd, Cyber City & Dwarka Expressway."
         canonicalUrl="/flats-for-rent-in-gurugram"
         keywords="flats for rent in gurgaon, flat for rent in gurugram, apartments for rent in gurgaon, 2 bhk flat for rent in gurgaon, 3 bhk for rent gurgaon"
@@ -236,24 +236,24 @@ export default function FlatsForRentGurugramPage() {
             Looking for investment or ownership opportunities beyond rentals? Explore top new launch projects and verified properties for sale.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Buy in Gurugram
-            </a>
-            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Delhi
-            </a>
-            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Noida
-            </a>
-            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Conscient Parq Gurgaon
-            </a>
-            <a href="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               All New Launch Projects
-            </a>
-            <a href="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/contact" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Schedule Rental Consultation
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ import PropertyEnquiryModal from '../../components/property/PropertyEnquiryModal
 import Badge from '../../components/common/Badge';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
 import SEO from '../../components/common/SEO';
+import EmptyState from '../../components/common/EmptyState';
 import { getPropertySlug } from '../../utils/slugify';
 import {
   Bed,
@@ -54,10 +55,10 @@ import {
 } from 'lucide-react';
 
 export default function PropertyDetailPage() {
-  const { id: routeParam } = useParams();
+  const { id: routeId, slug: routeSlug } = useParams();
   const [searchParams] = useSearchParams();
   const queryId = searchParams.get('id');
-  const identifier = routeParam || queryId;
+  const identifier = routeSlug || routeId || queryId;
 
   const { isAuthenticated } = useAuth();
   const { success, error, info } = useToast();
@@ -71,7 +72,7 @@ export default function PropertyDetailPage() {
     async function loadProperty() {
       setLoading(true);
       try {
-        const res = await propertyService.getPropertyById(identifier);
+        const res = await propertyService.getPropertyByIdOrSlug(identifier);
         if (res.success && res.data) {
           setProperty(res.data);
           setIsFavorite(res.data.isFavorite || false);
@@ -141,12 +142,18 @@ export default function PropertyDetailPage() {
   const actionName = property.listingType === 'RENT' ? 'for Rent' : 'for Sale';
   const primeLoc = property.societyName || property.location || property.city || 'Gurgaon';
   
-  // Format concise title strictly under 58 characters
+  // Format concise title strictly between 50 and 60 characters
   const baseTitle = `${bhkPrefix}${rawType} ${actionName} in `;
-  const suffix = ' | Keystone';
-  const maxLocLen = Math.max(58 - baseTitle.length - suffix.length, 5);
+  let suffix = ' | Keystone Realty';
+  let maxLocLen = Math.max(60 - baseTitle.length - suffix.length, 5);
   const cleanLoc = primeLoc.length > maxLocLen ? primeLoc.slice(0, maxLocLen - 3).trim() + '...' : primeLoc;
-  const pageTitle = `${baseTitle}${cleanLoc}${suffix}`;
+  let pageTitle = `${baseTitle}${cleanLoc}${suffix}`;
+  if (pageTitle.length < 50) {
+    pageTitle = `${baseTitle}${cleanLoc} | Keystone Realty Advisor`;
+  }
+  if (pageTitle.length > 60) {
+    pageTitle = `${pageTitle.slice(0, 57)}...`;
+  }
 
   // Professional Meta Description (strictly 135 - 155 chars)
   const descBhk = property.bedrooms ? `${property.bedrooms} BHK ` : '';
@@ -192,36 +199,49 @@ export default function PropertyDetailPage() {
           { name: 'Properties', path: '/properties' },
           { name: property.title, path: canonicalPath },
         ]}
-        schema={{
-          '@context': 'https://schema.org',
-          '@type': schemaType,
-          name: property.title || `${descBhk}${descType} in ${rawPlace}`,
-          description: pageDesc,
-          url: canonicalFullUrl,
-          image: absoluteSchemaImage,
-          numberOfRooms: property.bedrooms || 1,
-          numberOfBathroomsTotal: property.bathrooms || 1,
-          floorSize: {
-            '@type': 'QuantitativeValue',
-            value: property.builtUpArea || property.carpetArea || property.area || 1000,
-            unitCode: 'FTK'
-          },
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: property.societyName || property.location || 'Gurgaon',
-            addressLocality: property.location || property.city || 'Gurgaon',
-            addressRegion: property.city || 'Haryana',
-            addressCountry: 'IN'
-          },
-          offers: {
-            '@type': 'Offer',
-            price: property.price ? Number(property.price) : 0,
-            priceCurrency: 'INR',
-            priceValidUntil: '2027-12-31',
-            availability: property.status === 'AVAILABLE' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
-            url: canonicalFullUrl
+        schema={(() => {
+          const s = {
+            '@context': 'https://schema.org',
+            '@type': schemaType,
+            name: property.title || `${descBhk}${descType} in ${rawPlace}`,
+            description: pageDesc,
+            url: canonicalFullUrl,
+            image: absoluteSchemaImage,
+          };
+          if (property.bedrooms) {
+            s.numberOfRooms = Number(property.bedrooms);
           }
-        }}
+          if (property.bathrooms) {
+            s.numberOfBathroomsTotal = Number(property.bathrooms);
+          }
+          const floorArea = property.builtUpArea || property.carpetArea || property.area;
+          if (floorArea && Number(floorArea) > 0) {
+            s.floorSize = {
+              '@type': 'QuantitativeValue',
+              value: Number(floorArea),
+              unitCode: 'FTK'
+            };
+          }
+          if (property.societyName || property.location || property.city) {
+            s.address = {
+              '@type': 'PostalAddress',
+              addressCountry: 'IN'
+            };
+            if (property.societyName) s.address.streetAddress = property.societyName;
+            if (property.location) s.address.addressLocality = property.location;
+            if (property.city) s.address.addressRegion = property.city;
+          }
+          if (property.price && Number(property.price) > 0) {
+            s.offers = {
+              '@type': 'Offer',
+              price: Number(property.price),
+              priceCurrency: 'INR',
+              availability: property.status === 'AVAILABLE' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
+              url: canonicalFullUrl
+            };
+          }
+          return s;
+        })()}
       />
       <div className="container">
         {/* Semantic Breadcrumbs */}
@@ -1149,7 +1169,7 @@ export default function PropertyDetailPage() {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-                <img src="/keystone-logo.svg" alt="Keystone" style={{ width: '32px', height: '32px' }} />
+                <img src="/keystone-logo.svg" alt="Keystone Realty Advisor" width="32" height="32" style={{ width: '32px', height: '32px' }} />
                 <div>
                   <div style={{ fontWeight: 700, fontSize: '0.9375rem', lineHeight: 1.1 }}>KEYSTONE REALTY ADVISOR</div>
                   <div style={{ fontSize: '0.6875rem', color: 'var(--color-gold-600)', textTransform: 'uppercase', fontWeight: 600 }}>

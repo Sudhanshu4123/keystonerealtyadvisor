@@ -188,7 +188,7 @@ export default function SitemapPage() {
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', paddingBottom: '5rem' }}>
       <SEO
         title="HTML Sitemap | Keystone Realty Advisor - Website Directory"
-        description="Comprehensive HTML sitemap and directory of Keystone Realty Advisor. Easily navigate through residential properties, commercial investments, advisory services, and verified developments across Delhi NCR."
+        description="Comprehensive HTML sitemap of Keystone Realty Advisor. Browse verified residential properties, commercial investments, advisory services and new projects."
         canonicalUrl="/sitemap"
         keywords="Keystone sitemap, HTML sitemap, real estate sitemap, Delhi NCR property directory, Gurugram real estate directory, Keystone Realty Advisor pages"
         breadcrumbs={[

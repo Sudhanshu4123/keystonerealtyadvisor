@@ -109,10 +109,12 @@ export function parseProgrammaticSlug(slug = '') {
 
   let cityKey = 'gurugram';
   let targetCity = PROGRAMMATIC_CITIES.gurugram;
+  let isRecognizedCity = false;
   for (const [cKey, cData] of Object.entries(PROGRAMMATIC_CITIES)) {
     if (cData.aliases.some(alias => clean.includes(alias))) {
       cityKey = cKey;
       targetCity = cData;
+      isRecognizedCity = true;
       break;
     }
   }
@@ -163,19 +165,26 @@ export function parseProgrammaticSlug(slug = '') {
   const typeText = propertyTypeObj ? propertyTypeObj.singular : (bedrooms ? 'Flats' : 'Properties');
   const actionText = listingTypeKey === 'RENT' ? 'for Rent' : (listingTypeKey === 'SALE' ? 'for Sale' : (listingTypeKey === 'LEASE' ? 'for Lease' : ''));
   const headingTitle = `${bhkPrefix}${typeText} ${actionText} in ${targetCity.name}`.replace(/\s+/g, ' ').trim();
-  const pageTitle = `${headingTitle} | Keystone Realty Advisor`;
-  const pageDescription = `Explore verified ${bhkPrefix}${typeText.toLowerCase()} ${actionText.toLowerCase()} in ${targetCity.name}. Clear legal titles, transparent pricing, prime societies, and dedicated advisor guidance with Keystone Realty.`;
+  let pageTitle = `${headingTitle} | Keystone Realty Advisor`;
+  if (pageTitle.length < 50) {
+    pageTitle = `Verified ${headingTitle} | Keystone Realty Advisor`;
+  }
+  if (pageTitle.length > 60) {
+    pageTitle = `${headingTitle} | Keystone Realty`;
+  }
+  const pageDescription = `Explore verified ${bhkPrefix}${typeText.toLowerCase()} ${actionText.toLowerCase()} in ${targetCity.name}. Clear titles, transparent pricing, prime societies & expert support with Keystone Realty.`;
 
   return {
     city: targetCity.name,
     cityRegion: targetCity.region,
     cityData: targetCity,
+    isRecognizedCity,
     listingType: listingTypeKey,
     propertyType: propertyTypeKey,
     bedrooms: bedrooms,
     headingTitle,
     pageTitle,
     pageDescription,
-    canonicalSlug: clean
+    canonicalSlug: isRecognizedCity ? clean : 'properties'
   };
 }

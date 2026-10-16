@@ -90,7 +90,7 @@ export default function HomePage() {
   return (
     <div>
       <SEO
-        title="Real Estate Advisory & Property Consultants | Keystone Realty"
+        title="Real Estate Advisory in Delhi NCR | Keystone Realty Advisor"
         description="Discover verified residential homes, luxury apartments, and commercial investments in Delhi NCR with complete due diligence and expert advisory."
         keywords="flat for rent in gurugram, properties in delhi, properties in gurugram, properties in noida, buy luxury apartments, real estate advisory, Keystone Realty"
         canonicalUrl="/"
@@ -98,25 +98,14 @@ export default function HomePage() {
           '@context': 'https://schema.org',
           '@graph': [
             {
-              '@type': 'RealEstateAgent',
-              '@id': 'https://keystonerealtyadvisor.com/#organization',
-              name: 'Keystone Realty Advisor',
-              url: 'https://keystonerealtyadvisor.com',
-              logo: 'https://keystonerealtyadvisor.com/favicon-512x512.png',
-              image: 'https://keystonerealtyadvisor.com/keystone-logo.png',
-              description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and verified real estate transaction execution.',
-              telephone: '+919911956274',
-              email: 'keystonexhelpdeskp@gmail.com',
-              address: {
-                '@type': 'PostalAddress',
-                addressCountry: 'IN'
-              },
-              areaServed: {
-                '@type': 'Country',
-                name: 'India'
-              },
-              priceRange: '₹₹ - ₹₹₹₹₹',
-              openingHours: 'Mo-Sa 09:30-19:00'
+              '@type': 'WebPage',
+              '@id': 'https://keystonerealtyadvisor.com/#webpage',
+              url: 'https://keystonerealtyadvisor.com/',
+              name: 'Real Estate Advisory in Delhi NCR | Keystone Realty Advisor',
+              description: 'Discover verified residential homes, luxury apartments, and commercial investments in Delhi NCR with complete due diligence and expert advisory.',
+              publisher: {
+                '@id': 'https://keystonerealtyadvisor.com/#organization'
+              }
             },
             {
               '@type': 'FAQPage',

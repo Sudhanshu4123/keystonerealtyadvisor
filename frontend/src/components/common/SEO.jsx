@@ -11,7 +11,7 @@ export default function SEO({
   canonicalUrl,
   ogTitle,
   ogDescription,
-  ogImage = '/keystone-logo.png',
+  ogImage = '/keystone-logo.webp',
   ogType = 'website',
   twitterCard = 'summary_large_image',
   twitterTitle,
@@ -77,7 +77,7 @@ export default function SEO({
       let element = document.querySelector(`link[rel="${rel}"]`);
       if (!element) {
         element = document.createElement('link');
-        element.setAttribute(rel, rel);
+        element.setAttribute('rel', rel);
         document.head.appendChild(element);
       }
       element.setAttribute('href', href);

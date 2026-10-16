@@ -122,11 +122,11 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
   const dynamicFaqs = [
     {
       q: `What is the average price for ${config.headingTitle.toLowerCase()}?`,
-      a: `Pricing for ${config.headingTitle.toLowerCase()} varies by prime micro-markets, society brand, and built-up area. On average, ready-to-move luxury properties in prime sectors command transparent market valuations with institutional title due diligence by Keystone Realty Advisor.`
+      a: `Pricing for ${config.headingTitle.toLowerCase()} varies by prime micro-markets, society brand, and built-up area. Ready-to-move luxury properties in prime sectors command transparent market valuations with institutional due diligence by Keystone Realty Advisor.`
     },
     {
       q: `Are all listings on this page RERA approved and title-verified?`,
-      a: `Yes. Every property represented by Keystone Realty Advisor undergoes complete 100% legal title verification, encumbrance search, and builder track-record audit before public listing.`
+      a: `Yes. Every property represented by Keystone Realty Advisor undergoes legal title verification, document due diligence, and builder track-record evaluation before public listing.`
     },
     {
       q: `How do I schedule a physical site visit or private consultation?`,
@@ -134,29 +134,34 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
     }
   ];
 
+  const isPresetRoute = Boolean(presetSlug);
+  const isIndexed = isPresetRoute && config.isRecognizedCity;
+  const canonicalUrl = isIndexed ? `/${config.canonicalSlug}` : '/properties';
+
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
         title={config.pageTitle}
         description={config.pageDescription}
         keywords={`${config.headingTitle}, ${config.city} real estate, buy flat in ${config.city}, luxury apartments ${config.city}, Keystone Realty Advisor`}
-        canonicalUrl={`/${config.canonicalSlug}`}
+        canonicalUrl={canonicalUrl}
+        noindex={!isIndexed}
         geoPlacename={config.city}
         geoRegion={config.cityRegion}
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: `Properties in ${config.city}`, path: `/properties-in-${config.city.toLowerCase()}` },
-          { name: config.headingTitle, path: `/${config.canonicalSlug}` },
+          { name: config.headingTitle, path: canonicalUrl },
         ]}
         schema={{
           '@context': 'https://schema.org',
           '@graph': [
             {
               '@type': 'CollectionPage',
-              '@id': `https://keystonerealtyadvisor.com/${config.canonicalSlug}#collection`,
+              '@id': `https://keystonerealtyadvisor.com${canonicalUrl}#collection`,
               name: config.headingTitle,
               description: config.pageDescription,
-              url: `https://keystonerealtyadvisor.com/${config.canonicalSlug}`,
+              url: `https://keystonerealtyadvisor.com${canonicalUrl}`,
               isPartOf: {
                 '@type': 'WebSite',
                 '@id': 'https://keystonerealtyadvisor.com/#website',

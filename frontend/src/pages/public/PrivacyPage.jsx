@@ -7,7 +7,7 @@ export default function PrivacyPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', paddingBottom: '5rem' }}>
       <SEO
-        title="Privacy Policy | Keystone Realty Advisor"
+        title="Privacy Policy & Data Security | Keystone Realty Advisor"
         description="Learn how Keystone Realty Advisor protects client confidentiality, secures personal information, and maintains institutional data privacy standards."
         canonicalUrl="/privacy"
         keywords="privacy policy, data protection, client confidentiality, real estate privacy, Keystone Realty Advisor"

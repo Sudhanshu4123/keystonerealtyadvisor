@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { enquiryService } from '../../services/enquiryService';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
@@ -57,7 +58,7 @@ export default function ContactPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3.5rem 0 5rem' }}>
       <SEO
-        title="Contact Keystone Realty | Gurgaon & Delhi NCR"
+        title="Contact Keystone Realty Advisor | Gurgaon & Delhi NCR"
         description="Schedule a confidential consultation with Keystone Realty Advisor. Direct phone +91 9911956274 for verified property advice, buying and site inspections."
         canonicalUrl="/contact"
         keywords="contact real estate advisor, property consultation, Keystone Realty Advisor phone, property enquiry, real estate help desk"
@@ -252,24 +253,24 @@ export default function ContactPage() {
             Looking to explore specific listings or luxury developments right now?
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Gurugram
-            </a>
-            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Delhi
-            </a>
-            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Noida
-            </a>
-            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Flats for Rent Gurugram
-            </a>
-            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Conscient Parq Sector 80
-            </a>
-            <a href="/advisory" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/advisory" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Advisory Practice
-            </a>
+            </Link>
           </div>
         </div>
 

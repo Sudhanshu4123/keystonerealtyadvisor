@@ -7,7 +7,7 @@ export default function AdvisoryPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))' }}>
       <SEO
-        title="Real Estate Advisory & Consultancy | Keystone"
+        title="Real Estate Advisory & Consultancy | Keystone Realty"
         description="Institutional real estate advisory in Delhi NCR: bespoke luxury acquisitions, corporate leasing strategy, asset valuation and transaction due diligence."
         canonicalUrl="/advisory"
         keywords="real estate advisory services, property consultancy, commercial leasing advisor, asset valuation, luxury home acquisition, Keystone Realty Advisor"

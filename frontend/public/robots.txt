@@ -51,14 +51,15 @@ User-agent: cohere-ai
 Allow: /
 
 # Disallow private administration and internal user dashboards
+Disallow: /admin
 Disallow: /admin/
 Disallow: /admin/*
+Disallow: /dashboard
 Disallow: /dashboard/
 Disallow: /dashboard/*
 Disallow: /api/admin/
 Disallow: /api/users/
 Disallow: /api/favorites/
 
-# Production XML Sitemaps
+# Production XML Sitemap
 Sitemap: https://keystonerealtyadvisor.com/sitemap.xml
-Sitemap: https://keystonerealtyadvisor.com/api/sitemap.xml

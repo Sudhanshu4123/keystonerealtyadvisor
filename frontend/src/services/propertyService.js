@@ -19,6 +19,14 @@ export const propertyService = {
     return api.get(`/api/properties/${id}`);
   },
 
+  async getPropertyBySlug(slug) {
+    return api.get(`/api/properties/slug/${slug}`);
+  },
+
+  async getPropertyByIdOrSlug(identifier) {
+    return api.get(`/api/properties/${identifier}`);
+  },
+
   // Admin Methods
   async createProperty(data) {
     return api.post('/api/properties', data);

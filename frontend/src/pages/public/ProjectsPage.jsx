@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { Search, Filter, RefreshCw, X, Building2, SlidersHorizontal } from 'lucide-react';
 import ProjectGrid from '../../components/project/ProjectGrid';
 import Pagination from '../../components/common/Pagination';
@@ -112,7 +112,7 @@ export default function ProjectsPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
-        title="New Projects in Delhi NCR | Keystone Realty"
+        title="New Projects in Delhi NCR | Keystone Realty Advisor"
         description="Explore verified new launch luxury apartments, commercial hubs & townships in Gurgaon, Delhi & Noida with verified RERA approvals & pricing."
         canonicalUrl="/projects"
         keywords="real estate projects, luxury apartments, new residential projects, commercial towers, RERA approved projects, Keystone Realty Advisor"
@@ -377,24 +377,24 @@ export default function ProjectsPage() {
             Looking for ready-to-move homes, resale properties, or rental options across prime locations in Delhi NCR?
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Gurugram
-            </a>
-            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Delhi
-            </a>
-            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Noida
-            </a>
-            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Flats for Rent Gurugram
-            </a>
-            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Conscient Parq Sector 80
-            </a>
-            <a href="/advisory" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/advisory" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Advisory Services
-            </a>
+            </Link>
           </div>
         </div>
       </div>

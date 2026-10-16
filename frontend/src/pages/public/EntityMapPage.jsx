@@ -211,13 +211,13 @@ export default function EntityMapPage() {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': ['RealEstateAgent', 'ProfessionalService'],
+        '@type': ['RealEstateAgent', 'Organization'],
         '@id': 'https://keystonerealtyadvisor.com/#organization',
         name: 'Keystone Realty Advisor',
         url: 'https://keystonerealtyadvisor.com',
-        logo: 'https://keystonerealtyadvisor.com/keystone-logo.png',
-        image: 'https://keystonerealtyadvisor.com/keystone-logo.png',
-        description: 'Certified real estate advisory practice providing institutional property acquisitions, commercial leasing, and asset valuation in Delhi NCR, India.',
+        logo: 'https://keystonerealtyadvisor.com/keystone-logo.webp',
+        image: 'https://keystonerealtyadvisor.com/keystone-logo.webp',
+        description: 'Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation in Delhi NCR.',
         telephone: '+919911956274',
         email: 'keystonexhelpdeskp@gmail.com',
         sameAs: ['https://www.linkedin.com/company/keyston-realty-advisor/'],
@@ -294,7 +294,7 @@ export default function EntityMapPage() {
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', paddingBottom: '5rem' }}>
       <SEO
         title="Entity Map & Knowledge Graph | Keystone Realty Advisor"
-        description="Official Semantic Entity Map and Knowledge Graph of Keystone Realty Advisor. Discover our verified connections with Gurugram, Delhi, Noida, Dwarka Expressway, HRERA, and Tier-1 developers."
+        description="Official Semantic Entity Map of Keystone Realty Advisor. Discover our verified connections across Gurugram, Delhi, Noida, HRERA and Tier-1 developers."
         canonicalUrl="/entity-map"
         keywords="Keystone entity map, Google Knowledge Graph real estate, Keystone Realty entities, Wikidata real estate Gurgaon, HRERA entity mapping"
         breadcrumbs={[

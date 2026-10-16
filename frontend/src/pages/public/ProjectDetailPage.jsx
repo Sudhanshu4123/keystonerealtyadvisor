@@ -158,8 +158,14 @@ export default function ProjectDetailPage() {
 
   const projectCanonical = `/projects/${project.slug || project.id}`;
   const rawProjectTitle = project.name || 'Luxury Real Estate Project';
-  const cleanProjectTitle = rawProjectTitle.length > 40 ? `${rawProjectTitle.slice(0, 37)}...` : rawProjectTitle;
-  const projectPageTitle = `${cleanProjectTitle}${project.city ? ` in ${project.city}` : ''} | Keystone Realty`;
+  const cleanProjectTitle = rawProjectTitle.length > 30 ? `${rawProjectTitle.slice(0, 27)}...` : rawProjectTitle;
+  let projectPageTitle = `${cleanProjectTitle}${project.city ? ` in ${project.city}` : ''} | Keystone Realty Advisor`;
+  if (projectPageTitle.length < 50) {
+    projectPageTitle = `${cleanProjectTitle} Luxury Project | Keystone Realty Advisor`;
+  }
+  if (projectPageTitle.length > 60) {
+    projectPageTitle = `${projectPageTitle.slice(0, 57)}...`;
+  }
 
   let projectPageDesc = project.shortDescription || '';
   if (projectPageDesc.length < 120 || projectPageDesc.length > 155) {
@@ -206,7 +212,7 @@ export default function ProjectDetailPage() {
             '@type': 'PostalAddress',
             streetAddress: project.address || project.locality || '',
             addressLocality: project.locality || project.city || '',
-            addressRegion: project.state || 'Haryana',
+            addressRegion: project.state || (project.city?.toLowerCase().includes('delhi') ? 'Delhi' : (project.city?.toLowerCase().includes('noida') ? 'Uttar Pradesh' : 'Haryana')),
             addressCountry: 'IN'
           },
           ...(project.minPrice || project.maxPrice ? {
@@ -215,7 +221,7 @@ export default function ProjectDetailPage() {
               priceCurrency: 'INR',
               lowPrice: project.minPrice || project.maxPrice,
               highPrice: project.maxPrice || project.minPrice,
-              offerCount: project.totalUnits || 1
+              ...(project.totalUnits ? { offerCount: Number(project.totalUnits) } : {})
             }
           } : {})
         }}

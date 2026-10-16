@@ -1,6 +1,7 @@
 package com.keystone.controller;
 
 import com.keystone.entity.Project;
+import com.keystone.entity.ProjectStatus;
 import com.keystone.entity.Property;
 import com.keystone.entity.PropertyStatus;
 import com.keystone.mapper.PropertyMapper;
@@ -69,6 +70,22 @@ public class SitemapController {
         addUrl(xml, baseUrl + "/sitemap", today, "weekly", "0.7", null, null);
         addUrl(xml, baseUrl + "/entity-map", today, "monthly", "0.75", null, null);
 
+        // Programmatic SEO landing pages
+        addUrl(xml, baseUrl + "/flats-for-sale-in-gurugram", today, "weekly", "0.9", null, null);
+        addUrl(xml, baseUrl + "/flats-for-sale-in-delhi", today, "weekly", "0.9", null, null);
+        addUrl(xml, baseUrl + "/flats-for-sale-in-noida", today, "weekly", "0.9", null, null);
+        addUrl(xml, baseUrl + "/flats-for-rent-in-delhi", today, "weekly", "0.9", null, null);
+        addUrl(xml, baseUrl + "/flats-for-rent-in-noida", today, "weekly", "0.9", null, null);
+        addUrl(xml, baseUrl + "/3-bhk-flats-in-gurgaon", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/2-bhk-flats-in-gurgaon", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/4-bhk-flats-in-gurgaon", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/luxury-villas-in-gurgaon", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/luxury-villas-in-delhi", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/builder-floors-in-delhi", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/builder-floors-in-gurgaon", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/commercial-properties-in-gurgaon", today, "weekly", "0.85", null, null);
+        addUrl(xml, baseUrl + "/commercial-properties-in-delhi", today, "weekly", "0.85", null, null);
+
         // 2. Dynamic Active Properties (Safe Fetch)
         try {
             List<Property> properties = propertyRepository.findAll();
@@ -106,20 +123,22 @@ public class SitemapController {
             log.error("Failed to query properties for sitemap: {}", e.getMessage());
         }
 
-        // 3. Dynamic Projects (Safe Fetch)
+        // 3. Dynamic Projects (Only Published / Active)
         try {
             List<Project> projects = projectRepository.findAll();
             for (Project proj : projects) {
                 try {
-                    String modDate = proj.getUpdatedAt() != null ? proj.getUpdatedAt().format(formatter) : today;
-                    String projectPath = (proj.getSlug() != null && !proj.getSlug().trim().isEmpty())
-                            ? "/projects/" + proj.getSlug().trim()
-                            : "/projects/" + proj.getId();
-                    String imgUrl = proj.getCoverImageUrl();
-                    if (imgUrl != null && !imgUrl.startsWith("http")) {
-                        imgUrl = baseUrl + (imgUrl.startsWith("/") ? imgUrl : "/" + imgUrl);
+                    if (proj.getStatus() != null && proj.getStatus() != ProjectStatus.DRAFT && proj.getStatus() != ProjectStatus.UNPUBLISHED) {
+                        String modDate = proj.getUpdatedAt() != null ? proj.getUpdatedAt().format(formatter) : today;
+                        String projectPath = (proj.getSlug() != null && !proj.getSlug().trim().isEmpty())
+                                ? "/projects/" + proj.getSlug().trim()
+                                : "/projects/" + proj.getId();
+                        String imgUrl = proj.getCoverImageUrl();
+                        if (imgUrl != null && !imgUrl.startsWith("http")) {
+                            imgUrl = baseUrl + (imgUrl.startsWith("/") ? imgUrl : "/" + imgUrl);
+                        }
+                        addUrl(xml, baseUrl + projectPath, modDate, "weekly", "0.8", imgUrl, proj.getName());
                     }
-                    addUrl(xml, baseUrl + projectPath, modDate, "weekly", "0.8", imgUrl, proj.getName());
                 } catch (Exception projEx) {
                     log.warn("Error processing project for sitemap: {}", projEx.getMessage());
                 }

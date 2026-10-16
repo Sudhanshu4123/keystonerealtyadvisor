@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { propertyService } from '../../services/propertyService';
 import PropertyFilter from '../../components/property/PropertyFilter';
 import PropertyGrid from '../../components/property/PropertyGrid';
@@ -179,30 +179,30 @@ export default function PropertiesPage() {
   const isFlatForRentGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'RENT' && filters.propertyType === 'APARTMENT';
   const isFlatForSaleGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'SALE' && filters.propertyType === 'APARTMENT';
 
-  let pageTitle = 'Properties for Sale & Rent | Keystone Realty';
+  let pageTitle = 'Properties for Sale & Rent | Keystone Realty Advisor';
   let headingTitle = 'Verified Properties for Sale & Rent';
   let pageDescription = 'Browse verified residential apartments, luxury villas, builder floors, and commercial spaces across Delhi NCR with clear titles and transparent pricing.';
 
   if (isFlatForRentGurugram) {
-    pageTitle = 'Flats for Rent in Gurugram | Keystone Realty';
+    pageTitle = 'Flats for Rent in Gurugram | Keystone Realty Advisor';
     headingTitle = 'Flats for Rent in Gurugram';
     pageDescription = 'Explore verified 1, 2, 3 & 4 BHK flats for rent in Gurugram. Direct owner listings in prime Golf Course Rd, Cyber City & Dwarka Expressway societies.';
   } else if (isFlatForSaleGurugram) {
-    pageTitle = 'Flats for Sale in Gurugram | Keystone Realty';
+    pageTitle = 'Flats for Sale in Gurugram | Keystone Realty Advisor';
     headingTitle = 'Flats for Sale in Gurugram';
     pageDescription = 'Explore verified luxury flats and apartments for sale in Gurugram with clear titles, prime locations, and expert advisor support from Keystone Realty.';
   } else if (filters.propertyType && filters.city) {
     const formattedType = formatTypeName(filters.propertyType);
-    pageTitle = `${formattedType} in ${filters.city} | Keystone Realty`;
+    pageTitle = `${formattedType} in ${filters.city} | Keystone Realty Advisor`;
     headingTitle = `${formattedType} in ${filters.city}`;
     pageDescription = `Explore verified ${formattedType.toLowerCase()} in ${filters.city}. Clear legal titles, prime locations, and expert advisor assistance with Keystone Realty.`;
   } else if (filters.propertyType) {
     const formattedType = formatTypeName(filters.propertyType);
-    pageTitle = `${formattedType} for Sale & Rent | Keystone`;
+    pageTitle = `${formattedType} for Sale & Rent | Keystone Realty Advisor`;
     headingTitle = `Verified ${formattedType} in Delhi NCR`;
     pageDescription = `Explore verified ${formattedType.toLowerCase()} in Delhi NCR with clear legal titles, prime locations, and expert property advisory by Keystone Realty.`;
   } else if (filters.city) {
-    pageTitle = `Properties in ${filters.city} | Keystone Realty`;
+    pageTitle = `Properties in ${filters.city} NCR | Keystone Realty Advisor`;
     headingTitle = `Verified Properties in ${filters.city}`;
     pageDescription = `Explore verified residential and commercial properties in ${filters.city} with clear titles, transparent pricing, and expert guidance by Keystone Realty.`;
   } else if (filters.listingType === 'RENT') {
@@ -279,24 +279,24 @@ export default function PropertiesPage() {
             Browse curated high-demand cities and townships with verified legal titles and dedicated investment guidance.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-            <a href="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            <Link to="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Delhi
-            </a>
-            <a href="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Gurugram
-            </a>
-            <a href="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Noida
-            </a>
-            <a href="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/flats-for-rent-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Flats for Rent Gurugram
-            </a>
-            <a href="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Conscient Parq Sector 80
-            </a>
-            <a href="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            </Link>
+            <Link to="/projects" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               New Launch Projects
-            </a>
+            </Link>
           </div>
         </div>
       </div>
