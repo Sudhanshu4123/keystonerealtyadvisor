@@ -46,7 +46,11 @@ export default function EntityMapPage() {
         email: 'keystonexhelpdeskp@gmail.com',
         phone: '+91 9911956274',
         website: 'https://keystonerealtyadvisor.com',
-        sameAs: ['https://www.linkedin.com/company/keyston-realty-advisor/'],
+        sameAs: [
+          'https://www.linkedin.com/company/keyston-realty-advisor/',
+          'https://www.facebook.com/profile.php?id=61594316288306',
+          'https://www.instagram.com/keystonerealty_advisors',
+        ],
       },
     },
     {
@@ -220,7 +224,11 @@ export default function EntityMapPage() {
         description: 'Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation in Delhi NCR.',
         telephone: '+919911956274',
         email: 'keystonexhelpdeskp@gmail.com',
-        sameAs: ['https://www.linkedin.com/company/keyston-realty-advisor/'],
+        sameAs: [
+          'https://www.linkedin.com/company/keyston-realty-advisor/',
+          'https://www.facebook.com/profile.php?id=61594316288306',
+          'https://www.instagram.com/keystonerealty_advisors',
+        ],
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Gurugram',

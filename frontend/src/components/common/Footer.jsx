@@ -7,13 +7,13 @@ export default function Footer() {
     {
       name: 'Facebook',
       icon: Facebook,
-      href: '#', // Placeholder - link will be updated later
+      href: 'https://www.facebook.com/profile.php?id=61594316288306',
       ariaLabel: 'Follow Keystone Realty on Facebook',
     },
     {
       name: 'Instagram',
       icon: Instagram,
-      href: '#', // Placeholder - link will be updated later
+      href: 'https://www.instagram.com/keystonerealty_advisors',
       ariaLabel: 'Follow Keystone Realty on Instagram',
     },
     {
