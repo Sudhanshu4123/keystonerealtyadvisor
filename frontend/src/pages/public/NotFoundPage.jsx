@@ -7,8 +7,8 @@ export default function NotFoundPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 0' }}>
       <SEO
-        title="Page Not Found (404 Error) | Keystone Realty Advisor"
-        description="The page you are looking for could not be found. Explore verified luxury properties in Delhi NCR on Keystone Realty Advisor."
+        title="Page Not Found (404) | Keystone Realty Advisor"
+        description="The page you are looking for could not be found. Return to Keystone Realty Advisor homepage."
         noIndex={true}
       />
       <div className="container" style={{ maxWidth: '540px', textAlign: 'center' }}>

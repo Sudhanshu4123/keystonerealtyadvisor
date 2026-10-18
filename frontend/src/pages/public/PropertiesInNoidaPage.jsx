@@ -6,6 +6,7 @@ import PropertyGrid from '../../components/property/PropertyGrid';
 import Pagination from '../../components/common/Pagination';
 import SEO from '../../components/common/SEO';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
+import LocationGuide from '../../components/common/LocationGuide';
 
 export default function PropertiesInNoidaPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -157,9 +158,8 @@ export default function PropertiesInNoidaPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Luxury Properties in Noida | Keystone Realty Advisor"
-        description="Search verified properties in Noida & Greater Noida. Explore luxury 2, 3, 4 BHK apartments and commercial real estate on Noida Expressway & Sector 150."
-        keywords="properties in noida, flats in noida, buy property in noida, noida expressway apartments, commercial property noida, Keystone Realty"
+        title="Properties in Noida & Greater Noida | Keystone Realty"
+        description="Search apartments and commercial property in Noida and Greater Noida by sector, budget and BHK, then enquire to arrange a viewing."
         canonicalUrl="/properties-in-noida"
         geoPlacename="Noida"
         geoRegion="IN-UP"
@@ -172,8 +172,9 @@ export default function PropertiesInNoidaPage() {
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
           name: 'Properties in Noida',
-          description: 'Explore verified residential and commercial properties in Noida and Greater Noida.',
+          description: 'Apartments and commercial property listed in Noida and Greater Noida.',
           url: 'https://keystonerealtyadvisor.com/properties-in-noida',
+          isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
         }}
       />
       <div className="container">
@@ -208,7 +209,7 @@ export default function PropertiesInNoidaPage() {
           properties={properties}
           loading={loading}
           emptyTitle="No active properties found in Noida right now."
-          emptyDescription="We are currently onboarding and verifying new properties in Noida. Any new Noida listing added will automatically appear here."
+          emptyDescription="There are no active listings in Noida at the moment. New listings appear here as they are added, or send an enquiry and an advisor will get back to you."
           columns={3}
         />
 
@@ -222,6 +223,8 @@ export default function PropertiesInNoidaPage() {
             onPageChange={handlePageChange}
           />
         )}
+
+        <LocationGuide cityKey="noida" displayCity="Noida" listingType="SALE" />
 
         {/* Contextual Link Weaving: Related Searches & Regional Markets */}
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>

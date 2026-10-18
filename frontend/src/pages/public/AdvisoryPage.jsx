@@ -7,41 +7,31 @@ export default function AdvisoryPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))' }}>
       <SEO
-        title="Real Estate Advisory & Consultancy | Keystone Realty"
-        description="Institutional real estate advisory in Delhi NCR: bespoke luxury acquisitions, corporate leasing strategy, asset valuation and transaction due diligence."
+        title="Property Advisory Services | Keystone Realty Advisor"
+        description="Property acquisition advice, commercial leasing strategy, valuation support and transaction due diligence in Delhi NCR from Keystone Realty Advisor."
         canonicalUrl="/advisory"
-        keywords="real estate advisory services, property consultancy, commercial leasing advisor, asset valuation, luxury home acquisition, Keystone Realty Advisor"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Advisory Services', path: '/advisory' },
         ]}
         schema={{
           '@context': 'https://schema.org',
-          '@type': 'ProfessionalService',
-          name: 'Keystone Realty Advisory Practice',
-          description: 'Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and transaction execution.',
+          '@type': 'WebPage',
+          name: 'Property Advisory Services',
           url: 'https://keystonerealtyadvisor.com/advisory',
-          telephone: '+919911956274',
-          email: 'keystonexhelpdeskp@gmail.com',
-          address: {
-            '@type': 'PostalAddress',
-            addressCountry: 'IN'
-          },
-          areaServed: {
-            '@type': 'Country',
-            name: 'India'
-          }
+          isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
+          about: { '@id': 'https://keystonerealtyadvisor.com/#organization' },
         }}
       />
       {/* Header Banner */}
       <section style={{ backgroundColor: 'var(--color-dark-950)', color: '#FFFFFF', padding: '4.5rem 0', borderBottom: '1px solid #1E293B' }}>
         <div className="container" style={{ textAlign: 'center', maxWidth: '800px' }}>
-          <span className="section-subtitle">Core Advisory Practice</span>
+          <span className="section-subtitle">Advisory Services</span>
           <h1 style={{ fontSize: '2.75rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1rem', letterSpacing: '-0.02em' }}>
-            Institutional Real Estate Advisory & Consultancy
+            Real Estate Advisory & Consultancy
           </h1>
           <p style={{ fontSize: '1.0625rem', color: '#94A3B8', lineHeight: 1.65 }}>
-            Keystone Realty Advisor delivers institutional-grade property strategy, strategic acquisition guidance, and end-to-end transaction governance for private individuals, family offices, and commercial enterprises.
+            Keystone Realty Advisor advises individuals, investors and businesses on buying, leasing and valuing residential and commercial property.
           </p>
         </div>
       </section>

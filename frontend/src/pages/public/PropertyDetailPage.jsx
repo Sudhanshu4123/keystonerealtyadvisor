@@ -9,8 +9,8 @@ import ImageGallery from '../../components/property/ImageGallery';
 import PropertyEnquiryModal from '../../components/property/PropertyEnquiryModal';
 import Badge from '../../components/common/Badge';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
-import SEO from '../../components/common/SEO';
 import EmptyState from '../../components/common/EmptyState';
+import SEO from '../../components/common/SEO';
 import { getPropertySlug } from '../../utils/slugify';
 import {
   Bed,
@@ -55,10 +55,10 @@ import {
 } from 'lucide-react';
 
 export default function PropertyDetailPage() {
-  const { id: routeId, slug: routeSlug } = useParams();
+  const { id: routeParam } = useParams();
   const [searchParams] = useSearchParams();
   const queryId = searchParams.get('id');
-  const identifier = routeSlug || routeId || queryId;
+  const identifier = routeParam || queryId;
 
   const { isAuthenticated } = useAuth();
   const { success, error, info } = useToast();
@@ -71,8 +71,10 @@ export default function PropertyDetailPage() {
   useEffect(() => {
     async function loadProperty() {
       setLoading(true);
+      setProperty(null);
       try {
-        const res = await propertyService.getPropertyByIdOrSlug(identifier);
+        // The API resolves both numeric ids and slugs (PropertyService.getPropertyByIdOrSlug).
+        const res = await propertyService.getPropertyById(identifier);
         if (res.success && res.data) {
           setProperty(res.data);
           setIsFavorite(res.data.isFavorite || false);
@@ -85,6 +87,9 @@ export default function PropertyDetailPage() {
     }
     if (identifier) {
       loadProperty();
+    } else {
+      // /property with no ?id= : nothing to load, so show the not-found state instead of "Loading…" forever.
+      setLoading(false);
     }
   }, [identifier]);
 
@@ -122,6 +127,7 @@ export default function PropertyDetailPage() {
   if (!property) {
     return (
       <div className="container" style={{ padding: '5rem 0' }}>
+        <SEO title="Property Not Found" description="This property listing is no longer available." noIndex={true} />
         <EmptyState
           title="Property Not Found"
           description="The requested listing may have been unlisted, sold, or moved."
@@ -137,61 +143,101 @@ export default function PropertyDetailPage() {
   if (property.status === 'UNDER_OFFER') statusBadgeVariant = 'warning';
   if (property.status === 'SOLD' || property.status === 'RENTED') statusBadgeVariant = 'danger';
 
+  const TYPE_LABELS = {
+    APARTMENT: 'Flat', STUDIO: 'Studio', INDEPENDENT_HOUSE: 'Independent House', DUPLEX: 'Duplex',
+    INDEPENDENT_FLOOR: 'Builder Floor', VILLA: 'Villa', FARM_HOUSE: 'Farm House', PENTHOUSE: 'Penthouse',
+    TOWNHOUSE: 'Townhouse', ESTATE: 'Estate', COMMERCIAL: 'Commercial Space', OFFICE: 'Office Space',
+    RETAIL_SHOP: 'Retail Shop', LAND: 'Land', PLOT: 'Plot',
+  };
+  const ACTION_LABELS = { SALE: 'for Sale', RENT: 'for Rent', LEASE: 'for Lease', PG_CO_LIVING: '' };
   const bhkPrefix = property.bedrooms ? `${property.bedrooms} BHK ` : '';
-  const rawType = property.propertyType === 'INDEPENDENT_FLOOR' ? 'Floor' : (property.propertyType ? property.propertyType.replace(/_/g, ' ') : 'Property');
-  const actionName = property.listingType === 'RENT' ? 'for Rent' : 'for Sale';
-  const primeLoc = property.societyName || property.location || property.city || 'Gurgaon';
-  
-  // Format concise title strictly between 50 and 60 characters
-  const baseTitle = `${bhkPrefix}${rawType} ${actionName} in `;
-  let suffix = ' | Keystone Realty';
-  let maxLocLen = Math.max(60 - baseTitle.length - suffix.length, 5);
-  const cleanLoc = primeLoc.length > maxLocLen ? primeLoc.slice(0, maxLocLen - 3).trim() + '...' : primeLoc;
-  let pageTitle = `${baseTitle}${cleanLoc}${suffix}`;
-  if (pageTitle.length < 50) {
-    pageTitle = `${baseTitle}${cleanLoc} | Keystone Realty Advisor`;
-  }
-  if (pageTitle.length > 60) {
-    pageTitle = `${pageTitle.slice(0, 57)}...`;
-  }
+  const typeLabel = TYPE_LABELS[property.propertyType] || 'Property';
+  const actionLabel = ACTION_LABELS[property.listingType] ?? '';
+  // Only use location data the listing actually has; never substitute a default city.
+  const primeLoc = property.societyName || property.location || property.city || '';
 
-  // Professional Meta Description (strictly 135 - 155 chars)
-  const descBhk = property.bedrooms ? `${property.bedrooms} BHK ` : '';
-  const descType = (property.propertyType || 'Apartment').replace(/_/g, ' ').toLowerCase();
-  const descAction = property.listingType === 'RENT' ? 'rent' : 'sale';
-  const descSoc = property.societyName ? `${property.societyName}, ` : '';
-  const descLoc = property.location || property.city || 'Delhi NCR';
+  // Title: "<BHK> <Type> for <Sale|Rent> in <Location> | Keystone Realty", kept to about 60 characters.
+  const titleSuffix = ' | Keystone Realty';
+  const titleBase = `${bhkPrefix}${typeLabel}${actionLabel ? ` ${actionLabel}` : ''}`;
+  const withLoc = primeLoc ? `${titleBase} in ` : titleBase;
+  const maxLocLen = Math.max(60 - withLoc.length - titleSuffix.length, 0);
+  const cleanLoc = !primeLoc ? '' : primeLoc.length > maxLocLen ? `${primeLoc.slice(0, Math.max(maxLocLen - 1, 0)).trim()}…` : primeLoc;
+  const pageTitle = maxLocLen >= 6 || !primeLoc ? `${withLoc}${cleanLoc}${titleSuffix}` : `${titleBase}${titleSuffix}`;
 
-  let rawPlace = `${descSoc}${descLoc}`;
-  if (rawPlace.length > 40) {
-    rawPlace = rawPlace.slice(0, 37) + '...';
-  }
-
-  let pageDesc = `Explore verified ${descBhk}${descType} for ${descAction} in ${rawPlace}. 100% verified legal title, prime amenities & expert support by Keystone Realty Advisor.`;
+  // Description: states only facts present on the listing, no verification or approval claims.
+  const descPlaceParts = [property.societyName, property.location, property.city].filter(Boolean);
+  const descPlace = descPlaceParts.filter((v, i) => descPlaceParts.indexOf(v) === i).join(', ');
+  const descAction = ACTION_LABELS[property.listingType] ? ` ${ACTION_LABELS[property.listingType]}` : '';
+  let pageDesc = `${bhkPrefix}${typeLabel}${descAction}${descPlace ? ` in ${descPlace}` : ''}. Request details or arrange a viewing with Keystone Realty Advisor.`;
   if (pageDesc.length > 155) {
-    pageDesc = `Explore verified ${descBhk}${descType} for ${descAction} in ${rawPlace}. Clear title, prime amenities & advisor support with Keystone Realty.`;
+    pageDesc = `${bhkPrefix}${typeLabel}${descAction}${property.location || property.city ? ` in ${property.location || property.city}` : ''}. Request details or a viewing with Keystone Realty Advisor.`;
   }
   if (pageDesc.length > 155) {
-    pageDesc = `Verified ${descBhk}${descType} for ${descAction} in ${rawPlace}. Clear legal title, luxury amenities & advisor support by Keystone Realty.`;
-  }
-  if (pageDesc.length > 155) {
-    pageDesc = pageDesc.slice(0, 152).trim() + '...';
+    pageDesc = `${pageDesc.slice(0, 152).trim()}...`;
   }
 
-  const canonicalPath = property.slug ? `/properties/${property.slug}` : `/properties/${property.id}`;
+  const slugOrId = property.slug || property.id;
+  const canonicalPath = `/properties/${slugOrId}`;
   const canonicalFullUrl = `https://keystonerealtyadvisor.com${canonicalPath}`;
-  const schemaType = property.propertyType === 'VILLA' || property.propertyType === 'INDEPENDENT_FLOOR' ? 'House' : 'Apartment';
-  const schemaImage = property.images?.[0]?.url || property.images?.[0]?.imagePath || 'https://keystonerealtyadvisor.com/keystone-logo.png';
-  const absoluteSchemaImage = schemaImage.startsWith('http') ? schemaImage : `https://keystonerealtyadvisor.com${schemaImage.startsWith('/') ? schemaImage : `/${schemaImage}`}`;
+  const toAbsolute = (u) => (!u ? null : u.startsWith('http') ? u : `https://keystonerealtyadvisor.com${u.startsWith('/') ? u : `/${u}`}`);
+  const firstImage = property.images?.[0]?.url || property.images?.[0]?.imagePath || property.primaryImageUrl || null;
+  const absoluteSchemaImage = toAbsolute(firstImage);
+  const hasListingPhoto = Boolean(absoluteSchemaImage);
+  const isOffMarket = ['SOLD', 'RENTED', 'OFF_MARKET'].includes(property.status);
+
+  // Structured data: only fields that exist on the listing are emitted (no placeholder price, size, rooms or address).
+  const area = property.builtUpArea || property.carpetArea || property.area;
+  const aboutSchemaType = ['VILLA', 'INDEPENDENT_HOUSE', 'FARM_HOUSE', 'TOWNHOUSE', 'ESTATE'].includes(property.propertyType) ? 'House'
+    : ['APARTMENT', 'STUDIO', 'PENTHOUSE', 'DUPLEX', 'INDEPENDENT_FLOOR'].includes(property.propertyType) ? 'Apartment' : null;
+  const addressNode = (property.location || property.city || property.societyName) ? {
+    '@type': 'PostalAddress',
+    ...(property.societyName ? { streetAddress: property.societyName } : {}),
+    ...(property.location ? { addressLocality: property.location } : {}),
+    ...(property.city ? { addressRegion: property.city } : {}),
+    addressCountry: 'IN',
+  } : null;
+  const listingSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    '@id': `${canonicalFullUrl}#listing`,
+    name: property.title,
+    url: canonicalFullUrl,
+    description: pageDesc,
+    ...(absoluteSchemaImage ? { image: absoluteSchemaImage } : {}),
+    ...(property.createdAt ? { datePosted: String(property.createdAt).slice(0, 10) } : {}),
+    ...(property.updatedAt ? { dateModified: String(property.updatedAt).slice(0, 10) } : {}),
+    ...(aboutSchemaType ? {
+      about: {
+        '@type': aboutSchemaType,
+        name: property.title,
+        ...(property.bedrooms ? { numberOfBedrooms: property.bedrooms } : {}),
+        ...(property.bathrooms ? { numberOfBathroomsTotal: property.bathrooms } : {}),
+        ...(area ? { floorSize: { '@type': 'QuantitativeValue', value: area, unitCode: 'FTK' } } : {}),
+        ...(addressNode ? { address: addressNode } : {}),
+      },
+    } : {}),
+    // Offers only for sale listings that have a price. Rental period is not in the data model, so rent is not marked up.
+    ...(property.listingType === 'SALE' && Number(property.price) > 0 ? {
+      offers: {
+        '@type': 'Offer',
+        price: Number(property.price),
+        priceCurrency: 'INR',
+        url: canonicalFullUrl,
+        ...(property.status === 'AVAILABLE' ? { availability: 'https://schema.org/InStock' } : {}),
+        ...(property.status === 'SOLD' ? { availability: 'https://schema.org/SoldOut' } : {}),
+      },
+    } : {}),
+  };
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
         title={pageTitle}
         description={pageDesc}
-        keywords={`${property.title}, ${property.propertyType || 'Property'}, ${property.city || ''}, ${property.location || ''}, buy property, real estate advisor`}
         canonicalUrl={canonicalPath}
-        ogImage={absoluteSchemaImage}
+        noIndex={isOffMarket}
+        ogImage={absoluteSchemaImage || undefined}
+        twitterCard={hasListingPhoto ? 'summary_large_image' : 'summary'}
         geoPlacename={property.location && property.city ? `${property.location}, ${property.city}, India` : (property.city ? `${property.city}, India` : (property.location ? `${property.location}, India` : null))}
         locality={property.city || property.location || null}
         breadcrumbs={[
@@ -199,49 +245,7 @@ export default function PropertyDetailPage() {
           { name: 'Properties', path: '/properties' },
           { name: property.title, path: canonicalPath },
         ]}
-        schema={(() => {
-          const s = {
-            '@context': 'https://schema.org',
-            '@type': schemaType,
-            name: property.title || `${descBhk}${descType} in ${rawPlace}`,
-            description: pageDesc,
-            url: canonicalFullUrl,
-            image: absoluteSchemaImage,
-          };
-          if (property.bedrooms) {
-            s.numberOfRooms = Number(property.bedrooms);
-          }
-          if (property.bathrooms) {
-            s.numberOfBathroomsTotal = Number(property.bathrooms);
-          }
-          const floorArea = property.builtUpArea || property.carpetArea || property.area;
-          if (floorArea && Number(floorArea) > 0) {
-            s.floorSize = {
-              '@type': 'QuantitativeValue',
-              value: Number(floorArea),
-              unitCode: 'FTK'
-            };
-          }
-          if (property.societyName || property.location || property.city) {
-            s.address = {
-              '@type': 'PostalAddress',
-              addressCountry: 'IN'
-            };
-            if (property.societyName) s.address.streetAddress = property.societyName;
-            if (property.location) s.address.addressLocality = property.location;
-            if (property.city) s.address.addressRegion = property.city;
-          }
-          if (property.price && Number(property.price) > 0) {
-            s.offers = {
-              '@type': 'Offer',
-              price: Number(property.price),
-              priceCurrency: 'INR',
-              availability: property.status === 'AVAILABLE' ? 'https://schema.org/InStock' : 'https://schema.org/SoldOut',
-              url: canonicalFullUrl
-            };
-          }
-          return s;
-        })()}
+        schema={listingSchema}
       />
       <div className="container">
         {/* Semantic Breadcrumbs */}
@@ -1077,9 +1081,9 @@ export default function PropertyDetailPage() {
               </h3>
               <div style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.9375rem', whiteSpace: 'pre-line' }}>
                 {property.description || (
-                  `This verified ${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType?.replace(/_/g, ' ') || 'property'} is available for ${property.listingType === 'RENT' ? 'lease' : 'acquisition'} in ${property.location || property.city || 'a prime micro-market'}. ` +
-                  `Featuring ${property.builtUpArea || property.area || 'spacious'} sq ft of thoughtfully planned layout, ${property.furnished?.replace(/_/g, ' ').toLowerCase() || 'standard'} interiors, and verified clear-title documentation. ` +
-                  `For comprehensive legal due diligence, title records, or to schedule a confidential private inspection, connect directly with our advisory desk.`
+                  `${property.bedrooms ? `${property.bedrooms} BHK ` : ''}${property.propertyType?.replace(/_/g, ' ').toLowerCase() || 'property'} ${property.listingType === 'RENT' ? 'for rent' : 'for sale'}${property.location || property.city ? ` in ${property.location || property.city}` : ''}.` +
+                  `${property.builtUpArea || property.area ? ` Area: ${property.builtUpArea || property.area} sq ft.` : ''}` +
+                  ` To ask about documents, availability or a site visit, contact our advisory desk.`
                 )}
               </div>
             </div>
@@ -1169,7 +1173,7 @@ export default function PropertyDetailPage() {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-                <img src="/keystone-logo.svg" alt="Keystone Realty Advisor" width="32" height="32" style={{ width: '32px', height: '32px' }} />
+                <img src="/keystone-logo.svg" alt="Keystone Realty Advisor logo" width="32" height="32" style={{ width: '32px', height: '32px' }} />
                 <div>
                   <div style={{ fontWeight: 700, fontSize: '0.9375rem', lineHeight: 1.1 }}>KEYSTONE REALTY ADVISOR</div>
                   <div style={{ fontSize: '0.6875rem', color: 'var(--color-gold-600)', textTransform: 'uppercase', fontWeight: 600 }}>
@@ -1193,7 +1197,7 @@ export default function PropertyDetailPage() {
                 </button>
 
                 <a
-                  href={`https://api.whatsapp.com/send/?phone=919911956274&text=${encodeURIComponent(`Hello Keystone Realty Advisor, I am interested in: ${property.title} (Ref #${property.id})${property.location || property.city ? ` located in ${property.location ? `${property.location}, ` : ''}${property.city || ''}` : ''}. Please share verified details.`)}`}
+                  href={`https://api.whatsapp.com/send/?phone=919911956274&text=${encodeURIComponent(`Hello Keystone Realty Advisor, I am interested in: ${property.title} (Ref #${property.id})${property.location || property.city ? ` located in ${property.location ? `${property.location}, ` : ''}${property.city || ''}` : ''}. Please share the details.`)}`}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
                   className="btn btn-block"
@@ -1226,7 +1230,7 @@ export default function PropertyDetailPage() {
               <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem', fontSize: '0.8125rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <ShieldCheck size={16} color="var(--color-gold-500)" />
-                  <span>100% Title Verified & Discretion Guaranteed</span>
+                  <span>Your enquiry goes directly to an advisor</span>
                 </div>
                 <a
                   href="tel:+919911956274"

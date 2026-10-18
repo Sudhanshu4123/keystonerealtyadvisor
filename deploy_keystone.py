@@ -4,11 +4,21 @@ import tarfile
 import time
 import sys
 
+import getpass
+
 sys.stdout.reconfigure(encoding='utf-8', line_buffering=True)
 
 hostname = "187.127.134.114"
 username = "root"
-password = "Shrishyam@2026#"
+password = os.environ.get("DEPLOY_PASSWORD")
+if not password:
+    if len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
+        password = sys.argv[1]
+    elif sys.stdin.isatty():
+        password = getpass.getpass("Enter VPS root password: ")
+    else:
+        print("ERROR: Please set DEPLOY_PASSWORD environment variable or pass password as argument.")
+        sys.exit(1)
 
 remote_dir = "/opt/keystone"
 local_base = r"c:\Users\sanje\Downloads\keystone"

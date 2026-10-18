@@ -112,10 +112,9 @@ export default function ProjectsPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
-        title="New Projects in Delhi NCR | Keystone Realty Advisor"
-        description="Explore verified new launch luxury apartments, commercial hubs & townships in Gurgaon, Delhi & Noida with verified RERA approvals & pricing."
+        title="New Residential & Commercial Projects | Keystone Realty"
+        description="Browse residential, commercial and plotted projects in Delhi NCR, with developer, location, configuration and price details where available."
         canonicalUrl="/projects"
-        keywords="real estate projects, luxury apartments, new residential projects, commercial towers, RERA approved projects, Keystone Realty Advisor"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Projects', path: '/projects' },
@@ -123,9 +122,9 @@ export default function ProjectsPage() {
         schema={{
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: 'Luxury Real Estate Development Projects',
-          description: 'Explore verified residential, commercial, villa, and plotted developments.',
-          url: 'https://keystonerealtyadvisor.com/projects'
+          name: 'Real Estate Projects in Delhi NCR',
+          url: 'https://keystonerealtyadvisor.com/projects',
+          isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
         }}
       />
       <div className="container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 1.5rem' }}>
@@ -140,7 +139,7 @@ export default function ProjectsPage() {
             <span>Development Portfolio</span>
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.02em' }}>
-            Luxury Real Estate Projects & Developments
+            Real Estate Projects in Delhi NCR
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: '1rem', maxWidth: '650px' }}>
             Explore verified residential, commercial, villa, and plotted developments managed and advised by Keystone Realty Advisor.

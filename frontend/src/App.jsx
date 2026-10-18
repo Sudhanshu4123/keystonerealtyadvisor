@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 
@@ -31,6 +31,7 @@ import PropertiesInNoidaPage from './pages/public/PropertiesInNoidaPage';
 
 // Programmatic SEO Master Landing Page
 import ProgrammaticLandingPage from './pages/public/ProgrammaticLandingPage';
+import { PROGRAMMATIC_PAGES, PROGRAMMATIC_ALIASES, CITY_PAGE_ALIASES } from './utils/programmaticSeoConfig';
 
 // Auth Pages
 import LoginPage from './pages/auth/LoginPage';
@@ -51,6 +52,12 @@ import AdminPropertyFormPage from './pages/admin/AdminPropertyFormPage';
 import AdminEnquiriesPage from './pages/admin/AdminEnquiriesPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 
+// /properties/slug/:slug and /projects/slug/:slug are legacy duplicates of /properties/:slug and /projects/:slug.
+function LegacySlugRedirect({ base }) {
+  const { slug } = useParams();
+  return <Navigate to={`${base}/${slug}`} replace />;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -62,50 +69,28 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/properties" element={<PropertiesPage />} />
               
-              {/* City Landing Pages */}
+              {/* City hub pages (primary URLs) */}
               <Route path="/properties-in-delhi" element={<PropertiesInDelhiPage />} />
-              <Route path="/flats-in-delhi" element={<PropertiesInDelhiPage />} />
               <Route path="/properties-in-gurugram" element={<PropertiesInGurugramPage />} />
-              <Route path="/properties-in-gurgaon" element={<PropertiesInGurugramPage />} />
-              <Route path="/flats-in-gurugram" element={<PropertiesInGurugramPage />} />
-              <Route path="/flats-in-gurgaon" element={<PropertiesInGurugramPage />} />
               <Route path="/properties-in-noida" element={<PropertiesInNoidaPage />} />
-              <Route path="/flats-in-noida" element={<PropertiesInNoidaPage />} />
               <Route path="/flats-for-rent-in-gurugram" element={<FlatsForRentGurugramPage />} />
-              <Route path="/flats-for-rent-in-gurgaon" element={<FlatsForRentGurugramPage />} />
 
-              {/* Programmatic High-Intent SEO Routes */}
-              <Route path="/flats-for-sale-in-gurugram" element={<ProgrammaticLandingPage presetSlug="flats-for-sale-in-gurugram" />} />
-              <Route path="/flats-for-sale-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="flats-for-sale-in-gurugram" />} />
-              <Route path="/flats-for-sale-in-delhi" element={<ProgrammaticLandingPage presetSlug="flats-for-sale-in-delhi" />} />
-              <Route path="/flats-for-sale-in-noida" element={<ProgrammaticLandingPage presetSlug="flats-for-sale-in-noida" />} />
-              <Route path="/flats-for-rent-in-delhi" element={<ProgrammaticLandingPage presetSlug="flats-for-rent-in-delhi" />} />
-              <Route path="/flats-for-rent-in-noida" element={<ProgrammaticLandingPage presetSlug="flats-for-rent-in-noida" />} />
-              
-              <Route path="/3-bhk-flats-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="3-bhk-flats-in-gurgaon" />} />
-              <Route path="/3-bhk-flats-in-gurugram" element={<ProgrammaticLandingPage presetSlug="3-bhk-flats-in-gurgaon" />} />
-              <Route path="/2-bhk-flats-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="2-bhk-flats-in-gurgaon" />} />
-              <Route path="/2-bhk-flats-in-gurugram" element={<ProgrammaticLandingPage presetSlug="2-bhk-flats-in-gurgaon" />} />
-              <Route path="/4-bhk-flats-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="4-bhk-flats-in-gurgaon" />} />
-              <Route path="/4-bhk-flats-in-gurugram" element={<ProgrammaticLandingPage presetSlug="4-bhk-flats-in-gurgaon" />} />
-              
-              <Route path="/luxury-villas-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="luxury-villas-in-gurgaon" />} />
-              <Route path="/luxury-villas-in-gurugram" element={<ProgrammaticLandingPage presetSlug="luxury-villas-in-gurgaon" />} />
-              <Route path="/luxury-villas-in-delhi" element={<ProgrammaticLandingPage presetSlug="luxury-villas-in-delhi" />} />
-              <Route path="/builder-floors-in-delhi" element={<ProgrammaticLandingPage presetSlug="builder-floors-in-delhi" />} />
-              <Route path="/builder-floors-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="builder-floors-in-gurgaon" />} />
-              <Route path="/commercial-properties-in-gurgaon" element={<ProgrammaticLandingPage presetSlug="commercial-properties-in-gurgaon" />} />
-              <Route path="/commercial-properties-in-delhi" element={<ProgrammaticLandingPage presetSlug="commercial-properties-in-delhi" />} />
-              
-              {/* Universal Programmatic Explorer Route */}
-              <Route path="/explore/:slug" element={<ProgrammaticLandingPage />} />
+              {/* Programmatic landing pages: generated from PROGRAMMATIC_PAGES (single source of truth) */}
+              {PROGRAMMATIC_PAGES.map((slug) => (
+                <Route key={slug} path={`/${slug}`} element={<ProgrammaticLandingPage presetSlug={slug} />} />
+              ))}
+
+              {/* Duplicate spellings redirect to their primary URL (nginx also sends a real 301 in production) */}
+              {Object.entries({ ...CITY_PAGE_ALIASES, ...PROGRAMMATIC_ALIASES }).map(([from, to]) => (
+                <Route key={from} path={`/${from}`} element={<Navigate to={`/${to}`} replace />} />
+              ))}
 
               <Route path="/properties/:id" element={<PropertyDetailPage />} />
-              <Route path="/properties/slug/:slug" element={<PropertyDetailPage />} />
+              <Route path="/properties/slug/:slug" element={<LegacySlugRedirect base="/properties" />} />
               <Route path="/property" element={<PropertyDetailPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/projects/:id" element={<ProjectDetailPage />} />
-              <Route path="/projects/slug/:slug" element={<ProjectDetailPage />} />
+              <Route path="/projects/slug/:slug" element={<LegacySlugRedirect base="/projects" />} />
               <Route path="/advisory" element={<AdvisoryPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/terms" element={<TermsPage />} />

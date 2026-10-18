@@ -58,10 +58,9 @@ export default function ContactPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3.5rem 0 5rem' }}>
       <SEO
-        title="Contact Keystone Realty Advisor | Gurgaon & Delhi NCR"
-        description="Schedule a confidential consultation with Keystone Realty Advisor. Direct phone +91 9911956274 for verified property advice, buying and site inspections."
+        title="Contact Keystone Realty Advisor | Delhi NCR"
+        description="Call +91 9911956274 or send an enquiry to talk to an advisor about buying, renting or leasing property in Delhi NCR."
         canonicalUrl="/contact"
-        keywords="contact real estate advisor, property consultation, Keystone Realty Advisor phone, property enquiry, real estate help desk"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Contact Us', path: '/contact' },
@@ -70,31 +69,17 @@ export default function ContactPage() {
           '@context': 'https://schema.org',
           '@type': 'ContactPage',
           name: 'Contact Keystone Realty Advisor',
-          description: 'Get in touch with Keystone Realty Advisor for transparent real estate consultation and property advisory services.',
           url: 'https://keystonerealtyadvisor.com/contact',
-          mainEntity: {
-            '@type': 'RealEstateAgent',
-            name: 'Keystone Realty Advisor',
-            telephone: '+919911956274',
-            email: 'keystonexhelpdeskp@gmail.com',
-            address: {
-              '@type': 'PostalAddress',
-              addressCountry: 'IN'
-            },
-            areaServed: {
-              '@type': 'Country',
-              name: 'India'
-            },
-            openingHours: 'Mo-Sa 09:30-19:00'
-          }
+          isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
+          about: { '@id': 'https://keystonerealtyadvisor.com/#organization' },
         }}
       />
       <div className="container">
         <div style={{ maxWidth: '640px', margin: '0 auto 3rem', textAlign: 'center' }}>
           <span className="section-subtitle">Get in Touch</span>
-          <h1 className="section-title">Advisory Desk & Consultations</h1>
+          <h1 className="section-title">Contact Keystone Realty Advisor</h1>
           <p className="section-description">
-            Schedule a confidential consultation or submit an inquiry regarding our properties, acquisitions, or commercial advisory services.
+            Send an enquiry about a property, or ask for a consultation on buying, renting or leasing residential and commercial property.
           </p>
         </div>
 
@@ -192,7 +177,7 @@ export default function ContactPage() {
                   <span>{submitting ? 'Connecting...' : 'Request Advisory Consultation'}</span>
                 </button>
                 <div style={{ textAlign: 'center', marginTop: '0.75rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  🔒 100% Confidential • Direct Senior Advisor Desk • Zero Spam
+                  Your enquiry goes directly to an advisor
                 </div>
               </form>
             )}

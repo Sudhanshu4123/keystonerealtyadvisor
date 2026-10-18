@@ -1,203 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <!-- Homepage -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://keystonerealtyadvisor.com/keystone-logo.png</image:loc>
-      <image:title>Keystone Realty Advisor</image:title>
-    </image:image>
-  </url>
-
-  <!-- Properties Listing -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/properties</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- High-Intent SEO Landing Pages -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/properties-in-delhi</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-
-  <url>
-    <loc>https://keystonerealtyadvisor.com/properties-in-gurugram</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-
-  <url>
-    <loc>https://keystonerealtyadvisor.com/properties-in-noida</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-
-  <!-- High-Intent SEO Landing Page: Flats for Rent in Gurugram -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/flats-for-rent-in-gurugram</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-
-  <!-- High-Intent Programmatic SEO Landing Pages -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/flats-for-sale-in-gurugram</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/flats-for-sale-in-delhi</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/flats-for-sale-in-noida</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/flats-for-rent-in-delhi</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/flats-for-rent-in-noida</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/3-bhk-flats-in-gurgaon</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/2-bhk-flats-in-gurgaon</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/4-bhk-flats-in-gurgaon</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/luxury-villas-in-gurgaon</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/luxury-villas-in-delhi</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/builder-floors-in-delhi</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/builder-floors-in-gurgaon</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/commercial-properties-in-gurgaon</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-  <url>
-    <loc>https://keystonerealtyadvisor.com/commercial-properties-in-delhi</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
-  </url>
-
-  <!-- Projects Listing -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/projects</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Featured Project Landing Page -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/projects/conscient-parq-sector-80-gurgaon</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- Real Estate Advisory Services -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/advisory</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Contact & Consultation -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/contact</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Terms & Conditions -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/terms</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <!-- Privacy Policy -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/privacy</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <!-- HTML Sitemap -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/sitemap</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Semantic Entity Map & Knowledge Graph -->
-  <url>
-    <loc>https://keystonerealtyadvisor.com/entity-map</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
+<!-- Static FALLBACK, served only if the API sitemap (SitemapController) is unreachable.
+     It lists the fixed pages only; listing and project URLs come from the API sitemap.
+     Generated from the same list as SitemapController.INDEXABLE_STATIC_PATHS; `npm run seo:check` verifies they match. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://keystonerealtyadvisor.com/</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/properties</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/properties-in-delhi</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/properties-in-gurugram</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/properties-in-noida</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/flats-for-rent-in-gurugram</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/flats-for-sale-in-gurugram</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/flats-for-sale-in-delhi</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/flats-for-sale-in-noida</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/flats-for-rent-in-delhi</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/flats-for-rent-in-noida</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/3-bhk-flats-in-gurgaon</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/2-bhk-flats-in-gurgaon</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/4-bhk-flats-in-gurgaon</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/luxury-villas-in-gurgaon</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/luxury-villas-in-delhi</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/builder-floors-in-delhi</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/builder-floors-in-gurgaon</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/commercial-properties-in-gurgaon</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/commercial-properties-in-delhi</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/projects</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/advisory</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/contact</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/terms</loc></url>
+  <url><loc>https://keystonerealtyadvisor.com/privacy</loc></url>
 </urlset>

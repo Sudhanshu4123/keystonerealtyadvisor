@@ -164,7 +164,7 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
                   background: 'none',
                 }}
               >
-                <img
+                <img loading="lazy" decoding="async"
                   src={thumbSrc}
                   alt={`Thumbnail ${idx + 1}`}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}

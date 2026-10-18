@@ -32,10 +32,9 @@ export default function EntityMapPage() {
       type: 'RealEstateAgent & Advisory Practice',
       category: 'organization',
       categoryLabel: 'Core Organization',
-      description: 'Independent professional real estate advisory, institutional acquisitions, and corporate leasing practice operating across Delhi NCR, India.',
+      description: 'Real estate advisory practice for residential and commercial property in Delhi NCR, India.',
       wikidataUrl: null,
       relationships: [
-        { rel: 'headquartersIn', target: 'Gurugram, Haryana, India' },
         { rel: 'operatesIn', target: 'Delhi, Gurugram, Noida, Greater Noida' },
         { rel: 'providesService', target: 'Residential Acquisition, Commercial Leasing, Asset Valuation, NRI Advisory' },
         { rel: 'compliesWith', target: 'Haryana Real Estate Regulatory Authority (HRERA)' },
@@ -121,7 +120,7 @@ export default function EntityMapPage() {
       type: 'Prime Luxury Arterial Corridor',
       category: 'corridors',
       categoryLabel: 'Infrastructure Corridors',
-      description: 'Premier ultra-luxury residential and Grade-A commercial corridor encompassing Sectors 58 through 68 and Southern Peripheral Road in Gurugram.',
+      description: 'Residential and commercial corridor encompassing Sectors 58 through 68 and Southern Peripheral Road in Gurugram.',
       wikidataUrl: null,
       relationships: [
         { rel: 'connects', target: 'Golf Course Road, Sohna Elevated Corridor, NH-48' },
@@ -164,7 +163,7 @@ export default function EntityMapPage() {
       type: 'Public Real Estate Corporation',
       category: 'developers',
       categoryLabel: 'Developer Brand Entities',
-      description: 'Real estate development arm of the Godrej Group conglomerate, known for sustainable green building certifications and Tier-1 residential communities.',
+      description: 'Real estate development arm of the Godrej Group conglomerate, with residential projects across Indian cities.',
       wikidataUrl: 'https://www.wikidata.org/wiki/Q5579361',
       wikipediaUrl: 'https://en.wikipedia.org/wiki/Godrej_Properties',
       wikidataId: 'Q5579361',
@@ -179,7 +178,7 @@ export default function EntityMapPage() {
       type: 'Luxury Real Estate Developer',
       category: 'developers',
       categoryLabel: 'Developer Brand Entities',
-      description: 'Premier infrastructure developer delivering world-class residential condominiums, including Conscient Parq (Sector 80 Gurgaon) and Conscient Hines Elevate.',
+      description: 'Real estate developer of residential projects, including Conscient Parq (Sector 80 Gurgaon) and Conscient Hines Elevate.',
       wikidataUrl: null,
       relationships: [
         { rel: 'headquarters', target: 'Gurugram, Haryana, India' },
@@ -215,13 +214,13 @@ export default function EntityMapPage() {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': ['RealEstateAgent', 'Organization'],
+        '@type': ['RealEstateAgent', 'ProfessionalService'],
         '@id': 'https://keystonerealtyadvisor.com/#organization',
         name: 'Keystone Realty Advisor',
         url: 'https://keystonerealtyadvisor.com',
-        logo: 'https://keystonerealtyadvisor.com/keystone-logo.webp',
-        image: 'https://keystonerealtyadvisor.com/keystone-logo.webp',
-        description: 'Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation in Delhi NCR.',
+        logo: 'https://keystonerealtyadvisor.com/keystone-logo.png',
+        image: 'https://keystonerealtyadvisor.com/keystone-logo.png',
+        description: 'Real estate advisory practice for residential and commercial property in Delhi NCR, India.',
         telephone: '+919911956274',
         email: 'keystonexhelpdeskp@gmail.com',
         sameAs: [
@@ -302,14 +301,13 @@ export default function EntityMapPage() {
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', paddingBottom: '5rem' }}>
       <SEO
         title="Entity Map & Knowledge Graph | Keystone Realty Advisor"
-        description="Official Semantic Entity Map of Keystone Realty Advisor. Discover our verified connections across Gurugram, Delhi, Noida, HRERA and Tier-1 developers."
+        description="Reference map of the cities, corridors, developers and regulators that Keystone Realty Advisor works around in Delhi NCR. For visitors; not indexed by search engines."
+        noIndex={true}
         canonicalUrl="/entity-map"
-        keywords="Keystone entity map, Google Knowledge Graph real estate, Keystone Realty entities, Wikidata real estate Gurgaon, HRERA entity mapping"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Entity Map', path: '/entity-map' },
         ]}
-        schema={knowledgeGraphSchema}
       />
 
       {/* Hero Header */}
@@ -364,11 +362,11 @@ export default function EntityMapPage() {
               lineHeight: 1.15,
             }}
           >
-            Official Entity Map & Knowledge Graph
+            Entity Map
           </h1>
 
           <p style={{ fontSize: '1.0625rem', color: '#CBD5E1', lineHeight: 1.6, maxWidth: '740px', margin: '0 auto 2.25rem' }}>
-            A machine-readable and visual map demonstrating Keystone Realty Advisor’s semantic relationships across geographic territories, infrastructure corridors, statutory regulatory bodies, and Tier-1 development corporations.
+            A reference map of the cities, corridors, regulators and developers that Keystone Realty Advisor works around in Delhi NCR.
           </p>
 
           {/* Search & Schema Toggle Bar */}

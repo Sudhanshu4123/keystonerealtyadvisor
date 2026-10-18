@@ -53,7 +53,7 @@ export default function ProjectDetailPage() {
         const data = res?.data || res;
         setProject(data);
         if (data?.name) {
-          document.title = `${data.name} | Keystone Realty Advisor`;
+          // <SEO> below sets the title; no direct document.title write here.
         }
       } catch (err) {
         error('Project details not found or project is not currently published.');
@@ -126,6 +126,7 @@ export default function ProjectDetailPage() {
   if (!project) {
     return (
       <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <SEO title="Project Not Found" description="This project is not available." noIndex={true} />
         <div className="card" style={{ padding: '3rem', textAlign: 'center', maxWidth: '500px' }}>
           <Building2 size={48} color="var(--color-gold-500)" style={{ margin: '0 auto 1.5rem auto' }} />
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>Project Not Found</h1>
@@ -139,6 +140,10 @@ export default function ProjectDetailPage() {
       </div>
     );
   }
+
+  // Several sections below contain content written specifically for Conscient Parq, Sector 80 (address, RERA number,
+  // prices, ratings, developer text). Render them only for that project.
+  const isConscientParq = project.slug === 'conscient-parq-sector-80-gurgaon';
 
   // Group Amenities by Category
   const amenitiesByCategory = (project.amenities || []).reduce((acc, item) => {
@@ -158,22 +163,16 @@ export default function ProjectDetailPage() {
 
   const projectCanonical = `/projects/${project.slug || project.id}`;
   const rawProjectTitle = project.name || 'Luxury Real Estate Project';
-  const cleanProjectTitle = rawProjectTitle.length > 30 ? `${rawProjectTitle.slice(0, 27)}...` : rawProjectTitle;
-  let projectPageTitle = `${cleanProjectTitle}${project.city ? ` in ${project.city}` : ''} | Keystone Realty Advisor`;
-  if (projectPageTitle.length < 50) {
-    projectPageTitle = `${cleanProjectTitle} Luxury Project | Keystone Realty Advisor`;
-  }
-  if (projectPageTitle.length > 60) {
-    projectPageTitle = `${projectPageTitle.slice(0, 57)}...`;
-  }
+  const cleanProjectTitle = rawProjectTitle.length > 40 ? `${rawProjectTitle.slice(0, 37)}...` : rawProjectTitle;
+  const projectPageTitle = `${cleanProjectTitle}${project.city ? ` in ${project.city}` : ''} | Keystone Realty`;
 
   let projectPageDesc = project.shortDescription || '';
   if (projectPageDesc.length < 120 || projectPageDesc.length > 155) {
     const builder = project.builderName ? ` by ${project.builderName}` : '';
     const loc = project.locality ? ` at ${project.locality}, ${project.city || 'Delhi NCR'}` : ` in ${project.city || 'Delhi NCR'}`;
-    projectPageDesc = `Explore ${project.name}${builder}${loc}. Verified RERA approvals, luxury amenities, master plan & price list with Keystone Realty.`;
+    projectPageDesc = `${project.name}${builder}${loc}. See configurations, floor plans and amenities, and enquire with Keystone Realty Advisor.`;
     if (projectPageDesc.length > 155) {
-      projectPageDesc = `Explore ${project.name}${loc}. Verified RERA approvals, luxury amenities, master floor plans & pricing with Keystone Realty.`;
+      projectPageDesc = `${project.name}${loc}. See configurations, floor plans and amenities, and enquire with Keystone Realty Advisor.`;
     }
     if (projectPageDesc.length > 155) {
       projectPageDesc = projectPageDesc.slice(0, 152).trim() + '...';
@@ -185,9 +184,9 @@ export default function ProjectDetailPage() {
       <SEO
         title={projectPageTitle}
         description={projectPageDesc}
-        keywords={`${project.name}, ${project.builderName || ''}, real estate projects in ${project.city || ''}, ${project.locality || ''}, buy flat in ${project.name}, Keystone Realty`}
         canonicalUrl={projectCanonical}
         ogImage={project.coverImageUrl || project.galleryImages?.[0]?.imageUrl || '/keystone-logo.png'}
+        twitterCard={project.coverImageUrl || project.galleryImages?.[0]?.imageUrl ? 'summary_large_image' : 'summary'}
         geoPlacename={project.locality && project.city ? `${project.locality}, ${project.city}, India` : (project.city ? `${project.city}, India` : (project.locality ? `${project.locality}, India` : null))}
         locality={project.city || project.locality || null}
         breadcrumbs={[
@@ -201,27 +200,27 @@ export default function ProjectDetailPage() {
           name: project.name,
           description: project.description || project.shortDescription || project.name,
           url: projectCanonical.startsWith('http') ? projectCanonical : `https://keystonerealtyadvisor.com${projectCanonical}`,
-          image: project.coverImageUrl || 'https://keystonerealtyadvisor.com/keystone-logo.png',
-          ...(project.builderName ? {
-            author: {
-              '@type': 'Organization',
-              name: project.builderName
+          ...(project.coverImageUrl ? { image: project.coverImageUrl } : {}),
+          ...(project.builderName ? { about: { '@type': 'Organization', name: project.builderName } } : {}),
+          ...((project.address || project.locality || project.city || project.state) ? {
+            contentLocation: {
+              '@type': 'Place',
+              address: {
+                '@type': 'PostalAddress',
+                ...((project.address || project.locality) ? { streetAddress: project.address || project.locality } : {}),
+                ...((project.locality || project.city) ? { addressLocality: project.locality || project.city } : {}),
+                ...(project.state ? { addressRegion: project.state } : {}),
+                addressCountry: 'IN'
+              }
             }
           } : {}),
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: project.address || project.locality || '',
-            addressLocality: project.locality || project.city || '',
-            addressRegion: project.state || (project.city?.toLowerCase().includes('delhi') ? 'Delhi' : (project.city?.toLowerCase().includes('noida') ? 'Uttar Pradesh' : 'Haryana')),
-            addressCountry: 'IN'
-          },
           ...(project.minPrice || project.maxPrice ? {
             offers: {
               '@type': 'AggregateOffer',
               priceCurrency: 'INR',
               lowPrice: project.minPrice || project.maxPrice,
               highPrice: project.maxPrice || project.minPrice,
-              ...(project.totalUnits ? { offerCount: Number(project.totalUnits) } : {})
+              ...(project.totalUnits ? { offerCount: project.totalUnits } : {})
             }
           } : {})
         }}
@@ -420,10 +419,12 @@ export default function ProjectDetailPage() {
                 <span>Project Overview & Key Facts</span>
               </h2>
 
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '4px', fontSize: '0.75rem', color: '#10B981', fontWeight: 600 }}>
-                <ShieldCheck size={14} />
-                <span>Source Verified Data (Housing.com)</span>
-              </div>
+              {isConscientParq && (
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 10px', backgroundColor: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '4px', fontSize: '0.75rem', color: '#10B981', fontWeight: 600 }}>
+                  <ShieldCheck size={14} />
+                  <span>Source Verified Data (Housing.com)</span>
+                </div>
+              )}
             </div>
 
             {/* Key Facts Matrix */}
@@ -578,7 +579,7 @@ export default function ProjectDetailPage() {
                         onClick={() => setLightboxImage(fp.imageUrl)}
                         style={{ height: '200px', cursor: 'pointer', overflow: 'hidden', backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-color)' }}
                       >
-                        <img
+                        <img loading="lazy" decoding="async"
                           src={fp.imageUrl}
                           alt={fp.title}
                           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
@@ -750,6 +751,8 @@ export default function ProjectDetailPage() {
             </section>
           )}
 
+          {/* Hard-coded Conscient Parq content (address, connectivity, ratings, developer, FAQs); gated so it is not shown on other projects. */}
+          {isConscientParq && (<>
           {/* Section: Location, Infrastructure & Categorized Nearby Places */}
           <section id="connectivity" className="card" style={{ padding: '2rem' }}>
             <h2 style={{ fontSize: '1.375rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -1077,6 +1080,7 @@ export default function ProjectDetailPage() {
               })}
             </div>
           </section>
+          </>)}
 
           {/* Section: Contextual Property & Corridor Navigation */}
           <section className="card" style={{ padding: '2rem', backgroundColor: 'var(--bg-main)', border: '1px solid var(--border-color)' }}>
@@ -1116,6 +1120,8 @@ export default function ProjectDetailPage() {
             </div>
           </section>
 
+          {/* Hard-coded Conscient Parq content (Housing.com figures); gated so it is not shown on other projects. TODO(owner): confirm figures, source permission and refresh date. */}
+          {isConscientParq && (<>
           {/* Section: Source Verification Metadata Badge */}
           <section className="card" style={{ padding: '1.5rem', backgroundColor: 'rgba(15, 23, 42, 0.6)', border: '1px solid var(--border-color)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
@@ -1132,6 +1138,7 @@ export default function ProjectDetailPage() {
               * Keystone Realty Advisor independently audits developer filings, Haryana RERA registrations, and verified source records to provide accurate buyer intelligence.
             </p>
           </section>
+          </>)}
 
           {/* Section: Gallery */}
           {project.images && project.images.length > 0 && (
@@ -1156,7 +1163,7 @@ export default function ProjectDetailPage() {
                       backgroundColor: '#0B0F19',
                     }}
                   >
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={img.imageUrl}
                       alt={img.caption || project.name}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 300ms ease' }}
@@ -1200,7 +1207,7 @@ export default function ProjectDetailPage() {
                         onClick={() => setLightboxImage(fp.imageUrl)}
                         style={{ height: '200px', cursor: 'pointer', overflow: 'hidden', backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-color)' }}
                       >
-                        <img
+                        <img loading="lazy" decoding="async"
                           src={fp.imageUrl}
                           alt={fp.title}
                           style={{ width: '100%', height: '100%', objectFit: 'contain' }}

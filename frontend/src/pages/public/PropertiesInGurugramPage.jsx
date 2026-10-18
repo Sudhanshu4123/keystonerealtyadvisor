@@ -6,6 +6,7 @@ import PropertyGrid from '../../components/property/PropertyGrid';
 import Pagination from '../../components/common/Pagination';
 import SEO from '../../components/common/SEO';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
+import LocationGuide from '../../components/common/LocationGuide';
 
 export default function PropertiesInGurugramPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -157,9 +158,8 @@ export default function PropertiesInGurugramPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Luxury Properties in Gurugram | Keystone Realty Advisor"
-        description="Search verified properties in Gurugram (Gurgaon). Explore luxury 2, 3, 4 BHK apartments, penthouses, and high-rises on Golf Course Road & Dwarka Expressway."
-        keywords="properties in gurugram, properties in gurgaon, flats in gurugram, luxury apartments gurgaon, buy property in gurgaon, Keystone Realty"
+        title="Properties in Gurugram (Gurgaon) | Keystone Realty"
+        description="Search apartments, penthouses, villas and commercial property in Gurugram (Gurgaon) by locality, budget and BHK, then enquire for a viewing."
         canonicalUrl="/properties-in-gurugram"
         geoPlacename="Gurugram"
         geoRegion="IN-HR"
@@ -172,8 +172,9 @@ export default function PropertiesInGurugramPage() {
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
           name: 'Properties in Gurugram',
-          description: 'Explore verified residential and commercial properties in Gurugram (Gurgaon).',
+          description: 'Apartments, villas and commercial property listed in Gurugram (Gurgaon).',
           url: 'https://keystonerealtyadvisor.com/properties-in-gurugram',
+          isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
         }}
       />
       <div className="container">
@@ -208,7 +209,7 @@ export default function PropertiesInGurugramPage() {
           properties={properties}
           loading={loading}
           emptyTitle="No properties match your search criteria in Gurugram."
-          emptyDescription="Try adjusting or resetting your filter options to view other available listings."
+          emptyDescription="There are no active listings in Gurugram at the moment. New listings appear here as they are added, or send an enquiry and an advisor will get back to you."
           columns={3}
         />
 
@@ -222,6 +223,8 @@ export default function PropertiesInGurugramPage() {
             onPageChange={handlePageChange}
           />
         )}
+
+        <LocationGuide cityKey="gurugram" displayCity="Gurugram" listingType="SALE" />
 
         {/* Contextual Link Weaving: Related Searches & Corridors */}
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>

@@ -90,55 +90,9 @@ export default function HomePage() {
   return (
     <div>
       <SEO
-        title="Real Estate Advisory in Delhi NCR | Keystone Realty Advisor"
-        description="Discover verified residential homes, luxury apartments, and commercial investments in Delhi NCR with complete due diligence and expert advisory."
-        keywords="flat for rent in gurugram, properties in delhi, properties in gurugram, properties in noida, buy luxury apartments, real estate advisory, Keystone Realty"
+        title="Property Advisory in Delhi NCR | Keystone Realty Advisor"
+        description="Browse flats, villas, builder floors and commercial space in Delhi, Gurugram and Noida, and get advisor support from enquiry to site visit."
         canonicalUrl="/"
-        schema={{
-          '@context': 'https://schema.org',
-          '@graph': [
-            {
-              '@type': 'WebPage',
-              '@id': 'https://keystonerealtyadvisor.com/#webpage',
-              url: 'https://keystonerealtyadvisor.com/',
-              name: 'Real Estate Advisory in Delhi NCR | Keystone Realty Advisor',
-              description: 'Discover verified residential homes, luxury apartments, and commercial investments in Delhi NCR with complete due diligence and expert advisory.',
-              publisher: {
-                '@id': 'https://keystonerealtyadvisor.com/#organization'
-              }
-            },
-            {
-              '@type': 'FAQPage',
-              '@id': 'https://keystonerealtyadvisor.com/#faq',
-              mainEntity: [
-                {
-                  '@type': 'Question',
-                  name: 'How does Keystone Realty Advisor verify properties and projects?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'Every listing on Keystone Realty Advisor undergoes comprehensive title search verification, RERA approval confirmation, builder track record review, and physical on-site inspection.'
-                  }
-                },
-                {
-                  '@type': 'Question',
-                  name: 'What real estate advisory services are offered?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'We provide end-to-end luxury residential acquisition advisory, commercial real estate leasing, property valuation analysis, and private portfolio consultations.'
-                  }
-                },
-                {
-                  '@type': 'Question',
-                  name: 'How can I schedule a confidential consultation or site visit?',
-                  acceptedAnswer: {
-                    '@type': 'Answer',
-                    text: 'You can directly connect with our senior advisors via phone at +91 9911956274, chat instantly on WhatsApp, or submit an online inquiry on any property listing.'
-                  }
-                }
-              ]
-            }
-          ]
-        }}
       />
       {/* Hero Section */}
       <section
@@ -163,7 +117,7 @@ export default function HomePage() {
                 color: '#FFFFFF',
               }}
             >
-              Institutional Real Estate Advisory & Luxury Property Representation
+              Property Advisory for Buyers, Tenants and Investors in Delhi NCR
             </h1>
 
             <p
@@ -174,7 +128,7 @@ export default function HomePage() {
                 marginBottom: '2.5rem',
               }}
             >
-              Guiding discerning homeowners, family offices, and commercial operators with verified property acquisitions, transparent valuation models, and complete transaction governance.
+              Search flats, villas, builder floors and commercial space across Delhi, Gurugram and Noida, or talk to an advisor about what to buy, rent or lease.
             </p>
 
             {/* Hero Search Box */}
@@ -312,45 +266,45 @@ export default function HomePage() {
             <div>
               <span className="section-subtitle">About Keystone Realty Advisor</span>
               <h2 className="section-title" style={{ textAlign: 'left', marginBottom: '1.25rem' }}>
-                Uncompromising Due Diligence. Absolute Discretion.
+                How Keystone Realty Advisor Works
               </h2>
               <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '1.25rem' }}>
-                At <strong>Keystone Realty Advisor</strong>, we re-engineer property acquisition and real estate advisory through institutional-grade governance. Unlike volume brokers, our practice operates with complete fiduciary transparency, representing discerning buyers, private investors, and corporate occupiers.
+                <strong>Keystone Realty Advisor</strong> advises buyers, tenants and investors on residential and commercial property in Delhi NCR, from shortlisting to site visits.
               </p>
               <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '2rem' }}>
-                Every asset in our portfolio undergoes rigorous legal screening, physical on-site audits, RERA regulatory compliance validation, and fair-market price benchmarking before representation.
+                For any listing, ask the advisor which documents are available (for projects, the RERA registration; for resale, ownership papers and society dues) and check them yourself or with your lawyer before you pay.
               </p>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
                   <CheckCircle2 size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>100% Title Verified</strong>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Pre-screened legal titles & approvals</span>
+                    <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Shortlisting support</strong>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Narrow options by budget, BHK and area</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
                   <Lock size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Zero Spam & Direct Desk</strong>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Strict privacy with senior advisor contact</span>
+                    <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Direct advisor contact</strong>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Enquiries go straight to an advisor</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
                   <FileCheck2 size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>RERA & Builder Audits</strong>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Proven developer delivery track records</span>
+                    <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Document checklist</strong>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Know which papers to ask for</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
                   <TrendingUp size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Yield Optimization</strong>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Data-driven micro-market analytics</span>
+                    <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Site visits</strong>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Arrange viewings through the desk</span>
                   </div>
                 </div>
               </div>
@@ -370,29 +324,29 @@ export default function HomePage() {
             >
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-gold-400)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.04em', marginBottom: '1rem' }}>
                 <Award size={16} />
-                <span>The Keystone Standard</span>
+                <span>What to expect</span>
               </div>
 
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1.25rem', lineHeight: 1.35 }}>
-                Strategic Property Advisory Designed for Long-Term Capital Preservation
+                Advice from first enquiry to site visit
               </h3>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem', borderTop: '1px solid rgba(212, 175, 55, 0.4)', paddingTop: '1.25rem' }}>
                 <div>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>100%</div>
-                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '6px' }}>Verified Legal Due Diligence</div>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>Buy</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '6px' }}>Residential and commercial purchases</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>RERA</div>
-                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '6px' }}>Approved Partner Projects</div>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>Rent</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '6px' }}>Flats, floors and villas</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>₹0</div>
-                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '6px' }}>Hidden Transaction Markups</div>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>Lease</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '6px' }}>Office and retail space</div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>NDA</div>
-                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '6px' }}>Confidential Client Representation</div>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 700, color: 'var(--color-gold-400)', fontFamily: 'var(--font-display)' }}>Advise</div>
+                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '6px' }}>Consultations by appointment</div>
                 </div>
               </div>
 
@@ -466,9 +420,9 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header text-center">
             <span className="section-subtitle">Practice Areas</span>
-            <h2 className="section-title">Institutional Real Estate Advisory</h2>
+            <h2 className="section-title">Advisory Services</h2>
             <p className="section-description">
-              Keystone Realty Advisor operates with complete discretion, delivering rigorous market intelligence and strategic advisory for discerning clients and commercial operators.
+              Property advisory for residential buyers, tenants, investors and commercial occupiers.
             </p>
           </div>
 

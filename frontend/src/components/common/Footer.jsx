@@ -65,11 +65,11 @@ export default function Footer() {
               </div>
             </div>
             <p style={{ fontSize: '0.875rem', color: '#CBD5E1', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-              Professional real estate advisory practice providing institutional property evaluation, residential acquisitions, and commercial leasing advisory.
+              Real estate advisory for residential and commercial property in Delhi NCR.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#E5C058', fontSize: '0.8125rem', marginBottom: '1.25rem' }}>
               <ShieldCheck size={16} />
-              <span>Certified Advisory Services</span>
+              <span>Property advisory in Delhi NCR</span>
             </div>
 
             {/* Social Media Links */}

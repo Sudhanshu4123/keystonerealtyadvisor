@@ -1,65 +1,18 @@
-# Keystone Realty Advisor - Production Robots.txt
+# Keystone Realty Advisor - robots.txt
+# Everything public is crawlable; only private account/admin areas and the private API are blocked.
+# JS, CSS and images are NOT blocked (Google needs them to render this React site).
+# Pages that must stay out of the index (login, register, entity-map, 404, off-market listings) use a
+# noindex meta tag instead of a Disallow, because Google can only obey noindex on a page it is allowed to fetch.
+
 User-agent: *
-Allow: /
-Allow: /uploads/
-Allow: /assets/
-Allow: /*.js$
-Allow: /*.css$
-Allow: /*.png$
-Allow: /*.jpg$
-Allow: /*.jpeg$
-Allow: /*.svg$
-Allow: /*.ico$
-Allow: /llms.txt
-Allow: /llms-full.txt
-
-# AI & Answer Engine Crawlers (LLMO / AEO)
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Applebot-Extended
-Allow: /
-
-User-agent: Meta-ExternalAgent
-Allow: /
-
-User-agent: Amazonbot
-Allow: /
-
-User-agent: Bytespider
-Allow: /
-
-User-agent: cohere-ai
-Allow: /
-
-# Disallow private administration and internal user dashboards
 Disallow: /admin
-Disallow: /admin/
-Disallow: /admin/*
 Disallow: /dashboard
-Disallow: /dashboard/
-Disallow: /dashboard/*
 Disallow: /api/admin/
 Disallow: /api/users/
 Disallow: /api/favorites/
+Disallow: /api/auth/
 
-# Production XML Sitemap
+# AI/answer-engine crawlers follow the rules above. Add a dedicated "User-agent:" block here only if the
+# business wants to treat a specific crawler differently.
+
 Sitemap: https://keystonerealtyadvisor.com/sitemap.xml

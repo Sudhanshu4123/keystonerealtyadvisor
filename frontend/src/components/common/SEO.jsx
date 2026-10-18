@@ -11,9 +11,9 @@ export default function SEO({
   canonicalUrl,
   ogTitle,
   ogDescription,
-  ogImage = '/keystone-logo.webp',
+  ogImage = '/keystone-logo.png',
   ogType = 'website',
-  twitterCard = 'summary_large_image',
+  twitterCard = 'summary',
   twitterTitle,
   twitterDescription,
   twitterImage,
@@ -27,17 +27,15 @@ export default function SEO({
   regionName = null,
 }) {
   const siteName = 'Keystone Realty Advisor';
-  const defaultTitle = 'Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants';
+  const defaultTitle = 'Keystone Realty Advisor | Real Estate Advisory & Property Consultants';
   const defaultDescription =
-    'Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation with complete integrity and due diligence.';
-  const defaultKeywords =
-    'Keystone Realty Advisor, real estate advisory, buy property, luxury apartments, commercial property investment, verified properties, real estate consultancy, property valuation, RERA approved projects';
+    'Keystone Realty Advisor helps buyers, tenants and investors find residential and commercial property in Delhi NCR, with advisor support from first enquiry to site visit.';
 
   const fullTitle = title
     ? (title.includes('Keystone') ? title : `${title} | Keystone Realty`)
     : defaultTitle;
   const metaDescription = description || defaultDescription;
-  const metaKeywords = keywords || defaultKeywords;
+  // The meta keywords tag is ignored by Google, so it is no longer emitted (see removeMetaTag below).
   const resolvedOgTitle = ogTitle || fullTitle;
   const resolvedOgDescription = ogDescription || metaDescription;
   const resolvedTwitterTitle = twitterTitle || resolvedOgTitle;
@@ -122,7 +120,7 @@ export default function SEO({
 
     // Standard Public Meta Tags
     setMetaTag('name', 'description', metaDescription);
-    setMetaTag('name', 'keywords', metaKeywords);
+    removeMetaTag('name', 'keywords');
     setMetaTag('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     setMetaTag('name', 'author', 'Keystone Realty Advisor');
     setMetaTag('name', 'target_country', 'IN');
@@ -234,7 +232,7 @@ export default function SEO({
       }
     };
   }, [
-    fullTitle, metaDescription, metaKeywords, normalizedCanonical,
+    fullTitle, metaDescription, normalizedCanonical,
     resolvedOgTitle, resolvedOgDescription, ogImage, ogType,
     twitterCard, resolvedTwitterTitle, resolvedTwitterDescription, twitterImage,
     noIndex, schema, breadcrumbs, geoRegion, geoPlacename, geoPosition, locality, regionName, baseUrl

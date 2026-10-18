@@ -80,13 +80,12 @@
   <link rel="help" type="text/plain" href="/llms.txt" title="LLM Context" />
   <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full LLM Knowledge Base" />
 
-  <!-- Primary Meta Tags -->
+  <!-- Primary Meta Tags (homepage defaults; the <SEO> component overrides these per route after React mounts).
+       Do NOT add a static rel="canonical" here: this shell is served for every route, so a static canonical would
+       point non-JavaScript crawlers at the homepage for every URL. -->
   <title>Keystone Realty Advisor | Real Estate Advisory & Property Consultants</title>
-  <meta name="title" content="Keystone Realty Advisor | Real Estate Advisory & Property Consultants" />
   <meta name="description"
-    content="Keystone Realty Advisor provides expert real estate consultancy, verified residential acquisitions, prime commercial leasing, and asset valuation in Delhi NCR." />
-  <meta name="keywords"
-    content="Keystone Realty Advisor, real estate advisory, properties in delhi, properties in gurugram, properties in noida, flats for rent in gurugram, luxury apartments" />
+    content="Keystone Realty Advisor helps buyers, tenants and investors find residential and commercial property in Delhi NCR, with advisor support from first enquiry to site visit." />
   <meta name="author" content="Keystone Realty Advisor" />
   <meta name="theme-color" content="#0B132B" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
@@ -94,28 +93,26 @@
   <!-- Bing Webmaster Verification -->
   <meta name="msvalidate.01" content="B8CB4F570ADD1E9189C2E724DC8F41E7" />
 
-  <!-- Geographic Target Meta Tags -->
   <meta name="target_country" content="IN" />
-  <meta name="rating" content="General" />
 
   <!-- Open Graph / Facebook / LinkedIn -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Keystone Realty Advisor" />
-  <meta property="og:title" content="Keystone Realty Advisor | Trusted Real Estate Advisory & Property Consultants" />
+  <meta property="og:title" content="Keystone Realty Advisor | Real Estate Advisory & Property Consultants" />
   <meta property="og:description"
-    content="Discover verified residential homes, high-yield commercial investments, and strategic real estate advisory built on transparent due diligence and client trust." />
+    content="Keystone Realty Advisor helps buyers, tenants and investors find residential and commercial property in Delhi NCR, with advisor support from first enquiry to site visit." />
   <meta property="og:url" content="https://keystonerealtyadvisor.com/" />
-  <meta property="og:image" content="https://keystonerealtyadvisor.com/keystone-logo.webp" />
+  <meta property="og:image" content="https://keystonerealtyadvisor.com/keystone-logo.png" />
   <meta property="og:image:width" content="512" />
   <meta property="og:image:height" content="512" />
   <meta property="og:locale" content="en_IN" />
 
-  <!-- Twitter Cards -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Keystone Realty Advisor | Trusted Real Estate Advisory" />
+  <!-- Twitter Cards (the logo is square, so use the "summary" card, not "summary_large_image") -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Keystone Realty Advisor | Real Estate Advisory & Property Consultants" />
   <meta name="twitter:description"
-    content="Expert property consultancy, verified residential acquisitions, and commercial investments with complete transparency." />
-  <meta name="twitter:image" content="https://keystonerealtyadvisor.com/keystone-logo.webp" />
+    content="Residential and commercial property advisory in Delhi NCR from Keystone Realty Advisor." />
+  <meta name="twitter:image" content="https://keystonerealtyadvisor.com/keystone-logo.png" />
 
   <!-- Google Fonts - Preconnected & Non-blocking Swap -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -130,83 +127,47 @@
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   </noscript>
 
-  <!-- Default JSON-LD Knowledge Graph for Search Engines & LLMs (AEO/LLMO) -->
+  <!-- Site-wide structured data: the ONLY Organization/WebSite definition. Page components must reference
+       "https://keystonerealtyadvisor.com/#organization" by @id instead of redefining it.
+       TODO (business owner to confirm before adding): street address / locality, areaServed, opening hours
+       (only if also shown on the Contact page), price range. None of these are asserted until verified. -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": ["RealEstateAgent", "Organization"],
+          "@type": "RealEstateAgent",
           "@id": "https://keystonerealtyadvisor.com/#organization",
           "name": "Keystone Realty Advisor",
-          "alternateName": ["Keystone Realty", "Keystone Real Estate Advisory"],
-          "url": "https://keystonerealtyadvisor.com",
+          "url": "https://keystonerealtyadvisor.com/",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://keystonerealtyadvisor.com/favicon-512x512.png",
+            "url": "https://keystonerealtyadvisor.com/keystone-logo.png",
             "width": 512,
             "height": 512
           },
-          "image": "https://keystonerealtyadvisor.com/keystone-logo.webp",
-          "description": "Keystone Realty Advisor is a premier real estate advisory practice providing institutional property evaluation, luxury residential acquisitions, and commercial leasing advisory across India with strict title verification.",
+          "image": "https://keystonerealtyadvisor.com/keystone-logo.png",
+          "description": "Real estate advisory and property consultancy helping buyers, tenants and investors with residential and commercial property in Delhi NCR.",
           "telephone": "+919911956274",
           "email": "keystonexhelpdeskp@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "IN"
+          },
           "sameAs": [
             "https://www.linkedin.com/company/keyston-realty-advisor/",
             "https://www.facebook.com/profile.php?id=61594316288306",
             "https://www.instagram.com/keystonerealty_advisors"
-          ],
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Gurugram",
-            "addressRegion": "Haryana",
-            "addressCountry": "IN"
-          },
-          "areaServed": {
-            "@type": "Country",
-            "name": "India"
-          },
-          "priceRange": "₹₹ - ₹₹₹₹₹",
-          "openingHoursSpecification": [
-            {
-              "@type": "OpeningHoursSpecification",
-              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-              "opens": "09:30",
-              "closes": "19:00"
-            }
-          ],
-          "currenciesAccepted": "INR",
-          "knowsAbout": [
-            "Luxury Residential Real Estate",
-            "Commercial Property Leasing",
-            "Real Estate Due Diligence",
-            "RERA Compliance",
-            "Property Valuation",
-            "NRI Real Estate Investment"
-          ],
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+919911956274",
-            "contactType": "customer service",
-            "email": "keystonexhelpdeskp@gmail.com",
-            "availableLanguage": ["English", "Hindi"]
-          }
+          ]
         },
         {
           "@type": "WebSite",
           "@id": "https://keystonerealtyadvisor.com/#website",
-          "url": "https://keystonerealtyadvisor.com",
+          "url": "https://keystonerealtyadvisor.com/",
           "name": "Keystone Realty Advisor",
+          "inLanguage": "en-IN",
           "publisher": {
             "@id": "https://keystonerealtyadvisor.com/#organization"
-          },
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": {
-              "@type": "EntryPoint",
-              "urlTemplate": "https://keystonerealtyadvisor.com/properties?query={search_term_string}"
-            },
-            "query-input": "required name=search_term_string"
           }
         }
       ]

@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { propertyService } from '../../services/propertyService';
 import PropertyFilter from '../../components/property/PropertyFilter';
 import PropertyGrid from '../../components/property/PropertyGrid';
 import Pagination from '../../components/common/Pagination';
 import SEO from '../../components/common/SEO';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
-import { parseProgrammaticSlug } from '../../utils/programmaticSeoConfig';
-import { ShieldCheck, MapPin, Building2, CheckCircle2, ChevronDown, ChevronUp, Landmark, Sparkles, ArrowRight } from 'lucide-react';
+import LocationGuide, { getGuidance } from '../../components/common/LocationGuide';
+import NotFoundPage from './NotFoundPage';
+import { parseProgrammaticSlug, PROGRAMMATIC_PAGES } from '../../utils/programmaticSeoConfig';
+import { Building2, ChevronDown, ChevronUp } from 'lucide-react';
 
+/**
+ * Only slugs listed in PROGRAMMATIC_PAGES render a landing page. Anything else gets the 404 page
+ * (previously any slug rendered a Gurugram-defaulted page with a canonical pointing at a URL that did not exist).
+ */
 export default function ProgrammaticLandingPage({ presetSlug }) {
-  const params = useParams();
-  const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const config = parseProgrammaticSlug(presetSlug || '');
+  if (!config) return <NotFoundPage />;
+  return <ProgrammaticLandingContent config={config} />;
+}
 
-  const activePath = presetSlug || params.slug || location.pathname.replace(/^\/+|\/+$/g, '');
-  const config = parseProgrammaticSlug(activePath);
+function ProgrammaticLandingContent({ config }) {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [filters, setFilters] = useState(() => ({
     query: searchParams.get('query') || '',
@@ -42,6 +49,8 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
     hasPrevious: false,
   });
   const [loading, setLoading] = useState(true);
+  // True only after the API answered successfully with zero listings; used to keep empty pages out of the index.
+  const [confirmedEmpty, setConfirmedEmpty] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   useEffect(() => {
@@ -68,6 +77,7 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
           });
 
           setProperties(filtered);
+          setConfirmedEmpty(filtered.length === 0 && res.data.totalElements === 0);
           setPageInfo({
             totalPages: res.data.totalPages || 0,
             totalElements: filtered.length,
@@ -76,10 +86,12 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
           });
         } else {
           setProperties([]);
+          setConfirmedEmpty(false);
           setPageInfo({ totalPages: 0, totalElements: 0, hasNext: false, hasPrevious: false });
         }
       } catch (err) {
         console.error('Failed to load programmatic properties:', err);
+        setConfirmedEmpty(false);
         setProperties([]);
         setPageInfo({ totalPages: 0, totalElements: 0, hasNext: false, hasPrevious: false });
       } finally {
@@ -118,68 +130,55 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Dynamic FAQs for this programmatic combination
+  // FAQs are general guidance (no claims about Keystone's own verification or inventory). They are shown on the
+  // page only; no FAQPage structured data is emitted for these templated answers.
+  const guidance = getGuidance(config.cityKey, config.listingType, config.propertyType);
   const dynamicFaqs = [
     {
-      q: `What is the average price for ${config.headingTitle.toLowerCase()}?`,
-      a: `Pricing for ${config.headingTitle.toLowerCase()} varies by prime micro-markets, society brand, and built-up area. Ready-to-move luxury properties in prime sectors command transparent market valuations with institutional due diligence by Keystone Realty Advisor.`
+      q: `What should I check before choosing ${config.headingTitle.toLowerCase()}?`,
+      a: guidance.items.slice(0, 3).join(' '),
     },
     {
-      q: `Are all listings on this page RERA approved and title-verified?`,
-      a: `Yes. Every property represented by Keystone Realty Advisor undergoes legal title verification, document due diligence, and builder track-record evaluation before public listing.`
+      q: 'How is the price on a listing decided?',
+      a: 'Each listing shows the price set by the owner or developer. Compare it with similar listings on the same area measure, and ask the advisor which charges (maintenance, parking, taxes) are extra.',
     },
     {
-      q: `How do I schedule a physical site visit or private consultation?`,
-      a: `You can directly click "Request Consultation" on any property, call our senior advisor desk at +91 9911956274, or connect instantly on WhatsApp for confidential guidance.`
-    }
+      q: 'How do I arrange a site visit or consultation?',
+      a: 'Use the enquiry option on a listing, call +91 9911956274, or use the WhatsApp button, and an advisor from Keystone Realty Advisor will follow up.',
+    },
   ];
 
-  const isPresetRoute = Boolean(presetSlug);
-  const isIndexed = isPresetRoute && config.isRecognizedCity;
-  const canonicalUrl = isIndexed ? `/${config.canonicalSlug}` : '/properties';
+  const hasUserFilters = Boolean(filters.query || filters.location || filters.minPrice || filters.maxPrice || filters.furnished || filters.status || filters.page);
+  const related = PROGRAMMATIC_PAGES
+    .filter((slug) => slug !== config.canonicalSlug)
+    .map((slug) => parseProgrammaticSlug(slug))
+    .filter((c) => c && (c.cityKey === config.cityKey || c.propertyType === config.propertyType))
+    .slice(0, 8);
 
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
         title={config.pageTitle}
         description={config.pageDescription}
-        keywords={`${config.headingTitle}, ${config.city} real estate, buy flat in ${config.city}, luxury apartments ${config.city}, Keystone Realty Advisor`}
-        canonicalUrl={canonicalUrl}
-        noindex={!isIndexed}
+        canonicalUrl={`/${config.canonicalSlug}`}
+        noIndex={confirmedEmpty && !hasUserFilters}
         geoPlacename={config.city}
         geoRegion={config.cityRegion}
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: `Properties in ${config.city}`, path: `/properties-in-${config.city.toLowerCase()}` },
-          { name: config.headingTitle, path: canonicalUrl },
+          { name: config.headingTitle, path: `/${config.canonicalSlug}` },
         ]}
         schema={{
           '@context': 'https://schema.org',
           '@graph': [
             {
               '@type': 'CollectionPage',
-              '@id': `https://keystonerealtyadvisor.com${canonicalUrl}#collection`,
+              '@id': `https://keystonerealtyadvisor.com/${config.canonicalSlug}#collection`,
               name: config.headingTitle,
               description: config.pageDescription,
-              url: `https://keystonerealtyadvisor.com${canonicalUrl}`,
-              isPartOf: {
-                '@type': 'WebSite',
-                '@id': 'https://keystonerealtyadvisor.com/#website',
-                name: 'Keystone Realty Advisor',
-                url: 'https://keystonerealtyadvisor.com'
-              }
-            },
-            {
-              '@type': 'FAQPage',
-              '@id': `https://keystonerealtyadvisor.com/${config.canonicalSlug}#faq`,
-              mainEntity: dynamicFaqs.map((faq) => ({
-                '@type': 'Question',
-                name: faq.q,
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text: faq.a
-                }
-              }))
+              url: `https://keystonerealtyadvisor.com/${config.canonicalSlug}`,
+              isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' }
             }
           ]
         }}
@@ -199,16 +198,16 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
         <div style={{ marginBottom: '2rem' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--color-gold-600)', fontSize: '0.8125rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.5rem' }}>
             <Building2 size={16} />
-            <span>Verified {config.city} Portfolio</span>
+            <span>{config.displayCity} listings</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
             <h1 className="section-title" style={{ marginBottom: 0 }}>{config.headingTitle}</h1>
             <span style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)' }}>
-              Showing <strong>{pageInfo.totalElements}</strong> {pageInfo.totalElements === 1 ? 'verified listing' : 'verified listings'}
+              Showing <strong>{pageInfo.totalElements}</strong> {pageInfo.totalElements === 1 ? 'listing' : 'listings'}
             </span>
           </div>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: '0.9375rem', maxWidth: '800px', lineHeight: 1.6 }}>
-            {config.cityData.overview} Browse verified listings below with transparent price breakdowns and complete due diligence.
+            {config.cityData.overview} Use the filters below to narrow by locality, budget and BHK.
           </p>
         </div>
 
@@ -266,46 +265,18 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
           />
         )}
 
-        {/* Local Area Market Intelligence Section */}
-        <section className="card" style={{ marginTop: '3.5rem', padding: '2rem', backgroundColor: '#FFFFFF' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-gold-600)', marginBottom: '0.75rem' }}>
-            <Landmark size={20} />
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-              Market Overview & Advisory for {config.city}
-            </h2>
-          </div>
-          <p style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '1.25rem' }}>
-            Acquiring or leasing <strong>{config.headingTitle.toLowerCase()}</strong> requires institutional due diligence. Keystone Realty Advisor provides comprehensive property evaluation, including comparative market analysis (CMA), circle rate benchmarks, RERA registration reviews, and clear title search verifications across all prime sectors in {config.city}.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
-            <div style={{ padding: '1rem', backgroundColor: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <CheckCircle2 size={18} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
-              <div>
-                <strong style={{ fontSize: '0.875rem', display: 'block', color: 'var(--text-primary)' }}>100% Title Checked</strong>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Pre-screened approvals & encumbrance checks</span>
-              </div>
-            </div>
-            <div style={{ padding: '1rem', backgroundColor: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <ShieldCheck size={18} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
-              <div>
-                <strong style={{ fontSize: '0.875rem', display: 'block', color: 'var(--text-primary)' }}>Direct Desk Representation</strong>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Confidential negotiation with senior advisors</span>
-              </div>
-            </div>
-            <div style={{ padding: '1rem', backgroundColor: 'var(--bg-secondary)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-              <Sparkles size={18} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
-              <div>
-                <strong style={{ fontSize: '0.875rem', display: 'block', color: 'var(--text-primary)' }}>Transparent Valuation</strong>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Data-driven pricing with zero hidden markups</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Location guidance: general buying / renting checklist (no claims about Keystone's own process) */}
+        <LocationGuide
+          cityKey={config.cityKey}
+          displayCity={config.displayCity}
+          listingType={config.listingType}
+          propertyType={config.propertyType}
+        />
 
         {/* Dynamic FAQ Section */}
         <section className="card" style={{ marginTop: '2rem', padding: '2rem', backgroundColor: '#FFFFFF' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)' }}>
-            Frequently Asked Questions ({config.city} Real Estate)
+            Questions about {config.headingTitle.toLowerCase()}
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {dynamicFaqs.map((faq, index) => (
@@ -349,15 +320,15 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
           </div>
         </section>
 
-        {/* Programmatic Cross-Link Exploration Matrix */}
+        {/* Related pages (generated from the PROGRAMMATIC_PAGES list, so links always point at live URLs) */}
         <div className="card" style={{ marginTop: '2rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Explore Related Properties & Regional Hubs
-              </h3>
+              <h2 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+                Related searches
+              </h2>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
-                Browse verified residential configurations, rental apartments, and new developer launches across Delhi NCR.
+                Other property types and cities across Delhi NCR.
               </p>
             </div>
             <Link to="/properties" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>
@@ -366,35 +337,16 @@ export default function ProgrammaticLandingPage({ presetSlug }) {
           </div>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}>
-            <Link to="/flats-for-rent-in-gurugram" className="btn btn-secondary btn-sm">
-              Flats for Rent in Gurugram
+            <Link to={`/properties-in-${config.city.toLowerCase()}`} className="btn btn-secondary btn-sm">
+              Properties in {config.city}
             </Link>
-            <Link to="/properties-in-gurugram" className="btn btn-secondary btn-sm">
-              Properties in Gurugram
-            </Link>
-            <Link to="/properties-in-delhi" className="btn btn-secondary btn-sm">
-              Properties in Delhi
-            </Link>
-            <Link to="/properties-in-noida" className="btn btn-secondary btn-sm">
-              Properties in Noida
-            </Link>
-            <Link to="/3-bhk-flats-in-gurgaon" className="btn btn-secondary btn-sm">
-              3 BHK Flats in Gurgaon
-            </Link>
-            <Link to="/2-bhk-flats-in-gurgaon" className="btn btn-secondary btn-sm">
-              2 BHK Flats in Gurgaon
-            </Link>
-            <Link to="/luxury-villas-in-gurgaon" className="btn btn-secondary btn-sm">
-              Villas in Gurgaon
-            </Link>
-            <Link to="/builder-floors-in-delhi" className="btn btn-secondary btn-sm">
-              Builder Floors in Delhi
-            </Link>
-            <Link to="/projects/conscient-parq-sector-80-gurgaon" className="btn btn-secondary btn-sm">
-              Conscient Parq Sector 80
-            </Link>
+            {related.map((r) => (
+              <Link key={r.canonicalSlug} to={`/${r.canonicalSlug}`} className="btn btn-secondary btn-sm">
+                {r.headingTitle}
+              </Link>
+            ))}
             <Link to="/projects" className="btn btn-secondary btn-sm">
-              New Launch Projects
+              New Projects
             </Link>
             <Link to="/advisory" className="btn btn-secondary btn-sm">
               Advisory Services

@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -26,6 +25,34 @@ import org.springframework.transaction.annotation.Transactional;
 public class SitemapController {
 
     private static final Logger log = LoggerFactory.getLogger(SitemapController.class);
+
+    private static final List<String> INDEXABLE_STATIC_PATHS = List.of(
+            "/",
+            "/properties",
+            "/properties-in-delhi",
+            "/properties-in-gurugram",
+            "/properties-in-noida",
+            "/flats-for-rent-in-gurugram",
+            "/flats-for-sale-in-gurugram",
+            "/flats-for-sale-in-delhi",
+            "/flats-for-sale-in-noida",
+            "/flats-for-rent-in-delhi",
+            "/flats-for-rent-in-noida",
+            "/3-bhk-flats-in-gurgaon",
+            "/2-bhk-flats-in-gurgaon",
+            "/4-bhk-flats-in-gurgaon",
+            "/luxury-villas-in-gurgaon",
+            "/luxury-villas-in-delhi",
+            "/builder-floors-in-delhi",
+            "/builder-floors-in-gurgaon",
+            "/commercial-properties-in-gurgaon",
+            "/commercial-properties-in-delhi",
+            "/projects",
+            "/advisory",
+            "/contact",
+            "/terms",
+            "/privacy"
+    );
 
     private final PropertyRepository propertyRepository;
     private final ProjectRepository projectRepository;
@@ -48,43 +75,20 @@ public class SitemapController {
     public ResponseEntity<String> getSitemap() {
         String baseUrl = siteBaseUrl != null ? siteBaseUrl.replaceAll("/+$", "") : "https://keystonerealtyadvisor.com";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String today = LocalDateTime.now().format(formatter);
 
         StringBuilder xml = new StringBuilder();
         xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
         xml.append("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"\n");
         xml.append("        xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\">\n");
 
-        // 1. Static Core Pages & High-Intent SEO Landing Pages
-        addUrl(xml, baseUrl + "/", today, "daily", "1.0", baseUrl + "/keystone-logo.png", "Keystone Realty Advisor");
-        addUrl(xml, baseUrl + "/properties", today, "daily", "0.9", null, null);
-        addUrl(xml, baseUrl + "/properties-in-delhi", today, "daily", "0.95", null, null);
-        addUrl(xml, baseUrl + "/properties-in-gurugram", today, "daily", "0.95", null, null);
-        addUrl(xml, baseUrl + "/properties-in-noida", today, "daily", "0.95", null, null);
-        addUrl(xml, baseUrl + "/flats-for-rent-in-gurugram", today, "daily", "0.95", null, null);
-        addUrl(xml, baseUrl + "/projects", today, "daily", "0.9", null, null);
-        addUrl(xml, baseUrl + "/advisory", today, "monthly", "0.8", null, null);
-        addUrl(xml, baseUrl + "/contact", today, "monthly", "0.8", null, null);
-        addUrl(xml, baseUrl + "/terms", today, "monthly", "0.5", null, null);
-        addUrl(xml, baseUrl + "/privacy", today, "monthly", "0.5", null, null);
-        addUrl(xml, baseUrl + "/sitemap", today, "weekly", "0.7", null, null);
-        addUrl(xml, baseUrl + "/entity-map", today, "monthly", "0.75", null, null);
-
-        // Programmatic SEO landing pages
-        addUrl(xml, baseUrl + "/flats-for-sale-in-gurugram", today, "weekly", "0.9", null, null);
-        addUrl(xml, baseUrl + "/flats-for-sale-in-delhi", today, "weekly", "0.9", null, null);
-        addUrl(xml, baseUrl + "/flats-for-sale-in-noida", today, "weekly", "0.9", null, null);
-        addUrl(xml, baseUrl + "/flats-for-rent-in-delhi", today, "weekly", "0.9", null, null);
-        addUrl(xml, baseUrl + "/flats-for-rent-in-noida", today, "weekly", "0.9", null, null);
-        addUrl(xml, baseUrl + "/3-bhk-flats-in-gurgaon", today, "weekly", "0.85", null, null);
-        addUrl(xml, baseUrl + "/2-bhk-flats-in-gurgaon", today, "weekly", "0.85", null, null);
-        addUrl(xml, baseUrl + "/4-bhk-flats-in-gurgaon", today, "weekly", "0.85", null, null);
-        addUrl(xml, baseUrl + "/luxury-villas-in-gurgaon", today, "weekly", "0.85", null, null);
-        addUrl(xml, baseUrl + "/luxury-villas-in-delhi", today, "weekly", "0.85", null, null);
-        addUrl(xml, baseUrl + "/builder-floors-in-delhi", today, "weekly", "0.85", null, null);
-        addUrl(xml, baseUrl + "/builder-floors-in-gurgaon", today, "weekly", "0.85", null, null);
-        addUrl(xml, baseUrl + "/commercial-properties-in-gurgaon", today, "weekly", "0.85", null, null);
-        addUrl(xml, baseUrl + "/commercial-properties-in-delhi", today, "weekly", "0.85", null, null);
+        // 1. Static indexable pages. Keep INDEXABLE_STATIC_PATHS in step with the routes in frontend/src/App.jsx
+        //    (PROGRAMMATIC_PAGES in programmaticSeoConfig.js); `npm run seo:check` in /frontend fails if they drift.
+        //    No <lastmod> is emitted for these: the pages have no real modification date, and a date that changes
+        //    on every request teaches Google to ignore lastmod.
+        for (String path : INDEXABLE_STATIC_PATHS) {
+            addUrl(xml, baseUrl + path, null, "/".equals(path) ? baseUrl + "/keystone-logo.png" : null,
+                    "/".equals(path) ? "Keystone Realty Advisor" : null);
+        }
 
         // 2. Dynamic Active Properties (Safe Fetch)
         try {
@@ -92,7 +96,7 @@ public class SitemapController {
             for (Property p : properties) {
                 try {
                     if (p.getStatus() == PropertyStatus.AVAILABLE || p.getStatus() == PropertyStatus.UNDER_OFFER) {
-                        String modDate = p.getUpdatedAt() != null ? p.getUpdatedAt().format(formatter) : today;
+                        String modDate = p.getUpdatedAt() != null ? p.getUpdatedAt().format(formatter) : null;
                         String imgUrl = null;
                         try {
                             if (p.getImages() != null && !p.getImages().isEmpty() && p.getImages().get(0) != null) {
@@ -113,7 +117,7 @@ public class SitemapController {
                         } else {
                             propertyPath = "/properties/" + p.getId();
                         }
-                        addUrl(xml, baseUrl + propertyPath, modDate, "weekly", "0.8", imgUrl, p.getTitle());
+                        addUrl(xml, baseUrl + propertyPath, modDate, imgUrl, p.getTitle());
                     }
                 } catch (Exception propEx) {
                     log.warn("Error processing property for sitemap: {}", propEx.getMessage());
@@ -123,22 +127,24 @@ public class SitemapController {
             log.error("Failed to query properties for sitemap: {}", e.getMessage());
         }
 
-        // 3. Dynamic Projects (Only Published / Active)
+        // 3. Dynamic Projects (Safe Fetch)
         try {
             List<Project> projects = projectRepository.findAll();
             for (Project proj : projects) {
                 try {
-                    if (proj.getStatus() != null && proj.getStatus() != ProjectStatus.DRAFT && proj.getStatus() != ProjectStatus.UNPUBLISHED) {
-                        String modDate = proj.getUpdatedAt() != null ? proj.getUpdatedAt().format(formatter) : today;
-                        String projectPath = (proj.getSlug() != null && !proj.getSlug().trim().isEmpty())
-                                ? "/projects/" + proj.getSlug().trim()
-                                : "/projects/" + proj.getId();
-                        String imgUrl = proj.getCoverImageUrl();
-                        if (imgUrl != null && !imgUrl.startsWith("http")) {
-                            imgUrl = baseUrl + (imgUrl.startsWith("/") ? imgUrl : "/" + imgUrl);
-                        }
-                        addUrl(xml, baseUrl + projectPath, modDate, "weekly", "0.8", imgUrl, proj.getName());
+                    // Only PUBLISHED projects resolve on the site; the API 404s every other status.
+                    if (proj.getStatus() != ProjectStatus.PUBLISHED) {
+                        continue;
                     }
+                    String modDate = proj.getUpdatedAt() != null ? proj.getUpdatedAt().format(formatter) : null;
+                    String projectPath = (proj.getSlug() != null && !proj.getSlug().trim().isEmpty())
+                            ? "/projects/" + proj.getSlug().trim()
+                            : "/projects/" + proj.getId();
+                    String imgUrl = proj.getCoverImageUrl();
+                    if (imgUrl != null && !imgUrl.startsWith("http")) {
+                        imgUrl = baseUrl + (imgUrl.startsWith("/") ? imgUrl : "/" + imgUrl);
+                    }
+                    addUrl(xml, baseUrl + projectPath, modDate, imgUrl, proj.getName());
                 } catch (Exception projEx) {
                     log.warn("Error processing project for sitemap: {}", projEx.getMessage());
                 }
@@ -153,12 +159,12 @@ public class SitemapController {
                 .body(xml.toString());
     }
 
-    private void addUrl(StringBuilder xml, String loc, String lastmod, String changefreq, String priority, String imageLoc, String imageTitle) {
+    private void addUrl(StringBuilder xml, String loc, String lastmod, String imageLoc, String imageTitle) {
         xml.append("  <url>\n");
         xml.append("    <loc>").append(escapeXml(loc)).append("</loc>\n");
-        xml.append("    <lastmod>").append(escapeXml(lastmod)).append("</lastmod>\n");
-        xml.append("    <changefreq>").append(escapeXml(changefreq)).append("</changefreq>\n");
-        xml.append("    <priority>").append(escapeXml(priority)).append("</priority>\n");
+        if (lastmod != null && !lastmod.trim().isEmpty()) {
+            xml.append("    <lastmod>").append(escapeXml(lastmod)).append("</lastmod>\n");
+        }
         if (imageLoc != null && !imageLoc.trim().isEmpty()) {
             xml.append("    <image:image>\n");
             xml.append("      <image:loc>").append(escapeXml(imageLoc)).append("</image:loc>\n");

@@ -6,6 +6,7 @@ import PropertyGrid from '../../components/property/PropertyGrid';
 import Pagination from '../../components/common/Pagination';
 import SEO from '../../components/common/SEO';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
+import LocationGuide from '../../components/common/LocationGuide';
 
 export default function PropertiesInDelhiPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -157,9 +158,8 @@ export default function PropertiesInDelhiPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Luxury Properties in Delhi | Keystone Realty Advisor"
-        description="Search verified properties in Delhi. Explore luxury flats, builder floors, and residential homes in South & Central Delhi with verified legal due diligence."
-        keywords="properties in delhi, flats in delhi, buy property in delhi, builder floors in delhi, luxury apartments delhi, Keystone Realty"
+        title="Properties in Delhi | Keystone Realty Advisor"
+        description="Search flats, builder floors, villas and commercial property in Delhi by locality, budget and BHK, then enquire to arrange a viewing."
         canonicalUrl="/properties-in-delhi"
         geoPlacename="Delhi"
         geoRegion="IN-DL"
@@ -172,8 +172,9 @@ export default function PropertiesInDelhiPage() {
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
           name: 'Properties in Delhi',
-          description: 'Explore verified residential and commercial properties in Delhi.',
+          description: 'Flats, builder floors, villas and commercial property listed in Delhi.',
           url: 'https://keystonerealtyadvisor.com/properties-in-delhi',
+          isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
         }}
       />
       <div className="container">
@@ -208,7 +209,7 @@ export default function PropertiesInDelhiPage() {
           properties={properties}
           loading={loading}
           emptyTitle="No active properties found in Delhi right now."
-          emptyDescription="We are currently onboarding and verifying new properties in Delhi. Any new Delhi listing added will automatically appear here."
+          emptyDescription="There are no active listings in Delhi at the moment. New listings appear here as they are added, or send an enquiry and an advisor will get back to you."
           columns={3}
         />
 
@@ -222,6 +223,8 @@ export default function PropertiesInDelhiPage() {
             onPageChange={handlePageChange}
           />
         )}
+
+        <LocationGuide cityKey="delhi" displayCity="Delhi" listingType="SALE" />
 
         {/* Contextual Link Weaving: Related Searches & Regional Markets */}
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>

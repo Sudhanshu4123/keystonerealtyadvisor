@@ -6,6 +6,7 @@ import PropertyGrid from '../../components/property/PropertyGrid';
 import Pagination from '../../components/common/Pagination';
 import SEO from '../../components/common/SEO';
 import Breadcrumbs from '../../components/common/Breadcrumbs';
+import LocationGuide from '../../components/common/LocationGuide';
 
 export default function FlatsForRentGurugramPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -161,10 +162,9 @@ export default function FlatsForRentGurugramPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Flats for Rent in Gurgaon | Keystone Realty Advisor"
-        description="Find verified 1, 2, 3 & 4 BHK flats for rent in Gurugram. Verified apartments in gated societies on Golf Course Rd, Cyber City & Dwarka Expressway."
+        title="Flats for Rent in Gurugram | Keystone Realty"
+        description="Search 1 to 4 BHK flats for rent in Gurugram (Gurgaon) by locality, budget and furnishing, then enquire to arrange a viewing."
         canonicalUrl="/flats-for-rent-in-gurugram"
-        keywords="flats for rent in gurgaon, flat for rent in gurugram, apartments for rent in gurgaon, 2 bhk flat for rent in gurgaon, 3 bhk for rent gurgaon"
         geoPlacename="Gurugram"
         geoRegion="IN-HR"
         breadcrumbs={[
@@ -176,8 +176,9 @@ export default function FlatsForRentGurugramPage() {
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
           name: 'Flats for Rent in Gurugram',
-          description: 'Explore verified 1, 2, 3 & 4 BHK flats and luxury apartments for rent in Gurugram (Gurgaon).',
+          description: 'Flats and apartments listed for rent in Gurugram (Gurgaon).',
           url: 'https://keystonerealtyadvisor.com/flats-for-rent-in-gurugram',
+          isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
         }}
       />
       <div className="container">
@@ -212,7 +213,7 @@ export default function FlatsForRentGurugramPage() {
           properties={properties}
           loading={loading}
           emptyTitle="No rental flats match your search criteria in Gurugram."
-          emptyDescription="Try adjusting or resetting your filter parameters to explore other verified rental listings."
+          emptyDescription="Try adjusting or resetting your filters to see other rental listings."
           columns={3}
         />
 
@@ -227,13 +228,15 @@ export default function FlatsForRentGurugramPage() {
           />
         )}
 
+        <LocationGuide cityKey="gurugram" displayCity="Gurugram" listingType="RENT" propertyType="APARTMENT" />
+
         {/* Explore Other NCR Markets Internal Links */}
         <div className="card" style={{ marginTop: '3rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
           <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-            Explore Verified Real Estate Across NCR
+            Explore Other Property Searches in NCR
           </h3>
           <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-            Looking for investment or ownership opportunities beyond rentals? Explore top new launch projects and verified properties for sale.
+            Looking to buy instead of rent? See properties for sale and new projects.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
