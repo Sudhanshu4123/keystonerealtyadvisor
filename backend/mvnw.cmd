@@ -25,7 +25,7 @@ powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.Security
 :runMavenWrapper
 SET JAVA_EXE=java.exe
 IF NOT "%JAVA_HOME%"=="" SET JAVA_EXE="%JAVA_HOME%\bin\java.exe"
-%JAVA_EXE% %MAVEN_OPTS% -Dmaven.multiModuleProjectDirectory="%MAVEN_PROJECTBASEDIR%" -jar "%WRAPPER_JAR%" %*
+%JAVA_EXE% %MAVEN_OPTS% -Dmaven.multiModuleProjectDirectory="%MAVEN_PROJECTBASEDIR%" -classpath "%WRAPPER_JAR%" %WRAPPER_LAUNCHER% %*
 IF ERRORLEVEL 1 GOTO error
 GOTO end
 

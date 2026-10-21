@@ -8,31 +8,40 @@ import getpass
 
 sys.stdout.reconfigure(encoding='utf-8', line_buffering=True)
 
-hostname = "187.127.134.114"
-username = "root"
+hostname = os.environ.get("DEPLOY_HOST")
+if not hostname:
+    if sys.stdin.isatty():
+        hostname = input("Enter VPS IP/hostname: ").strip()
+    else:
+        print("ERROR: Please set DEPLOY_HOST environment variable.")
+        sys.exit(1)
+
+username = os.environ.get("DEPLOY_USER", "root")
 password = os.environ.get("DEPLOY_PASSWORD")
 if not password:
     if len(sys.argv) > 1 and not sys.argv[1].startswith("-"):
         password = sys.argv[1]
     elif sys.stdin.isatty():
-        password = getpass.getpass("Enter VPS root password: ")
+        password = getpass.getpass("Enter VPS SSH password: ")
     else:
         print("ERROR: Please set DEPLOY_PASSWORD environment variable or pass password as argument.")
         sys.exit(1)
 
 remote_dir = "/opt/keystone"
-local_base = r"c:\Users\sanje\Downloads\keystone"
-archive_name = r"c:\Users\sanje\Downloads\keystone_bundle.tar.gz"
+local_base = os.path.dirname(os.path.abspath(__file__))
+archive_name = os.path.join(os.environ.get("TEMP", "/tmp"), "keystone_bundle.tar.gz")
 
 print(">>> Step 1: Creating tar.gz bundle of Keystone project...")
 
 def make_tarfile(output_filename, source_dir):
     with tarfile.open(output_filename, "w:gz") as tar:
         for root, dirs, files in os.walk(source_dir):
-            # Ignore node_modules, target, .git, dist, etc.
-            dirs[:] = [d for d in dirs if d not in ['node_modules', 'target', '.git', '.mvn', 'dist', '.gemini', 'scratch']]
+            # Ignore node_modules, target, .git, dist, scratch, backups, etc.
+            dirs[:] = [d for d in dirs if d not in ['node_modules', 'target', '.git', '.mvn', 'dist', '.gemini', 'scratch', 'backups']]
             for file in files:
-                if file.endswith('.tar.gz') or file.endswith('.log') or file.startswith('scratch_'):
+                if (file.endswith('.tar.gz') or file.endswith('.log') or 
+                    file.endswith('.sql') or file.endswith('.sql.gz') or file.endswith('.dump') or file.endswith('.bak') or
+                    file.startswith('.env') or file.startswith('scratch_')):
                     continue
                 full_path = os.path.join(root, file)
                 rel_path = os.path.relpath(full_path, source_dir)
@@ -75,35 +84,51 @@ run_cmd("pm2 delete keystone-backend keystone-frontend keystone-admin 2>/dev/nul
 # 2. Setup /opt/keystone directory and extract
 run_cmd(f"mkdir -p {remote_dir} && tar -xzf {remote_tar} -C {remote_dir} && rm -f {remote_tar}", "Extracting files to /opt/keystone")
 
-# 3. Create .env file for production
-env_content = """# Production Environment Configuration
+# 3. Handle .env file for production (preserve existing remote secrets)
+sftp = client.open_sftp()
+env_remote_path = f"{remote_dir}/.env"
+env_exists = False
+try:
+    sftp.stat(env_remote_path)
+    env_exists = True
+    print(f"[INFO] Existing {env_remote_path} found on server. Preserving production secrets.")
+except IOError:
+    env_exists = False
+
+if not env_exists:
+    # If no .env exists on server, check for local .env or create from environment variables
+    local_env_path = os.path.join(local_base, ".env")
+    if os.path.exists(local_env_path):
+        print(f"[INFO] Uploading local .env to {env_remote_path}...")
+        sftp.put(local_env_path, env_remote_path)
+    else:
+        print(f"[WARN] No .env found on server or locally. Creating configuration from environment variables...")
+        env_content = f"""# Production Environment Configuration
 HTTP_PORT=3002
 HTTPS_PORT=443
-DOMAIN_NAME=keystonerealtyadvisors.shrishyamassociate.com
+DOMAIN_NAME=keystonerealtyadvisor.com
 
 DB_NAME=keystonedb
 DB_USERNAME=keystone_user
-DB_PASSWORD=KeystoneSecure2026!Prod
-DB_ROOT_PASSWORD=KeystoneRoot2026!Pass
+DB_PASSWORD={os.environ.get('DB_PASSWORD', '')}
+DB_ROOT_PASSWORD={os.environ.get('DB_ROOT_PASSWORD', '')}
 
-JWT_SECRET=404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-CLOUDINARY_CLOUD_NAME=Root
-CLOUDINARY_API_KEY=877916588632514
-CLOUDINARY_API_SECRET=81UKRoZlSzOgkntxnN7Jdf9e4_A
+JWT_SECRET={os.environ.get('JWT_SECRET', '')}
+CLOUDINARY_CLOUD_NAME={os.environ.get('CLOUDINARY_CLOUD_NAME', '')}
+CLOUDINARY_API_KEY={os.environ.get('CLOUDINARY_API_KEY', '')}
+CLOUDINARY_API_SECRET={os.environ.get('CLOUDINARY_API_SECRET', '')}
 
-CORS_ALLOWED_ORIGINS=http://localhost:3002,http://localhost:80,https://keystonerealtyadvisors.shrishyamassociate.com,https://keystonerealtyadvisors.com,https://keystonerealtyadvisor.com,https://www.keystonerealtyadvisor.com
+CORS_ALLOWED_ORIGINS=https://keystonerealtyadvisor.com,https://www.keystonerealtyadvisor.com,http://localhost:3002
 
-INITIAL_ADMIN_EMAIL=keystonexhelpdeskp@gmail.com
-INITIAL_ADMIN_PASSWORD=KeystoneAdmin2026!
+INITIAL_ADMIN_EMAIL={os.environ.get('INITIAL_ADMIN_EMAIL', 'keystonexhelpdeskp@gmail.com')}
+INITIAL_ADMIN_PASSWORD={os.environ.get('INITIAL_ADMIN_PASSWORD', '')}
 INITIAL_ADMIN_NAME=Keystone Executive Admin
 INITIAL_ADMIN_PHONE=9911956274
 """
-
-sftp = client.open_sftp()
-with sftp.file(f"{remote_dir}/.env", "w") as f:
-    f.write(env_content)
+        with sftp.file(env_remote_path, "w") as f:
+            f.write(env_content)
 sftp.close()
-run_cmd(f"chmod 600 {remote_dir}/.env", "Securing .env permissions")
+run_cmd(f"chmod 600 {env_remote_path}", "Securing .env permissions")
 
 # 4. Update Host Nginx Configuration for Keystone
 nginx_keystone_conf = """server {
