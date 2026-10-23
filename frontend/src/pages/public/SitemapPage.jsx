@@ -136,6 +136,7 @@ export default function SitemapPage() {
         { title: 'Commercial Properties in Delhi', path: '/commercial-properties-in-delhi' },
         { title: 'Flats for Sale in Gurugram', path: '/flats-for-sale-in-gurugram' },
         { title: 'Flats for Sale in Delhi', path: '/flats-for-sale-in-delhi' },
+        { title: 'Flats for Sale in Dwarka', path: '/flats-for-sale-in-dwarka', badge: 'Dwarka' },
         { title: 'Flats for Sale in Noida', path: '/flats-for-sale-in-noida' },
         { title: 'Flats for Rent in Delhi', path: '/flats-for-rent-in-delhi' },
         { title: 'Flats for Rent in Noida', path: '/flats-for-rent-in-noida' },

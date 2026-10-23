@@ -38,6 +38,9 @@ export function getGuidance(cityKey, listingType, propertyType) {
     'Compare prices on the same area measure (carpet, built-up or super area), not just the quoted rate per sq ft.',
     'Budget for stamp duty, registration charges and any applicable taxes on top of the sale price.',
   ];
+  if (cityKey === 'dwarka') {
+    items.splice(2, 0, 'For CGHS and DDA society apartments in Dwarka, verify society share certificate, NOC from the managing committee, and DDA conveyance deed or sub-lease.');
+  }
   if (commercial) items.splice(3, 0, 'Check the permitted use of the building and the lease status of any tenanted unit.');
   return { heading: commercial ? 'Before you buy commercial property' : 'Before you buy', items };
 }

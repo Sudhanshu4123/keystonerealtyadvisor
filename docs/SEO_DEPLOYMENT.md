@@ -23,8 +23,7 @@ Add (adjust certificates) and reload, then confirm with `curl -I`:
 server {
     listen 80;
     listen 443 ssl;
-    server_name www.keystonerealtyadvisor.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com
-                keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com;
+    server_name www.keystonerealtyadvisor.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com;
     # ssl_certificate lines must cover these names or the HTTPS redirect will show a certificate warning.
     return 301 https://keystonerealtyadvisor.com$request_uri;
 }

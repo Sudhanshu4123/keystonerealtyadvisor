@@ -47,6 +47,7 @@ public class SitemapController {
             "/builder-floors-in-gurgaon",
             "/commercial-properties-in-gurgaon",
             "/commercial-properties-in-delhi",
+            "/flats-for-sale-in-dwarka",
             "/projects",
             "/advisory",
             "/contact",

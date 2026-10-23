@@ -30,6 +30,17 @@ export const PROGRAMMATIC_CITIES = {
     localities: ['Noida Expressway', 'Sector 150', 'Sector 128', 'Sector 62', 'Sector 44', 'Greater Noida West'],
     reraName: 'UP RERA',
     overview: 'Noida and Greater Noida are in Uttar Pradesh, on the eastern side of Delhi NCR, with large residential sectors along the Noida Expressway and in Greater Noida West.'
+  },
+  dwarka: {
+    name: 'Dwarka',
+    searchCity: 'Delhi',
+    searchLocation: 'Dwarka',
+    region: 'IN-DL',
+    aliases: ['dwarka'],
+    state: 'Delhi',
+    localities: ['Sector 1', 'Sector 2', 'Sector 3', 'Sector 4', 'Sector 5', 'Sector 6', 'Sector 7', 'Sector 8', 'Sector 9', 'Sector 10', 'Sector 11', 'Sector 12', 'Sector 13', 'Sector 14', 'Sector 18', 'Sector 19'],
+    reraName: 'the RERA authority for Delhi',
+    overview: 'Dwarka in South West Delhi is a well-planned residential sub-city known for its DDA and CGHS (Cooperative Group Housing Society) society apartments across Sectors 1 to 19, close to IGI Airport and Yashobhoomi.'
   }
 };
 
@@ -118,6 +129,7 @@ export const PROGRAMMATIC_PAGES = [
   'builder-floors-in-gurgaon',
   'commercial-properties-in-gurgaon',
   'commercial-properties-in-delhi',
+  'flats-for-sale-in-dwarka',
 ];
 
 export const PROGRAMMATIC_ALIASES = {
@@ -168,7 +180,7 @@ export function parseProgrammaticSlug(slug = '') {
   }
   if (!targetCity) return null;
 
-  // Display the city spelling used in the URL ("Gurgaon" vs "Gurugram") so title/H1 match the target query.
+  // Display the city spelling used in the URL ("Gurgaon" vs "Gurugram" vs "Dwarka") so title/H1 match the target query.
   const displayCity = clean.endsWith('-in-gurgaon') ? 'Gurgaon' : targetCity.name;
 
   let listingType = '';
@@ -196,11 +208,14 @@ export function parseProgrammaticSlug(slug = '') {
 
   const noun = `${luxury.toLowerCase()}${bhkPrefix}${plural.toLowerCase()}`;
   const actionVerb = listingType === 'RENT' ? ' for rent' : listingType === 'SALE' ? ' for sale' : listingType === 'LEASE' ? ' for lease' : '';
-  const pageDescription = `Search ${noun}${actionVerb} in ${displayCity} by locality and budget. Send an enquiry to Keystone Realty Advisor to arrange a viewing.`;
+  const pageDescription = clean === 'flats-for-sale-in-dwarka'
+    ? 'Search verified society flats and apartments for sale in Dwarka across Sectors 1-19. Connect with Keystone Realty Advisor for site visits and advisory.'
+    : `Search ${noun}${actionVerb} in ${displayCity} by locality and budget. Send an enquiry to Keystone Realty Advisor to arrange a viewing.`;
 
   return {
     cityKey,
-    city: targetCity.name, // value used for the API/city filter
+    city: targetCity.searchCity || targetCity.name, // value used for the API/city filter
+    location: targetCity.searchLocation || '',     // value used for location filter
     displayCity,
     cityRegion: targetCity.region,
     cityData: targetCity,

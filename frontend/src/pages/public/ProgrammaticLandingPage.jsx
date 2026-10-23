@@ -60,6 +60,7 @@ function ProgrammaticLandingContent({ config }) {
         const queryPayload = {
           ...filters,
           city: config.city,
+          ...(config.location ? { location: config.location } : {}),
           ...(config.propertyType ? { propertyType: config.propertyType } : {}),
           ...(config.listingType ? { listingType: config.listingType } : {}),
           ...(config.bedrooms ? { bedrooms: Number(config.bedrooms) } : {}),
@@ -67,10 +68,15 @@ function ProgrammaticLandingContent({ config }) {
 
         const res = await propertyService.searchProperties(queryPayload);
         if (res.success && res.data && Array.isArray(res.data.content)) {
-          // City matching filter
+          // City & Location matching filter
           const filtered = res.data.content.filter((p) => {
             const pCity = (p.city || '').toLowerCase();
             const pLoc = (p.location || '').toLowerCase();
+            const pTitle = (p.title || '').toLowerCase();
+            if (config.location) {
+              const targetLocLower = config.location.toLowerCase();
+              return pLoc.includes(targetLocLower) || pTitle.includes(targetLocLower);
+            }
             const targetCityLower = config.city.toLowerCase();
             const isMatch = pCity.includes(targetCityLower) || pLoc.includes(targetCityLower) || (targetCityLower === 'gurugram' && (pCity.includes('gurgaon') || pLoc.includes('gurgaon')));
             return isMatch;
@@ -100,7 +106,7 @@ function ProgrammaticLandingContent({ config }) {
     }
 
     fetchListings();
-  }, [filters, config.city, config.propertyType, config.listingType, config.bedrooms]);
+  }, [filters, config.city, config.location, config.propertyType, config.listingType, config.bedrooms]);
 
   const handleFilterChange = (newFilters) => {
     setFilters((prev) => ({ ...prev, ...newFilters, city: config.city }));

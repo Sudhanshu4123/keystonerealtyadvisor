@@ -132,7 +132,7 @@ run_cmd(f"chmod 600 {env_remote_path}", "Securing .env permissions")
 
 # 4. Update Host Nginx Configuration for Keystone
 nginx_keystone_conf = """server {
-    server_name keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com keystonerealtyadvisor.com www.keystonerealtyadvisor.com;
+    server_name keystonerealtyadvisors.com www.keystonerealtyadvisors.com keystonerealtyadvisor.com www.keystonerealtyadvisor.com;
 
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
@@ -171,7 +171,7 @@ nginx_keystone_conf = """server {
 
 server {
     listen 80;
-    server_name keystonerealtyadvisor.com www.keystonerealtyadvisor.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com keystonerealtyadvisors.shrishyamassociate.com www.keystonerealtyadvisors.shrishyamassociate.com;
+    server_name keystonerealtyadvisor.com www.keystonerealtyadvisor.com keystonerealtyadvisors.com www.keystonerealtyadvisors.com;
     return 301 https://$host$request_uri;
 }
 """
@@ -194,7 +194,6 @@ time.sleep(20)
 run_cmd(f"cd {remote_dir} && docker compose ps", "Check container status")
 run_cmd("curl -I http://localhost:3002", "Local container health check")
 run_cmd("curl -s http://localhost:3002/actuator/health || true", "Backend actuator health check")
-run_cmd("pm2 list", "Verify Shrishyam website is still running unharmed in PM2")
 
 client.close()
 

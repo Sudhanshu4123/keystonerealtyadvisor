@@ -100,6 +100,10 @@ public class PropertyService {
                     Predicate locG1 = cb.like(cb.lower(root.get("location")), "%gurugram%");
                     Predicate locG2 = cb.like(cb.lower(root.get("location")), "%gurgaon%");
                     predicates.add(cb.or(cityG1, cityG2, locG1, locG2));
+                } else if ("dwarka".equals(cityLower)) {
+                    Predicate cityD = cb.like(cb.lower(root.get("city")), "%dwarka%");
+                    Predicate locD = cb.like(cb.lower(root.get("location")), "%dwarka%");
+                    predicates.add(cb.or(cityD, locD));
                 } else {
                     predicates.add(cb.like(cb.lower(root.get("city")), "%" + cityLower + "%"));
                 }
