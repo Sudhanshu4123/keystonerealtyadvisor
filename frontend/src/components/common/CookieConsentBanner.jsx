@@ -9,10 +9,10 @@ export default function CookieConsentBanner() {
     try {
       const consent = localStorage.getItem('keystone_cookie_consent');
       if (!consent) {
-        // Show after a subtle 1s delay for smooth page load
+        // Show after a subtle 3.5s delay for smooth initial page load and fast mobile LCP
         const timer = setTimeout(() => {
           setIsVisible(true);
-        }, 1000);
+        }, 3500);
         return () => clearTimeout(timer);
       }
     } catch (e) {

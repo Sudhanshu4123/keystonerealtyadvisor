@@ -25,6 +25,7 @@ const DeveloperLogo = ({ name, id }) => {
         width="80"
         height="22"
         loading="lazy"
+        decoding="async"
         style={{
           height: '22px',
           width: 'auto',

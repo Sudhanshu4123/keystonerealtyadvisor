@@ -31,7 +31,11 @@
     });
 
     // Defer third-party tags to prevent render blocking and optimize FCP / LCP
+    var analyticsLoaded = false;
     function initAnalyticsScripts() {
+      if (analyticsLoaded) return;
+      analyticsLoaded = true;
+
       // Google Tag Manager
       (function (w, d, s, l, i) {
         w[l] = w[l] || []; w[l].push({
@@ -56,14 +60,20 @@
         t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
         y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
       })(window, document, "clarity", "script", "yjkokvsg26");
+
+      ['scroll', 'touchstart', 'pointerdown', 'keydown'].forEach(function (ev) {
+        window.removeEventListener(ev, initAnalyticsScripts, { passive: true });
+      });
     }
 
+    ['scroll', 'touchstart', 'pointerdown', 'keydown'].forEach(function (ev) {
+      window.addEventListener(ev, initAnalyticsScripts, { passive: true, once: true });
+    });
+
     if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(initAnalyticsScripts, { timeout: 2500 });
+      window.requestIdleCallback(initAnalyticsScripts, { timeout: 4500 });
     } else {
-      window.addEventListener('load', function () {
-        setTimeout(initAnalyticsScripts, 1000);
-      });
+      setTimeout(initAnalyticsScripts, 4500);
     }
   </script>
 
@@ -114,17 +124,20 @@
     content="Find verified flats and residential properties in Delhi, Gurugram and Dwarka with dedicated advisor support from first enquiry to site visit." />
   <meta name="twitter:image" content="https://keystonerealtyadvisor.com/keystone-logo.png" />
 
+  <!-- Preload Critical Header Logo for Fast Mobile FCP -->
+  <link rel="preload" as="image" type="image/webp" href="/keystone-logo-sm.webp" fetchpriority="high" />
+
   <!-- Google Fonts - Preconnected & Non-blocking Swap -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
     media="print" onload="this.media='all'" />
   <noscript>
     <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
   </noscript>
 
   <!-- Site-wide structured data: the ONLY Organization/WebSite definition. Page components must reference

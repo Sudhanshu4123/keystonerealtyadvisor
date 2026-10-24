@@ -40,6 +40,8 @@ export default function Navbar() {
             alt="Keystone Realty Advisor Logo"
             width="42"
             height="42"
+            fetchPriority="high"
+            decoding="async"
             style={{ width: '42px', height: '42px', objectFit: 'contain' }}
             onError={(e) => {
               e.target.onerror = null;

@@ -11,22 +11,24 @@ import AdminLayout from './layouts/AdminLayout';
 // Auth Guards
 import { ProtectedRoute, AdminRoute } from './components/auth/RouteGuards';
 
-// Public Pages (Eager for Fast Initial Paint & SEO Crawlers)
+// Public Pages (HomePage is kept eager for immediate first paint on /)
 import HomePage from './pages/public/HomePage';
-import PropertiesPage from './pages/public/PropertiesPage';
-import PropertyDetailPage from './pages/public/PropertyDetailPage';
-import ProjectsPage from './pages/public/ProjectsPage';
-import ProjectDetailPage from './pages/public/ProjectDetailPage';
-import AdvisoryPage from './pages/public/AdvisoryPage';
-import ContactPage from './pages/public/ContactPage';
-import NotFoundPage from './pages/public/NotFoundPage';
-import FlatsForRentGurugramPage from './pages/public/FlatsForRentGurugramPage';
-import PropertiesInDelhiPage from './pages/public/PropertiesInDelhiPage';
-import PropertiesInGurugramPage from './pages/public/PropertiesInGurugramPage';
-import PropertiesInNoidaPage from './pages/public/PropertiesInNoidaPage';
 
-// Programmatic SEO Master Landing Page
-import ProgrammaticLandingPage from './pages/public/ProgrammaticLandingPage';
+// Lazy-loaded secondary public pages (Splits code so mobile visitors only download HomePage on initial visit)
+const PropertiesPage = lazy(() => import('./pages/public/PropertiesPage'));
+const PropertyDetailPage = lazy(() => import('./pages/public/PropertyDetailPage'));
+const ProjectsPage = lazy(() => import('./pages/public/ProjectsPage'));
+const ProjectDetailPage = lazy(() => import('./pages/public/ProjectDetailPage'));
+const AdvisoryPage = lazy(() => import('./pages/public/AdvisoryPage'));
+const ContactPage = lazy(() => import('./pages/public/ContactPage'));
+const NotFoundPage = lazy(() => import('./pages/public/NotFoundPage'));
+const FlatsForRentGurugramPage = lazy(() => import('./pages/public/FlatsForRentGurugramPage'));
+const PropertiesInDelhiPage = lazy(() => import('./pages/public/PropertiesInDelhiPage'));
+const PropertiesInGurugramPage = lazy(() => import('./pages/public/PropertiesInGurugramPage'));
+const PropertiesInNoidaPage = lazy(() => import('./pages/public/PropertiesInNoidaPage'));
+
+// Programmatic SEO Master Landing Page (Lazy loaded)
+const ProgrammaticLandingPage = lazy(() => import('./pages/public/ProgrammaticLandingPage'));
 import { PROGRAMMATIC_PAGES, PROGRAMMATIC_ALIASES, CITY_PAGE_ALIASES } from './utils/programmaticSeoConfig';
 
 // Lazy Secondary Public & Legal Pages
