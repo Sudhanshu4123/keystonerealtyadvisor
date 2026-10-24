@@ -42,7 +42,7 @@ export default function EntityMapPage() {
       ],
       officialProps: {
         legalName: 'Keystone Realty Advisor',
-        email: 'keystonexhelpdeskp@gmail.com',
+        email: 'keystonexhelpdesk@gmail.com',
         phone: '+91 9911956274',
         website: 'https://keystonerealtyadvisor.com',
         sameAs: [
@@ -222,7 +222,7 @@ export default function EntityMapPage() {
         image: 'https://keystonerealtyadvisor.com/keystone-logo.png',
         description: 'Real estate advisory practice for residential and commercial property in Delhi NCR, India.',
         telephone: '+919911956274',
-        email: 'keystonexhelpdeskp@gmail.com',
+        email: 'keystonexhelpdesk@gmail.com',
         sameAs: [
           'https://www.linkedin.com/company/keyston-realty-advisor/',
           'https://www.facebook.com/profile.php?id=61594316288306',

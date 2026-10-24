@@ -120,7 +120,7 @@ CLOUDINARY_API_SECRET={os.environ.get('CLOUDINARY_API_SECRET', '')}
 
 CORS_ALLOWED_ORIGINS=https://keystonerealtyadvisor.com,https://www.keystonerealtyadvisor.com,http://localhost:3002
 
-INITIAL_ADMIN_EMAIL={os.environ.get('INITIAL_ADMIN_EMAIL', 'keystonexhelpdeskp@gmail.com')}
+INITIAL_ADMIN_EMAIL={os.environ.get('INITIAL_ADMIN_EMAIL', 'keystonexhelpdesk@gmail.com')}
 INITIAL_ADMIN_PASSWORD={os.environ.get('INITIAL_ADMIN_PASSWORD', '')}
 INITIAL_ADMIN_NAME=Keystone Executive Admin
 INITIAL_ADMIN_PHONE=9911956274

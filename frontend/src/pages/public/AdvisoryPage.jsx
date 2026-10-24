@@ -214,6 +214,97 @@ export default function AdvisoryPage() {
             </div>
           </div>
 
+          {/* Real Estate Advisory & Consultation Knowledge Guide */}
+          <div style={{ marginTop: '3.5rem' }}>
+            <div className="section-header text-center" style={{ marginBottom: '2rem' }}>
+              <span className="section-subtitle">Client Advisory & Consultation Guide</span>
+              <h2 className="section-title">Trusted Real Estate Advisory & Consultant Services</h2>
+              <p className="section-description">
+                Fiduciary-focused guidance across residential purchases, rental portfolios, commercial real estate, and investment risk assessments.
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
+              <div className="card" style={{ padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.625rem', color: 'var(--text-primary)' }}>
+                  Keystone Real Estate Consultant
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1rem' }}>
+                  Looking for a reliable real estate consultant? Keystone Realty Advisor helps buyers, sellers, tenants, and property owners explore suitable residential and commercial properties based on their requirements, preferred locations, and budgets.
+                </p>
+                <Link to="/contact" style={{ color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.84375rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span>Connect with an Advisor</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+
+              <div className="card" style={{ padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.625rem', color: 'var(--text-primary)' }}>
+                  Keystone Real Estate Advisory
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1rem' }}>
+                  Keystone Real Estate Advisory focuses on helping clients navigate property searches, residential real estate, commercial spaces, and investment opportunities. Get assistance in exploring available properties and making informed real estate decisions.
+                </p>
+                <Link to="/properties" style={{ color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.84375rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span>Explore Available Properties</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+
+              <div className="card" style={{ padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.625rem', color: 'var(--text-primary)' }}>
+                  Keystone Real Estate Services
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1rem' }}>
+                  Explore real estate services with Keystone Realty Advisor, including assistance with residential property searches, houses for sale, rental properties, commercial spaces, and property opportunities. Our aim is to help clients make informed decisions based on their property needs.
+                </p>
+                <Link to="/properties" style={{ color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.84375rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span>View Houses & Properties</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+
+              <div className="card" style={{ padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.625rem', color: 'var(--text-primary)' }}>
+                  Keystone Real Estate Investments
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1rem' }}>
+                  Explore real estate investment opportunities with Keystone Realty Advisor. Consider residential properties, commercial spaces, and other property options according to your investment objectives, budget, location preferences, and risk considerations.
+                </p>
+                <Link to="/contact" style={{ color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.84375rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span>Discuss Investment Objectives</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+
+              <div className="card" style={{ padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.625rem', color: 'var(--text-primary)' }}>
+                  Keystone Commercial Real Estate
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1rem' }}>
+                  Explore commercial real estate opportunities with Keystone Realty Advisor, including office spaces, shops, and other commercial properties. Whether you are looking for a business location, commercial premises for rent, or a property to purchase, enquire about options that match your requirements.
+                </p>
+                <Link to="/properties?category=COMMERCIAL_PROPERTY" style={{ color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.84375rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span>View Commercial Properties</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+
+              <div className="card" style={{ padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: '0.625rem', color: 'var(--text-primary)' }}>
+                  Keystone Real Estate Advisory Reviews
+                </h3>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1rem' }}>
+                  Searching for Keystone Real Estate Advisory reviews? Review available customer feedback to understand other clients' experiences with property searches, communication, and real estate services. Always consider genuine reviews when evaluating a real estate advisory company.
+                </p>
+                <Link to="/contact" style={{ color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.84375rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span>Client Feedback & Contact</span>
+                  <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* Contextual Link Weaving: Prime Portfolios & Hubs */}
           <div className="card" style={{ marginTop: '3.5rem', padding: '2rem', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>

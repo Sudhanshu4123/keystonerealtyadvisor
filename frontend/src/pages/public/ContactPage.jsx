@@ -210,11 +210,22 @@ export default function ContactPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                   <Mail size={20} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
                   <div>
-                    <strong style={{ display: 'block', color: 'var(--text-primary)' }}>Email</strong>
-                    <span style={{ color: 'var(--text-secondary)' }}>keystonexhelpdeskp@gmail.com</span>
+                    <strong style={{ display: 'block', color: 'var(--text-primary)' }}>Official Email Channel</strong>
+                    <a href="mailto:keystonexhelpdesk@gmail.com" style={{ color: 'var(--color-gold-700)', fontWeight: 600, textDecoration: 'none' }}>
+                      keystonexhelpdesk@gmail.com
+                    </a>
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="card" style={{ padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
+              <h3 style={{ fontSize: '1.0625rem', fontWeight: 600, marginBottom: '0.625rem', color: 'var(--text-primary)' }}>
+                Keystone Real Estate Email
+              </h3>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Need the Keystone Real Estate email address? Visit the official Keystone Realty Advisor website and its Contact page to find the available business contact details. Use the official contact channel (<a href="mailto:keystonexhelpdesk@gmail.com" style={{ color: 'var(--color-gold-700)', fontWeight: 600 }}>keystonexhelpdesk@gmail.com</a>) to enquire about property listings, residential homes, commercial spaces, and real estate services.
+              </p>
             </div>
 
             <div className="card" style={{ padding: '2rem', backgroundColor: 'var(--color-dark-900)', color: '#FFFFFF', border: '1px solid #1E293B' }}>
@@ -229,8 +240,30 @@ export default function ContactPage() {
           </div>
         </div>
 
+        {/* Real Estate Reviews & Advisory Verification */}
+        <div className="card" style={{ marginTop: '2.5rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)', maxWidth: '1020px', margin: '2.5rem auto 0' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }} className="contact-subgrid">
+            <div>
+              <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                Keystone Real Estate Advisory Reviews
+              </h3>
+              <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Searching for Keystone Real Estate Advisory reviews? Review available customer feedback to understand other clients' experiences with property searches, communication, and real estate services. Always consider genuine reviews when evaluating a real estate advisory company.
+              </p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                Keystone Commercial Real Estate Reviews
+              </h3>
+              <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>
+                Looking for Keystone Commercial Real Estate reviews? Explore genuine customer feedback and available business information to evaluate the company's communication, property assistance, and service experience. Verify property details and terms independently before making a commercial real estate decision.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Explore Portfolios Cross-links */}
-        <div className="card" style={{ marginTop: '3.5rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)', maxWidth: '1020px', margin: '3.5rem auto 0' }}>
+        <div className="card" style={{ marginTop: '2rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)', maxWidth: '1020px', margin: '2rem auto 0' }}>
           <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
             Explore Portfolios Across Delhi NCR
           </h3>
@@ -243,6 +276,9 @@ export default function ContactPage() {
             </Link>
             <Link to="/properties-in-delhi" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Delhi
+            </Link>
+            <Link to="/flats-for-sale-in-dwarka" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+              Flats for Sale in Dwarka
             </Link>
             <Link to="/properties-in-noida" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
               Properties in Noida

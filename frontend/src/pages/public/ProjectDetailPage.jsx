@@ -1415,8 +1415,8 @@ export default function ProjectDetailPage() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Mail size={15} color="var(--color-gold-500)" />
-                <a href="mailto:keystonexhelpdeskp@gmail.com" style={{ color: 'var(--text-secondary)', textDecoration: 'none', wordBreak: 'break-all' }}>
-                  keystonexhelpdeskp@gmail.com
+                <a href="mailto:keystonexhelpdesk@gmail.com" style={{ color: 'var(--text-secondary)', textDecoration: 'none', wordBreak: 'break-all' }}>
+                  keystonexhelpdesk@gmail.com
                 </a>
               </div>
             </div>
