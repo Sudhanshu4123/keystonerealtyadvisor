@@ -9,7 +9,6 @@ import SEO from '../../components/common/SEO';
 import {
   Search,
   Building2,
-  ShieldCheck,
   TrendingUp,
   Compass,
   ArrowRight,
@@ -19,7 +18,6 @@ import {
   CheckCircle2,
   Lock,
   FileCheck2,
-  Users,
   Phone
 } from 'lucide-react';
 
@@ -504,104 +502,6 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Core Advisory Practice Section */}
-      <section className="section" style={{ backgroundColor: '#FFFFFF', borderTop: '1px solid var(--border-color)' }}>
-        <div className="container">
-          <div className="section-header text-center">
-            <span className="section-subtitle">Practice Areas</span>
-            <h2 className="section-title">Advisory Services</h2>
-            <p className="section-description">
-              Property advisory for residential buyers, tenants, investors and commercial occupiers.
-            </p>
-          </div>
-
-          <div className="grid-3">
-            <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', border: '1px solid var(--border-color)', backgroundColor: '#FFFFFF' }}>
-              <div
-                style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'var(--color-dark-900)',
-                  color: 'var(--color-gold-400)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                }}
-              >
-                <Landmark size={24} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.75rem', minHeight: '3.25rem', color: 'var(--text-primary)' }}>
-                Bespoke Acquisition & Representation
-              </h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                Discreet property identification, comprehensive title search audits, transaction structuring, and contract negotiation for high-value residences and penthouses.
-              </p>
-              <Link to="/advisory" style={{ marginTop: 'auto', color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                <span>Learn about acquisition</span>
-                <ArrowRight size={14} />
-              </Link>
-            </div>
-
-            <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', border: '1px solid var(--border-color)', backgroundColor: '#FFFFFF' }}>
-              <div
-                style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'var(--color-dark-900)',
-                  color: 'var(--color-gold-400)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                }}
-              >
-                <TrendingUp size={24} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.75rem', minHeight: '3.25rem', color: 'var(--text-primary)' }}>
-                Commercial Leasing & Corporate Strategy
-              </h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                Strategic positioning for income-generating assets, commercial leasing advisory, tenancy optimization, and yield evaluation across prime commercial corridors.
-              </p>
-              <Link to="/advisory" style={{ marginTop: 'auto', color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                <span>Learn about leasing</span>
-                <ArrowRight size={14} />
-              </Link>
-            </div>
-
-            <div className="card" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', border: '1px solid var(--border-color)', backgroundColor: '#FFFFFF' }}>
-              <div
-                style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: 'var(--radius-sm)',
-                  backgroundColor: 'var(--color-dark-900)',
-                  color: 'var(--color-gold-400)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                }}
-              >
-                <ShieldCheck size={24} />
-              </div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.75rem', minHeight: '3.25rem', color: 'var(--text-primary)' }}>
-                Asset Valuation & Feasibility Studies
-              </h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-                Data-driven market comparative assessments, land development feasibility studies, risk profiling, and structured exit planning for capital preservation.
-              </p>
-              <Link to="/advisory" style={{ marginTop: 'auto', color: 'var(--color-gold-600)', fontWeight: 600, fontSize: '0.875rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                <span>Learn about valuation</span>
-                <ArrowRight size={14} />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Developer Projects Ticker Strip - Just Above Footer */}
       <DeveloperTicker />
