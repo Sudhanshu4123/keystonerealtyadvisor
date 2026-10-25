@@ -199,7 +199,10 @@ public class PropertyService {
             List<Property> all = propertyRepository.findAll();
             for (Property p : all) {
                 String generated = propertyMapper.generateSlug(p.getTitle(), p.getLocation(), p.getCity(), p.getId());
-                if (identifier.equalsIgnoreCase(generated) || identifier.equalsIgnoreCase(p.getSlug())) {
+                boolean matches = identifier.equalsIgnoreCase(generated)
+                        || (p.getSlug() != null && identifier.equalsIgnoreCase(p.getSlug()))
+                        || (p.getSlug() != null && p.getSlug().replace("-", "").equalsIgnoreCase(identifier.replace("-", "")));
+                if (matches) {
                     property = p;
                     if (p.getSlug() == null || !p.getSlug().equalsIgnoreCase(generated)) {
                         p.setSlug(generated);

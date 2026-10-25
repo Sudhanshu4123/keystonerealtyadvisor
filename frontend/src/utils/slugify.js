@@ -37,7 +37,7 @@ export function slugify(text) {
 export function getPropertySlug(property) {
   if (!property) return '';
   if (property.slug && property.slug.trim()) {
-    return dedupeTokens(property.slug.trim());
+    return property.slug.trim();
   }
   const title = (property.title || '').toLowerCase();
   const loc = (property.location || '').toLowerCase();
@@ -58,7 +58,7 @@ export function getPropertySlug(property) {
 export function getProjectSlug(project) {
   if (!project) return '';
   if (project.slug && project.slug.trim()) {
-    return dedupeTokens(project.slug.trim());
+    return project.slug.trim();
   }
   const name = (project.name || '').toLowerCase();
   const loc = (project.locality || '').toLowerCase();
