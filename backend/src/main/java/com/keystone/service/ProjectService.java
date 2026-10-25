@@ -68,20 +68,30 @@ public class ProjectService {
         this.fileStorageService = fileStorageService;
     }
 
+    private static final List<ProjectStatus> PUBLIC_PROJECT_STATUSES = List.of(
+            ProjectStatus.PUBLISHED,
+            ProjectStatus.UNDER_CONSTRUCTION,
+            ProjectStatus.READY_TO_MOVE,
+            ProjectStatus.COMPLETED,
+            ProjectStatus.SOLD_OUT
+    );
+
     // ==========================================
     // PUBLIC ACCESS METHODS
     // ==========================================
 
     @Transactional(readOnly = true)
     public PageResponse<ProjectSummaryResponse> searchPublishedProjects(ProjectSearchCriteria criteria) {
-        // Enforce published status for public view
-        criteria.setStatus(ProjectStatus.PUBLISHED);
-        return executeSearch(criteria);
+        // Exclude draft or unpublished from public search if specified
+        if (criteria.getStatus() == ProjectStatus.DRAFT || criteria.getStatus() == ProjectStatus.UNPUBLISHED) {
+            criteria.setStatus(null);
+        }
+        return executeSearch(criteria, true);
     }
 
     @Transactional(readOnly = true)
     public List<ProjectSummaryResponse> getFeaturedProjects() {
-        return projectRepository.findTop6ByStatusAndIsFeaturedTrueOrderByCreatedAtDesc(ProjectStatus.PUBLISHED)
+        return projectRepository.findTop6ByStatusInAndIsFeaturedTrueOrderByCreatedAtDesc(PUBLIC_PROJECT_STATUSES)
                 .stream()
                 .map(projectMapper::toSummaryResponse)
                 .collect(Collectors.toList());
@@ -92,7 +102,7 @@ public class ProjectService {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Project", "id", id));
 
-        if (project.getStatus() != ProjectStatus.PUBLISHED) {
+        if (project.getStatus() == ProjectStatus.DRAFT || project.getStatus() == ProjectStatus.UNPUBLISHED) {
             throw new ResourceNotFoundException("Project", "id", id);
         }
 
@@ -104,7 +114,7 @@ public class ProjectService {
         Project project = projectRepository.findBySlug(slug)
                 .orElseThrow(() -> new ResourceNotFoundException("Project", "slug", slug));
 
-        if (project.getStatus() != ProjectStatus.PUBLISHED) {
+        if (project.getStatus() == ProjectStatus.DRAFT || project.getStatus() == ProjectStatus.UNPUBLISHED) {
             throw new ResourceNotFoundException("Project", "slug", slug);
         }
 
@@ -117,7 +127,7 @@ public class ProjectService {
 
     @Transactional(readOnly = true)
     public PageResponse<ProjectSummaryResponse> adminSearchProjects(ProjectSearchCriteria criteria) {
-        return executeSearch(criteria);
+        return executeSearch(criteria, false);
     }
 
     @Transactional(readOnly = true)
@@ -560,13 +570,13 @@ public class ProjectService {
     // SEARCH SPECIFICATION BUILDER
     // ==========================================
 
-    private PageResponse<ProjectSummaryResponse> executeSearch(ProjectSearchCriteria criteria) {
+    private PageResponse<ProjectSummaryResponse> executeSearch(ProjectSearchCriteria criteria, boolean publicOnly) {
         Sort sort = criteria.getSortDirection().equalsIgnoreCase("asc")
                 ? Sort.by(criteria.getSortBy()).ascending()
                 : Sort.by(criteria.getSortBy()).descending();
 
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize(), sort);
-        Specification<Project> spec = createSearchSpecification(criteria);
+        Specification<Project> spec = createSearchSpecification(criteria, publicOnly);
 
         Page<Project> projectPage = projectRepository.findAll(spec, pageable);
         List<ProjectSummaryResponse> content = projectPage.getContent().stream()
@@ -576,12 +586,14 @@ public class ProjectService {
         return new PageResponse<>(content, projectPage);
     }
 
-    private Specification<Project> createSearchSpecification(ProjectSearchCriteria criteria) {
+    private Specification<Project> createSearchSpecification(ProjectSearchCriteria criteria, boolean publicOnly) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (criteria.getStatus() != null) {
                 predicates.add(cb.equal(root.get("status"), criteria.getStatus()));
+            } else if (publicOnly) {
+                predicates.add(root.get("status").in(PUBLIC_PROJECT_STATUSES));
             }
 
             if (StringUtils.hasText(criteria.getQuery())) {

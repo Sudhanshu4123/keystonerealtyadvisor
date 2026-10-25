@@ -22,20 +22,37 @@ public class PropertyMapper {
 
     public String generateSlug(String title, String location, String city, Long id) {
         StringBuilder sb = new StringBuilder();
+        String lowerTitle = title != null ? title.toLowerCase() : "";
+        String lowerLoc = location != null ? location.toLowerCase() : "";
+        String lowerCity = city != null ? city.toLowerCase() : "";
+
         if (title != null && !title.trim().isEmpty()) {
             sb.append(title.trim());
         }
-        if (location != null && !location.trim().isEmpty()) {
+        if (location != null && !location.trim().isEmpty() && !lowerTitle.contains(lowerLoc.trim())) {
             sb.append(" ").append(location.trim());
         }
-        if (city != null && !city.trim().isEmpty()) {
+        if (city != null && !city.trim().isEmpty() && !lowerTitle.contains(lowerCity.trim()) && !lowerLoc.contains(lowerCity.trim())) {
             sb.append(" ").append(city.trim());
         }
         String text = sb.length() > 0 ? sb.toString() : "property";
         String nowhitespace = WHITESPACE.matcher(text).replaceAll("-");
         String normalized = Normalizer.normalize(nowhitespace, Normalizer.Form.NFD);
         String cleanSlug = NONLATIN.matcher(normalized).replaceAll("").toLowerCase(Locale.ENGLISH).replaceAll("-+", "-").replaceAll("^-|-$", "");
-        return cleanSlug.isEmpty() ? ("property-" + (id != null ? id : "listing")) : cleanSlug;
+
+        // Token deduplication to avoid repetitive slugs (e.g. gurgaon-gurgaon)
+        String[] tokens = cleanSlug.split("-");
+        StringBuilder deduped = new StringBuilder();
+        String lastToken = "";
+        for (String t : tokens) {
+            if (!t.isEmpty() && !t.equals(lastToken)) {
+                if (deduped.length() > 0) deduped.append("-");
+                deduped.append(t);
+                lastToken = t;
+            }
+        }
+        String result = deduped.toString();
+        return result.isEmpty() ? ("property-" + (id != null ? id : "listing")) : result;
     }
 
     public Property toEntity(PropertyRequest request) {

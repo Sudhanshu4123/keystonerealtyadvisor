@@ -26,6 +26,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long>, JpaSpec
 
     List<Project> findTop6ByStatusAndIsFeaturedTrueOrderByCreatedAtDesc(ProjectStatus status);
 
+    List<Project> findTop6ByStatusInAndIsFeaturedTrueOrderByCreatedAtDesc(List<ProjectStatus> statuses);
+
     long countByStatus(ProjectStatus status);
 
     @Query("SELECT p FROM Project p LEFT JOIN FETCH p.configurations LEFT JOIN FETCH p.amenities WHERE p.id = :id")

@@ -133,8 +133,8 @@ public class SitemapController {
             List<Project> projects = projectRepository.findAll();
             for (Project proj : projects) {
                 try {
-                    // Only PUBLISHED projects resolve on the site; the API 404s every other status.
-                    if (proj.getStatus() != ProjectStatus.PUBLISHED) {
+                    // Only active/public projects resolve on the site; DRAFT and UNPUBLISHED are hidden.
+                    if (proj.getStatus() == ProjectStatus.DRAFT || proj.getStatus() == ProjectStatus.UNPUBLISHED) {
                         continue;
                     }
                     String modDate = proj.getUpdatedAt() != null ? proj.getUpdatedAt().format(formatter) : null;
