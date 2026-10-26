@@ -34,12 +34,14 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
   };
 
   return (
-    <div>
+    <div style={{ width: '100%', maxWidth: '100%', minWidth: 0 }}>
       {/* Main Image Container */}
       <div
         style={{
           position: 'relative',
           height: 'clamp(240px, 52vw, 460px)',
+          width: '100%',
+          maxWidth: '100%',
           borderRadius: 'var(--radius-lg)',
           overflow: 'hidden',
           backgroundColor: '#0B0F19',
@@ -142,6 +144,9 @@ export default function ImageGallery({ images = [], title = 'Property Image' }) 
             marginTop: '1rem',
             overflowX: 'auto',
             paddingBottom: '0.5rem',
+            width: '100%',
+            maxWidth: '100%',
+            WebkitOverflowScrolling: 'touch',
           }}
         >
           {validImages.map((img, idx) => {

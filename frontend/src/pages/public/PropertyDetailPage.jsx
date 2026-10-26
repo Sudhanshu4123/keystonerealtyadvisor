@@ -298,9 +298,9 @@ export default function PropertyDetailPage() {
         </div>
 
         {/* Main Content Layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr', gap: '2.5rem' }} className="property-detail-grid">
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 350px', gap: '2rem', alignItems: 'start' }} className="property-detail-grid">
           {/* Left Column: Gallery & Details */}
-          <div>
+          <div style={{ minWidth: 0, width: '100%' }}>
             {/* Gallery */}
             <div style={{ marginBottom: '2.5rem' }}>
               <ImageGallery images={property.images} title={property.title} />
@@ -1163,18 +1163,20 @@ export default function PropertyDetailPage() {
           </div>
 
           {/* Right Column: Sticky Action Box */}
-          <div>
+          <div className="property-detail-sidebar" style={{ minWidth: 0, width: '100%' }}>
             <div
               className="card"
               style={{
-                padding: '2rem',
+                padding: '1.5rem',
                 position: 'sticky',
                 top: 'calc(var(--header-height) + 1.5rem)',
+                width: '100%',
+                boxSizing: 'border-box',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-                <img src="/keystone-logo.svg" alt="Keystone Realty Advisor logo" width="32" height="32" style={{ width: '32px', height: '32px' }} />
-                <div>
+                <img src="/keystone-logo.svg" alt="Keystone Realty Advisor logo" width="32" height="32" style={{ width: '32px', height: '32px', flexShrink: 0 }} />
+                <div style={{ minWidth: 0 }}>
                   <div style={{ fontWeight: 700, fontSize: '0.9375rem', lineHeight: 1.1 }}>KEYSTONE REALTY ADVISOR</div>
                   <div style={{ fontSize: '0.6875rem', color: 'var(--color-gold-600)', textTransform: 'uppercase', fontWeight: 600 }}>
                     Client Representation Desk
@@ -1182,7 +1184,7 @@ export default function PropertyDetailPage() {
                 </div>
               </div>
 
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: 1.5 }}>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '1.25rem', lineHeight: 1.5 }}>
                 Interested in this property or need private representation? Our senior advisors provide confidential consultations and transaction governance.
               </p>
 
@@ -1191,8 +1193,18 @@ export default function PropertyDetailPage() {
                   type="button"
                   onClick={() => setEnquiryModalOpen(true)}
                   className="btn btn-primary btn-block btn-lg"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    whiteSpace: 'normal',
+                    textAlign: 'center',
+                    lineHeight: 1.25,
+                    padding: '0.875rem 1rem',
+                  }}
                 >
-                  <MessageSquare size={18} />
+                  <MessageSquare size={18} style={{ flexShrink: 0 }} />
                   <span>Book Confidential Site Visit</span>
                 </button>
 
@@ -1211,9 +1223,13 @@ export default function PropertyDetailPage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    whiteSpace: 'normal',
+                    textAlign: 'center',
+                    lineHeight: 1.25,
+                    padding: '0.75rem 1rem',
                   }}
                 >
-                  <MessageCircle size={18} />
+                  <MessageCircle size={18} style={{ flexShrink: 0 }} />
                   <span>Chat on WhatsApp</span>
                 </a>
 
@@ -1221,22 +1237,32 @@ export default function PropertyDetailPage() {
                   type="button"
                   onClick={handleFavoriteToggle}
                   className={`btn ${isFavorite ? 'btn-danger' : 'btn-outline'} btn-block`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    whiteSpace: 'normal',
+                    textAlign: 'center',
+                    lineHeight: 1.25,
+                    padding: '0.75rem 1rem',
+                  }}
                 >
-                  <Heart size={16} fill={isFavorite ? '#FFFFFF' : 'none'} />
+                  <Heart size={16} fill={isFavorite ? '#FFFFFF' : 'none'} style={{ flexShrink: 0 }} />
                   <span>{isFavorite ? 'Saved in Portfolio' : 'Save to Favorites'}</span>
                 </button>
               </div>
 
               <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.25rem', fontSize: '0.8125rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <ShieldCheck size={16} color="var(--color-gold-500)" />
+                  <ShieldCheck size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
                   <span>Your enquiry goes directly to an advisor</span>
                 </div>
                 <a
                   href="tel:+919911956274"
                   style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}
                 >
-                  <Phone size={16} color="var(--color-gold-500)" />
+                  <Phone size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
                   <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>+91 9911956274</span>
                 </a>
               </div>
@@ -1245,9 +1271,13 @@ export default function PropertyDetailPage() {
         </div>
 
         <style>{`
-          @media (max-width: 900px) {
+          @media (max-width: 1024px) {
             .property-detail-grid {
               grid-template-columns: 1fr !important;
+              gap: 2rem !important;
+            }
+            .property-detail-sidebar .card {
+              position: static !important;
             }
           }
         `}</style>
