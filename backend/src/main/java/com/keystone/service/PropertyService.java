@@ -27,7 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.keystone.entity.Project;
@@ -194,22 +196,44 @@ public class PropertyService {
             } catch (Exception ignored) {}
         }
 
-        // 4. If still not found, check dynamically generated slugs and persist slug to index
+        // 4. Try matching normalized/deduped slug or generated slug
         if (property == null) {
+            String normIdentifier = normalizeSlug(identifier);
+            String dedupIdentifier = dedupeSlugTokens(identifier);
             List<Property> all = propertyRepository.findAll();
+
+            Property bestMatch = null;
+            double bestScore = 0.0;
+
             for (Property p : all) {
+                String pSlug = p.getSlug() != null ? p.getSlug() : "";
                 String generated = propertyMapper.generateSlug(p.getTitle(), p.getLocation(), p.getCity(), p.getId());
-                boolean matches = identifier.equalsIgnoreCase(generated)
-                        || (p.getSlug() != null && identifier.equalsIgnoreCase(p.getSlug()))
-                        || (p.getSlug() != null && p.getSlug().replace("-", "").equalsIgnoreCase(identifier.replace("-", "")));
-                if (matches) {
+                String pNormSlug = normalizeSlug(pSlug);
+                String pDedupSlug = dedupeSlugTokens(pSlug);
+                String genDedupSlug = dedupeSlugTokens(generated);
+
+                boolean exactOrDedupMatch = identifier.equalsIgnoreCase(pSlug)
+                        || identifier.equalsIgnoreCase(generated)
+                        || (!dedupIdentifier.isEmpty() && dedupIdentifier.equalsIgnoreCase(pDedupSlug))
+                        || (!dedupIdentifier.isEmpty() && dedupIdentifier.equalsIgnoreCase(genDedupSlug))
+                        || (!normIdentifier.isEmpty() && normIdentifier.equalsIgnoreCase(pNormSlug));
+
+                if (exactOrDedupMatch) {
                     property = p;
-                    if (p.getSlug() == null || !p.getSlug().equalsIgnoreCase(generated)) {
-                        p.setSlug(generated);
-                        propertyRepository.save(p);
-                    }
                     break;
                 }
+
+                // Calculate token overlap score for resilient fallback
+                double score = calculateSlugSimilarity(identifier, p);
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = p;
+                }
+            }
+
+            // If no exact match but high similarity found (>= 0.65 threshold)
+            if (property == null && bestMatch != null && bestScore >= 0.65) {
+                property = bestMatch;
             }
         }
 
@@ -354,5 +378,58 @@ public class PropertyService {
     public Property findEntityById(Long id) {
         return propertyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
+    }
+
+    private String normalizeSlug(String slug) {
+        if (slug == null) return "";
+        return slug.toLowerCase().replace("-", "").trim();
+    }
+
+    private String dedupeSlugTokens(String slug) {
+        if (slug == null || slug.trim().isEmpty()) return "";
+        String[] tokens = slug.toLowerCase().trim().split("-");
+        List<String> result = new ArrayList<>();
+        Set<String> dedupeKeywords = Set.of(
+            "gurgaon", "gurugram", "delhi", "noida", "dwarka",
+            "flat", "flats", "apartment", "apartments", "sector"
+        );
+        String lastToken = "";
+        for (String t : tokens) {
+            if (t.isEmpty()) continue;
+            if (t.equals(lastToken)) continue;
+            if (result.contains(t) && dedupeKeywords.contains(t)) continue;
+            result.add(t);
+            lastToken = t;
+        }
+        return String.join("-", result);
+    }
+
+    private double calculateSlugSimilarity(String identifier, Property p) {
+        if (identifier == null || p == null) return 0.0;
+        String[] idTokens = identifier.toLowerCase().split("-");
+        Set<String> significantIdTokens = new HashSet<>();
+        Set<String> stopWords = Set.of("in", "for", "sale", "rent", "the", "a", "an", "and", "of", "to", "at", "by", "is");
+        for (String t : idTokens) {
+            if (t.length() > 1 && !stopWords.contains(t)) {
+                significantIdTokens.add(t);
+            }
+        }
+        if (significantIdTokens.isEmpty()) return 0.0;
+
+        StringBuilder sb = new StringBuilder();
+        if (p.getTitle() != null) sb.append(" ").append(p.getTitle());
+        if (p.getSocietyName() != null) sb.append(" ").append(p.getSocietyName());
+        if (p.getLocation() != null) sb.append(" ").append(p.getLocation());
+        if (p.getCity() != null) sb.append(" ").append(p.getCity());
+        if (p.getSlug() != null) sb.append(" ").append(p.getSlug().replace("-", " "));
+        String propText = sb.toString().toLowerCase();
+
+        int matches = 0;
+        for (String token : significantIdTokens) {
+            if (propText.contains(token)) {
+                matches++;
+            }
+        }
+        return (double) matches / significantIdTokens.size();
     }
 }

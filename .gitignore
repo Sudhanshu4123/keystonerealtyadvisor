@@ -22,8 +22,10 @@ yarn-debug.log*
 yarn-error.log*
 
 # Uploads & Media (Stored in volume in production)
-uploads/
-backend/uploads/
+/uploads/
+/backend/uploads/
+!frontend/public/uploads/
+!backend/src/main/resources/static/uploads/
 
 # IDE & OS
 .idea/

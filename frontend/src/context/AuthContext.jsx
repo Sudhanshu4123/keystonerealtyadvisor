@@ -51,10 +51,8 @@ export function AuthProvider({ children }) {
             });
           }
         } catch (err) {
-          // If token expired or user suspended, clear state
-          if (err.status === 401 || err.status === 403) {
-            logout();
-          }
+          // If token expired, invalid or user suspended, clear state
+          logout();
         }
       }
       setLoading(false);

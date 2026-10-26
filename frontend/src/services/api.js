@@ -24,15 +24,19 @@ api.interceptors.response.use(
   (response) => response.data,
   (error) => {
     if (error.response?.status === 401) {
-      // Clear token on 401 if unauthorized
+      // Clear invalid/expired token from localStorage
+      localStorage.removeItem('keystone_token');
+      localStorage.removeItem('keystone_user');
       const currentPath = window.location.pathname;
       if (currentPath.startsWith('/admin') || currentPath.startsWith('/dashboard')) {
-        localStorage.removeItem('keystone_token');
-        localStorage.removeItem('keystone_user');
         window.location.href = '/login';
       }
     }
-    return Promise.reject(error.response?.data || { message: error.message || 'An error occurred' });
+    const errorData = error.response?.data || { message: error.message || 'An error occurred' };
+    if (error.response?.status) {
+      errorData.status = error.response.status;
+    }
+    return Promise.reject(errorData);
   }
 );
 

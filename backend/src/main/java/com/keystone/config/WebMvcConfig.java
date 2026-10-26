@@ -30,6 +30,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         }
 
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations(uploadUri);
+                .addResourceLocations(uploadUri, "classpath:/static/uploads/");
     }
 }
