@@ -72,6 +72,22 @@ export default function ContactPage() {
           url: 'https://keystonerealtyadvisor.com/contact',
           isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
           about: { '@id': 'https://keystonerealtyadvisor.com/#organization' },
+          mainEntity: {
+            '@type': 'RealEstateAgent',
+            '@id': 'https://keystonerealtyadvisor.com/#organization',
+            name: 'Keystone Realty Advisor',
+            telephone: '+919911956274',
+            email: 'keystonexhelpdesk@gmail.com',
+            url: 'https://keystonerealtyadvisor.com/',
+            areaServed: ['Delhi', 'Gurugram', 'Noida', 'Dwarka'],
+            contactPoint: {
+              '@type': 'ContactPoint',
+              telephone: '+919911956274',
+              contactType: 'customer service',
+              availableLanguage: ['English', 'Hindi'],
+              areaServed: 'IN'
+            }
+          }
         }}
       />
       <div className="container">

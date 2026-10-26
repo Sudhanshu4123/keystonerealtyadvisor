@@ -167,6 +167,7 @@ function ProgrammaticLandingContent({ config }) {
         title={config.pageTitle}
         description={config.pageDescription}
         canonicalUrl={`/${config.canonicalSlug}`}
+        noIndex={confirmedEmpty}
         geoPlacename={config.city}
         geoRegion={config.cityRegion}
         breadcrumbs={[
