@@ -74,6 +74,106 @@ function countWords(html = '') {
   return text ? text.split(/\s+/).filter(Boolean).length : 0;
 }
 
+// Fetch properties from live sitemap or fallback to local snapshot
+async function loadProperties() {
+  let properties = [];
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
+    const res = await fetch('https://keystonerealtyadvisor.com/sitemap.xml', { signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      const xml = await res.text();
+      const blocks = xml.split('<url>');
+      for (const b of blocks) {
+        const locMatch = b.match(/<loc>https:\/\/keystonerealtyadvisor\.com\/properties\/([^<]+)<\/loc>/);
+        if (!locMatch) continue;
+        const slug = locMatch[1].trim();
+        const titleMatch = b.match(/<image:title>([\s\S]*?)<\/image:title>/);
+        const imgMatch = b.match(/<image:loc>([\s\S]*?)<\/image:loc>/);
+        const rawTitle = titleMatch ? titleMatch[1].trim() : '';
+        const img = imgMatch ? imgMatch[1].trim() : '';
+        let displayTitle = rawTitle;
+        if (!displayTitle) {
+          displayTitle = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+        }
+        properties.push({ slug, title: displayTitle, image: img });
+      }
+      console.log(`[prerender] Fetched ${properties.length} dynamic properties from live sitemap.`);
+    }
+  } catch {
+    // Network offline / timeout: use local snapshot
+  }
+
+  if (properties.length === 0) {
+    const snapshotPath = path.join(scriptsDir, 'sitemap-properties.json');
+    if (fs.existsSync(snapshotPath)) {
+      properties = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
+      console.log(`[prerender] Loaded ${properties.length} dynamic properties from local snapshot.`);
+    }
+  }
+  return properties;
+}
+
+// Global crawlable footer navigation linking to all 26 core and programmatic pages
+function renderGlobalFooterNav() {
+  return `
+    <footer style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #CBD5E1; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 0.875rem; color: #475569;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+        <div>
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #0B132B; margin-bottom: 0.65rem;">Explore Keystone</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; line-height: 1.6;">
+            <li><a href="/" style="color: #1D4ED8; text-decoration: underline;">Home</a></li>
+            <li><a href="/properties" style="color: #1D4ED8; text-decoration: underline;">All Verified Properties</a></li>
+            <li><a href="/projects" style="color: #1D4ED8; text-decoration: underline;">Real Estate Projects</a></li>
+            <li><a href="/advisory" style="color: #1D4ED8; text-decoration: underline;">Advisory Services</a></li>
+            <li><a href="/contact" style="color: #1D4ED8; text-decoration: underline;">Contact &amp; Site Visits</a></li>
+            <li><a href="/terms" style="color: #1D4ED8; text-decoration: underline;">Terms &amp; Conditions</a></li>
+            <li><a href="/privacy" style="color: #1D4ED8; text-decoration: underline;">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #0B132B; margin-bottom: 0.65rem;">Gurugram Properties</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; line-height: 1.6;">
+            <li><a href="/properties-in-gurugram" style="color: #1D4ED8; text-decoration: underline;">Properties in Gurugram</a></li>
+            <li><a href="/flats-for-rent-in-gurugram" style="color: #1D4ED8; text-decoration: underline;">Flats for Rent in Gurugram</a></li>
+            <li><a href="/flats-for-sale-in-gurugram" style="color: #1D4ED8; text-decoration: underline;">Flats for Sale in Gurugram</a></li>
+            <li><a href="/2-bhk-flats-in-gurgaon" style="color: #1D4ED8; text-decoration: underline;">2 BHK Flats in Gurgaon</a></li>
+            <li><a href="/3-bhk-flats-in-gurgaon" style="color: #1D4ED8; text-decoration: underline;">3 BHK Flats in Gurgaon</a></li>
+            <li><a href="/4-bhk-flats-in-gurgaon" style="color: #1D4ED8; text-decoration: underline;">4 BHK Flats in Gurgaon</a></li>
+            <li><a href="/luxury-villas-in-gurgaon" style="color: #1D4ED8; text-decoration: underline;">Luxury Villas in Gurgaon</a></li>
+            <li><a href="/builder-floors-in-gurgaon" style="color: #1D4ED8; text-decoration: underline;">Builder Floors in Gurgaon</a></li>
+            <li><a href="/commercial-properties-in-gurgaon" style="color: #1D4ED8; text-decoration: underline;">Commercial Properties in Gurgaon</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #0B132B; margin-bottom: 0.65rem;">Delhi &amp; Dwarka Properties</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; line-height: 1.6;">
+            <li><a href="/properties-in-delhi" style="color: #1D4ED8; text-decoration: underline;">Properties in Delhi</a></li>
+            <li><a href="/flats-for-sale-in-delhi" style="color: #1D4ED8; text-decoration: underline;">Flats for Sale in Delhi</a></li>
+            <li><a href="/flats-for-rent-in-delhi" style="color: #1D4ED8; text-decoration: underline;">Flats for Rent in Delhi</a></li>
+            <li><a href="/flats-for-sale-in-dwarka" style="color: #1D4ED8; text-decoration: underline;">Flats for Sale in Dwarka</a></li>
+            <li><a href="/luxury-villas-in-delhi" style="color: #1D4ED8; text-decoration: underline;">Luxury Villas in Delhi</a></li>
+            <li><a href="/builder-floors-in-delhi" style="color: #1D4ED8; text-decoration: underline;">Builder Floors in Delhi</a></li>
+            <li><a href="/commercial-properties-in-delhi" style="color: #1D4ED8; text-decoration: underline;">Commercial Properties in Delhi</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: #0B132B; margin-bottom: 0.65rem;">Noida Properties</h4>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; line-height: 1.6;">
+            <li><a href="/properties-in-noida" style="color: #1D4ED8; text-decoration: underline;">Properties in Noida</a></li>
+            <li><a href="/flats-for-sale-in-noida" style="color: #1D4ED8; text-decoration: underline;">Flats for Sale in Noida</a></li>
+            <li><a href="/flats-for-rent-in-noida" style="color: #1D4ED8; text-decoration: underline;">Flats for Rent in Noida</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top: 1px solid #E2E8F0; padding-top: 1rem; font-size: 0.8125rem; color: #64748B;">
+        <p>&copy; ${new Date().getFullYear()} Keystone Realty Advisor. All rights reserved. RERA Compliant Real Estate Advisory Firm.</p>
+      </div>
+    </footer>
+  `;
+}
+
 async function main() {
   const templatePath = path.join(distDir, 'index.html');
   if (!fs.existsSync(templatePath)) {
@@ -86,6 +186,9 @@ async function main() {
   // Load programmatic SEO configuration
   const cfgUrl = pathToFileURL(path.join(root, 'src/utils/programmaticSeoConfig.js')).href;
   const { PROGRAMMATIC_PAGES, parseProgrammaticSlug } = await import(cfgUrl);
+
+  // Load dynamic properties first so directory pages and related links can be generated
+  const properties = await loadProperties();
 
   // 1. Static Core Pages Metadata & Rich Content (300+ words each)
   const corePages = [
@@ -111,8 +214,10 @@ async function main() {
           </ul>
           <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Why Choose Keystone Realty Advisor?</h2>
           <p>
-            Unlike automated property listing portals that display unverified duplicates, Keystone Realty Advisor curates an exclusive inventory of physical-inspected properties. Every single listing in our portfolio undergoes thorough verification by our on-ground research team. We uphold strict zero-compromise standards on pricing transparency, regulatory compliance, and client privacy. Whether you are searching for your dream family home or expanding your real estate investment portfolio, our senior consultants provide personalized guidance, structured negotiation support, and end-to-end documentation assistance to safeguard your real estate capital.
-          </p>
+          <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Featured Verified Residences</h2>
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem;">
+            ${properties.slice(0, 10).map((p) => `<li style="margin-bottom: 0.5rem;"><a href="/properties/${escapeAttr(p.slug)}" style="color: #1D4ED8; text-decoration: underline;"><strong>${escapeHtml(p.title)}</strong></a></li>`).join('')}
+          </ul>
         </section>
       `
     },
@@ -139,6 +244,10 @@ async function main() {
           <p>
             When you enquire about a property through Keystone, you are paired with a dedicated property specialist who understands your specific preferences. We coordinate private property visits, verify all municipal approvals, analyze comparative market prices to negotiate fair valuations, and handle all legal paperwork right up to the final lease execution or title deed registration. Explore our curated properties or contact our consultation team to initiate your customized search.
           </p>
+          <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Complete Directory of Verified Properties</h2>
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem;">
+            ${properties.map((p) => `<li><a href="/properties/${escapeAttr(p.slug)}" style="color: #1D4ED8; text-decoration: underline;">${escapeHtml(p.title)}</a></li>`).join('')}
+          </ul>
         </section>
       `
     },
@@ -161,9 +270,10 @@ async function main() {
             <li style="margin-bottom: 0.5rem;"><strong>High Capital Preservation:</strong> Proven historical resilience in property valuations across key South and Central Delhi localities, ensuring long-term capital safety.</li>
           </ul>
           <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">How Keystone Realty Advisor Assists Delhi Buyers</h2>
-          <p>
-            Navigating Delhi's property market requires rigorous due diligence regarding municipal sanctions, building bylaws, FAR compliance, and clear chain of title ownership. Keystone Realty Advisor conducts exhaustive legal verifications for every listing in Delhi. Our localized specialists accompany you on property walkthroughs, verify municipal sanction plans, ensure mutation records are current, and assist with formal registry and sub-registrar formalities.
-          </p>
+          <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Verified Delhi &amp; Dwarka Properties</h2>
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem;">
+            ${(properties.filter(p => /delhi|dwarka/i.test(p.slug)).length > 0 ? properties.filter(p => /delhi|dwarka/i.test(p.slug)) : properties.slice(0, 8)).map((p) => `<li style="margin-bottom: 0.5rem;"><a href="/properties/${escapeAttr(p.slug)}" style="color: #1D4ED8; text-decoration: underline;"><strong>${escapeHtml(p.title)}</strong></a></li>`).join('')}
+          </ul>
         </section>
       `
     },
@@ -190,6 +300,10 @@ async function main() {
           <p>
             All residential and commercial transactions facilitated by Keystone in Gurugram strictly adhere to Haryana Real Estate Regulatory Authority (HRERA) guidelines. We verify builder credibility, escrow account status, statutory occupancy certificates, and layout approvals to ensure your investment is fully safeguarded. Connect with our Gurugram advisory desk to arrange private viewings.
           </p>
+          <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Verified Gurugram Properties</h2>
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem;">
+            ${(properties.filter(p => /gurgaon|gurugram/i.test(p.slug)).length > 0 ? properties.filter(p => /gurgaon|gurugram/i.test(p.slug)) : properties.slice(0, 8)).map((p) => `<li style="margin-bottom: 0.5rem;"><a href="/properties/${escapeAttr(p.slug)}" style="color: #1D4ED8; text-decoration: underline;"><strong>${escapeHtml(p.title)}</strong></a></li>`).join('')}
+          </ul>
         </section>
       `
     },
@@ -219,6 +333,10 @@ async function main() {
           <p>
             Noida offers seamless road transit to Delhi via the DND Flyway, Kalindi Kunj bypass, and the operational Aqua Line and Blue Line metro corridors. Furthermore, ongoing infrastructure expansions such as the Faridabad-Noida-Ghaziabad (FNG) Expressway and the upcoming Jewar International Airport position Noida as an attractive, high-growth real estate corridor for both families and commercial enterprises.
           </p>
+          <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Verified Noida Properties</h2>
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem;">
+            ${(properties.filter(p => /noida/i.test(p.slug)).length > 0 ? properties.filter(p => /noida/i.test(p.slug)) : properties.slice(0, 8)).map((p) => `<li style="margin-bottom: 0.5rem;"><a href="/properties/${escapeAttr(p.slug)}" style="color: #1D4ED8; text-decoration: underline;"><strong>${escapeHtml(p.title)}</strong></a></li>`).join('')}
+          </ul>
         </section>
       `
     },
@@ -424,45 +542,14 @@ async function main() {
     };
   }).filter(Boolean);
 
-  // 3. Dynamic Property Listings (Live fetch with fallback to local snapshot) (300+ words each)
-  let properties = [];
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
-    const res = await fetch('https://keystonerealtyadvisor.com/sitemap.xml', { signal: controller.signal });
-    clearTimeout(timeoutId);
-    if (res.ok) {
-      const xml = await res.text();
-      const blocks = xml.split('<url>');
-      for (const b of blocks) {
-        const locMatch = b.match(/<loc>https:\/\/keystonerealtyadvisor\.com\/properties\/([^<]+)<\/loc>/);
-        if (!locMatch) continue;
-        const slug = locMatch[1].trim();
-        const titleMatch = b.match(/<image:title>([\s\S]*?)<\/image:title>/);
-        const imgMatch = b.match(/<image:loc>([\s\S]*?)<\/image:loc>/);
-        const rawTitle = titleMatch ? titleMatch[1].trim() : '';
-        const img = imgMatch ? imgMatch[1].trim() : '';
-        let displayTitle = rawTitle;
-        if (!displayTitle) {
-          displayTitle = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-        }
-        properties.push({ slug, title: displayTitle, image: img });
-      }
-      console.log(`[prerender] Fetched ${properties.length} dynamic properties from live sitemap.`);
+  // 3. Dynamic Property Listings (with related properties interlinking to eliminate orphan pages)
+  const propertyPages = properties.map((p, idx) => {
+    // Select 5 related properties in circular rotation so every property is linked from multiple detail pages
+    const related = [];
+    for (let i = 1; i <= Math.min(5, properties.length - 1); i++) {
+      related.push(properties[(idx + i) % properties.length]);
     }
-  } catch {
-    // Network offline / timeout: use local snapshot
-  }
 
-  if (properties.length === 0) {
-    const snapshotPath = path.join(scriptsDir, 'sitemap-properties.json');
-    if (fs.existsSync(snapshotPath)) {
-      properties = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
-      console.log(`[prerender] Loaded ${properties.length} dynamic properties from local snapshot.`);
-    }
-  }
-
-  const propertyPages = properties.map((p) => {
     return {
       path: `properties/${p.slug}`,
       title: `${p.title} | Keystone Realty Advisor`,
@@ -488,6 +575,10 @@ async function main() {
           <p>
             Before presenting any property to prospective clients, Keystone Realty Advisor performs a stringent multi-tier due diligence protocol. We inspect the title deed chain, verify encumbrance records, check occupancy certificate status with local development authorities, and confirm maintenance fee structures with the Resident Welfare Association (RWA). Our advisors guide you through price negotiations, draft legally compliant agreements, and assist with formal registry execution.
           </p>
+          <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Similar Verified Properties</h2>
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem;">
+            ${related.map((r) => `<li style="margin-bottom: 0.5rem;"><a href="/properties/${escapeAttr(r.slug)}" style="color: #1D4ED8; text-decoration: underline;"><strong>${escapeHtml(r.title)}</strong></a></li>`).join('')}
+          </ul>
           <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Schedule Your Private Viewing</h2>
           <p>
             Private viewings for this property are coordinated exclusively through our senior advisory team. To arrange an inspection or request complete pricing and society bylaws, connect with Keystone Realty Advisor today by calling <strong>+91 9911956274</strong> or submitting an online enquiry.
@@ -539,16 +630,7 @@ async function main() {
         </div>
       </section>
       ${page.richHtml || ''}
-      <footer style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid #E2E8F0; font-size: 0.9rem;">
-        <nav aria-label="Explore other cities" style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
-          <a href="/properties-in-delhi" style="color: #1D4ED8; text-decoration: underline;">Properties in Delhi</a>
-          <a href="/properties-in-gurugram" style="color: #1D4ED8; text-decoration: underline;">Properties in Gurugram</a>
-          <a href="/properties-in-noida" style="color: #1D4ED8; text-decoration: underline;">Properties in Noida</a>
-          <a href="/flats-for-rent-in-gurugram" style="color: #1D4ED8; text-decoration: underline;">Flats for Rent</a>
-          <a href="/projects" style="color: #1D4ED8; text-decoration: underline;">Projects</a>
-          <a href="/contact" style="color: #1D4ED8; text-decoration: underline;">Contact Advisor</a>
-        </nav>
-      </footer>
+      ${renderGlobalFooterNav()}
     </article>`;
     } else {
       bodyContent = `
@@ -579,6 +661,7 @@ async function main() {
           <span style="color: #64748B; font-size: 0.9rem;">Direct Helpline: <strong>+91 9911956274</strong> | Monday – Saturday, 9:30 AM to 6:30 PM</span>
         </div>
       </section>
+      ${renderGlobalFooterNav()}
     </header>`;
     }
 
@@ -693,6 +776,58 @@ async function main() {
     }
   }
 
+  // 5. Inlink Graph & Orphan Page Detection (SEO check: "Are all sitemap pages linked internally?")
+  console.log(`[prerender] Building inlink graph across ${allPages.length} pages to ensure 0 orphan pages...`);
+  const inlinksMap = new Map();
+  for (const page of allPages) {
+    const canonical = page.path
+      ? `https://keystonerealtyadvisor.com/${page.path}`
+      : 'https://keystonerealtyadvisor.com/';
+    inlinksMap.set(canonical, new Set());
+  }
+
+  for (const page of allPages) {
+    const file = page.path ? path.join(distDir, page.path, 'index.html') : path.join(distDir, 'index.html');
+    const sourceCanonical = page.path
+      ? `https://keystonerealtyadvisor.com/${page.path}`
+      : 'https://keystonerealtyadvisor.com/';
+    if (!fs.existsSync(file)) continue;
+    const content = fs.readFileSync(file, 'utf8');
+
+    const hrefRegex = /href=["']([^"']+)["']/gi;
+    let match;
+    while ((match = hrefRegex.exec(content)) !== null) {
+      let href = match[1].trim();
+      if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) continue;
+
+      let targetCanonical = '';
+      if (href.startsWith('https://keystonerealtyadvisor.com')) {
+        targetCanonical = href.replace(/\/+$/, '');
+        if (targetCanonical === 'https://keystonerealtyadvisor.com') {
+          targetCanonical = 'https://keystonerealtyadvisor.com/';
+        }
+      } else if (href.startsWith('/')) {
+        const clean = href.replace(/^\/+|\/+$/g, '');
+        targetCanonical = clean ? `https://keystonerealtyadvisor.com/${clean}` : 'https://keystonerealtyadvisor.com/';
+      }
+
+      if (targetCanonical && inlinksMap.has(targetCanonical) && targetCanonical !== sourceCanonical) {
+        inlinksMap.get(targetCanonical).add(sourceCanonical);
+      }
+    }
+  }
+
+  let minInlinks = 999999;
+  let maxInlinks = 0;
+  for (const [targetUrl, sources] of inlinksMap.entries()) {
+    const count = sources.size;
+    if (count < minInlinks) minInlinks = count;
+    if (count > maxInlinks) maxInlinks = count;
+    if (count === 0) {
+      verifyErrors.push(`Orphan page with 0 internal inlinks: ${targetUrl}`);
+    }
+  }
+
   if (verifyErrors.length > 0) {
     console.error(`[prerender] FAILED with ${verifyErrors.length} errors:\n- ${verifyErrors.join('\n- ')}`);
     process.exit(1);
@@ -705,7 +840,7 @@ async function main() {
   console.log(`✓ 100% of pages have OPTIMAL H1 LENGTH: <= 70 chars (Longest: ${maxH1Length} chars - "${longestH1}").`);
   console.log(`✓ 100% of pages have VALID SELF-CANONICAL URLs (<link rel="canonical"> matches page URL).`);
   console.log(`✓ 100% of pages contain unique <title> and meta tags.`);
-  console.log(`✓ 100% of pages contain internal crawlable navigation.`);
+  console.log(`✓ 100% of sitemap pages have VALID INTERNAL INLINKS (0 orphan pages). Min: ${minInlinks} inlinks, Max: ${maxInlinks} inlinks.`);
   console.log(`✓ 100% of pages have ENOUGH CONTENT: min ${minWordsFound} words, max ${maxWordsFound} words (Threshold: 300+ words).`);
   console.log(`✓ 100% of pages avoid render-blocking scripts in <head> (bundle moved to </body> with defer).`);
   console.log(`======================================================\n`);
