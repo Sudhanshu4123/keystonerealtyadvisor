@@ -160,6 +160,12 @@ nginx_keystone_conf = """server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
         proxy_read_timeout 120s;
+
+        # Hide any upstream security headers to prevent duplicate header values in client responses
+        proxy_hide_header X-Frame-Options;
+        proxy_hide_header X-Content-Type-Options;
+        proxy_hide_header X-XSS-Protection;
+        proxy_hide_header Referrer-Policy;
     }
 
     listen 443 ssl;
