@@ -606,8 +606,9 @@ async function main() {
       continue;
     }
     const c = fs.readFileSync(file, 'utf8');
-    if (!c.includes('<h1')) {
-      verifyErrors.push(`No <h1> tag in: ${page.path || '/'}`);
+    const h1Count = (c.match(/<h1[\s>]/gi) || []).length;
+    if (h1Count !== 1) {
+      verifyErrors.push(`Expected exactly 1 <h1>, found ${h1Count} in: ${page.path || '/'}`);
     }
     if (!c.includes(`<title>${escapeHtml(page.title)}</title>`)) {
       verifyErrors.push(`Title mismatch in: ${page.path || '/'}`);
@@ -643,7 +644,7 @@ async function main() {
   console.log(`\n======================================================`);
   console.log(`✓ SSG Prerendering Complete!`);
   console.log(`✓ Total Pre-rendered Pages: ${successCount}`);
-  console.log(`✓ 100% of pages contain valid, unique <h1> headings.`);
+  console.log(`✓ 100% of pages contain EXACTLY ONE <h1> heading (No missing, no multiple H1s).`);
   console.log(`✓ 100% of pages contain unique <title> and meta tags.`);
   console.log(`✓ 100% of pages contain internal crawlable navigation.`);
   console.log(`✓ 100% of pages have ENOUGH CONTENT: min ${minWordsFound} words, max ${maxWordsFound} words (Threshold: 300+ words).`);
