@@ -116,7 +116,7 @@ export default function HomePage() {
                 color: '#FFFFFF',
               }}
             >
-              Property Advisory for Buyers, Tenants and Investors in Delhi NCR
+              Verified Real Estate Advisory &amp; Premium Property Consultation
             </h1>
 
             <p
@@ -127,7 +127,7 @@ export default function HomePage() {
                 marginBottom: '2.5rem',
               }}
             >
-              Find verified society flats and apartments across Dwarka (Delhi) and Gurugram, or talk directly with a Keystone property advisor for expert consultation and site visits.
+              Discover curated residential apartments, luxury villas, and prime commercial spaces with personalized guidance from trusted property advisors.
             </p>
 
             {/* Hero Search Box */}
