@@ -569,6 +569,16 @@ async function main() {
         <a href="/contact" style="color: #1D4ED8; text-decoration: underline; font-weight: 500;">Contact Us</a>
       </nav>
       ${page.richHtml || ''}
+      <section style="margin-top: 2rem; padding: 1.25rem 1.5rem; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;">
+        <h3 style="font-size: 1.15rem; font-weight: 600; color: #0F172A; margin-bottom: 0.5rem;">Need Expert Real Estate Guidance?</h3>
+        <p style="font-size: 0.95rem; line-height: 1.6; color: #475569; margin-bottom: 0.75rem;">
+          Whether you are evaluating luxury residential apartments, premium builder floors, or institutional commercial properties, our dedicated advisors provide verified valuations, complete legal title due diligence, and personalized site inspections across prime micro-markets.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
+          <a href="/contact" style="display: inline-block; background: #0B132B; color: #FFFFFF; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Contact Consultation Desk</a>
+          <span style="color: #64748B; font-size: 0.9rem;">Direct Helpline: <strong>+91 9911956274</strong> | Monday – Saturday, 9:30 AM to 6:30 PM</span>
+        </div>
+      </section>
     </header>`;
     }
 
@@ -582,8 +592,8 @@ async function main() {
     html = html.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i, `<meta name="description" content="${escapeAttr(page.description)}" />`);
 
     // 3. Update or inject canonical link
-    if (html.includes('rel="canonical"')) {
-      html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${escapeAttr(canonicalUrl)}" />`);
+    if (/<link\s+[^>]*rel=["']canonical["'][^>]*\/?>/i.test(html)) {
+      html = html.replace(/<link\s+[^>]*rel=["']canonical["'][^>]*\/?>/i, `<link rel="canonical" href="${escapeAttr(canonicalUrl)}" />`);
     } else {
       html = html.replace('</head>', `  <link rel="canonical" href="${escapeAttr(canonicalUrl)}" />\n</head>`);
     }
@@ -626,6 +636,9 @@ async function main() {
   let longestH1 = '';
 
   for (const page of allPages) {
+    const canonicalUrl = page.path
+      ? `https://keystonerealtyadvisor.com/${page.path}`
+      : 'https://keystonerealtyadvisor.com/';
     const file = page.path ? path.join(distDir, page.path, 'index.html') : path.join(distDir, 'index.html');
     if (!fs.existsSync(file)) {
       verifyErrors.push(`Missing file: ${file}`);
@@ -652,8 +665,13 @@ async function main() {
     if (!c.includes(`<title>${escapeHtml(page.title)}</title>`)) {
       verifyErrors.push(`Title mismatch in: ${page.path || '/'}`);
     }
-    if (!c.includes('rel="canonical"')) {
-      verifyErrors.push(`Missing canonical in: ${page.path || '/'}`);
+    // Canonical URL assertion (must have a valid <link rel="canonical"> tag matching exact absolute canonicalUrl)
+    const canonicalMatch = c.match(/<link\s+[^>]*rel=["']canonical["'][^>]*href=["']([^"']+)["'][^>]*\/?>/i)
+      || c.match(/<link\s+[^>]*href=["']([^"']+)["'][^>]*rel=["']canonical["'][^>]*\/?>/i);
+    if (!canonicalMatch) {
+      verifyErrors.push(`Missing real <link rel="canonical"> tag in: ${page.path || '/'}`);
+    } else if (canonicalMatch[1] !== canonicalUrl) {
+      verifyErrors.push(`Canonical URL mismatch in: ${page.path || '/'} (expected "${canonicalUrl}", got "${canonicalMatch[1]}")`);
     }
 
     // Word count verification (must be >= 300 words)
@@ -685,6 +703,7 @@ async function main() {
   console.log(`✓ Total Pre-rendered Pages: ${successCount}`);
   console.log(`✓ 100% of pages contain EXACTLY ONE <h1> heading.`);
   console.log(`✓ 100% of pages have OPTIMAL H1 LENGTH: <= 70 chars (Longest: ${maxH1Length} chars - "${longestH1}").`);
+  console.log(`✓ 100% of pages have VALID SELF-CANONICAL URLs (<link rel="canonical"> matches page URL).`);
   console.log(`✓ 100% of pages contain unique <title> and meta tags.`);
   console.log(`✓ 100% of pages contain internal crawlable navigation.`);
   console.log(`✓ 100% of pages have ENOUGH CONTENT: min ${minWordsFound} words, max ${maxWordsFound} words (Threshold: 300+ words).`);
