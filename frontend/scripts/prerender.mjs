@@ -575,7 +575,16 @@ async function main() {
     // 5. Inject body shell into <div id="root">
     html = html.replace(/<div id="root">[\s\S]*?<\/div>/i, `<div id="root">${bodyContent}\n  </div>`);
 
-    // 6. Write to destination file
+    // 6. Avoid render-blocking JavaScript: Move bundle script from <head> to before </body> with defer
+    const scriptRegex = /<script\s+type="module"\s+crossorigin\s+src="([^"]+)"\s*><\/script>/i;
+    const scriptMatch = html.match(scriptRegex);
+    if (scriptMatch) {
+      html = html.replace(scriptMatch[0], '');
+      const deferredScript = `  <script type="module" defer crossorigin src="${scriptMatch[1]}"></script>\n</body>`;
+      html = html.replace('</body>', deferredScript);
+    }
+
+    // 7. Write to destination file
     const targetDir = page.path ? path.join(distDir, page.path) : distDir;
     fs.mkdirSync(targetDir, { recursive: true });
     const targetFile = path.join(targetDir, 'index.html');
@@ -614,6 +623,15 @@ async function main() {
 
     if (words < 300) {
       verifyErrors.push(`Low word count (${words} words, minimum 300 required) in: ${page.path || '/'}`);
+    }
+
+    // Verify 0 render-blocking external scripts in <head>
+    const headSection = c.split('</head>')[0] || '';
+    if (headSection.includes('<script') && headSection.includes('src=')) {
+      const match = headSection.match(/<script[^>]+src=[^>]+>/);
+      if (match && !match[0].includes('defer') && !match[0].includes('async')) {
+        verifyErrors.push(`Render-blocking script in <head> in: ${page.path || '/'}`);
+      }
     }
   }
 
