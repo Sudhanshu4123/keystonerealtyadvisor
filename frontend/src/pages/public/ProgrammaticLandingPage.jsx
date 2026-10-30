@@ -282,7 +282,7 @@ function ProgrammaticLandingContent({ config }) {
         {/* Dynamic FAQ Section */}
         <section className="card" style={{ marginTop: '2rem', padding: '2rem', backgroundColor: '#FFFFFF' }}>
           <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.25rem', color: 'var(--text-primary)' }}>
-            Questions about {config.headingTitle.toLowerCase()}
+            Common questions about {config.headingTitle}
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {dynamicFaqs.map((faq, index) => (
@@ -331,7 +331,7 @@ function ProgrammaticLandingContent({ config }) {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
               <h2 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Related searches
+                More searches in {config.displayCity} &amp; NCR
               </h2>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
                 Other property types and cities across Delhi NCR.

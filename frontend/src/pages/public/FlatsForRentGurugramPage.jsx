@@ -232,9 +232,9 @@ export default function FlatsForRentGurugramPage() {
 
         {/* Explore Other NCR Markets Internal Links */}
         <div className="card" style={{ marginTop: '3rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
-          <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-            Explore Other Property Searches in NCR
-          </h3>
+          <h2 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            Explore Other Searches in NCR
+          </h2>
           <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
             Looking to buy instead of rent? See properties for sale and new projects.
           </p>

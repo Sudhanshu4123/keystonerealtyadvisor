@@ -14,16 +14,16 @@ export function getGuidance(cityKey, listingType, propertyType) {
   if (listingType === 'RENT' || listingType === 'LEASE') {
     const items = commercial
       ? [
-          'Read the lease deed for lock-in period, annual escalation, security deposit and permitted use.',
-          'Confirm who pays maintenance, property tax and power backup charges.',
-          'Ask about the fit-out period and whether rent is payable during it.',
-          'Check that the premises can legally be used for your type of business.',
+          'Read the lease deed. Check the lock-in period, deposit amount and annual rent increase.',
+          'Confirm who pays maintenance charges and power backup costs.',
+          'Ask about the fit-out period. Check if rent is due during it.',
+          'Ensure the premises can legally be used for your business type.',
         ]
       : [
-          'Insist on a written rental agreement that states rent, security deposit, lock-in and notice period.',
-          'Ask whether society maintenance is included in the rent or billed separately.',
-          'Make an inventory list of furniture and fittings at move-in, with photos.',
-          'Complete tenant verification as required locally, and keep copies of all receipts.',
+          'Get a written rental agreement. It must state rent, deposit, lock-in and notice period.',
+          'Ask if society maintenance is included in the rent or billed separately.',
+          'Make an inventory list at move-in. Take photos of all furniture and fittings.',
+          'Complete tenant verification as required locally. Keep copies of all receipts.',
         ];
     return {
       heading: commercial ? 'Before you lease commercial space' : 'Before you rent',
@@ -32,18 +32,19 @@ export function getGuidance(cityKey, listingType, propertyType) {
   }
 
   const items = [
-    `For under-construction projects, look the project up on ${rera} and note its registration number and stated completion date.`,
-    'Ask for the chain of title documents and an encumbrance certificate, and have a lawyer read the draft sale agreement before you pay a token amount.',
-    'For ready properties, ask for the occupancy or completion certificate and check for pending society dues.',
-    'Compare prices on the same area measure (carpet, built-up or super area), not just the quoted rate per sq ft.',
-    'Budget for stamp duty, registration charges and any applicable taxes on top of the sale price.',
+    `For under-construction projects, check ${rera}. Note the registration number and completion date.`,
+    'Ask for title documents and an encumbrance certificate. Have a lawyer check the sale agreement first.',
+    'For ready properties, ask for the occupancy certificate. Check for pending society dues.',
+    'Compare prices using the same area measure. Use carpet area, not super area, for a fair comparison.',
+    'Budget for stamp duty and registration charges on top of the sale price.',
   ];
   if (cityKey === 'dwarka') {
-    items.splice(2, 0, 'For CGHS and DDA society apartments in Dwarka, verify society share certificate, NOC from the managing committee, and DDA conveyance deed or sub-lease.');
+    items.splice(2, 0, 'For CGHS and DDA flats in Dwarka, verify the society share certificate and DDA conveyance deed.');
   }
-  if (commercial) items.splice(3, 0, 'Check the permitted use of the building and the lease status of any tenanted unit.');
+  if (commercial) items.splice(3, 0, 'Check the permitted use of the building. Verify the lease status of any tenanted unit.');
   return { heading: commercial ? 'Before you buy commercial property' : 'Before you buy', items };
 }
+
 
 export default function LocationGuide({ cityKey, displayCity, listingType, propertyType, headingLevel = 2 }) {
   const city = PROGRAMMATIC_CITIES[cityKey];

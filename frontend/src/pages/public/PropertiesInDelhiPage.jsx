@@ -230,9 +230,9 @@ export default function PropertiesInDelhiPage() {
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Popular Property Searches in Delhi
-              </h3>
+              <h2 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+                Popular Searches in Delhi
+              </h2>
               <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
                 Explore luxury builder floors, independent villas, and commercial real estate across South Delhi and Delhi NCR.
               </p>

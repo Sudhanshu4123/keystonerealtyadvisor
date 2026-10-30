@@ -158,8 +158,8 @@ export default function PropertiesInNoidaPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Properties in Noida & Greater Noida | Keystone Realty"
-        description="Search apartments and commercial property in Noida and Greater Noida by sector, budget and BHK, then enquire to arrange a viewing."
+        title="Properties in Noida | Keystone Realty"
+        description="Search apartments and commercial property in Noida by sector and budget. Enquire with Keystone Realty to arrange a viewing."
         canonicalUrl="/properties-in-noida"
         geoPlacename="Noida"
         geoRegion="IN-UP"
@@ -230,9 +230,9 @@ export default function PropertiesInNoidaPage() {
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Popular Property Searches in Noida
-              </h3>
+              <h2 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+                Popular Searches in Noida
+              </h2>
               <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
                 Browse verified flats for sale, rental homes, and commercial spaces across Noida and Greater Noida corridors.
               </p>

@@ -158,8 +158,8 @@ export default function PropertiesInGurugramPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3rem 0 5rem' }}>
       <SEO
-        title="Properties in Gurugram (Gurgaon) | Keystone Realty"
-        description="Search apartments, penthouses, villas and commercial property in Gurugram (Gurgaon) by locality, budget and BHK, then enquire for a viewing."
+        title="Properties in Gurugram | Keystone Realty"
+        description="Find apartments, villas and commercial property in Gurugram. Search by locality and budget, then enquire for a viewing."
         canonicalUrl="/properties-in-gurugram"
         geoPlacename="Gurugram"
         geoRegion="IN-HR"
@@ -230,9 +230,9 @@ export default function PropertiesInGurugramPage() {
         <div className="card" style={{ marginTop: '3rem', padding: '2rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
             <div>
-              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
-                Popular Property Searches in Gurugram
-              </h3>
+              <h2 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, color: 'var(--text-primary)' }}>
+                Popular Searches in Gurugram
+              </h2>
               <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
                 Explore verified luxury configurations, rental homes, and township developments across Gurugram.
               </p>

@@ -11,7 +11,7 @@ export const PROGRAMMATIC_CITIES = {
     state: 'Haryana',
     localities: ['Golf Course Road', 'Golf Course Ext Road', 'Dwarka Expressway', 'Sohna Road', 'Cyber City', 'Sector 80', 'Sector 62', 'Sector 42', 'DLF Phase 1', 'DLF Phase 4', 'DLF Phase 5'],
     reraName: 'Haryana RERA (HRERA)',
-    overview: 'Gurugram (Gurgaon) is a large business and residential hub in Haryana, within Delhi NCR. Common search areas include Golf Course Road, Dwarka Expressway, Sohna Road and Cyber City.'
+    overview: 'Gurugram (Gurgaon) is a major business and residential city in Haryana. Popular areas include Golf Course Road, Dwarka Expressway, Sohna Road and Cyber City.'
   },
   delhi: {
     name: 'Delhi',
@@ -20,7 +20,7 @@ export const PROGRAMMATIC_CITIES = {
     state: 'Delhi',
     localities: ['South Delhi', 'Vasant Vihar', 'Greater Kailash', 'Chanakyapuri', 'Connaught Place', 'Dwarka', 'Defence Colony'],
     reraName: 'the RERA authority for Delhi',
-    overview: 'Delhi has residential demand across South and Central Delhi and Dwarka, and commercial areas such as Connaught Place. Builder floors and independent houses are common in many established colonies.'
+    overview: 'Delhi has strong demand in South Delhi, Central Delhi and Dwarka. Builder floors and independent houses are common in established colonies.'
   },
   noida: {
     name: 'Noida',
@@ -29,7 +29,7 @@ export const PROGRAMMATIC_CITIES = {
     state: 'Uttar Pradesh',
     localities: ['Noida Expressway', 'Sector 150', 'Sector 128', 'Sector 62', 'Sector 44', 'Greater Noida West'],
     reraName: 'UP RERA',
-    overview: 'Noida and Greater Noida are in Uttar Pradesh, on the eastern side of Delhi NCR, with large residential sectors along the Noida Expressway and in Greater Noida West.'
+    overview: 'Noida and Greater Noida are in Uttar Pradesh, east of Delhi. Large residential sectors line the Noida Expressway and Greater Noida West.'
   },
   dwarka: {
     name: 'Dwarka',
@@ -40,7 +40,7 @@ export const PROGRAMMATIC_CITIES = {
     state: 'Delhi',
     localities: ['Sector 1', 'Sector 2', 'Sector 3', 'Sector 4', 'Sector 5', 'Sector 6', 'Sector 7', 'Sector 8', 'Sector 9', 'Sector 10', 'Sector 11', 'Sector 12', 'Sector 13', 'Sector 14', 'Sector 18', 'Sector 19'],
     reraName: 'the RERA authority for Delhi',
-    overview: 'Dwarka in South West Delhi is a well-planned residential sub-city known for its DDA and CGHS (Cooperative Group Housing Society) society apartments across Sectors 1 to 19, close to IGI Airport and Yashobhoomi.'
+    overview: 'Dwarka is a planned residential area in South West Delhi. It is close to IGI Airport and Yashobhoomi. DDA and society apartments span Sectors 1 to 19.'
   }
 };
 
@@ -204,13 +204,16 @@ export function parseProgrammaticSlug(slug = '') {
   const plural = PLURAL_LABELS[propertyType] || 'Properties';
   const actionText = listingType === 'RENT' ? ' for Rent' : listingType === 'SALE' ? ' for Sale' : listingType === 'LEASE' ? ' for Lease' : '';
   const headingTitle = `${luxury}${bhkPrefix}${plural}${actionText} in ${displayCity}`;
-  const pageTitle = `${headingTitle} | Keystone Realty`;
+  // Keep title under 60 chars: "<headingTitle> | Keystone" fits most slugs; brand is trimmed when heading is long.
+  const brand = headingTitle.length <= 34 ? ' | Keystone Realty' : ' | Keystone';
+  const pageTitle = `${headingTitle}${brand}`;
 
   const noun = `${luxury.toLowerCase()}${bhkPrefix}${plural.toLowerCase()}`;
   const actionVerb = listingType === 'RENT' ? ' for rent' : listingType === 'SALE' ? ' for sale' : listingType === 'LEASE' ? ' for lease' : '';
+  // Descriptions kept under 155 chars
   const pageDescription = clean === 'flats-for-sale-in-dwarka'
-    ? 'Search verified society flats and apartments for sale in Dwarka across Sectors 1-19. Connect with Keystone Realty Advisor for site visits and advisory.'
-    : `Search ${noun}${actionVerb} in ${displayCity} by locality and budget. Send an enquiry to Keystone Realty Advisor to arrange a viewing.`;
+    ? `Society flats for sale in Dwarka, Sectors 1-19. Browse verified listings and contact Keystone Realty for a site visit.`
+    : `Browse ${noun}${actionVerb} in ${displayCity} by area and budget. Enquire with Keystone Realty to arrange a viewing.`;
 
   return {
     cityKey,
