@@ -197,7 +197,8 @@ export default function HomePage() {
               </button>
             </form>
 
-
+          </div>
+        </div>
 
         <style>{`
           @media (max-width: 860px) {
