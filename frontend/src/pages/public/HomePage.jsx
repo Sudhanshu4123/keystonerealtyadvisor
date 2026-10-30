@@ -18,8 +18,8 @@ import {
   CheckCircle2,
   Lock,
   FileCheck2,
-  Phone
 } from 'lucide-react';
+
 
 export default function HomePage() {
   const [featuredProperties, setFeaturedProperties] = useState([]);
@@ -197,95 +197,7 @@ export default function HomePage() {
               </button>
             </form>
 
-            {/* Quick Links & Above-the-fold CTA */}
-            <div
-              style={{
-                marginTop: '1.5rem',
-                display: 'flex',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: '1rem',
-                fontSize: '0.875rem',
-              }}
-            >
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.625rem', color: '#94A3B8' }}>
-                <span style={{ fontSize: '0.8125rem', fontWeight: 500, color: '#64748B' }}>Popular:</span>
-                <Link
-                  to="/flats-for-sale-in-dwarka"
-                  style={{
-                    color: '#E5C058',
-                    textDecoration: 'none',
-                    fontWeight: 600,
-                    padding: '0.25rem 0.625rem',
-                    backgroundColor: 'rgba(229, 192, 88, 0.1)',
-                    borderRadius: 'var(--radius-sm)',
-                    border: '1px solid rgba(229, 192, 88, 0.25)',
-                  }}
-                >
-                  Flats in Dwarka (18)
-                </Link>
-                <Link
-                  to="/properties-in-gurugram"
-                  style={{
-                    color: '#F8FAFC',
-                    textDecoration: 'none',
-                    fontWeight: 500,
-                    padding: '0.25rem 0.625rem',
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    borderRadius: 'var(--radius-sm)',
-                  }}
-                >
-                  Properties in Gurugram
-                </Link>
-                <Link
-                  to="/properties-in-delhi"
-                  style={{
-                    color: '#F8FAFC',
-                    textDecoration: 'none',
-                    fontWeight: 500,
-                    padding: '0.25rem 0.625rem',
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    borderRadius: 'var(--radius-sm)',
-                  }}
-                >
-                  Properties in Delhi
-                </Link>
-              </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <a
-                  href="tel:+919911956274"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.375rem',
-                    color: '#F8FAFC',
-                    textDecoration: 'none',
-                    fontWeight: 600,
-                    fontSize: '0.875rem',
-                  }}
-                >
-                  <Phone size={14} color="#E5C058" />
-                  <span>+91 9911956274</span>
-                </a>
-                <Link
-                  to="/advisory"
-                  className="btn btn-outline"
-                  style={{
-                    borderColor: 'rgba(229, 192, 88, 0.5)',
-                    color: '#E5C058',
-                    padding: '0.375rem 0.875rem',
-                    fontSize: '0.8125rem',
-                    fontWeight: 600,
-                  }}
-                >
-                  Advisory Services
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <style>{`
           @media (max-width: 860px) {
