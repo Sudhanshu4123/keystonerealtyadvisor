@@ -45,7 +45,7 @@ public class AuthService implements CommandLineRunner {
     @Value("${app.reset-password.expiration-minutes:15}")
     private int resetTokenExpirationMinutes;
 
-    @Value("${app.admin.initial-email:keystonehelpdesk@gmail.com}")
+    @Value("${app.admin.initial-email:keystonexhelpdesk@gmail.com}")
     private String adminEmail;
 
     @Value("${app.admin.initial-password:KeystoneAdmin2026!}")
@@ -148,17 +148,21 @@ public class AuthService implements CommandLineRunner {
 
         String email = request.getEmail().trim();
         User user = userRepository.findByEmailIgnoreCase(email)
-                .orElseThrow(() -> new BadRequestException("No account found with this email address. Please check your email or register."));
+                .orElseThrow(() -> new BadRequestException(
+                        "No account found with this email address. Please check your email or register."));
 
-        // Rate-limiting check: enforce 60-second cooldown per user to prevent email flooding
+        // Rate-limiting check: enforce 60-second cooldown per user to prevent email
+        // flooding
         passwordResetTokenRepository.findTopByUserOrderByCreatedAtDesc(user).ifPresent(lastToken -> {
             if (lastToken.getCreatedAt() != null &&
                     lastToken.getCreatedAt().isAfter(LocalDateTime.now().minusSeconds(60))) {
-                throw new BadRequestException("A password reset link was already sent recently. Please wait a minute before requesting another.");
+                throw new BadRequestException(
+                        "A password reset link was already sent recently. Please wait a minute before requesting another.");
             }
         });
 
-        // Invalidate/delete any previous reset tokens for this user and clear expired tokens
+        // Invalidate/delete any previous reset tokens for this user and clear expired
+        // tokens
         try {
             passwordResetTokenRepository.deleteByUser(user);
             passwordResetTokenRepository.deleteByExpiryDateBefore(LocalDateTime.now());
@@ -186,7 +190,8 @@ public class AuthService implements CommandLineRunner {
                 .orElseThrow(() -> new BadRequestException("Invalid or expired password reset link."));
 
         if (resetToken.isUsed() || resetToken.isExpired()) {
-            throw new BadRequestException("This password reset link has expired or has already been used. Please request a new one.");
+            throw new BadRequestException(
+                    "This password reset link has expired or has already been used. Please request a new one.");
         }
 
         User user = resetToken.getUser();

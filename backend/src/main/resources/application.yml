@@ -15,7 +15,7 @@ spring:
   mail:
     host: ${SPRING_MAIL_HOST:smtp.gmail.com}
     port: ${SPRING_MAIL_PORT:587}
-    username: ${SPRING_MAIL_USERNAME:keystonehelpdesk@gmail.com}
+    username: ${SPRING_MAIL_USERNAME:keystonexhelpdesk@gmail.com}
     password: ${SPRING_MAIL_PASSWORD:omuubbfkbprevhtw}
     properties:
       mail:
@@ -57,7 +57,7 @@ app:
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000,http://localhost:80}
   admin:
-    initial-email: ${INITIAL_ADMIN_EMAIL:keystonehelpdesk@gmail.com}
+    initial-email: ${INITIAL_ADMIN_EMAIL:keystonexhelpdesk@gmail.com}
     initial-password: ${INITIAL_ADMIN_PASSWORD:KeystoneAdmin2026!}
     initial-name: ${INITIAL_ADMIN_NAME:Keystone Executive Admin}
     initial-phone: ${INITIAL_ADMIN_PHONE:9911956274}
