@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
-import { LogIn, Lock, Mail, ShieldCheck } from 'lucide-react';
+import { LogIn, Lock, Mail, ShieldCheck, Loader2 } from 'lucide-react';
 import SEO from '../../components/common/SEO';
 
 export default function LoginPage() {
@@ -98,16 +98,33 @@ export default function LoginPage() {
               />
               <Lock size={16} color="var(--color-light-400)" style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }} />
             </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.5rem' }}>
+              <Link
+                to="/forgot-password"
+                style={{ fontSize: '0.8125rem', color: 'var(--color-gold-600)', textDecoration: 'none', fontWeight: 500 }}
+              >
+                Forgot password?
+              </Link>
+            </div>
           </div>
 
           <button
             type="submit"
             className="btn btn-primary btn-block btn-lg"
             disabled={loading}
-            style={{ marginTop: '1.25rem' }}
+            style={{ marginTop: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
           >
-            <LogIn size={16} />
-            <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
+            {loading ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                <span>Authenticating...</span>
+              </>
+            ) : (
+              <>
+                <LogIn size={16} />
+                <span>Sign In</span>
+              </>
+            )}
           </button>
         </form>
 

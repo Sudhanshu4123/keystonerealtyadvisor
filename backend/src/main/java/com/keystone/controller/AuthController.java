@@ -1,7 +1,9 @@
 package com.keystone.controller;
 
+import com.keystone.dto.request.ForgotPasswordRequest;
 import com.keystone.dto.request.LoginRequest;
 import com.keystone.dto.request.RegisterRequest;
+import com.keystone.dto.request.ResetPasswordRequest;
 import com.keystone.dto.response.ApiResponse;
 import com.keystone.dto.response.AuthResponse;
 import com.keystone.service.AuthService;
@@ -29,5 +31,19 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(ApiResponse.success("Login successful", response));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ApiResponse<Void>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        authService.forgotPassword(request);
+        return ResponseEntity.ok(ApiResponse.success(
+                "If an account with that email exists, password reset instructions have been sent."
+        ));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse<Void>> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        authService.resetPassword(request);
+        return ResponseEntity.ok(ApiResponse.success("Password reset successfully. You can now log in with your new password."));
     }
 }

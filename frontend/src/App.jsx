@@ -40,6 +40,8 @@ const EntityMapPage = lazy(() => import('./pages/public/EntityMapPage'));
 // Lazy Auth Pages
 const LoginPage = lazy(() => import('./pages/auth/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/auth/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('./pages/auth/ResetPasswordPage'));
 
 // Lazy User Dashboard Pages
 const UserDashboardPage = lazy(() => import('./pages/user/UserDashboardPage'));
@@ -120,6 +122,8 @@ export default function App() {
                 <Route path="/entity-map" element={<EntityMapPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
               </Route>
 
               {/* User Dashboard Protected Routes */}
