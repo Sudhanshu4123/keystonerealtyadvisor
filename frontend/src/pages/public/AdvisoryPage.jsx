@@ -8,7 +8,7 @@ export default function AdvisoryPage() {
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))' }}>
       <SEO
         title="Property Advisory Services | Keystone Realty Advisor"
-        description="Property acquisition advice, commercial leasing strategy, valuation support and transaction due diligence in Delhi NCR from Keystone Realty Advisor."
+        description="Property acquisition advice, commercial leasing strategy, valuation support and transaction due diligence across India from Keystone Realty Advisor."
         canonicalUrl="/advisory"
         breadcrumbs={[
           { name: 'Home', path: '/' },

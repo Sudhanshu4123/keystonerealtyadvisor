@@ -27,9 +27,9 @@ export default function SEO({
   regionName = null,
 }) {
   const siteName = 'Keystone Realty Advisor';
-  const defaultTitle = 'Property Advisory in Delhi NCR | Keystone Realty Advisor';
+  const defaultTitle = 'Real Estate & Property Advisory in India | Keystone Realty Advisor';
   const defaultDescription =
-    'Find verified flats and residential properties in Delhi, Gurugram and Dwarka with dedicated advisor support from first enquiry to site visit.';
+    'Find verified flats, luxury villas, and commercial properties across India with dedicated advisor support from first enquiry to site visit.';
 
   const fullTitle = title
     ? (title.includes('Keystone') ? title : `${title} | Keystone Realty`)

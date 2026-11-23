@@ -4,6 +4,69 @@
  */
 
 export const PROGRAMMATIC_CITIES = {
+  mumbai: {
+    name: 'Mumbai',
+    region: 'IN-MH',
+    aliases: ['mumbai', 'bombay'],
+    state: 'Maharashtra',
+    localities: ['Bandra West', 'Andheri West', 'Juhu', 'Worli', 'Powai', 'Lower Parel', 'Thane West', 'Navi Mumbai', 'Kandivali', 'Borivali'],
+    reraName: 'MahaRERA',
+    overview: 'Mumbai is India’s financial capital with prominent luxury and commercial real estate hubs spanning South Mumbai, Western Suburbs, Thane and Navi Mumbai.'
+  },
+  bengaluru: {
+    name: 'Bengaluru',
+    region: 'IN-KA',
+    aliases: ['bengaluru', 'bangalore'],
+    state: 'Karnataka',
+    localities: ['Whitefield', 'Indiranagar', 'Sarjapur Road', 'Electronic City', 'Koramangala', 'HSR Layout', 'Hebbal', 'Yelahanka'],
+    reraName: 'Karnataka RERA',
+    overview: 'Bengaluru is India’s premier technology hub featuring expansive gated communities, modern high-rises and luxury villas across East and North Bengaluru.'
+  },
+  pune: {
+    name: 'Pune',
+    region: 'IN-MH',
+    aliases: ['pune'],
+    state: 'Maharashtra',
+    localities: ['Hinjewadi', 'Kharadi', 'Baner', 'Wakad', 'Viman Nagar', 'Koregaon Park', 'Magarpatta', 'Bavdhan'],
+    reraName: 'MahaRERA',
+    overview: 'Pune is a major IT and educational center in Maharashtra known for its booming residential townships, IT corridors in Hinjewadi and Kharadi, and prime lifestyle pockets.'
+  },
+  hyderabad: {
+    name: 'Hyderabad',
+    region: 'IN-TG',
+    aliases: ['hyderabad'],
+    state: 'Telangana',
+    localities: ['Gachibowli', 'Hitec City', 'Jubilee Hills', 'Banjara Hills', 'Kondapur', 'Kokapet', 'Madhapur', 'Tellapur'],
+    reraName: 'Telangana RERA',
+    overview: 'Hyderabad has witnessed rapid commercial and luxury residential growth along its Financial District, Hitec City and Kokapet corridors with world-class infrastructure.'
+  },
+  kolkata: {
+    name: 'Kolkata',
+    region: 'IN-WB',
+    aliases: ['kolkata', 'calcutta'],
+    state: 'West Bengal',
+    localities: ['New Town', 'Salt Lake', 'Rajarhat', 'EM Bypass', 'Ballygunge', 'Alipore'],
+    reraName: 'WBRERA',
+    overview: 'Kolkata offers balanced residential and commercial opportunities with modern planned townships in New Town, Salt Lake and prime residential neighborhoods in South Kolkata.'
+  },
+  chennai: {
+    name: 'Chennai',
+    region: 'IN-TN',
+    aliases: ['chennai', 'madras'],
+    state: 'Tamil Nadu',
+    localities: ['OMR', 'Anna Nagar', 'ECR', 'Adyar', 'Velachery', 'Perungudi', 'Porur'],
+    reraName: 'TNRERA',
+    overview: 'Chennai is South India’s automotive and software manufacturing powerhouse with robust residential demand along Old Mahabalipuram Road (OMR) and ECR.'
+  },
+  ahmedabad: {
+    name: 'Ahmedabad',
+    region: 'IN-GJ',
+    aliases: ['ahmedabad'],
+    state: 'Gujarat',
+    localities: ['SG Highway', 'Bopal', 'Prahlad Nagar', 'Bodakdev', 'Shela', 'Thaltej', 'GIFT City'],
+    reraName: 'GujRERA',
+    overview: 'Ahmedabad is Gujarat’s commercial nerve center with high-growth investment avenues along SG Highway, GIFT City Gandhinagar and thriving residential sectors.'
+  },
   gurugram: {
     name: 'Gurugram',
     region: 'IN-HR',

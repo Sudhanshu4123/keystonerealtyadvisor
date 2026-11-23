@@ -179,9 +179,9 @@ export default function PropertiesPage() {
   const isFlatForRentGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'RENT' && filters.propertyType === 'APARTMENT';
   const isFlatForSaleGurugram = filters.city?.toLowerCase() === 'gurugram' && filters.listingType === 'SALE' && filters.propertyType === 'APARTMENT';
 
-  let pageTitle = 'Properties for Sale & Rent in Delhi NCR | Keystone Realty';
+  let pageTitle = 'Properties for Sale & Rent in India | Keystone Realty';
   let headingTitle = 'Properties for Sale & Rent';
-  let pageDescription = 'Browse apartments, villas, builder floors and commercial space for sale or rent across Delhi NCR. Filter by city, budget and BHK.';
+  let pageDescription = 'Browse apartments, villas, builder floors and commercial space for sale or rent across India. Filter by city, budget and BHK.';
 
   if (isFlatForRentGurugram) {
     pageTitle = 'Flats for Rent in Gurugram | Keystone Realty';
@@ -198,17 +198,17 @@ export default function PropertiesPage() {
     pageDescription = `Search ${formattedType.toLowerCase()} in ${filters.city} by locality, budget and BHK.`;
   } else if (filters.propertyType) {
     const formattedType = formatTypeName(filters.propertyType);
-    pageTitle = `${formattedType} for Sale & Rent | Keystone`;
-    headingTitle = `${formattedType} in Delhi NCR`;
-    pageDescription = `Search ${formattedType.toLowerCase()} in Delhi NCR by city, budget and BHK.`;
+    pageTitle = `${formattedType} for Sale & Rent in India | Keystone`;
+    headingTitle = `${formattedType} in India`;
+    pageDescription = `Search ${formattedType.toLowerCase()} across India by city, budget and BHK.`;
   } else if (filters.city) {
     pageTitle = `Properties in ${filters.city} | Keystone Realty`;
     headingTitle = `Properties in ${filters.city}`;
     pageDescription = `Search residential and commercial properties in ${filters.city} by locality, budget and BHK.`;
   } else if (filters.listingType === 'RENT') {
-    pageTitle = 'Properties for Rent in Delhi NCR | Keystone Realty';
-    headingTitle = 'Properties for Rent in Delhi NCR';
-    pageDescription = 'Search rental flats, builder floors and commercial space in Delhi NCR by city, budget and BHK.';
+    pageTitle = 'Properties for Rent in India | Keystone Realty';
+    headingTitle = 'Properties for Rent in India';
+    pageDescription = 'Search rental flats, builder floors and commercial space across India by city, budget and BHK.';
   }
 
   return (

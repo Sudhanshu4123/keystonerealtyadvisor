@@ -65,11 +65,11 @@ export default function Footer() {
               </div>
             </div>
             <p style={{ fontSize: '0.875rem', color: '#CBD5E1', lineHeight: 1.6, marginBottom: '1.25rem' }}>
-              Real estate advisory for residential and commercial property in Delhi NCR.
+              Real estate advisory for residential and commercial property across India.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#E5C058', fontSize: '0.8125rem', marginBottom: '1.25rem' }}>
               <ShieldCheck size={16} />
-              <span>Property advisory in Delhi NCR</span>
+              <span>Pan-India Property Advisory</span>
             </div>
 
             {/* Social Media Links */}
