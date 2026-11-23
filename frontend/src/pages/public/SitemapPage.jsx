@@ -108,7 +108,7 @@ export default function SitemapPage() {
       id: 'regional-portals',
       title: 'City Portals & Geographic Landing Pages',
       icon: MapPin,
-      description: 'Targeted property discovery across prime micro-markets in Delhi NCR.',
+      description: 'Targeted property discovery across prime residential and commercial hubs.',
       links: [
         { title: 'Properties in Gurugram (Gurgaon)', path: '/properties-in-gurugram', badge: 'Popular' },
         { title: 'Properties in Delhi', path: '/properties-in-delhi', badge: 'Capital' },
@@ -218,9 +218,8 @@ export default function SitemapPage() {
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', paddingBottom: '5rem' }}>
       <SEO
         title="HTML Sitemap | Keystone Realty Advisor"
-        description="Browse all pages on Keystone Realty Advisor — properties, projects, advisory services and city guides across Delhi NCR."
+        description="Browse all pages on Keystone Realty Advisor — luxury properties, development projects, advisory services, and curated micro-market guides."
         canonicalUrl="/sitemap"
-        keywords="Keystone sitemap, HTML sitemap, real estate sitemap, Delhi NCR property directory, Gurugram real estate directory, Keystone Realty Advisor pages"
         breadcrumbs={[
           { name: 'Home', path: '/' },
           { name: 'Sitemap', path: '/sitemap' },

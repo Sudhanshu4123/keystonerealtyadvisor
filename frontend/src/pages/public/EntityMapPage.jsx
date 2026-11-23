@@ -32,12 +32,12 @@ export default function EntityMapPage() {
       type: 'RealEstateAgent & Advisory Practice',
       category: 'organization',
       categoryLabel: 'Core Organization',
-      description: 'Real estate advisory practice for residential and commercial property in Delhi NCR, India.',
+      description: 'Premier real estate advisory practice providing residential acquisitions, commercial leasing, and wealth advisory worldwide.',
       wikidataUrl: null,
       relationships: [
-        { rel: 'operatesIn', target: 'Delhi, Gurugram, Noida, Greater Noida' },
+        { rel: 'operatesIn', target: 'Global Client Advisory & Premier Real Estate Corridors' },
         { rel: 'providesService', target: 'Residential Acquisition, Commercial Leasing, Asset Valuation, NRI Advisory' },
-        { rel: 'compliesWith', target: 'Haryana Real Estate Regulatory Authority (HRERA)' },
+        { rel: 'compliesWith', target: 'Real Estate Regulatory Authorities & Industry Standards' },
         { rel: 'facilitatesProjectsBy', target: 'Conscient Infrastructure, DLF Limited, Godrej Properties, M3M India' },
       ],
       officialProps: {

@@ -8,7 +8,7 @@ export default function AdvisoryPage() {
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))' }}>
       <SEO
         title="Property Advisory Services | Keystone Realty Advisor"
-        description="Property acquisition advice, commercial leasing strategy, valuation support and transaction due diligence across India from Keystone Realty Advisor."
+        description="Property acquisition advice, commercial leasing strategy, valuation support and transaction due diligence from Keystone Realty Advisor."
         canonicalUrl="/advisory"
         breadcrumbs={[
           { name: 'Home', path: '/' },
@@ -313,7 +313,7 @@ export default function AdvisoryPage() {
                   Explore Real Estate Portfolios & Prime Hubs
                 </h3>
                 <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
-                  Browse verified listings, developer townships, and regional investment corridors across Delhi NCR.
+                  Browse verified listings, developer townships, and high-growth investment corridors.
                 </p>
               </div>
               <Link to="/properties" className="btn btn-outline-gold" style={{ fontSize: '0.8125rem', padding: '0.4rem 0.9rem' }}>

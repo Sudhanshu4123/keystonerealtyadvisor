@@ -89,8 +89,8 @@ export default function HomePage() {
   return (
     <div>
       <SEO
-        title="Real Estate & Property Advisory in India | Keystone Realty Advisor"
-        description="Find verified flats, luxury villas, and commercial properties across India with dedicated advisor support from first enquiry to site visit."
+        title="Premium Real Estate & Property Advisory | Keystone Realty Advisor"
+        description="Discover verified residential apartments, luxury villas, and prime commercial properties with personalized guidance from Keystone Realty Advisor."
         canonicalUrl="/"
       />
       {/* Hero Section */}
@@ -269,7 +269,7 @@ export default function HomePage() {
                 How Keystone Realty Advisor Works
               </h2>
               <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '1.25rem' }}>
-                <strong>Keystone Realty Advisor</strong> advises buyers, tenants and investors on residential and commercial property across India, from shortlisting to site visits.
+                <strong>Keystone Realty Advisor</strong> advises buyers, tenants and investors on premier residential and commercial properties, from initial shortlisting to private viewings.
               </p>
               <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '2rem' }}>
                 For any listing, ask the advisor which documents are available (for projects, the RERA registration; for resale, ownership papers and society dues) and check them yourself or with your lawyer before you pay.

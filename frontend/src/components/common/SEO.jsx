@@ -27,9 +27,9 @@ export default function SEO({
   regionName = null,
 }) {
   const siteName = 'Keystone Realty Advisor';
-  const defaultTitle = 'Real Estate & Property Advisory in India | Keystone Realty Advisor';
+  const defaultTitle = 'Premium Real Estate & Property Advisory | Keystone Realty Advisor';
   const defaultDescription =
-    'Find verified flats, luxury villas, and commercial properties across India with dedicated advisor support from first enquiry to site visit.';
+    'Discover verified residential apartments, luxury villas, and prime commercial properties with personalized guidance from Keystone Realty Advisor.';
 
   const fullTitle = title
     ? (title.includes('Keystone') ? title : `${title} | Keystone Realty`)
@@ -123,7 +123,7 @@ export default function SEO({
     removeMetaTag('name', 'keywords');
     setMetaTag('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
     setMetaTag('name', 'author', 'Keystone Realty Advisor');
-    setMetaTag('name', 'target_country', 'IN');
+    removeMetaTag('name', 'target_country');
 
     // Geo-targeting Meta Tags (Only if specific location provided)
     if (geoPlacename || geoRegion) {
@@ -142,7 +142,6 @@ export default function SEO({
       }
       if (locality) setMetaTag('property', 'og:locality', locality);
       if (regionName) setMetaTag('property', 'og:region', regionName);
-      setMetaTag('property', 'og:country-name', 'India');
     } else {
       removeMetaTag('name', 'geo.region');
       removeMetaTag('name', 'geo.placename');

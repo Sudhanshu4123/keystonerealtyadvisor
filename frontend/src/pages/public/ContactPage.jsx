@@ -58,8 +58,8 @@ export default function ContactPage() {
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3.5rem 0 5rem' }}>
       <SEO
-        title="Contact Keystone Realty Advisor | Delhi NCR"
-        description="Call +91 9911956274 or send an enquiry to talk to an advisor about buying, renting or leasing property in Delhi NCR."
+        title="Contact Keystone Realty Advisor | Property Consultation"
+        description="Call +91 9911956274 or send an enquiry to consult with an advisor about buying, renting or leasing residential and commercial properties."
         canonicalUrl="/contact"
         breadcrumbs={[
           { name: 'Home', path: '/' },
@@ -79,13 +79,11 @@ export default function ContactPage() {
             telephone: '+919911956274',
             email: 'keystonexhelpdesk@gmail.com',
             url: 'https://keystonerealtyadvisor.com/',
-            areaServed: ['Delhi', 'Gurugram', 'Noida', 'Dwarka'],
             contactPoint: {
               '@type': 'ContactPoint',
               telephone: '+919911956274',
               contactType: 'customer service',
-              availableLanguage: ['English', 'Hindi'],
-              areaServed: 'IN'
+              availableLanguage: ['English', 'Hindi']
             }
           }
         }}
@@ -281,10 +279,10 @@ export default function ContactPage() {
         {/* Explore Portfolios Cross-links */}
         <div className="card" style={{ marginTop: '2rem', padding: '1.75rem', backgroundColor: '#FFFFFF', border: '1px solid var(--border-color)', maxWidth: '1020px', margin: '2rem auto 0' }}>
           <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-            Explore Portfolios Across Delhi NCR
+            Explore Featured Portfolios & Property Hubs
           </h3>
           <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-            Looking to explore specific listings or luxury developments right now?
+            Looking to explore specific listings or premier luxury developments?
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>

@@ -113,7 +113,7 @@ export default function ProjectsPage() {
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '2.5rem 0 5rem' }}>
       <SEO
         title="New Residential & Commercial Projects | Keystone Realty"
-        description="Browse residential, commercial and plotted projects in Delhi NCR, with developer, location, configuration and price details where available."
+        description="Browse verified residential, commercial and plotted developments with developer, location, configuration and price details."
         canonicalUrl="/projects"
         breadcrumbs={[
           { name: 'Home', path: '/' },
@@ -122,7 +122,7 @@ export default function ProjectsPage() {
         schema={{
           '@context': 'https://schema.org',
           '@type': 'CollectionPage',
-          name: 'Real Estate Projects in Delhi NCR',
+          name: 'Featured Real Estate Developments',
           url: 'https://keystonerealtyadvisor.com/projects',
           isPartOf: { '@id': 'https://keystonerealtyadvisor.com/#website' },
         }}
@@ -139,7 +139,7 @@ export default function ProjectsPage() {
             <span>Development Portfolio</span>
           </div>
           <h1 style={{ fontSize: '2.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.02em' }}>
-            Real Estate Projects in Delhi NCR
+            Featured Real Estate Projects & Developments
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: '1rem', maxWidth: '650px' }}>
             Explore verified residential, commercial, villa, and plotted developments managed and advised by Keystone Realty Advisor.
@@ -373,7 +373,7 @@ export default function ProjectsPage() {
             Explore City Portfolios & Rental Flats
           </h3>
           <p style={{ fontSize: '0.84375rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>
-            Looking for ready-to-move homes, resale properties, or rental options across prime locations in Delhi NCR?
+            Looking for ready-to-move homes, resale properties, or rental options across prime investment hubs?
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             <Link to="/properties-in-gurugram" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
