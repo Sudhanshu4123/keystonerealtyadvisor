@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
-import { UserPlus, User, Mail, Phone, Lock } from 'lucide-react';
+import { UserPlus, User, Mail, Phone, Lock, Eye, EyeOff } from 'lucide-react';
 import SEO from '../../components/common/SEO';
 
 export default function RegisterPage() {
@@ -18,6 +18,8 @@ export default function RegisterPage() {
     confirmPassword: '',
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -132,15 +134,24 @@ export default function RegisterPage() {
               <div style={{ position: 'relative' }}>
                 <input
                   id="register-password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
                   className="form-control"
                   placeholder="Min 6 characters"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  style={{ paddingLeft: '2.25rem' }}
+                  style={{ paddingLeft: '2.25rem', paddingRight: '2.25rem' }}
                 />
                 <Lock size={16} color="var(--color-light-400)" style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }} />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0, display: 'flex', alignItems: 'center' }}
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
               </div>
             </div>
 
@@ -149,15 +160,24 @@ export default function RegisterPage() {
               <div style={{ position: 'relative' }}>
                 <input
                   id="register-confirm-password"
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   required
                   className="form-control"
                   placeholder="Confirm password"
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  style={{ paddingLeft: '2.25rem' }}
+                  style={{ paddingLeft: '2.25rem', paddingRight: '2.25rem' }}
                 />
                 <Lock size={16} color="var(--color-light-400)" style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }} />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0, display: 'flex', alignItems: 'center' }}
+                  title={showConfirmPassword ? 'Hide password' : 'Show password'}
+                  aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
               </div>
             </div>
           </div>

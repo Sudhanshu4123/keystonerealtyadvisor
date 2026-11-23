@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
 import { authService } from '../../services/authService';
 import SEO from '../../components/common/SEO';
-import { User, Lock, Save, Shield } from 'lucide-react';
+import { User, Lock, Save, Shield, Eye, EyeOff } from 'lucide-react';
 
 export default function UserProfilePage() {
   const { user, updateUser } = useAuth();
@@ -22,6 +22,9 @@ export default function UserProfilePage() {
 
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [updatingPassword, setUpdatingPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -149,41 +152,77 @@ export default function UserProfilePage() {
         <form onSubmit={handlePasswordSubmit} style={{ maxWidth: '480px' }}>
           <div className="form-group">
             <label className="form-label" htmlFor="current-pwd">Current Password *</label>
-            <input
-              id="current-pwd"
-              type="password"
-              required
-              className="form-control"
-              placeholder="Enter current password"
-              value={passwordData.currentPassword}
-              onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                id="current-pwd"
+                type={showCurrentPassword ? 'text' : 'password'}
+                required
+                className="form-control"
+                placeholder="Enter current password"
+                value={passwordData.currentPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+                style={{ paddingRight: '2.25rem' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0, display: 'flex', alignItems: 'center' }}
+                title={showCurrentPassword ? 'Hide password' : 'Show password'}
+                aria-label={showCurrentPassword ? 'Hide password' : 'Show password'}
+              >
+                {showCurrentPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </div>
 
           <div className="form-group">
             <label className="form-label" htmlFor="new-pwd">New Password *</label>
-            <input
-              id="new-pwd"
-              type="password"
-              required
-              className="form-control"
-              placeholder="Minimum 6 characters"
-              value={passwordData.newPassword}
-              onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                id="new-pwd"
+                type={showNewPassword ? 'text' : 'password'}
+                required
+                className="form-control"
+                placeholder="Minimum 6 characters"
+                value={passwordData.newPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                style={{ paddingRight: '2.25rem' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0, display: 'flex', alignItems: 'center' }}
+                title={showNewPassword ? 'Hide password' : 'Show password'}
+                aria-label={showNewPassword ? 'Hide password' : 'Show password'}
+              >
+                {showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </div>
 
           <div className="form-group">
             <label className="form-label" htmlFor="confirm-new-pwd">Confirm New Password *</label>
-            <input
-              id="confirm-new-pwd"
-              type="password"
-              required
-              className="form-control"
-              placeholder="Confirm new password"
-              value={passwordData.confirmNewPassword}
-              onChange={(e) => setPasswordData({ ...passwordData, confirmNewPassword: e.target.value })}
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                id="confirm-new-pwd"
+                type={showConfirmPassword ? 'text' : 'password'}
+                required
+                className="form-control"
+                placeholder="Confirm new password"
+                value={passwordData.confirmNewPassword}
+                onChange={(e) => setPasswordData({ ...passwordData, confirmNewPassword: e.target.value })}
+                style={{ paddingRight: '2.25rem' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: 0, display: 'flex', alignItems: 'center' }}
+                title={showConfirmPassword ? 'Hide password' : 'Show password'}
+                aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+              >
+                {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
           </div>
 
           <button type="submit" className="btn btn-outline-gold" disabled={updatingPassword} style={{ marginTop: '0.5rem' }}>
