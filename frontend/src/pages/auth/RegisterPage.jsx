@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
 import { UserPlus, User, Mail, Phone, Lock, Eye, EyeOff } from 'lucide-react';
 import SEO from '../../components/common/SEO';
 
 export default function RegisterPage() {
-  const { register } = useAuth();
+  const { register, googleLogin } = useAuth();
   const { success, error } = useToast();
   const navigate = useNavigate();
 
@@ -55,6 +56,23 @@ export default function RegisterPage() {
     }
   };
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+    if (!credentialResponse?.credential) {
+      error('Google registration failed. No token received.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const user = await googleLogin(credentialResponse.credential);
+      success(`Welcome to Keystone Realty Advisor, ${user.name}!`);
+      navigate('/dashboard');
+    } catch (err) {
+      error(err.message || 'Google registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '3rem 1.5rem' }}>
       <SEO
@@ -74,6 +92,25 @@ export default function RegisterPage() {
           <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
             Sign up to save properties, schedule viewings, and connect with advisors
           </p>
+        </div>
+
+        {/* Google Sign Up */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => error('Google Sign-In was unsuccessful. Please try again.')}
+            theme="outline"
+            size="large"
+            text="signup_with"
+            shape="rectangular"
+            width="400"
+          />
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', margin: '1.25rem 0', color: 'var(--text-secondary)', fontSize: '0.8125rem' }}>
+          <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
+          <span style={{ padding: '0 0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>or register with email</span>
+          <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
         </div>
 
         {/* Registration Form */}

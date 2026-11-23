@@ -70,6 +70,16 @@ export function AuthProvider({ children }) {
     throw new Error(res.message || 'Login failed');
   };
 
+  const googleLogin = async (googleToken) => {
+    const res = await authService.googleLogin(googleToken);
+    if (res.success && res.data) {
+      const { token: jwt, ...userInfo } = res.data;
+      saveAuth(jwt, userInfo);
+      return userInfo;
+    }
+    throw new Error(res.message || 'Google authentication failed');
+  };
+
   const register = async (userData) => {
     const res = await authService.register(userData);
     if (res.success && res.data) {
@@ -100,6 +110,7 @@ export function AuthProvider({ children }) {
         isAuthenticated,
         isAdmin,
         login,
+        googleLogin,
         register,
         logout,
         updateUser,

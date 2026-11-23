@@ -1,6 +1,7 @@
 package com.keystone.controller;
 
 import com.keystone.dto.request.ForgotPasswordRequest;
+import com.keystone.dto.request.GoogleLoginRequest;
 import com.keystone.dto.request.LoginRequest;
 import com.keystone.dto.request.RegisterRequest;
 import com.keystone.dto.request.ResetPasswordRequest;
@@ -31,6 +32,12 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(ApiResponse.success("Login successful", response));
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<ApiResponse<AuthResponse>> googleLogin(@Valid @RequestBody GoogleLoginRequest request) {
+        AuthResponse response = authService.googleLogin(request);
+        return ResponseEntity.ok(ApiResponse.success("Google authentication successful", response));
     }
 
     @PostMapping("/forgot-password")

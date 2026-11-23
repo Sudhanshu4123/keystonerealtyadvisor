@@ -9,6 +9,10 @@ export const authService = {
     return api.post('/api/auth/login', data);
   },
 
+  async googleLogin(token) {
+    return api.post('/api/auth/google', { token });
+  },
+
   async getProfile() {
     return api.get('/api/users/profile');
   },

@@ -1,6 +1,7 @@
 package com.keystone.service;
 
 import com.keystone.dto.request.ForgotPasswordRequest;
+import com.keystone.dto.request.GoogleLoginRequest;
 import com.keystone.dto.request.LoginRequest;
 import com.keystone.dto.request.RegisterRequest;
 import com.keystone.dto.request.ResetPasswordRequest;
@@ -14,6 +15,7 @@ import com.keystone.mapper.UserMapper;
 import com.keystone.repository.PasswordResetTokenRepository;
 import com.keystone.repository.UserRepository;
 import com.keystone.security.JwtTokenProvider;
+import com.keystone.security.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,8 +27,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -56,6 +61,9 @@ public class AuthService implements CommandLineRunner {
 
     @Value("${app.admin.initial-phone:9911956274}")
     private String adminPhone;
+
+    @Value("${app.google.client-id:518108375653-vi62hfvroinsug0bkj0rmdd04l3saug5.apps.googleusercontent.com}")
+    private String googleClientId;
 
     public AuthService(UserRepository userRepository,
             PasswordEncoder passwordEncoder,
@@ -138,6 +146,74 @@ public class AuthService implements CommandLineRunner {
         }
 
         return userMapper.toAuthResponse(user, jwt);
+    }
+
+    @Transactional
+    public AuthResponse googleLogin(GoogleLoginRequest request) {
+        if (request == null || request.getToken() == null || request.getToken().isBlank()) {
+            throw new BadRequestException("Google token is required.");
+        }
+
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "https://oauth2.googleapis.com/tokeninfo?id_token=" + request.getToken().trim();
+            @SuppressWarnings("unchecked")
+            Map<String, Object> tokenInfo = restTemplate.getForObject(url, Map.class);
+
+            if (tokenInfo == null || !tokenInfo.containsKey("email")) {
+                throw new BadRequestException("Invalid or expired Google token.");
+            }
+
+            // Verify audience
+            if (googleClientId != null && !googleClientId.isBlank()) {
+                String aud = (String) tokenInfo.get("aud");
+                String azp = (String) tokenInfo.get("azp");
+                if (!googleClientId.equals(aud) && !googleClientId.equals(azp)) {
+                    log.warn("Google token audience mismatch. Expected: {}, Got aud: {}, azp: {}", googleClientId, aud, azp);
+                    throw new BadRequestException("Google token audience verification failed.");
+                }
+            }
+
+            String email = ((String) tokenInfo.get("email")).toLowerCase().trim();
+            String name = (String) tokenInfo.get("name");
+            if (name == null || name.isBlank()) {
+                name = email.split("@")[0];
+            }
+
+            User user = userRepository.findByEmailIgnoreCase(email).orElse(null);
+            if (user == null) {
+                user = new User(
+                        name,
+                        email,
+                        null,
+                        passwordEncoder.encode(UUID.randomUUID().toString()),
+                        Role.ROLE_USER,
+                        UserStatus.ACTIVE
+                );
+                user = userRepository.save(user);
+                log.info("Successfully registered new user via Google OAuth: {}", email);
+            } else {
+                if (user.getStatus() != UserStatus.ACTIVE) {
+                    throw new BadRequestException("This account has been deactivated or suspended. Please contact Keystone Advisor support.");
+                }
+            }
+
+            UserPrincipal userPrincipal = UserPrincipal.create(user);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    userPrincipal, null, userPrincipal.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String jwt = tokenProvider.generateToken(authentication);
+            return userMapper.toAuthResponse(user, jwt);
+        } catch (HttpClientErrorException e) {
+            log.error("Google token verification HTTP error: {}", e.getResponseBodyAsString());
+            throw new BadRequestException("Google token verification failed: " + e.getMessage());
+        } catch (BadRequestException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error during Google login", e);
+            throw new BadRequestException("Failed to authenticate with Google: " + e.getMessage());
+        }
     }
 
     @Transactional

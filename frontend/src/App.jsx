@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 
@@ -80,11 +81,14 @@ function LegacySlugRedirect({ base }) {
   return <Navigate to={`${base}/${slug}`} replace />;
 }
 
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '518108375653-vi62hfvroinsug0bkj0rmdd04l3saug5.apps.googleusercontent.com';
+
 export default function App() {
   return (
     <BrowserRouter>
       <ToastProvider>
-        <AuthProvider>
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          <AuthProvider>
           <Suspense fallback={<RouteLoadingSpinner />}>
             <Routes>
               {/* Public Layout */}
@@ -158,7 +162,8 @@ export default function App() {
             </Routes>
           </Suspense>
         </AuthProvider>
-      </ToastProvider>
-    </BrowserRouter>
+      </GoogleOAuthProvider>
+    </ToastProvider>
+  </BrowserRouter>
   );
 }
