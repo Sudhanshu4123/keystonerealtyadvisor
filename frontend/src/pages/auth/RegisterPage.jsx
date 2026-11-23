@@ -29,8 +29,27 @@ export default function RegisterPage() {
       return;
     }
 
-    if (formData.password.length < 6) {
-      error('Password must be at least 6 characters long.');
+    if (formData.name.trim().length > 40) {
+      error('Name cannot exceed 40 characters.');
+      return;
+    }
+
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!emailRegex.test(formData.email.trim())) {
+      error('Please enter a valid email address.');
+      return;
+    }
+
+    if (formData.phone && formData.phone.trim()) {
+      const cleanPhone = formData.phone.trim().replace(/\D/g, '');
+      if (cleanPhone.length !== 10) {
+        error('Contact number must be exactly 10 digits.');
+        return;
+      }
+    }
+
+    if (formData.password.length < 6 || formData.password.length > 20) {
+      error('Password must be between 6 and 20 characters.');
       return;
     }
 
@@ -42,9 +61,9 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       const user = await register({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
+        phone: formData.phone ? formData.phone.trim().replace(/\D/g, '') : null,
         password: formData.password,
       });
       success(`Welcome to Keystone Realty Advisor, ${user.name}!`);
@@ -122,8 +141,9 @@ export default function RegisterPage() {
                 id="register-name"
                 type="text"
                 required
+                maxLength={40}
                 className="form-control"
-                placeholder="e.g. Johnathan Vance"
+                placeholder="Full name (max 40 chars)"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 style={{ paddingLeft: '2.25rem' }}
@@ -155,10 +175,11 @@ export default function RegisterPage() {
               <input
                 id="register-phone"
                 type="tel"
+                maxLength={10}
                 className="form-control"
-                placeholder="+1 (555) 000-0000"
+                placeholder="10-digit mobile number"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
                 style={{ paddingLeft: '2.25rem' }}
               />
               <Phone size={16} color="var(--color-light-400)" style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }} />
@@ -173,8 +194,9 @@ export default function RegisterPage() {
                   id="register-password"
                   type={showPassword ? 'text' : 'password'}
                   required
+                  maxLength={20}
                   className="form-control"
-                  placeholder="Min 6 characters"
+                  placeholder="6 - 20 characters"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   style={{ paddingLeft: '2.25rem', paddingRight: '2.25rem' }}
@@ -199,6 +221,7 @@ export default function RegisterPage() {
                   id="register-confirm-password"
                   type={showConfirmPassword ? 'text' : 'password'}
                   required
+                  maxLength={20}
                   className="form-control"
                   placeholder="Confirm password"
                   value={formData.confirmPassword}

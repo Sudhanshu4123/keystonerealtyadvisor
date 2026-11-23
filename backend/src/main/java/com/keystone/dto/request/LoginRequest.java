@@ -2,14 +2,16 @@ package com.keystone.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class LoginRequest {
 
     @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
+    @Email(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Please enter a valid email address")
     private String email;
 
     @NotBlank(message = "Password is required")
+    @Size(max = 20, message = "Password cannot exceed 20 characters")
     private String password;
 
     public LoginRequest() {

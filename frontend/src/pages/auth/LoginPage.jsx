@@ -133,6 +133,7 @@ export default function LoginPage() {
                 id="login-password"
                 type={showPassword ? 'text' : 'password'}
                 required
+                maxLength={20}
                 className="form-control"
                 placeholder="Enter password"
                 value={formData.password}

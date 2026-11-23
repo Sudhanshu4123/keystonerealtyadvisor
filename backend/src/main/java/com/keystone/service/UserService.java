@@ -37,8 +37,21 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
 
-        user.setName(request.getName());
-        user.setPhone(request.getPhone());
+        String name = request.getName().trim();
+        if (name.length() > 40) {
+            throw new BadRequestException("Name cannot exceed 40 characters.");
+        }
+        user.setName(name);
+
+        if (request.getPhone() != null && !request.getPhone().isBlank()) {
+            String phone = request.getPhone().trim().replaceAll("[^0-9]", "");
+            if (phone.length() != 10) {
+                throw new BadRequestException("Contact number must be exactly 10 digits.");
+            }
+            user.setPhone(phone);
+        } else {
+            user.setPhone(null);
+        }
 
         User updatedUser = userRepository.save(user);
         return userMapper.toSummaryResponse(updatedUser);
@@ -51,6 +64,10 @@ public class UserService {
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
             throw new BadRequestException("Current password does not match.");
+        }
+
+        if (request.getNewPassword().length() < 6 || request.getNewPassword().length() > 20) {
+            throw new BadRequestException("Password must be between 6 and 20 characters.");
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));

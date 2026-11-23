@@ -108,14 +108,27 @@ public class AuthService implements CommandLineRunner {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail().trim())) {
             throw new BadRequestException("Email address is already in use.");
         }
 
+        String phone = null;
+        if (request.getPhone() != null && !request.getPhone().isBlank()) {
+            phone = request.getPhone().trim().replaceAll("[^0-9]", "");
+            if (phone.length() != 10) {
+                throw new BadRequestException("Contact number must be exactly 10 digits.");
+            }
+        }
+
+        String name = request.getName().trim();
+        if (name.length() > 40) {
+            throw new BadRequestException("Name cannot exceed 40 characters.");
+        }
+
         User user = new User(
-                request.getName(),
-                request.getEmail(),
-                request.getPhone(),
+                name,
+                request.getEmail().trim().toLowerCase(),
+                phone,
                 passwordEncoder.encode(request.getPassword()),
                 Role.ROLE_USER,
                 UserStatus.ACTIVE);
@@ -178,6 +191,9 @@ public class AuthService implements CommandLineRunner {
             String name = (String) tokenInfo.get("name");
             if (name == null || name.isBlank()) {
                 name = email.split("@")[0];
+            }
+            if (name.length() > 40) {
+                name = name.substring(0, 40);
             }
 
             User user = userRepository.findByEmailIgnoreCase(email).orElse(null);
