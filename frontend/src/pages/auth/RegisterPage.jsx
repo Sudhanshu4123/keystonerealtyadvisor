@@ -69,10 +69,10 @@ export default function RegisterPage() {
             <img src="/keystone-logo.png" alt="Keystone Logo" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
           </Link>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            Create Client Account
+            Create an Account
           </h1>
           <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-            Join Keystone Realty Advisor to manage saved listings & advisory requests
+            Sign up to save properties, schedule viewings, and connect with advisors
           </p>
         </div>
 

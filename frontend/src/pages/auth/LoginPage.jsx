@@ -58,10 +58,10 @@ export default function LoginPage() {
             <img src="/keystone-logo.png" alt="Keystone Logo" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />
           </Link>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            Client & Advisor Sign In
+            Welcome Back
           </h1>
           <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-            Access your saved portfolios and advisory communications
+            Sign in to access your saved properties and account
           </p>
         </div>
 
@@ -139,7 +139,7 @@ export default function LoginPage() {
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: '1px solid var(--border-color)', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-          Don't have a portfolio account?{' '}
+          Don't have an account?{' '}
           <Link to="/register" style={{ color: 'var(--color-gold-600)', fontWeight: 600 }}>
             Register here
           </Link>
