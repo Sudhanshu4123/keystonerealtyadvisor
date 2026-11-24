@@ -240,40 +240,41 @@ export default function HomePage() {
         </div>
 
         <style>{`
-          /* Layer 1: Base City Night Backdrop */
+          /* Layer 1: Base City Night Backdrop (Empty on the left - NO hand, NO hologram) */
           .hero-layer-base {
             position: absolute;
             inset: 0;
-            background-image: url('/hero-hand-city.jpg');
+            background-image: url('/hero-empty-bg.jpg');
             background-size: cover;
             background-position: left center;
             z-index: 1;
           }
 
-          /* Layer 2: The Hand entering from the side/bottom-left */
+          /* Layer 2: The Hand entering from the side/bottom-left into the empty space */
           .hero-hand-container {
             position: absolute;
             inset: 0;
             z-index: 2;
             pointer-events: none;
-            animation: handSlideIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: handSlideIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+            opacity: 0;
+            transform: translate(-160px, 100px);
           }
 
           .hero-layer-hand {
             position: absolute;
             inset: 0;
-            background-image: url('/hero-hand-city.jpg');
+            background-image: url('/hero-hand-cutout.png');
             background-size: cover;
             background-position: left center;
-            clip-path: polygon(0% 48%, 54% 48%, 54% 100%, 0% 100%);
           }
 
           @keyframes handSlideIn {
             0% {
-              transform: translate(-100px, 80px) scale(0.94);
+              transform: translate(-160px, 100px) scale(0.92);
               opacity: 0;
             }
-            60% {
+            40% {
               opacity: 1;
             }
             100% {
@@ -290,10 +291,10 @@ export default function HomePage() {
             width: 90px;
             height: 90px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 210, 255, 0.9) 35%, rgba(0, 140, 255, 0) 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 210, 255, 0.95) 35%, rgba(0, 140, 255, 0) 70%);
             transform: translate(-50%, -50%) scale(0);
             opacity: 0;
-            animation: palmPulse 1.2s ease-out 1.2s forwards;
+            animation: palmPulse 1s ease-out 1.4s forwards;
             pointer-events: none;
           }
 
@@ -303,38 +304,38 @@ export default function HomePage() {
               opacity: 0;
             }
             50% {
-              transform: translate(-50%, -50%) scale(2);
+              transform: translate(-50%, -50%) scale(2.2);
               opacity: 1;
             }
             100% {
               transform: translate(-50%, -50%) scale(1.2);
-              opacity: 0.8;
+              opacity: 0.85;
             }
           }
 
-          /* Layer 3: Holographic Buildings Constructing Upward */
+          /* Layer 3: Holographic Buildings Constructing Upward onto the Palm */
           .hero-hologram-container {
             position: absolute;
             inset: 0;
             z-index: 3;
             pointer-events: none;
-            clip-path: polygon(10% 0%, 54% 0%, 54% 56%, 10% 56%);
-            animation: hologramConstruct 2s cubic-bezier(0.2, 0.8, 0.25, 1) forwards 1.4s;
+            clip-path: inset(100% 0 0 0);
+            animation: hologramConstruct 1.8s cubic-bezier(0.2, 0.8, 0.25, 1) forwards 1.6s;
             opacity: 0;
           }
 
           .hero-layer-hologram {
             position: absolute;
             inset: 0;
-            background-image: url('/hero-hand-city.jpg');
+            background-image: url('/hero-hologram-cutout.png');
             background-size: cover;
             background-position: left center;
-            filter: drop-shadow(0 0 15px rgba(0, 200, 255, 0.7));
+            filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.85));
           }
 
           @keyframes hologramConstruct {
             0% {
-              clip-path: polygon(10% 56%, 54% 56%, 54% 56%, 10% 56%);
+              clip-path: inset(100% 0 0 0);
               opacity: 0;
               filter: brightness(2.5) contrast(1.5);
             }
@@ -342,7 +343,7 @@ export default function HomePage() {
               opacity: 1;
             }
             100% {
-              clip-path: polygon(10% 0%, 54% 0%, 54% 56%, 10% 56%);
+              clip-path: inset(0% 0 0 0);
               opacity: 1;
               filter: brightness(1) contrast(1);
             }
@@ -351,14 +352,14 @@ export default function HomePage() {
           /* Hologram Construction Scanline */
           .hero-hologram-scanner {
             position: absolute;
-            left: 12%;
-            width: 40%;
+            left: 10%;
+            width: 44%;
             height: 3px;
             background: linear-gradient(90deg, transparent, #FFFFFF 40%, #00F0FF 60%, transparent);
             box-shadow: 0 0 15px #00F0FF, 0 0 30px #00B4D8;
             opacity: 0;
             top: 55%;
-            animation: scanlineSweep 2s cubic-bezier(0.2, 0.8, 0.25, 1) 1.4s forwards;
+            animation: scanlineSweep 1.8s cubic-bezier(0.2, 0.8, 0.25, 1) 1.6s forwards;
           }
 
           @keyframes scanlineSweep {
@@ -381,8 +382,8 @@ export default function HomePage() {
             position: absolute;
             left: 33%;
             border-radius: 50%;
-            border: 1.5px solid rgba(0, 220, 255, 0.6);
-            box-shadow: 0 0 10px rgba(0, 220, 255, 0.4);
+            border: 1.5px solid rgba(0, 220, 255, 0.7);
+            box-shadow: 0 0 12px rgba(0, 220, 255, 0.5);
             transform: translate(-50%, -50%) rotateX(70deg);
             opacity: 0;
             pointer-events: none;
@@ -404,12 +405,12 @@ export default function HomePage() {
 
           @keyframes ringAppear {
             0% { opacity: 0; transform: translate(-50%, -50%) rotateX(70deg) scale(0.6); }
-            100% { opacity: 0.85; transform: translate(-50%, -50%) rotateX(70deg) scale(1); }
+            100% { opacity: 0.9; transform: translate(-50%, -50%) rotateX(70deg) scale(1); }
           }
 
           @keyframes ringPulse {
             0% { opacity: 0.5; transform: translate(-50%, -50%) rotateX(70deg) scale(0.97); }
-            100% { opacity: 0.95; transform: translate(-50%, -50%) rotateX(70deg) scale(1.03); }
+            100% { opacity: 1; transform: translate(-50%, -50%) rotateX(70deg) scale(1.03); }
           }
 
           @media (max-width: 860px) {
