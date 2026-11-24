@@ -98,12 +98,9 @@ export default function HomePage() {
         className="hero-section-motion"
         style={{
           position: 'relative',
-          paddingTop: '6rem',
-          paddingBottom: '6rem',
           overflow: 'hidden',
           backgroundColor: '#070A11',
           borderBottom: '1px solid #1E293B',
-          minHeight: '580px',
         }}
       >
         {/* Layer 1: Base Clean City Skyline & Waterfront (Completely empty on the left) */}
@@ -167,7 +164,7 @@ export default function HomePage() {
                       aria-label="Search properties by location or keywords"
                       value={searchParams.query}
                       onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
-                      style={{ height: '48px', fontSize: '0.875rem' }}
+                      style={{ height: '46px', fontSize: '0.875rem' }}
                     />
                   </div>
 
@@ -176,7 +173,7 @@ export default function HomePage() {
                     aria-label="Filter by listing type"
                     value={searchParams.listingType}
                     onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
-                    style={{ height: '48px', fontSize: '0.875rem' }}
+                    style={{ height: '46px', fontSize: '0.875rem' }}
                   >
                     <option value="">All Listing Types</option>
                     <option value="SALE">For Sale</option>
@@ -189,7 +186,7 @@ export default function HomePage() {
                     aria-label="Filter by property type"
                     value={searchParams.propertyType}
                     onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
-                    style={{ height: '48px', fontSize: '0.875rem' }}
+                    style={{ height: '46px', fontSize: '0.875rem' }}
                   >
                     <option value="">All Property Types</option>
                     <option value="APARTMENT">Apartment</option>
@@ -231,6 +228,11 @@ export default function HomePage() {
           }
 
           /* Default Layout: Mobile & Small Devices (< 768px) */
+          .hero-section-motion {
+            padding-top: 1.25rem;
+            padding-bottom: 1.5rem;
+          }
+
           .hero-container-custom {
             position: relative;
             z-index: 10;
@@ -241,7 +243,7 @@ export default function HomePage() {
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: 1.25rem;
+            gap: 0.75rem;
             width: 100%;
           }
 
@@ -256,19 +258,19 @@ export default function HomePage() {
           }
 
           .hero-heading-title {
-            font-size: clamp(1.5rem, 5vw, 2.25rem);
+            font-size: clamp(1.35rem, 4.5vw, 1.75rem);
             font-weight: 700;
             line-height: 1.22;
             letter-spacing: -0.02em;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.45rem;
             color: #FFFFFF;
             text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 30, 80, 0.7);
           }
 
           .hero-heading-desc {
-            font-size: clamp(0.875rem, 2vw, 1.05rem);
+            font-size: clamp(0.825rem, 2vw, 0.95rem);
             color: #E2E8F0;
-            line-height: 1.55;
+            line-height: 1.45;
             margin-bottom: 0;
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
           }
@@ -276,12 +278,13 @@ export default function HomePage() {
           .hero-visual-block {
             order: 2;
             width: 100%;
-            max-width: 360px;
+            max-width: 260px;
             display: flex;
             justify-content: center;
             align-items: center;
-            mask-image: linear-gradient(to right, transparent 0%, black 12%, black 100%);
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 100%);
+            margin: 0.25rem auto;
+            mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
           }
 
           .hero-stage-container {
@@ -295,17 +298,17 @@ export default function HomePage() {
           .hero-search-block {
             order: 3;
             width: 100%;
-            max-width: 640px;
+            max-width: 580px;
           }
 
           .hero-search-form {
             background-color: rgba(255, 255, 255, 0.98);
             border-radius: var(--radius-md);
-            padding: 0.875rem;
+            padding: 0.75rem;
             box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 195, 255, 0.25);
             display: grid;
             grid-template-columns: 1fr;
-            gap: 0.65rem;
+            gap: 0.5rem;
             align-items: center;
             text-align: left;
             backdrop-filter: blur(16px);
@@ -313,8 +316,8 @@ export default function HomePage() {
           }
 
           .hero-search-btn {
-            height: 48px;
-            padding: 0 1.5rem;
+            height: 44px;
+            padding: 0 1.25rem;
             gap: 0.5rem;
             font-size: 0.875rem;
             font-weight: 600;
@@ -326,11 +329,11 @@ export default function HomePage() {
           /* Tablet Responsive Styles (768px to 1023px) */
           @media (min-width: 768px) and (max-width: 1023px) {
             .hero-section-motion {
-              padding-top: 4.5rem !important;
-              padding-bottom: 4.5rem !important;
+              padding-top: 2rem !important;
+              padding-bottom: 2rem !important;
             }
             .hero-visual-block {
-              max-width: 440px;
+              max-width: 380px;
               margin: 0.5rem 0;
             }
             .hero-search-form {
@@ -339,17 +342,18 @@ export default function HomePage() {
             }
             .hero-search-btn {
               width: auto;
+              height: 48px;
             }
           }
 
           /* Laptop & Desktop Responsive Styles (>= 1024px) */
           @media (min-width: 1024px) {
             .hero-section-motion {
-              min-height: 600px;
+              min-height: 480px;
               display: flex;
               align-items: center;
-              padding-top: 4.5rem !important;
-              padding-bottom: 4.5rem !important;
+              padding-top: 1.5rem !important;
+              padding-bottom: 1.75rem !important;
             }
             .hero-container-custom {
               position: static !important;
@@ -360,7 +364,7 @@ export default function HomePage() {
               flex-direction: row;
               justify-content: flex-end;
               align-items: center;
-              min-height: 520px;
+              min-height: 420px;
             }
             .hero-content-block {
               display: flex;
@@ -376,14 +380,16 @@ export default function HomePage() {
             .hero-heading-block {
               order: 1;
               text-align: left;
-              margin-bottom: 1.5rem;
+              margin-bottom: 1.15rem;
             }
             .hero-heading-title {
-              font-size: clamp(1.85rem, 2.8vw, 2.45rem);
+              font-size: clamp(1.75rem, 2.5vw, 2.3rem);
               line-height: 1.2;
+              margin-bottom: 0.65rem;
             }
             .hero-heading-desc {
-              font-size: 1rem;
+              font-size: 0.95rem;
+              line-height: 1.5;
             }
             .hero-search-block {
               order: 2;
@@ -392,14 +398,15 @@ export default function HomePage() {
             }
             .hero-search-form {
               grid-template-columns: 1fr 1fr;
-              padding: 1.15rem;
-              gap: 0.75rem;
+              padding: 1rem;
+              gap: 0.65rem;
             }
             .hero-search-input-col {
               grid-column: 1 / -1;
             }
             .hero-search-btn {
               grid-column: 1 / -1;
+              height: 46px;
             }
             /* Visual Stage anchored at true bottom-left of hero section */
             .hero-visual-block {
@@ -408,12 +415,13 @@ export default function HomePage() {
               bottom: 0;
               left: 0;
               z-index: 4;
-              width: clamp(480px, 46vw, 680px);
-              max-width: 680px;
+              width: clamp(450px, 44vw, 640px);
+              max-width: 640px;
               height: auto;
               pointer-events: none;
               mask-image: none;
               -webkit-mask-image: none;
+              margin: 0;
             }
             .hero-stage-container {
               width: 100%;
@@ -424,17 +432,19 @@ export default function HomePage() {
           /* Large Monitors (>= 1440px) */
           @media (min-width: 1440px) {
             .hero-section-motion {
-              min-height: 640px;
+              min-height: 520px;
+              padding-top: 2rem !important;
+              padding-bottom: 2rem !important;
             }
             .hero-visual-block {
-              width: clamp(600px, 45vw, 750px);
-              max-width: 750px;
+              width: clamp(560px, 44vw, 700px);
+              max-width: 700px;
             }
             .hero-content-block {
-              max-width: 560px;
+              max-width: 540px;
             }
             .hero-search-block {
-              max-width: 560px;
+              max-width: 540px;
             }
           }
 
@@ -454,7 +464,6 @@ export default function HomePage() {
             width: 100%;
             height: auto;
             display: block;
-            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5));
           }
 
           @keyframes handSlideFromLeft {
