@@ -93,7 +93,7 @@ export default function HomePage() {
         description="Discover verified residential apartments, luxury villas, and prime commercial properties with personalized guidance from Keystone Realty Advisor."
         canonicalUrl="/"
       />
-      {/* Hero Section with Luxury Motion Background Image */}
+      {/* Hero Section with Animated Hand & Holographic City Formation */}
       <section
         className="hero-section-motion"
         style={{
@@ -101,23 +101,36 @@ export default function HomePage() {
           paddingTop: '6rem',
           paddingBottom: '6rem',
           overflow: 'hidden',
+          backgroundColor: '#070A11',
           borderBottom: '1px solid #1E293B',
+          minHeight: '580px',
         }}
       >
-        {/* Animated Ken Burns Luxury Real Estate Background */}
-        <div className="hero-bg-motion" />
+        {/* Layer 1: Base City Night Backdrop */}
+        <div className="hero-layer-base" />
 
-        {/* Elegant Dark Gradient Overlay for Maximum Readability */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(180deg, rgba(7, 10, 17, 0.72) 0%, rgba(11, 15, 25, 0.78) 50%, rgba(7, 10, 17, 0.9) 100%)',
-            zIndex: 1,
-          }}
-        />
+        {/* Layer 2: The Hand entering from the side/bottom-left */}
+        <div className="hero-hand-container">
+          <div className="hero-layer-hand" />
+          {/* Luminous Palm Energy Flare */}
+          <div className="hero-palm-flare" />
+        </div>
 
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+        {/* Layer 3: The Holographic Buildings constructing upward from the hand */}
+        <div className="hero-hologram-container">
+          <div className="hero-layer-hologram" />
+          {/* Hologram Construction Scanline */}
+          <div className="hero-hologram-scanner" />
+          {/* Neon Light Rings */}
+          <div className="hero-hologram-ring ring-1" />
+          <div className="hero-hologram-ring ring-2" />
+        </div>
+
+        {/* Layer 4: Elegant Vignette & Dark Contrast Overlay */}
+        <div className="hero-contrast-overlay" />
+
+        {/* Layer 5: Foreground Content (Text & Search Form) */}
+        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
           <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
             <h1
               style={{
@@ -127,7 +140,7 @@ export default function HomePage() {
                 letterSpacing: '-0.02em',
                 marginBottom: '1.25rem',
                 color: '#FFFFFF',
-                textShadow: '0 2px 10px rgba(0, 0, 0, 0.7)',
+                textShadow: '0 2px 14px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 30, 80, 0.6)',
               }}
             >
               Verified Real Estate Advisory &amp; Premium Property Consultation
@@ -139,7 +152,7 @@ export default function HomePage() {
                 color: '#E2E8F0',
                 lineHeight: 1.65,
                 marginBottom: '2.5rem',
-                textShadow: '0 1px 4px rgba(0, 0, 0, 0.6)',
+                textShadow: '0 1px 6px rgba(0, 0, 0, 0.8)',
               }}
             >
               Discover curated residential apartments, luxury villas, and prime commercial spaces with personalized guidance from trusted property advisors.
@@ -149,15 +162,16 @@ export default function HomePage() {
             <form
               onSubmit={handleSearchSubmit}
               style={{
-                backgroundColor: '#FFFFFF',
+                backgroundColor: 'rgba(255, 255, 255, 0.98)',
                 borderRadius: 'var(--radius-md)',
                 padding: '0.875rem',
-                boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.5)',
+                boxShadow: '0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 195, 255, 0.25)',
                 display: 'grid',
                 gridTemplateColumns: '2fr 1.2fr 1.2fr auto',
                 gap: '0.75rem',
                 alignItems: 'center',
                 textAlign: 'left',
+                backdropFilter: 'blur(16px)',
               }}
               className="hero-search-form"
             >
@@ -229,25 +243,187 @@ export default function HomePage() {
         </div>
 
         <style>{`
-          .hero-bg-motion {
+          /* Layer 1: Base City Night Backdrop */
+          .hero-layer-base {
             position: absolute;
             inset: 0;
-            background-image: url('/hero-luxury-bg.jpg');
+            background-image: url('/hero-hand-city.jpg');
             background-size: cover;
-            background-position: center 35%;
-            transform: scale(1);
-            animation: heroKenBurns 24s ease-in-out infinite alternate;
-            z-index: 0;
-            will-change: transform;
+            background-position: left center;
+            z-index: 1;
+            filter: brightness(0.9);
           }
 
-          @keyframes heroKenBurns {
+          /* Layer 2: The Hand entering from the side/bottom-left */
+          .hero-hand-container {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            animation: handSlideIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          }
+
+          .hero-layer-hand {
+            position: absolute;
+            inset: 0;
+            background-image: url('/hero-hand-city.jpg');
+            background-size: cover;
+            background-position: left center;
+            clip-path: polygon(0% 48%, 54% 48%, 54% 100%, 0% 100%);
+          }
+
+          @keyframes handSlideIn {
             0% {
-              transform: scale(1);
+              transform: translate(-100px, 80px) scale(0.94);
+              opacity: 0;
+            }
+            60% {
+              opacity: 1;
             }
             100% {
-              transform: scale(1.08);
+              transform: translate(0, 0) scale(1);
+              opacity: 1;
             }
+          }
+
+          /* Luminous Palm Energy Flare */
+          .hero-palm-flare {
+            position: absolute;
+            left: 36%;
+            top: 55%;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 210, 255, 0.9) 35%, rgba(0, 140, 255, 0) 70%);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            animation: palmPulse 1.2s ease-out 1.2s forwards;
+            pointer-events: none;
+          }
+
+          @keyframes palmPulse {
+            0% {
+              transform: translate(-50%, -50%) scale(0);
+              opacity: 0;
+            }
+            50% {
+              transform: translate(-50%, -50%) scale(2);
+              opacity: 1;
+            }
+            100% {
+              transform: translate(-50%, -50%) scale(1.2);
+              opacity: 0.8;
+            }
+          }
+
+          /* Layer 3: Holographic Buildings Constructing Upward */
+          .hero-hologram-container {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            clip-path: polygon(10% 0%, 54% 0%, 54% 56%, 10% 56%);
+            animation: hologramConstruct 2s cubic-bezier(0.2, 0.8, 0.25, 1) forwards 1.4s;
+            opacity: 0;
+          }
+
+          .hero-layer-hologram {
+            position: absolute;
+            inset: 0;
+            background-image: url('/hero-hand-city.jpg');
+            background-size: cover;
+            background-position: left center;
+            filter: drop-shadow(0 0 15px rgba(0, 200, 255, 0.7));
+          }
+
+          @keyframes hologramConstruct {
+            0% {
+              clip-path: polygon(10% 56%, 54% 56%, 54% 56%, 10% 56%);
+              opacity: 0;
+              filter: brightness(2.5) contrast(1.5);
+            }
+            20% {
+              opacity: 1;
+            }
+            100% {
+              clip-path: polygon(10% 0%, 54% 0%, 54% 56%, 10% 56%);
+              opacity: 1;
+              filter: brightness(1) contrast(1);
+            }
+          }
+
+          /* Hologram Construction Scanline */
+          .hero-hologram-scanner {
+            position: absolute;
+            left: 12%;
+            width: 40%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFFFFF 40%, #00F0FF 60%, transparent);
+            box-shadow: 0 0 15px #00F0FF, 0 0 30px #00B4D8;
+            opacity: 0;
+            top: 55%;
+            animation: scanlineSweep 2s cubic-bezier(0.2, 0.8, 0.25, 1) 1.4s forwards;
+          }
+
+          @keyframes scanlineSweep {
+            0% {
+              top: 55%;
+              opacity: 1;
+            }
+            95% {
+              top: 3%;
+              opacity: 1;
+            }
+            100% {
+              top: 0%;
+              opacity: 0;
+            }
+          }
+
+          /* Neon Light Rings */
+          .hero-hologram-ring {
+            position: absolute;
+            left: 33%;
+            border-radius: 50%;
+            border: 1.5px solid rgba(0, 220, 255, 0.6);
+            box-shadow: 0 0 10px rgba(0, 220, 255, 0.4);
+            transform: translate(-50%, -50%) rotateX(70deg);
+            opacity: 0;
+            pointer-events: none;
+          }
+
+          .ring-1 {
+            top: 36%;
+            width: 260px;
+            height: 80px;
+            animation: ringAppear 1s ease-out 2.8s forwards, ringPulse 4s ease-in-out 3.8s infinite alternate;
+          }
+
+          .ring-2 {
+            top: 42%;
+            width: 320px;
+            height: 95px;
+            animation: ringAppear 1s ease-out 3s forwards, ringPulse 4s ease-in-out 4s infinite alternate-reverse;
+          }
+
+          @keyframes ringAppear {
+            0% { opacity: 0; transform: translate(-50%, -50%) rotateX(70deg) scale(0.6); }
+            100% { opacity: 0.85; transform: translate(-50%, -50%) rotateX(70deg) scale(1); }
+          }
+
+          @keyframes ringPulse {
+            0% { opacity: 0.5; transform: translate(-50%, -50%) rotateX(70deg) scale(0.97); }
+            100% { opacity: 0.95; transform: translate(-50%, -50%) rotateX(70deg) scale(1.03); }
+          }
+
+          /* Layer 4: Contrast Overlay */
+          .hero-contrast-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 35% 45%, rgba(7, 10, 17, 0.35) 0%, rgba(7, 10, 17, 0.72) 60%, rgba(7, 10, 17, 0.92) 100%),
+                        linear-gradient(180deg, rgba(7, 10, 17, 0.45) 0%, rgba(7, 10, 17, 0.85) 100%);
+            z-index: 4;
+            pointer-events: none;
           }
 
           @media (max-width: 860px) {
@@ -257,6 +433,9 @@ export default function HomePage() {
             .hero-section-motion {
               padding-top: 4rem !important;
               padding-bottom: 4rem !important;
+            }
+            .hero-hologram-ring {
+              display: none;
             }
           }
         `}</style>
