@@ -106,24 +106,32 @@ export default function HomePage() {
           minHeight: '580px',
         }}
       >
-        {/* Layer 1: Base City Night Backdrop */}
-        <div className="hero-layer-base" />
+        {/* Layer 1: Base Clean City Skyline & Waterfront (Completely empty on the left) */}
+        <div className="hero-skyline-bg" />
 
-        {/* Layer 2: The Hand entering from the side/bottom-left */}
-        <div className="hero-hand-container">
-          <div className="hero-layer-hand" />
-          {/* Luminous Palm Energy Flare */}
-          <div className="hero-palm-flare" />
-        </div>
+        {/* Layer 2: Interactive Motion Stage (Left Side) */}
+        <div className="hero-stage-container">
+          {/* Hologram Buildings (Constructs upward from palm) */}
+          <div className="hero-buildings-stage">
+            <img
+              src="/hero-buildings.png"
+              alt="Holographic City"
+              className="hero-buildings-img"
+            />
+            {/* Holographic Laser Construction Scanline */}
+            <div className="hero-buildings-scanline" />
+          </div>
 
-        {/* Layer 3: The Holographic Buildings constructing upward from the hand */}
-        <div className="hero-hologram-container">
-          <div className="hero-layer-hologram" />
-          {/* Hologram Construction Scanline */}
-          <div className="hero-hologram-scanner" />
-          {/* Neon Light Rings */}
-          <div className="hero-hologram-ring ring-1" />
-          <div className="hero-hologram-ring ring-2" />
+          {/* Hand with Suit (Slides in from the left) */}
+          <div className="hero-hand-stage">
+            <img
+              src="/hero-hand.png"
+              alt="Advisory Hand"
+              className="hero-hand-img"
+            />
+            {/* Luminous Palm Flare */}
+            <div className="hero-palm-beam" />
+          </div>
         </div>
 
         {/* Layer 4: Foreground Content (Text & Search Form) */}
@@ -240,104 +248,116 @@ export default function HomePage() {
         </div>
 
         <style>{`
-          /* Layer 1: Base City Night Backdrop (Empty on the left - NO hand, NO hologram) */
-          .hero-layer-base {
+          /* Layer 1: Clean Night City Skyline & Waterfront */
+          .hero-skyline-bg {
             position: absolute;
             inset: 0;
-            background-image: url('/hero-empty-bg.jpg');
+            background-image: url('/hero-bg-skyline.jpg');
             background-size: cover;
-            background-position: left center;
+            background-position: center bottom;
             z-index: 1;
           }
 
-          /* Layer 2: The Hand entering from the side/bottom-left into the empty space */
-          .hero-hand-container {
+          /* Stage container pinned to the left-bottom corner */
+          .hero-stage-container {
             position: absolute;
-            inset: 0;
+            bottom: 0;
+            left: 0;
+            width: clamp(340px, 46vw, 660px);
+            aspect-ratio: 1024 / 700;
             z-index: 2;
             pointer-events: none;
-            animation: handSlideIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
-            opacity: 0;
-            transform: translate(-160px, 100px);
           }
 
-          .hero-layer-hand {
+          /* Hand Stage: Starts off-screen to the left, slides in */
+          .hero-hand-stage {
             position: absolute;
-            inset: 0;
-            background-image: url('/hero-hand-cutout.png');
-            background-size: cover;
-            background-position: left center;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            animation: handSlideFromLeft 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s;
+            opacity: 0;
+            transform: translateX(-110%);
+            will-change: transform, opacity;
           }
 
-          @keyframes handSlideIn {
+          .hero-hand-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5));
+          }
+
+          @keyframes handSlideFromLeft {
             0% {
-              transform: translate(-160px, 100px) scale(0.92);
+              transform: translateX(-110%) translateY(15px);
               opacity: 0;
             }
-            40% {
+            35% {
               opacity: 1;
             }
             100% {
-              transform: translate(0, 0) scale(1);
+              transform: translateX(0) translateY(0);
               opacity: 1;
             }
           }
 
-          /* Luminous Palm Energy Flare */
-          .hero-palm-flare {
+          /* Luminous Palm Flare */
+          .hero-palm-beam {
             position: absolute;
-            left: 36%;
-            top: 55%;
-            width: 90px;
-            height: 90px;
+            left: 55%;
+            top: 57%;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 210, 255, 0.95) 35%, rgba(0, 140, 255, 0) 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 210, 255, 0.95) 40%, transparent 70%);
             transform: translate(-50%, -50%) scale(0);
             opacity: 0;
-            animation: palmPulse 1s ease-out 1.4s forwards;
+            animation: palmFlareBurst 1s ease-out 1.5s forwards;
             pointer-events: none;
           }
 
-          @keyframes palmPulse {
+          @keyframes palmFlareBurst {
             0% {
               transform: translate(-50%, -50%) scale(0);
               opacity: 0;
             }
             50% {
-              transform: translate(-50%, -50%) scale(2.2);
+              transform: translate(-50%, -50%) scale(2.4);
               opacity: 1;
             }
             100% {
-              transform: translate(-50%, -50%) scale(1.2);
+              transform: translate(-50%, -50%) scale(1.1);
               opacity: 0.85;
             }
           }
 
-          /* Layer 3: Holographic Buildings Constructing Upward onto the Palm */
-          .hero-hologram-container {
+          /* Hologram Buildings Stage: Positioned directly above the palm */
+          .hero-buildings-stage {
             position: absolute;
-            inset: 0;
+            bottom: 8%;
+            left: 2%;
+            width: 100%;
             z-index: 3;
-            pointer-events: none;
             clip-path: inset(100% 0 0 0);
-            animation: hologramConstruct 1.8s cubic-bezier(0.2, 0.8, 0.25, 1) forwards 1.6s;
             opacity: 0;
+            animation: buildingsEmerge 1.8s cubic-bezier(0.2, 0.8, 0.25, 1) forwards 1.6s,
+                       buildingsFloat 4s ease-in-out 3.4s infinite alternate;
+            will-change: clip-path, opacity, transform;
           }
 
-          .hero-layer-hologram {
-            position: absolute;
-            inset: 0;
-            background-image: url('/hero-hologram-cutout.png');
-            background-size: cover;
-            background-position: left center;
-            filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.85));
+          .hero-buildings-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.9));
           }
 
-          @keyframes hologramConstruct {
+          @keyframes buildingsEmerge {
             0% {
               clip-path: inset(100% 0 0 0);
               opacity: 0;
-              filter: brightness(2.5) contrast(1.5);
+              filter: brightness(2.6) drop-shadow(0 0 40px #00F0FF);
             }
             20% {
               opacity: 1;
@@ -345,72 +365,45 @@ export default function HomePage() {
             100% {
               clip-path: inset(0% 0 0 0);
               opacity: 1;
-              filter: brightness(1) contrast(1);
+              filter: brightness(1) drop-shadow(0 0 20px rgba(0, 210, 255, 0.85));
             }
           }
 
-          /* Hologram Construction Scanline */
-          .hero-hologram-scanner {
+          @keyframes buildingsFloat {
+            0% {
+              transform: translateY(0);
+            }
+            100% {
+              transform: translateY(-8px);
+            }
+          }
+
+          /* Scanline */
+          .hero-buildings-scanline {
             position: absolute;
-            left: 10%;
-            width: 44%;
+            left: 0;
+            width: 100%;
             height: 3px;
             background: linear-gradient(90deg, transparent, #FFFFFF 40%, #00F0FF 60%, transparent);
             box-shadow: 0 0 15px #00F0FF, 0 0 30px #00B4D8;
             opacity: 0;
-            top: 55%;
-            animation: scanlineSweep 1.8s cubic-bezier(0.2, 0.8, 0.25, 1) 1.6s forwards;
+            bottom: 8%;
+            animation: scanlineRise 1.8s cubic-bezier(0.2, 0.8, 0.25, 1) 1.6s forwards;
           }
 
-          @keyframes scanlineSweep {
+          @keyframes scanlineRise {
             0% {
-              top: 55%;
+              bottom: 8%;
               opacity: 1;
             }
             95% {
-              top: 3%;
+              bottom: 96%;
               opacity: 1;
             }
             100% {
-              top: 0%;
+              bottom: 100%;
               opacity: 0;
             }
-          }
-
-          /* Neon Light Rings */
-          .hero-hologram-ring {
-            position: absolute;
-            left: 33%;
-            border-radius: 50%;
-            border: 1.5px solid rgba(0, 220, 255, 0.7);
-            box-shadow: 0 0 12px rgba(0, 220, 255, 0.5);
-            transform: translate(-50%, -50%) rotateX(70deg);
-            opacity: 0;
-            pointer-events: none;
-          }
-
-          .ring-1 {
-            top: 36%;
-            width: 260px;
-            height: 80px;
-            animation: ringAppear 1s ease-out 2.8s forwards, ringPulse 4s ease-in-out 3.8s infinite alternate;
-          }
-
-          .ring-2 {
-            top: 42%;
-            width: 320px;
-            height: 95px;
-            animation: ringAppear 1s ease-out 3s forwards, ringPulse 4s ease-in-out 4s infinite alternate-reverse;
-          }
-
-          @keyframes ringAppear {
-            0% { opacity: 0; transform: translate(-50%, -50%) rotateX(70deg) scale(0.6); }
-            100% { opacity: 0.9; transform: translate(-50%, -50%) rotateX(70deg) scale(1); }
-          }
-
-          @keyframes ringPulse {
-            0% { opacity: 0.5; transform: translate(-50%, -50%) rotateX(70deg) scale(0.97); }
-            100% { opacity: 1; transform: translate(-50%, -50%) rotateX(70deg) scale(1.03); }
           }
 
           @media (max-width: 860px) {
@@ -421,8 +414,9 @@ export default function HomePage() {
               padding-top: 4rem !important;
               padding-bottom: 4rem !important;
             }
-            .hero-hologram-ring {
-              display: none;
+            .hero-stage-container {
+              opacity: 0.65;
+              width: 320px;
             }
           }
         `}</style>
