@@ -18,9 +18,6 @@ import {
   CheckCircle2,
   Lock,
   FileCheck2,
-  Sparkles,
-  ShieldCheck,
-  ArrowUpRight,
 } from 'lucide-react';
 
 
@@ -89,20 +86,6 @@ export default function HomePage() {
     navigate(`/properties?${query.toString()}`);
   };
 
-  const handleTrendingClick = (queryText, propertyType = '', listingType = '') => {
-    setSearchParams((prev) => ({
-      ...prev,
-      query: queryText,
-      propertyType: propertyType || prev.propertyType,
-      listingType: listingType || prev.listingType,
-    }));
-    const query = new URLSearchParams();
-    if (queryText) query.append('query', queryText);
-    if (propertyType) query.append('propertyType', propertyType);
-    if (listingType) query.append('listingType', listingType);
-    navigate(`/properties?${query.toString()}`);
-  };
-
   return (
     <div>
       <SEO
@@ -110,55 +93,92 @@ export default function HomePage() {
         description="Discover verified residential apartments, luxury villas, and prime commercial properties with personalized guidance from Keystone Realty Advisor."
         canonicalUrl="/"
       />
-      {/* Ultra-Luxury Dynamic Hero Section */}
-      <section className="hero-luxury-section">
-        {/* Ambient Animated Glow Spheres */}
-        <div className="hero-glow-orb hero-glow-gold" />
-        <div className="hero-glow-orb hero-glow-sapphire" />
-        <div className="hero-glow-orb hero-glow-emerald" />
-        <div className="hero-grid-pattern" />
+      {/* Hero Section with Luxury Motion Background Image */}
+      <section
+        className="hero-section-motion"
+        style={{
+          position: 'relative',
+          paddingTop: '6rem',
+          paddingBottom: '6rem',
+          overflow: 'hidden',
+          borderBottom: '1px solid #1E293B',
+        }}
+      >
+        {/* Animated Ken Burns Luxury Real Estate Background */}
+        <div className="hero-bg-motion" />
+
+        {/* Elegant Dark Gradient Overlay for Maximum Readability */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(7, 10, 17, 0.72) 0%, rgba(11, 15, 25, 0.78) 50%, rgba(7, 10, 17, 0.9) 100%)',
+            zIndex: 1,
+          }}
+        />
 
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center' }}>
-            
-            {/* Shimmering Trust Badge */}
-            <div className="hero-trust-badge">
-              <span className="live-pulse-dot" />
-              <Sparkles size={14} style={{ color: '#E5C058' }} />
-              <span>Curated Portfolios • Verified RERA Assets • Bespoke Advisory</span>
-            </div>
-
-            <h1 className="hero-main-title">
-              Verified Real Estate Advisory &amp; <span className="gold-gradient-text">Premium Property Consultation</span>
+          <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
+            <h1
+              style={{
+                fontSize: 'clamp(1.85rem, 5vw, 2.75rem)',
+                fontWeight: 700,
+                lineHeight: 1.2,
+                letterSpacing: '-0.02em',
+                marginBottom: '1.25rem',
+                color: '#FFFFFF',
+                textShadow: '0 2px 10px rgba(0, 0, 0, 0.7)',
+              }}
+            >
+              Verified Real Estate Advisory &amp; Premium Property Consultation
             </h1>
 
-            <p className="hero-main-subtitle">
+            <p
+              style={{
+                fontSize: '1.125rem',
+                color: '#E2E8F0',
+                lineHeight: 1.65,
+                marginBottom: '2.5rem',
+                textShadow: '0 1px 4px rgba(0, 0, 0, 0.6)',
+              }}
+            >
               Discover curated residential apartments, luxury villas, and prime commercial spaces with personalized guidance from trusted property advisors.
             </p>
 
-            {/* Glassmorphic Luxury Search Box */}
+            {/* Hero Search Box */}
             <form
               onSubmit={handleSearchSubmit}
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderRadius: 'var(--radius-md)',
+                padding: '0.875rem',
+                boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.5)',
+                display: 'grid',
+                gridTemplateColumns: '2fr 1.2fr 1.2fr auto',
+                gap: '0.75rem',
+                alignItems: 'center',
+                textAlign: 'left',
+              }}
               className="hero-search-form"
             >
-              <div style={{ position: 'relative' }}>
+              <div>
                 <input
                   type="text"
-                  className="form-control hero-input"
-                  placeholder="Location, sector, luxury developer, or keyword..."
+                  className="form-control"
+                  placeholder="Location, sector, or keyword..."
                   aria-label="Search properties by location or keywords"
                   value={searchParams.query}
                   onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
-                  style={{ height: '52px', fontSize: '0.9375rem', paddingLeft: '1rem' }}
+                  style={{ height: '48px', fontSize: '0.875rem' }}
                 />
               </div>
 
               <select
-                className="form-control hero-select"
+                className="form-control"
                 aria-label="Filter by listing type"
                 value={searchParams.listingType}
                 onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
-                style={{ height: '52px', fontSize: '0.9375rem' }}
+                style={{ height: '48px', fontSize: '0.875rem' }}
               >
                 <option value="">All Listing Types</option>
                 <option value="SALE">For Sale</option>
@@ -167,387 +187,66 @@ export default function HomePage() {
               </select>
 
               <select
-                className="form-control hero-select"
+                className="form-control"
                 aria-label="Filter by property type"
                 value={searchParams.propertyType}
                 onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
-                style={{ height: '52px', fontSize: '0.9375rem' }}
+                style={{ height: '48px', fontSize: '0.875rem' }}
               >
                 <option value="">All Property Types</option>
-                <option value="APARTMENT">Luxury Apartments</option>
-                <option value="VILLA">Villas &amp; Mansions</option>
-                <option value="PENTHOUSE">Exclusive Penthouses</option>
-                <option value="INDEPENDENT_FLOOR">Independent Floors</option>
-                <option value="COMMERCIAL">Commercial &amp; Offices</option>
-                <option value="PLOT">Residential / Land Plots</option>
+                <option value="APARTMENT">Apartment</option>
+                <option value="STUDIO">Studio</option>
+                <option value="INDEPENDENT_HOUSE">Independent House</option>
+                <option value="DUPLEX">Duplex</option>
+                <option value="INDEPENDENT_FLOOR">Independent Floor</option>
+                <option value="VILLA">Villa</option>
+                <option value="FARM_HOUSE">Farm House</option>
+                <option value="PENTHOUSE">Penthouse</option>
+                <option value="RETAIL_SHOP">Retail Shop</option>
+                <option value="PLOT">Plot / Land</option>
               </select>
 
               <button
                 type="submit"
-                className="btn btn-primary hero-submit-btn"
+                className="btn btn-primary"
                 aria-label="Search properties"
+                style={{
+                  height: '48px',
+                  padding: '0 1.5rem',
+                  gap: '0.5rem',
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  borderRadius: 'var(--radius-md)',
+                  whiteSpace: 'nowrap',
+                }}
               >
-                <Search size={18} />
+                <Search size={16} />
                 <span>Search Properties</span>
               </button>
             </form>
-
-            {/* Trending Quick-Filter Chips */}
-            <div className="hero-trending-bar">
-              <span className="trending-label">Trending:</span>
-              <button type="button" onClick={() => handleTrendingClick('Dwarka Expressway')} className="trending-chip">
-                Dwarka Expressway
-              </button>
-              <button type="button" onClick={() => handleTrendingClick('Golf Course Road')} className="trending-chip">
-                Golf Course Road
-              </button>
-              <button type="button" onClick={() => handleTrendingClick('', 'PENTHOUSE')} className="trending-chip">
-                Luxury Penthouses
-              </button>
-              <button type="button" onClick={() => handleTrendingClick('', 'VILLA')} className="trending-chip">
-                Private Villas
-              </button>
-              <button type="button" onClick={() => handleTrendingClick('', 'COMMERCIAL')} className="trending-chip">
-                Grade-A Commercial
-              </button>
-            </div>
-
-            {/* Interactive Live Value & Trust Ribbon (Compels visitors to stay & explore) */}
-            <div className="hero-metrics-grid">
-              <div className="hero-metric-card">
-                <div className="metric-icon-box">
-                  <Building2 size={20} style={{ color: '#E5C058' }} />
-                </div>
-                <div>
-                  <div className="metric-val">₹1,200+ Cr</div>
-                  <div className="metric-lbl">Curated Portfolio Value</div>
-                </div>
-              </div>
-
-              <div className="hero-metric-card">
-                <div className="metric-icon-box">
-                  <ShieldCheck size={20} style={{ color: '#10B981' }} />
-                </div>
-                <div>
-                  <div className="metric-val">100% Legal</div>
-                  <div className="metric-lbl">RERA &amp; Title Audited</div>
-                </div>
-              </div>
-
-              <div className="hero-metric-card">
-                <div className="metric-icon-box">
-                  <Award size={20} style={{ color: '#E5C058' }} />
-                </div>
-                <div>
-                  <div className="metric-val">0% Brokerage</div>
-                  <div className="metric-lbl">On Select Developer Units</div>
-                </div>
-              </div>
-
-              <div className="hero-metric-card">
-                <div className="metric-icon-box">
-                  <Sparkles size={20} style={{ color: '#60A5FA' }} />
-                </div>
-                <div>
-                  <div className="metric-val">24-48 Hours</div>
-                  <div className="metric-lbl">Private VIP Site Tours</div>
-                </div>
-              </div>
-            </div>
 
           </div>
         </div>
 
         <style>{`
-          .hero-luxury-section {
-            background: radial-gradient(ellipse at 50% 15%, #131E3A 0%, #080D1A 50%, #030712 100%);
-            color: #FFFFFF;
-            padding-top: 5.5rem;
-            padding-bottom: 5.5rem;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(229, 192, 88, 0.2);
-          }
-
-          /* Ambient Floating Glowing Orbs */
-          .hero-glow-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            pointer-events: none;
-            opacity: 0.65;
-            transition: all 1s ease;
-          }
-
-          .hero-glow-gold {
-            width: 440px;
-            height: 440px;
-            background: radial-gradient(circle, rgba(229, 192, 88, 0.25) 0%, rgba(212, 175, 55, 0.05) 70%, transparent 100%);
-            top: -120px;
-            left: 8%;
-            animation: floatGlow1 14s ease-in-out infinite alternate;
-          }
-
-          .hero-glow-sapphire {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.22) 0%, rgba(30, 58, 138, 0.06) 70%, transparent 100%);
-            top: 20%;
-            right: 5%;
-            animation: floatGlow2 18s ease-in-out infinite alternate;
-          }
-
-          .hero-glow-emerald {
-            width: 380px;
-            height: 380px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
-            bottom: -80px;
-            left: 35%;
-            animation: floatGlow3 20s ease-in-out infinite alternate;
-          }
-
-          @keyframes floatGlow1 {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(60px, 40px) scale(1.15); }
-            100% { transform: translate(-40px, 70px) scale(0.95); }
-          }
-
-          @keyframes floatGlow2 {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-70px, -50px) scale(1.1); }
-            100% { transform: translate(30px, 40px) scale(1.05); }
-          }
-
-          @keyframes floatGlow3 {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50px, -30px); }
-          }
-
-          /* Architectural Blueprint Grid Pattern */
-          .hero-grid-pattern {
+          .hero-bg-motion {
             position: absolute;
             inset: 0;
-            background-image: 
-              radial-gradient(rgba(229, 192, 88, 0.14) 1px, transparent 1px),
-              linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 38px 38px, 120px 120px;
-            pointer-events: none;
-            opacity: 0.85;
+            background-image: url('/hero-luxury-bg.jpg');
+            background-size: cover;
+            background-position: center 35%;
+            transform: scale(1);
+            animation: heroKenBurns 24s ease-in-out infinite alternate;
+            z-index: 0;
+            will-change: transform;
           }
 
-          /* Shimmering Trust Badge */
-          .hero-trust-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(19, 27, 46, 0.8);
-            border: 1px solid rgba(229, 192, 88, 0.4);
-            padding: 0.45rem 1.15rem;
-            border-radius: 9999px;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: #F8FAFC;
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-          }
-
-          .live-pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #10B981;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-            animation: pulseDot 2s infinite;
-          }
-
-          @keyframes pulseDot {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.8); }
-            70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-          }
-
-          /* Main Title & Gold Gradient */
-          .hero-main-title {
-            font-size: clamp(2rem, 5.2vw, 3.15rem);
-            font-weight: 800;
-            line-height: 1.18;
-            letter-spacing: -0.025em;
-            margin-bottom: 1.25rem;
-            color: #FFFFFF;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-          }
-
-          .gold-gradient-text {
-            background: linear-gradient(135deg, #FFFFFF 20%, #F5DE93 45%, #E5C058 75%, #D4AF37 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-          }
-
-          .hero-main-subtitle {
-            font-size: 1.125rem;
-            color: #CBD5E1;
-            line-height: 1.7;
-            margin-bottom: 2.25rem;
-            max-width: 740px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 400;
-          }
-
-          /* Glassmorphic Search Form */
-          .hero-search-form {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 14px;
-            padding: 0.85rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(229, 192, 88, 0.35);
-            display: grid;
-            grid-template-columns: 2fr 1.25fr 1.25fr auto;
-            gap: 0.75rem;
-            align-items: center;
-            text-align: left;
-            backdrop-filter: blur(20px);
-          }
-
-          .hero-submit-btn {
-            height: 52px;
-            padding: 0 1.75rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9375rem;
-            font-weight: 700;
-            border-radius: 10px;
-            white-space: nowrap;
-            background: linear-gradient(135deg, #E5C058 0%, #C29B38 100%);
-            border: none;
-            color: #070A11;
-            box-shadow: 0 4px 14px rgba(229, 192, 88, 0.4);
-            transition: all 0.25s ease;
-          }
-
-          .hero-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(229, 192, 88, 0.55);
-            background: linear-gradient(135deg, #F3D378 0%, #D4AF37 100%);
-          }
-
-          /* Trending Quick Filter Pills */
-          .hero-trending-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1.25rem;
-            margin-bottom: 2.75rem;
-          }
-
-          .trending-label {
-            font-size: 0.8125rem;
-            color: #94A3B8;
-            font-weight: 600;
-            margin-right: 0.25rem;
-          }
-
-          .trending-chip {
-            background: rgba(30, 41, 59, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #E2E8F0;
-            font-size: 0.78125rem;
-            font-weight: 500;
-            padding: 0.35rem 0.85rem;
-            border-radius: 9999px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(8px);
-          }
-
-          .trending-chip:hover {
-            background: rgba(229, 192, 88, 0.2);
-            border-color: #E5C058;
-            color: #FFFFFF;
-            transform: translateY(-1px);
-          }
-
-          /* Interactive Metric Ribbon */
-          .hero-metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-top: 1.5rem;
-          }
-
-          .hero-metric-card {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 1rem 1.15rem;
-            display: flex;
-            align-items: center;
-            gap: 0.875rem;
-            text-align: left;
-            backdrop-filter: blur(14px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-          }
-
-          .hero-metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(229, 192, 88, 0.6), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-          }
-
-          .hero-metric-card:hover {
-            transform: translateY(-3px);
-            background: rgba(24, 35, 64, 0.85);
-            border-color: rgba(229, 192, 88, 0.4);
-            box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5);
-          }
-
-          .hero-metric-card:hover::before {
-            opacity: 1;
-          }
-
-          .metric-icon-box {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-          }
-
-          .metric-val {
-            font-size: 1.1875rem;
-            font-weight: 700;
-            color: #FFFFFF;
-            letter-spacing: -0.01em;
-            line-height: 1.2;
-          }
-
-          .metric-lbl {
-            font-size: 0.75rem;
-            color: #94A3B8;
-            margin-top: 0.15rem;
-            line-height: 1.3;
-          }
-
-          @media (max-width: 960px) {
-            .hero-metrics-grid {
-              grid-template-columns: repeat(2, 1fr);
+          @keyframes heroKenBurns {
+            0% {
+              transform: scale(1);
+            }
+            100% {
+              transform: scale(1.08);
             }
           }
 
@@ -555,15 +254,9 @@ export default function HomePage() {
             .hero-search-form {
               grid-template-columns: 1fr !important;
             }
-            .hero-luxury-section {
-              padding-top: 3.5rem;
-              padding-bottom: 3.5rem;
-            }
-          }
-
-          @media (max-width: 540px) {
-            .hero-metrics-grid {
-              grid-template-columns: 1fr;
+            .hero-section-motion {
+              padding-top: 4rem !important;
+              padding-bottom: 4rem !important;
             }
           }
         `}</style>
