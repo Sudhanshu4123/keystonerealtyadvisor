@@ -110,7 +110,7 @@ export default function HomePage() {
         <div className="hero-skyline-bg" />
 
         {/* Layer 2: Main Cross-Device Scalable Container */}
-        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+        <div className="container hero-container-custom">
           <div className="hero-main-layout">
 
             {/* Visual Stage Block: Animated Hologram Hand & 3D Building */}
@@ -140,77 +140,80 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Heading Block: Title & Subtitle */}
-            <div className="hero-heading-block">
-              <h1 className="hero-heading-title">
-                Verified Real Estate Advisory &amp; Premium Property Consultation
-              </h1>
+            {/* Content Block (Heading + Search) */}
+            <div className="hero-content-block">
+              {/* Heading Block: Title & Subtitle */}
+              <div className="hero-heading-block">
+                <h1 className="hero-heading-title">
+                  Verified Real Estate Advisory &amp; Premium Property Consultation
+                </h1>
 
-              <p className="hero-heading-desc">
-                Discover curated residential apartments, luxury villas, and prime commercial spaces with personalized guidance from trusted property advisors.
-              </p>
-            </div>
+                <p className="hero-heading-desc">
+                  Discover curated residential apartments, luxury villas, and prime commercial spaces with personalized guidance from trusted property advisors.
+                </p>
+              </div>
 
-            {/* Search Block: Property Search Form */}
-            <div className="hero-search-block">
-              <form
-                onSubmit={handleSearchSubmit}
-                className="hero-search-form"
-              >
-                <div className="hero-search-input-col">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Location, sector, or keyword..."
-                    aria-label="Search properties by location or keywords"
-                    value={searchParams.query}
-                    onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
+              {/* Search Block: Property Search Form */}
+              <div className="hero-search-block">
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className="hero-search-form"
+                >
+                  <div className="hero-search-input-col">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Location, sector, or keyword..."
+                      aria-label="Search properties by location or keywords"
+                      value={searchParams.query}
+                      onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
+                      style={{ height: '48px', fontSize: '0.875rem' }}
+                    />
+                  </div>
+
+                  <select
+                    className="form-control hero-search-select"
+                    aria-label="Filter by listing type"
+                    value={searchParams.listingType}
+                    onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
                     style={{ height: '48px', fontSize: '0.875rem' }}
-                  />
-                </div>
+                  >
+                    <option value="">All Listing Types</option>
+                    <option value="SALE">For Sale</option>
+                    <option value="RENT">For Rent</option>
+                    <option value="LEASE">Commercial Lease</option>
+                  </select>
 
-                <select
-                  className="form-control"
-                  aria-label="Filter by listing type"
-                  value={searchParams.listingType}
-                  onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
-                  style={{ height: '48px', fontSize: '0.875rem' }}
-                >
-                  <option value="">All Listing Types</option>
-                  <option value="SALE">For Sale</option>
-                  <option value="RENT">For Rent</option>
-                  <option value="LEASE">Commercial Lease</option>
-                </select>
+                  <select
+                    className="form-control hero-search-select"
+                    aria-label="Filter by property type"
+                    value={searchParams.propertyType}
+                    onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
+                    style={{ height: '48px', fontSize: '0.875rem' }}
+                  >
+                    <option value="">All Property Types</option>
+                    <option value="APARTMENT">Apartment</option>
+                    <option value="STUDIO">Studio</option>
+                    <option value="INDEPENDENT_HOUSE">Independent House</option>
+                    <option value="DUPLEX">Duplex</option>
+                    <option value="INDEPENDENT_FLOOR">Independent Floor</option>
+                    <option value="VILLA">Villa</option>
+                    <option value="FARM_HOUSE">Farm House</option>
+                    <option value="PENTHOUSE">Penthouse</option>
+                    <option value="RETAIL_SHOP">Retail Shop</option>
+                    <option value="PLOT">Plot / Land</option>
+                  </select>
 
-                <select
-                  className="form-control"
-                  aria-label="Filter by property type"
-                  value={searchParams.propertyType}
-                  onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
-                  style={{ height: '48px', fontSize: '0.875rem' }}
-                >
-                  <option value="">All Property Types</option>
-                  <option value="APARTMENT">Apartment</option>
-                  <option value="STUDIO">Studio</option>
-                  <option value="INDEPENDENT_HOUSE">Independent House</option>
-                  <option value="DUPLEX">Duplex</option>
-                  <option value="INDEPENDENT_FLOOR">Independent Floor</option>
-                  <option value="VILLA">Villa</option>
-                  <option value="FARM_HOUSE">Farm House</option>
-                  <option value="PENTHOUSE">Penthouse</option>
-                  <option value="RETAIL_SHOP">Retail Shop</option>
-                  <option value="PLOT">Plot / Land</option>
-                </select>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary hero-search-btn"
-                  aria-label="Search properties"
-                >
-                  <Search size={16} />
-                  <span>Search Properties</span>
-                </button>
-              </form>
+                  <button
+                    type="submit"
+                    className="btn btn-primary hero-search-btn"
+                    aria-label="Search properties"
+                  >
+                    <Search size={16} />
+                    <span>Search Properties</span>
+                  </button>
+                </form>
+              </div>
             </div>
 
           </div>
@@ -228,64 +231,71 @@ export default function HomePage() {
           }
 
           /* Default Layout: Mobile & Small Devices (< 768px) */
+          .hero-container-custom {
+            position: relative;
+            z-index: 10;
+          }
+
           .hero-main-layout {
-            display: grid;
-            grid-template-areas:
-              "heading"
-              "visual"
-              "search";
-            gap: 1.25rem;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-items: center;
             text-align: center;
+            gap: 1.25rem;
             width: 100%;
+          }
+
+          .hero-content-block {
+            display: contents;
           }
 
           .hero-heading-block {
-            grid-area: heading;
+            order: 1;
             width: 100%;
-            max-width: 720px;
+            max-width: 680px;
           }
 
           .hero-heading-title {
-            font-size: clamp(1.65rem, 5vw, 2.5rem);
+            font-size: clamp(1.5rem, 5vw, 2.25rem);
             font-weight: 700;
             line-height: 1.22;
             letter-spacing: -0.02em;
-            margin-bottom: 0.85rem;
+            margin-bottom: 0.75rem;
             color: #FFFFFF;
-            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 30, 80, 0.6);
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 30, 80, 0.7);
           }
 
           .hero-heading-desc {
-            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            font-size: clamp(0.875rem, 2vw, 1.05rem);
             color: #E2E8F0;
-            line-height: 1.6;
+            line-height: 1.55;
             margin-bottom: 0;
-            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
           }
 
           .hero-visual-block {
-            grid-area: visual;
+            order: 2;
             width: 100%;
-            max-width: 320px;
+            max-width: 360px;
             display: flex;
             justify-content: center;
             align-items: center;
+            mask-image: linear-gradient(to right, transparent 0%, black 12%, black 100%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 100%);
           }
 
           .hero-stage-container {
             position: relative;
             width: 100%;
-            aspect-ratio: 1024 / 700;
+            aspect-ratio: 1024 / 640;
             overflow: visible;
             pointer-events: none;
           }
 
           .hero-search-block {
-            grid-area: search;
+            order: 3;
             width: 100%;
-            max-width: 680px;
+            max-width: 640px;
           }
 
           .hero-search-form {
@@ -316,11 +326,12 @@ export default function HomePage() {
           /* Tablet Responsive Styles (768px to 1023px) */
           @media (min-width: 768px) and (max-width: 1023px) {
             .hero-section-motion {
-              padding-top: 5rem !important;
-              padding-bottom: 5rem !important;
+              padding-top: 4.5rem !important;
+              padding-bottom: 4.5rem !important;
             }
             .hero-visual-block {
-              max-width: 420px;
+              max-width: 440px;
+              margin: 0.5rem 0;
             }
             .hero-search-form {
               grid-template-columns: 2fr 1.2fr 1.2fr auto;
@@ -334,30 +345,54 @@ export default function HomePage() {
           /* Laptop & Desktop Responsive Styles (>= 1024px) */
           @media (min-width: 1024px) {
             .hero-section-motion {
-              min-height: 580px;
+              min-height: 600px;
+              display: flex;
+              align-items: center;
+              padding-top: 4.5rem !important;
+              padding-bottom: 4.5rem !important;
+            }
+            .hero-container-custom {
+              position: static !important;
             }
             .hero-main-layout {
-              grid-template-columns: 1.05fr 1fr;
-              grid-template-areas:
-                "visual heading"
-                "visual search";
-              gap: 1.5rem 3rem;
+              position: static;
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-end;
+              align-items: center;
+              min-height: 520px;
+            }
+            .hero-content-block {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
               text-align: left;
-              justify-items: start;
+              max-width: 520px;
+              width: 100%;
+              margin-left: auto;
+              position: relative;
+              z-index: 10;
             }
             .hero-heading-block {
+              order: 1;
               text-align: left;
+              margin-bottom: 1.5rem;
             }
-            .hero-visual-block {
-              max-width: 600px;
-              height: 100%;
+            .hero-heading-title {
+              font-size: clamp(1.85rem, 2.8vw, 2.45rem);
+              line-height: 1.2;
+            }
+            .hero-heading-desc {
+              font-size: 1rem;
             }
             .hero-search-block {
-              max-width: 580px;
+              order: 2;
+              max-width: 520px;
+              width: 100%;
             }
             .hero-search-form {
               grid-template-columns: 1fr 1fr;
-              padding: 1rem;
+              padding: 1.15rem;
               gap: 0.75rem;
             }
             .hero-search-input-col {
@@ -366,30 +401,52 @@ export default function HomePage() {
             .hero-search-btn {
               grid-column: 1 / -1;
             }
+            /* Visual Stage anchored at true bottom-left of hero section */
+            .hero-visual-block {
+              order: unset;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              z-index: 4;
+              width: clamp(480px, 46vw, 680px);
+              max-width: 680px;
+              height: auto;
+              pointer-events: none;
+              mask-image: none;
+              -webkit-mask-image: none;
+            }
+            .hero-stage-container {
+              width: 100%;
+              aspect-ratio: 1024 / 640;
+            }
           }
 
           /* Large Monitors (>= 1440px) */
           @media (min-width: 1440px) {
-            .hero-main-layout {
-              gap: 2rem 4rem;
+            .hero-section-motion {
+              min-height: 640px;
             }
             .hero-visual-block {
-              max-width: 660px;
+              width: clamp(600px, 45vw, 750px);
+              max-width: 750px;
+            }
+            .hero-content-block {
+              max-width: 560px;
             }
             .hero-search-block {
-              max-width: 620px;
+              max-width: 560px;
             }
           }
 
-          /* Stage & Image Animations (100% mathematically locked to palm) */
+          /* Stage & Image Animations */
           .hero-hand-stage {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            animation: handSlideFromLeft 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s;
+            animation: handSlideFromLeft 1.25s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s;
             opacity: 0;
-            transform: translateX(-110%);
+            transform: translateX(-105%);
             will-change: transform, opacity;
           }
 
@@ -402,10 +459,10 @@ export default function HomePage() {
 
           @keyframes handSlideFromLeft {
             0% {
-              transform: translateX(-110%) translateY(15px);
+              transform: translateX(-105%) translateY(10px);
               opacity: 0;
             }
-            35% {
+            30% {
               opacity: 1;
             }
             100% {
@@ -416,10 +473,10 @@ export default function HomePage() {
 
           .hero-palm-beam {
             position: absolute;
-            left: 65%;
-            top: 48%;
-            width: 70px;
-            height: 70px;
+            left: 67%;
+            top: 50%;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 210, 255, 0.95) 40%, transparent 70%);
             transform: translate(-50%, -50%) scale(0);
@@ -439,15 +496,15 @@ export default function HomePage() {
             }
             100% {
               transform: translate(-50%, -50%) scale(1);
-              opacity: 0.8;
+              opacity: 0.85;
             }
           }
 
           .hero-buildings-stage {
             position: absolute;
             bottom: 22%;
-            left: 28%;
-            width: 70%;
+            left: 31%;
+            width: 68%;
             z-index: 3;
             clip-path: inset(100% 0 0 0);
             opacity: 0;
@@ -460,7 +517,7 @@ export default function HomePage() {
             width: 100%;
             height: auto;
             display: block;
-            filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.85));
+            filter: drop-shadow(0 0 22px rgba(0, 210, 255, 0.9));
           }
 
           @keyframes buildingsEmerge {
@@ -475,7 +532,7 @@ export default function HomePage() {
             100% {
               clip-path: inset(0% 0 0 0);
               opacity: 1;
-              filter: brightness(1) drop-shadow(0 0 20px rgba(0, 210, 255, 0.85));
+              filter: brightness(1) drop-shadow(0 0 22px rgba(0, 210, 255, 0.9));
             }
           }
 
