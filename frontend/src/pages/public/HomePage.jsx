@@ -227,38 +227,63 @@ export default function HomePage() {
             z-index: 1;
           }
 
-          /* Default Layout: Mobile & Small Devices (< 768px) */
-          .hero-section-motion {
-            padding-top: 1.25rem;
-            padding-bottom: 1.5rem;
+          /* Global container positioning so absolute visual block anchors to .hero-section-motion */
+          .hero-container-custom {
+            position: static !important;
           }
 
-          .hero-container-custom {
+          /* Visual Stage Block: Anchored at bottom-left on ALL screen sizes (Mobile, Tablet, Desktop) */
+          .hero-visual-block {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 3;
+            width: clamp(280px, 80vw, 360px);
+            pointer-events: none;
+            margin: 0;
+          }
+
+          .hero-stage-container {
+            width: 100%;
+            aspect-ratio: 1024 / 640;
+            overflow: visible;
             position: relative;
-            z-index: 10;
+            pointer-events: none;
+          }
+
+          /* Default Layout: Mobile & Small Devices (< 768px) */
+          .hero-section-motion {
+            padding-top: 1.5rem;
+            padding-bottom: 215px; /* Reserves dedicated space for hand & hologram city at bottom-left */
+            min-height: 560px;
           }
 
           .hero-main-layout {
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
-            gap: 0.75rem;
             width: 100%;
           }
 
           .hero-content-block {
-            display: contents;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
           }
 
           .hero-heading-block {
-            order: 1;
             width: 100%;
-            max-width: 680px;
+            margin-bottom: 0.85rem;
           }
 
           .hero-heading-title {
-            font-size: clamp(1.35rem, 4.5vw, 1.75rem);
+            font-size: clamp(1.35rem, 5vw, 1.75rem);
             font-weight: 700;
             line-height: 1.22;
             letter-spacing: -0.02em;
@@ -275,30 +300,8 @@ export default function HomePage() {
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
           }
 
-          .hero-visual-block {
-            order: 2;
-            width: 100%;
-            max-width: 260px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0.25rem auto;
-            mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
-            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 100%);
-          }
-
-          .hero-stage-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1024 / 640;
-            overflow: visible;
-            pointer-events: none;
-          }
-
           .hero-search-block {
-            order: 3;
             width: 100%;
-            max-width: 580px;
           }
 
           .hero-search-form {
@@ -329,20 +332,42 @@ export default function HomePage() {
           /* Tablet Responsive Styles (768px to 1023px) */
           @media (min-width: 768px) and (max-width: 1023px) {
             .hero-section-motion {
-              padding-top: 2rem !important;
-              padding-bottom: 2rem !important;
+              min-height: 500px;
+              display: flex;
+              align-items: center;
+              padding-top: 1.75rem !important;
+              padding-bottom: 1.75rem !important;
             }
             .hero-visual-block {
-              max-width: 380px;
-              margin: 0.5rem 0;
+              width: clamp(380px, 48vw, 480px);
+            }
+            .hero-main-layout {
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-end;
+              align-items: center;
+            }
+            .hero-content-block {
+              max-width: 460px;
+              margin-left: auto;
+              margin-right: 0;
+              text-align: left;
+              align-items: flex-start;
+            }
+            .hero-heading-block {
+              text-align: left;
+              margin-bottom: 1rem;
             }
             .hero-search-form {
-              grid-template-columns: 2fr 1.2fr 1.2fr auto;
+              grid-template-columns: 1fr 1fr;
               padding: 0.875rem;
             }
+            .hero-search-input-col {
+              grid-column: 1 / -1;
+            }
             .hero-search-btn {
-              width: auto;
-              height: 48px;
+              grid-column: 1 / -1;
+              height: 46px;
             }
           }
 
@@ -355,8 +380,9 @@ export default function HomePage() {
               padding-top: 1.5rem !important;
               padding-bottom: 1.75rem !important;
             }
-            .hero-container-custom {
-              position: static !important;
+            .hero-visual-block {
+              width: clamp(450px, 44vw, 640px);
+              max-width: 640px;
             }
             .hero-main-layout {
               position: static;
@@ -374,11 +400,11 @@ export default function HomePage() {
               max-width: 520px;
               width: 100%;
               margin-left: auto;
+              margin-right: 0;
               position: relative;
               z-index: 10;
             }
             .hero-heading-block {
-              order: 1;
               text-align: left;
               margin-bottom: 1.15rem;
             }
@@ -392,7 +418,6 @@ export default function HomePage() {
               line-height: 1.5;
             }
             .hero-search-block {
-              order: 2;
               max-width: 520px;
               width: 100%;
             }
@@ -407,25 +432,6 @@ export default function HomePage() {
             .hero-search-btn {
               grid-column: 1 / -1;
               height: 46px;
-            }
-            /* Visual Stage anchored at true bottom-left of hero section */
-            .hero-visual-block {
-              order: unset;
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              z-index: 4;
-              width: clamp(450px, 44vw, 640px);
-              max-width: 640px;
-              height: auto;
-              pointer-events: none;
-              mask-image: none;
-              -webkit-mask-image: none;
-              margin: 0;
-            }
-            .hero-stage-container {
-              width: 100%;
-              aspect-ratio: 1024 / 640;
             }
           }
 
