@@ -263,7 +263,7 @@ export default function HomePage() {
             position: absolute;
             bottom: 0;
             left: 0;
-            width: clamp(340px, 46vw, 660px);
+            width: clamp(280px, 34vw, 480px);
             aspect-ratio: 1024 / 700;
             z-index: 2;
             pointer-events: none;
@@ -307,8 +307,8 @@ export default function HomePage() {
             position: absolute;
             left: 55%;
             top: 57%;
-            width: 80px;
-            height: 80px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 210, 255, 0.95) 40%, transparent 70%);
             transform: translate(-50%, -50%) scale(0);
@@ -323,21 +323,21 @@ export default function HomePage() {
               opacity: 0;
             }
             50% {
-              transform: translate(-50%, -50%) scale(2.4);
+              transform: translate(-50%, -50%) scale(2.2);
               opacity: 1;
             }
             100% {
-              transform: translate(-50%, -50%) scale(1.1);
-              opacity: 0.85;
+              transform: translate(-50%, -50%) scale(1);
+              opacity: 0.8;
             }
           }
 
-          /* Hologram Buildings Stage: Positioned directly above the palm */
+          /* Hologram Buildings Stage: Mathematically fitted right upon the palm */
           .hero-buildings-stage {
             position: absolute;
-            bottom: 8%;
-            left: 2%;
-            width: 100%;
+            bottom: 14%;
+            left: 15%;
+            width: 75%;
             z-index: 3;
             clip-path: inset(100% 0 0 0);
             opacity: 0;
@@ -350,14 +350,14 @@ export default function HomePage() {
             width: 100%;
             height: auto;
             display: block;
-            filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.9));
+            filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.85));
           }
 
           @keyframes buildingsEmerge {
             0% {
               clip-path: inset(100% 0 0 0);
               opacity: 0;
-              filter: brightness(2.6) drop-shadow(0 0 40px #00F0FF);
+              filter: brightness(2.6) drop-shadow(0 0 35px #00F0FF);
             }
             20% {
               opacity: 1;
@@ -374,7 +374,7 @@ export default function HomePage() {
               transform: translateY(0);
             }
             100% {
-              transform: translateY(-8px);
+              transform: translateY(-6px);
             }
           }
 
@@ -385,15 +385,15 @@ export default function HomePage() {
             width: 100%;
             height: 3px;
             background: linear-gradient(90deg, transparent, #FFFFFF 40%, #00F0FF 60%, transparent);
-            box-shadow: 0 0 15px #00F0FF, 0 0 30px #00B4D8;
+            box-shadow: 0 0 15px #00F0FF, 0 0 25px #00B4D8;
             opacity: 0;
-            bottom: 8%;
+            bottom: 0%;
             animation: scanlineRise 1.8s cubic-bezier(0.2, 0.8, 0.25, 1) 1.6s forwards;
           }
 
           @keyframes scanlineRise {
             0% {
-              bottom: 8%;
+              bottom: 0%;
               opacity: 1;
             }
             95% {
@@ -415,8 +415,8 @@ export default function HomePage() {
               padding-bottom: 4rem !important;
             }
             .hero-stage-container {
-              opacity: 0.65;
-              width: 320px;
+              opacity: 0.55;
+              width: 250px;
             }
           }
         `}</style>
