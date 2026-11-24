@@ -136,7 +136,7 @@ export default function HomePage() {
 
         {/* Layer 4: Foreground Content (Text & Search Form) */}
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
+          <div className="hero-content-wrapper" style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
             <h1
               style={{
                 fontSize: 'clamp(1.85rem, 5vw, 2.75rem)',
@@ -156,7 +156,7 @@ export default function HomePage() {
                 fontSize: '1.125rem',
                 color: '#E2E8F0',
                 lineHeight: 1.65,
-                marginBottom: '2.5rem',
+                marginBottom: '2rem',
                 textShadow: '0 1px 6px rgba(0, 0, 0, 0.8)',
               }}
             >
@@ -169,7 +169,7 @@ export default function HomePage() {
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.98)',
                 borderRadius: 'var(--radius-md)',
-                padding: '0.875rem',
+                padding: '1rem',
                 boxShadow: '0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 195, 255, 0.25)',
                 display: 'grid',
                 gridTemplateColumns: '2fr 1.2fr 1.2fr auto',
@@ -263,7 +263,7 @@ export default function HomePage() {
             position: absolute;
             bottom: 0;
             left: 0;
-            width: clamp(280px, 34vw, 480px);
+            width: clamp(380px, 48vw, 680px);
             aspect-ratio: 1024 / 700;
             z-index: 2;
             pointer-events: none;
@@ -336,8 +336,8 @@ export default function HomePage() {
           .hero-buildings-stage {
             position: absolute;
             bottom: 14%;
-            left: 15%;
-            width: 75%;
+            left: 14%;
+            width: 78%;
             z-index: 3;
             clip-path: inset(100% 0 0 0);
             opacity: 0;
@@ -406,7 +406,36 @@ export default function HomePage() {
             }
           }
 
-          @media (max-width: 860px) {
+          /* Desktop split layout to prevent search bar from blocking holographic hand */
+          @media (min-width: 1024px) {
+            .hero-content-wrapper {
+              margin-left: auto !important;
+              margin-right: 0 !important;
+              max-width: 580px !important;
+              text-align: left !important;
+            }
+            .hero-search-form {
+              grid-template-columns: 1fr 1fr !important;
+            }
+            .hero-search-form > div:first-child {
+              grid-column: 1 / -1;
+            }
+            .hero-search-form > button {
+              grid-column: 1 / -1;
+            }
+            .hero-stage-container {
+              width: clamp(480px, 48vw, 680px) !important;
+            }
+          }
+
+          @media (max-width: 1023px) {
+            .hero-stage-container {
+              opacity: 0.5;
+              width: 280px;
+            }
+          }
+
+          @media (max-width: 768px) {
             .hero-search-form {
               grid-template-columns: 1fr !important;
             }
@@ -415,8 +444,8 @@ export default function HomePage() {
               padding-bottom: 4rem !important;
             }
             .hero-stage-container {
-              opacity: 0.55;
-              width: 250px;
+              opacity: 0.4;
+              width: 220px;
             }
           }
         `}</style>
