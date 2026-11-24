@@ -109,140 +109,109 @@ export default function HomePage() {
         {/* Layer 1: Base Clean City Skyline & Waterfront (Completely empty on the left) */}
         <div className="hero-skyline-bg" />
 
-        {/* Layer 2: Interactive Motion Stage (Left Side) */}
-        <div className="hero-stage-container">
-          {/* Hologram Buildings (Constructs upward from palm) */}
-          <div className="hero-buildings-stage">
-            <img
-              src="/hero-buildings.png"
-              alt="Holographic City"
-              className="hero-buildings-img"
-            />
-            {/* Holographic Laser Construction Scanline */}
-            <div className="hero-buildings-scanline" />
-          </div>
-
-          {/* Hand with Suit (Slides in from the left) */}
-          <div className="hero-hand-stage">
-            <img
-              src="/hero-hand.png"
-              alt="Advisory Hand"
-              className="hero-hand-img"
-            />
-            {/* Luminous Palm Flare */}
-            <div className="hero-palm-beam" />
-          </div>
-        </div>
-
-        {/* Layer 4: Foreground Content (Text & Search Form) */}
+        {/* Layer 2: Main Cross-Device Scalable Container */}
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <div className="hero-content-wrapper" style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
-            <h1
-              style={{
-                fontSize: 'clamp(1.85rem, 5vw, 2.75rem)',
-                fontWeight: 700,
-                lineHeight: 1.2,
-                letterSpacing: '-0.02em',
-                marginBottom: '1.25rem',
-                color: '#FFFFFF',
-                textShadow: '0 2px 14px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 30, 80, 0.6)',
-              }}
-            >
-              Verified Real Estate Advisory &amp; Premium Property Consultation
-            </h1>
+          <div className="hero-main-layout">
 
-            <p
-              style={{
-                fontSize: '1.125rem',
-                color: '#E2E8F0',
-                lineHeight: 1.65,
-                marginBottom: '2rem',
-                textShadow: '0 1px 6px rgba(0, 0, 0, 0.8)',
-              }}
-            >
-              Discover curated residential apartments, luxury villas, and prime commercial spaces with personalized guidance from trusted property advisors.
-            </p>
+            {/* Visual Stage Block: Animated Hologram Hand & 3D Building */}
+            <div className="hero-visual-block">
+              <div className="hero-stage-container">
+                {/* Hologram Buildings (Constructs upward from palm) */}
+                <div className="hero-buildings-stage">
+                  <img
+                    src="/hero-buildings.png"
+                    alt="Holographic City"
+                    className="hero-buildings-img"
+                  />
+                  {/* Holographic Laser Construction Scanline */}
+                  <div className="hero-buildings-scanline" />
+                </div>
 
-            {/* Hero Search Box */}
-            <form
-              onSubmit={handleSearchSubmit}
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                borderRadius: 'var(--radius-md)',
-                padding: '1rem',
-                boxShadow: '0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 195, 255, 0.25)',
-                display: 'grid',
-                gridTemplateColumns: '2fr 1.2fr 1.2fr auto',
-                gap: '0.75rem',
-                alignItems: 'center',
-                textAlign: 'left',
-                backdropFilter: 'blur(16px)',
-              }}
-              className="hero-search-form"
-            >
-              <div>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Location, sector, or keyword..."
-                  aria-label="Search properties by location or keywords"
-                  value={searchParams.query}
-                  onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
-                  style={{ height: '48px', fontSize: '0.875rem' }}
-                />
+                {/* Hand with Suit (Slides in from the left) */}
+                <div className="hero-hand-stage">
+                  <img
+                    src="/hero-hand.png"
+                    alt="Advisory Hand"
+                    className="hero-hand-img"
+                  />
+                  {/* Luminous Palm Flare */}
+                  <div className="hero-palm-beam" />
+                </div>
               </div>
+            </div>
 
-              <select
-                className="form-control"
-                aria-label="Filter by listing type"
-                value={searchParams.listingType}
-                onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
-                style={{ height: '48px', fontSize: '0.875rem' }}
-              >
-                <option value="">All Listing Types</option>
-                <option value="SALE">For Sale</option>
-                <option value="RENT">For Rent</option>
-                <option value="LEASE">Commercial Lease</option>
-              </select>
+            {/* Heading Block: Title & Subtitle */}
+            <div className="hero-heading-block">
+              <h1 className="hero-heading-title">
+                Verified Real Estate Advisory &amp; Premium Property Consultation
+              </h1>
 
-              <select
-                className="form-control"
-                aria-label="Filter by property type"
-                value={searchParams.propertyType}
-                onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
-                style={{ height: '48px', fontSize: '0.875rem' }}
-              >
-                <option value="">All Property Types</option>
-                <option value="APARTMENT">Apartment</option>
-                <option value="STUDIO">Studio</option>
-                <option value="INDEPENDENT_HOUSE">Independent House</option>
-                <option value="DUPLEX">Duplex</option>
-                <option value="INDEPENDENT_FLOOR">Independent Floor</option>
-                <option value="VILLA">Villa</option>
-                <option value="FARM_HOUSE">Farm House</option>
-                <option value="PENTHOUSE">Penthouse</option>
-                <option value="RETAIL_SHOP">Retail Shop</option>
-                <option value="PLOT">Plot / Land</option>
-              </select>
+              <p className="hero-heading-desc">
+                Discover curated residential apartments, luxury villas, and prime commercial spaces with personalized guidance from trusted property advisors.
+              </p>
+            </div>
 
-              <button
-                type="submit"
-                className="btn btn-primary"
-                aria-label="Search properties"
-                style={{
-                  height: '48px',
-                  padding: '0 1.5rem',
-                  gap: '0.5rem',
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  borderRadius: 'var(--radius-md)',
-                  whiteSpace: 'nowrap',
-                }}
+            {/* Search Block: Property Search Form */}
+            <div className="hero-search-block">
+              <form
+                onSubmit={handleSearchSubmit}
+                className="hero-search-form"
               >
-                <Search size={16} />
-                <span>Search Properties</span>
-              </button>
-            </form>
+                <div className="hero-search-input-col">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Location, sector, or keyword..."
+                    aria-label="Search properties by location or keywords"
+                    value={searchParams.query}
+                    onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
+                    style={{ height: '48px', fontSize: '0.875rem' }}
+                  />
+                </div>
+
+                <select
+                  className="form-control"
+                  aria-label="Filter by listing type"
+                  value={searchParams.listingType}
+                  onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
+                  style={{ height: '48px', fontSize: '0.875rem' }}
+                >
+                  <option value="">All Listing Types</option>
+                  <option value="SALE">For Sale</option>
+                  <option value="RENT">For Rent</option>
+                  <option value="LEASE">Commercial Lease</option>
+                </select>
+
+                <select
+                  className="form-control"
+                  aria-label="Filter by property type"
+                  value={searchParams.propertyType}
+                  onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
+                  style={{ height: '48px', fontSize: '0.875rem' }}
+                >
+                  <option value="">All Property Types</option>
+                  <option value="APARTMENT">Apartment</option>
+                  <option value="STUDIO">Studio</option>
+                  <option value="INDEPENDENT_HOUSE">Independent House</option>
+                  <option value="DUPLEX">Duplex</option>
+                  <option value="INDEPENDENT_FLOOR">Independent Floor</option>
+                  <option value="VILLA">Villa</option>
+                  <option value="FARM_HOUSE">Farm House</option>
+                  <option value="PENTHOUSE">Penthouse</option>
+                  <option value="RETAIL_SHOP">Retail Shop</option>
+                  <option value="PLOT">Plot / Land</option>
+                </select>
+
+                <button
+                  type="submit"
+                  className="btn btn-primary hero-search-btn"
+                  aria-label="Search properties"
+                >
+                  <Search size={16} />
+                  <span>Search Properties</span>
+                </button>
+              </form>
+            </div>
 
           </div>
         </div>
@@ -258,18 +227,161 @@ export default function HomePage() {
             z-index: 1;
           }
 
-          /* Stage container pinned to the left-bottom corner */
+          /* Default Layout: Mobile & Small Devices (< 768px) */
+          .hero-main-layout {
+            display: grid;
+            grid-template-areas:
+              "heading"
+              "visual"
+              "search";
+            gap: 1.25rem;
+            align-items: center;
+            justify-items: center;
+            text-align: center;
+            width: 100%;
+          }
+
+          .hero-heading-block {
+            grid-area: heading;
+            width: 100%;
+            max-width: 720px;
+          }
+
+          .hero-heading-title {
+            font-size: clamp(1.65rem, 5vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.22;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.85rem;
+            color: #FFFFFF;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 30, 80, 0.6);
+          }
+
+          .hero-heading-desc {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            color: #E2E8F0;
+            line-height: 1.6;
+            margin-bottom: 0;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+          }
+
+          .hero-visual-block {
+            grid-area: visual;
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
           .hero-stage-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: clamp(380px, 48vw, 680px);
+            position: relative;
+            width: 100%;
             aspect-ratio: 1024 / 700;
-            z-index: 2;
+            overflow: visible;
             pointer-events: none;
           }
 
-          /* Hand Stage: Starts off-screen to the left, slides in */
+          .hero-search-block {
+            grid-area: search;
+            width: 100%;
+            max-width: 680px;
+          }
+
+          .hero-search-form {
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: var(--radius-md);
+            padding: 0.875rem;
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 195, 255, 0.25);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.65rem;
+            align-items: center;
+            text-align: left;
+            backdrop-filter: blur(16px);
+            width: 100%;
+          }
+
+          .hero-search-btn {
+            height: 48px;
+            padding: 0 1.5rem;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            white-space: nowrap;
+            justify-content: center;
+          }
+
+          /* Tablet Responsive Styles (768px to 1023px) */
+          @media (min-width: 768px) and (max-width: 1023px) {
+            .hero-section-motion {
+              padding-top: 5rem !important;
+              padding-bottom: 5rem !important;
+            }
+            .hero-visual-block {
+              max-width: 420px;
+            }
+            .hero-search-form {
+              grid-template-columns: 2fr 1.2fr 1.2fr auto;
+              padding: 0.875rem;
+            }
+            .hero-search-btn {
+              width: auto;
+            }
+          }
+
+          /* Laptop & Desktop Responsive Styles (>= 1024px) */
+          @media (min-width: 1024px) {
+            .hero-section-motion {
+              min-height: 580px;
+            }
+            .hero-main-layout {
+              grid-template-columns: 1.05fr 1fr;
+              grid-template-areas:
+                "visual heading"
+                "visual search";
+              gap: 1.5rem 3rem;
+              text-align: left;
+              justify-items: start;
+            }
+            .hero-heading-block {
+              text-align: left;
+            }
+            .hero-visual-block {
+              max-width: 600px;
+              height: 100%;
+            }
+            .hero-search-block {
+              max-width: 580px;
+            }
+            .hero-search-form {
+              grid-template-columns: 1fr 1fr;
+              padding: 1rem;
+              gap: 0.75rem;
+            }
+            .hero-search-input-col {
+              grid-column: 1 / -1;
+            }
+            .hero-search-btn {
+              grid-column: 1 / -1;
+            }
+          }
+
+          /* Large Monitors (>= 1440px) */
+          @media (min-width: 1440px) {
+            .hero-main-layout {
+              gap: 2rem 4rem;
+            }
+            .hero-visual-block {
+              max-width: 660px;
+            }
+            .hero-search-block {
+              max-width: 620px;
+            }
+          }
+
+          /* Stage & Image Animations (100% mathematically locked to palm) */
           .hero-hand-stage {
             position: absolute;
             bottom: 0;
@@ -302,7 +414,6 @@ export default function HomePage() {
             }
           }
 
-          /* Luminous Palm Flare */
           .hero-palm-beam {
             position: absolute;
             left: 65%;
@@ -332,7 +443,6 @@ export default function HomePage() {
             }
           }
 
-          /* Hologram Buildings Stage: Shifted right and seated directly atop the open palm */
           .hero-buildings-stage {
             position: absolute;
             bottom: 22%;
@@ -378,7 +488,6 @@ export default function HomePage() {
             }
           }
 
-          /* Scanline */
           .hero-buildings-scanline {
             position: absolute;
             left: 0;
@@ -403,49 +512,6 @@ export default function HomePage() {
             100% {
               bottom: 100%;
               opacity: 0;
-            }
-          }
-
-          /* Desktop split layout to prevent search bar from blocking holographic hand */
-          @media (min-width: 1024px) {
-            .hero-content-wrapper {
-              margin-left: auto !important;
-              margin-right: 0 !important;
-              max-width: 580px !important;
-              text-align: left !important;
-            }
-            .hero-search-form {
-              grid-template-columns: 1fr 1fr !important;
-            }
-            .hero-search-form > div:first-child {
-              grid-column: 1 / -1;
-            }
-            .hero-search-form > button {
-              grid-column: 1 / -1;
-            }
-            .hero-stage-container {
-              width: clamp(480px, 48vw, 680px) !important;
-            }
-          }
-
-          @media (max-width: 1023px) {
-            .hero-stage-container {
-              opacity: 0.5;
-              width: 280px;
-            }
-          }
-
-          @media (max-width: 768px) {
-            .hero-search-form {
-              grid-template-columns: 1fr !important;
-            }
-            .hero-section-motion {
-              padding-top: 4rem !important;
-              padding-bottom: 4rem !important;
-            }
-            .hero-stage-container {
-              opacity: 0.4;
-              width: 220px;
             }
           }
         `}</style>
