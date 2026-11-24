@@ -305,10 +305,10 @@ export default function HomePage() {
           /* Luminous Palm Flare */
           .hero-palm-beam {
             position: absolute;
-            left: 55%;
-            top: 57%;
-            width: 64px;
-            height: 64px;
+            left: 65%;
+            top: 48%;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(0, 210, 255, 0.95) 40%, transparent 70%);
             transform: translate(-50%, -50%) scale(0);
@@ -332,12 +332,12 @@ export default function HomePage() {
             }
           }
 
-          /* Hologram Buildings Stage: Mathematically fitted right upon the palm */
+          /* Hologram Buildings Stage: Shifted right and seated directly atop the open palm */
           .hero-buildings-stage {
             position: absolute;
-            bottom: 14%;
-            left: 14%;
-            width: 78%;
+            bottom: 22%;
+            left: 28%;
+            width: 70%;
             z-index: 3;
             clip-path: inset(100% 0 0 0);
             opacity: 0;
