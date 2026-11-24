@@ -126,10 +126,7 @@ export default function HomePage() {
           <div className="hero-hologram-ring ring-2" />
         </div>
 
-        {/* Layer 4: Elegant Vignette & Dark Contrast Overlay */}
-        <div className="hero-contrast-overlay" />
-
-        {/* Layer 5: Foreground Content (Text & Search Form) */}
+        {/* Layer 4: Foreground Content (Text & Search Form) */}
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
           <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
             <h1
@@ -251,7 +248,6 @@ export default function HomePage() {
             background-size: cover;
             background-position: left center;
             z-index: 1;
-            filter: brightness(0.9);
           }
 
           /* Layer 2: The Hand entering from the side/bottom-left */
@@ -414,16 +410,6 @@ export default function HomePage() {
           @keyframes ringPulse {
             0% { opacity: 0.5; transform: translate(-50%, -50%) rotateX(70deg) scale(0.97); }
             100% { opacity: 0.95; transform: translate(-50%, -50%) rotateX(70deg) scale(1.03); }
-          }
-
-          /* Layer 4: Contrast Overlay */
-          .hero-contrast-overlay {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 35% 45%, rgba(7, 10, 17, 0.35) 0%, rgba(7, 10, 17, 0.72) 60%, rgba(7, 10, 17, 0.92) 100%),
-                        linear-gradient(180deg, rgba(7, 10, 17, 0.45) 0%, rgba(7, 10, 17, 0.85) 100%);
-            z-index: 4;
-            pointer-events: none;
           }
 
           @media (max-width: 860px) {
