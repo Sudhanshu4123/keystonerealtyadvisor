@@ -271,7 +271,7 @@ export default function HomePage() {
             align-items: flex-start;
             text-align: left;
             width: 100%;
-            max-width: clamp(280px, 86vw, 360px);
+            max-width: clamp(245px, 68vw, 295px);
             margin-left: auto;
             margin-right: 0;
             position: relative;
@@ -281,23 +281,23 @@ export default function HomePage() {
           .hero-heading-block {
             width: 100%;
             text-align: left;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.35rem;
           }
 
           .hero-heading-title {
-            font-size: clamp(1.1rem, 4.2vw, 1.35rem);
+            font-size: clamp(1rem, 3.8vw, 1.2rem);
             font-weight: 700;
-            line-height: 1.25;
+            line-height: 1.22;
             letter-spacing: -0.02em;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
             color: #FFFFFF;
             text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 30, 80, 0.7);
           }
 
           .hero-heading-desc {
-            font-size: clamp(0.725rem, 2.2vw, 0.8rem);
+            font-size: clamp(0.68rem, 2vw, 0.75rem);
             color: #E2E8F0;
-            line-height: 1.35;
+            line-height: 1.3;
             margin-bottom: 0;
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
           }
@@ -312,11 +312,11 @@ export default function HomePage() {
           .hero-search-form {
             background-color: rgba(255, 255, 255, 0.98);
             border-radius: var(--radius-sm);
-            padding: 0.45rem;
+            padding: 0.4rem;
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 195, 255, 0.25);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.35rem;
+            gap: 0.3rem;
             align-items: center;
             text-align: left;
             backdrop-filter: blur(16px);
@@ -329,18 +329,18 @@ export default function HomePage() {
 
           .hero-search-input,
           .hero-search-select {
-            height: 33px !important;
-            font-size: 0.75rem !important;
-            padding: 0 0.5rem !important;
+            height: 32px !important;
+            font-size: 0.725rem !important;
+            padding: 0 0.45rem !important;
             border-radius: 4px !important;
           }
 
           .hero-search-btn {
             grid-column: 1 / -1;
-            height: 35px !important;
-            padding: 0 1rem;
-            gap: 0.4rem;
-            font-size: 0.8rem !important;
+            height: 34px !important;
+            padding: 0 0.75rem;
+            gap: 0.35rem;
+            font-size: 0.775rem !important;
             font-weight: 600;
             border-radius: 4px !important;
             white-space: nowrap;
@@ -350,23 +350,23 @@ export default function HomePage() {
           /* Tablet Responsive Styles (768px to 1023px) */
           @media (min-width: 768px) and (max-width: 1023px) {
             .hero-section-motion {
-              min-height: 480px;
+              min-height: 460px;
               display: flex;
-              align-items: center;
+              align-items: flex-end;
               padding-top: 1.5rem !important;
               padding-bottom: 1.5rem !important;
             }
             .hero-visual-block {
-              width: clamp(360px, 46vw, 460px);
+              width: clamp(260px, 35vw, 340px);
             }
             .hero-main-layout {
               display: flex;
               flex-direction: row;
               justify-content: flex-end;
-              align-items: center;
+              align-items: flex-end;
             }
             .hero-content-block {
-              max-width: 440px;
+              max-width: clamp(290px, 42vw, 350px);
               margin-left: auto;
               margin-right: 0;
               text-align: left;
@@ -374,31 +374,31 @@ export default function HomePage() {
             }
             .hero-heading-block {
               text-align: left;
-              margin-bottom: 0.85rem;
+              margin-bottom: 0.55rem;
             }
             .hero-heading-title {
-              font-size: clamp(1.5rem, 2.4vw, 1.95rem);
+              font-size: clamp(1.25rem, 2.2vw, 1.6rem);
             }
             .hero-heading-desc {
-              font-size: 0.9rem;
+              font-size: 0.85rem;
             }
             .hero-search-block {
-              max-width: 440px;
+              max-width: 100%;
             }
             .hero-search-form {
               grid-template-columns: 1fr 1fr;
-              padding: 0.85rem;
-              gap: 0.5rem;
+              padding: 0.65rem;
+              gap: 0.4rem;
             }
             .hero-search-input,
             .hero-search-select {
-              height: 42px !important;
-              font-size: 0.825rem !important;
-              padding: 0 0.75rem !important;
+              height: 38px !important;
+              font-size: 0.8rem !important;
+              padding: 0 0.65rem !important;
             }
             .hero-search-btn {
-              height: 44px !important;
-              font-size: 0.875rem !important;
+              height: 40px !important;
+              font-size: 0.85rem !important;
             }
           }
 
