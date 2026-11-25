@@ -258,24 +258,26 @@ export default function HomePage() {
           .hero-main-layout {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-end;
             width: 100%;
           }
 
           .hero-content-block {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            align-items: flex-start;
+            text-align: left;
             width: 100%;
-            max-width: 320px;
-            margin: 0 auto;
+            max-width: clamp(280px, 86vw, 360px);
+            margin-left: auto;
+            margin-right: 0;
             position: relative;
             z-index: 10;
           }
 
           .hero-heading-block {
             width: 100%;
+            text-align: left;
             margin-bottom: 0.4rem;
           }
 
@@ -299,7 +301,9 @@ export default function HomePage() {
 
           .hero-search-block {
             width: 100%;
-            max-width: 310px;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: 0;
           }
 
           .hero-search-form {
