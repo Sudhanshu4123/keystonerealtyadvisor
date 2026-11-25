@@ -250,9 +250,9 @@ export default function HomePage() {
 
           /* Default Layout: Mobile & Small Devices (< 768px) */
           .hero-section-motion {
-            padding-top: 1.25rem;
-            padding-bottom: 1.25rem;
-            min-height: 460px;
+            padding-top: 0.75rem;
+            padding-bottom: 0.85rem;
+            min-height: 310px;
             display: flex;
             align-items: flex-end;
           }
@@ -350,11 +350,11 @@ export default function HomePage() {
           /* Tablet Responsive Styles (768px to 1023px) */
           @media (min-width: 768px) and (max-width: 1023px) {
             .hero-section-motion {
-              min-height: 460px;
+              min-height: 330px;
               display: flex;
               align-items: flex-end;
-              padding-top: 1.5rem !important;
-              padding-bottom: 1.5rem !important;
+              padding-top: 1rem !important;
+              padding-bottom: 1rem !important;
             }
             .hero-visual-block {
               width: clamp(260px, 35vw, 340px);
