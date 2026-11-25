@@ -43,6 +43,7 @@ export default function EntityMapPage() {
       officialProps: {
         legalName: 'Keystone Realty Advisor',
         email: 'keystonexhelpdesk@gmail.com',
+        landline: '+91 11 4563 6766',
         phone: '+91 9911956274',
         website: 'https://keystonerealtyadvisor.com',
         sameAs: [
@@ -221,7 +222,7 @@ export default function EntityMapPage() {
         logo: 'https://keystonerealtyadvisor.com/keystone-logo.png',
         image: 'https://keystonerealtyadvisor.com/keystone-logo.png',
         description: 'Real estate advisory practice for residential and commercial property in Delhi NCR, India.',
-        telephone: '+919911956274',
+        telephone: ['+91-11-45636766', '+919911956274'],
         email: 'keystonexhelpdesk@gmail.com',
         sameAs: [
           'https://www.linkedin.com/company/keyston-realty-advisor/',

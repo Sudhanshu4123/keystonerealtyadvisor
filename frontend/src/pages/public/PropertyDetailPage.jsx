@@ -21,6 +21,7 @@ import {
   Heart,
   Share2,
   Phone,
+  PhoneCall,
   MessageSquare,
   Building,
   CheckCircle2,
@@ -1258,13 +1259,26 @@ export default function PropertyDetailPage() {
                   <ShieldCheck size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
                   <span>Your enquiry goes directly to an advisor</span>
                 </div>
-                <a
-                  href="tel:+919911956274"
-                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}
-                >
-                  <Phone size={16} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
-                  <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>+91 9911956274</span>
-                </a>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+                  <a
+                    href="tel:+911145636766"
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}
+                    title="Corporate Office Desk"
+                  >
+                    <PhoneCall size={15} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
+                    <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>+91 11 4563 6766</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(Desk)</span>
+                  </a>
+                  <a
+                    href="tel:+919911956274"
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'inherit', textDecoration: 'none' }}
+                    title="Direct Advisory Line"
+                  >
+                    <Phone size={15} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
+                    <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>+91 9911956274</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(Advisory)</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

@@ -101,7 +101,8 @@ export default function PrivacyPage() {
             <div style={{ backgroundColor: 'var(--bg-secondary)', padding: '1.25rem 1.5rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.875rem' }}>
               <div><strong>Keystone Realty Advisor - Data Privacy Desk</strong></div>
               <div>Email: <a href="mailto:keystonexhelpdesk@gmail.com" style={{ color: 'var(--color-gold-600)', textDecoration: 'none', fontWeight: 500 }}>keystonexhelpdesk@gmail.com</a></div>
-              <div>Phone: <a href="tel:+919911956274" style={{ color: 'var(--color-gold-600)', textDecoration: 'none', fontWeight: 500 }}>+91 9911956274</a></div>
+              <div>Office Desk: <a href="tel:+911145636766" style={{ color: 'var(--color-gold-600)', textDecoration: 'none', fontWeight: 500 }}>+91 11 4563 6766</a></div>
+              <div>Advisory Helpline: <a href="tel:+919911956274" style={{ color: 'var(--color-gold-600)', textDecoration: 'none', fontWeight: 500 }}>+91 9911956274</a></div>
             </div>
           </div>
 

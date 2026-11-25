@@ -444,7 +444,7 @@ async function main() {
           </ul>
           <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Direct Contact Channels</h2>
           <p>
-            You can reach our centralized advisory team via phone at <strong>+91 9911956274</strong>, email us at <strong>keystonexhelpdesk@gmail.com</strong>, or submit the enquiry form on this page. Our advisory offices are open Monday through Saturday from 9:30 AM to 6:30 PM. We welcome walk-ins and scheduled appointments at our corporate office.
+            You can reach our centralized advisory team via corporate office desk at <strong>+91 11 4563 6766</strong>, mobile helpline at <strong>+91 9911956274</strong>, email us at <strong>keystonexhelpdesk@gmail.com</strong>, or submit the enquiry form on this page. Our advisory offices are open Monday through Saturday from 9:30 AM to 6:30 PM. We welcome walk-ins and scheduled appointments at our corporate office.
           </p>
           <h2 style="font-size: 1.5rem; font-weight: 700; color: #0F172A; margin: 1.5rem 0 0.75rem;">Dedicated Client Confidentiality &amp; Care</h2>
           <p>
@@ -658,7 +658,7 @@ async function main() {
         </p>
         <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;">
           <a href="/contact" style="display: inline-block; background: #0B132B; color: #FFFFFF; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Contact Consultation Desk</a>
-          <span style="color: #64748B; font-size: 0.9rem;">Direct Helpline: <strong>+91 9911956274</strong> | Monday – Saturday, 9:30 AM to 6:30 PM</span>
+          <span style="color: #64748B; font-size: 0.9rem;">Desk: <strong>+91 11 4563 6766</strong> | Helpline: <strong>+91 9911956274</strong> | Monday – Saturday, 9:30 AM to 6:30 PM</span>
         </div>
       </section>
       ${renderGlobalFooterNav()}

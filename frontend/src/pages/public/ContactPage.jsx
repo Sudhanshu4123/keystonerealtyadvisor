@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { enquiryService } from '../../services/enquiryService';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
-import { Mail, Phone, MapPin, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Mail, Phone, PhoneCall, Clock, MapPin, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
 import SEO from '../../components/common/SEO';
 
 export default function ContactPage() {
@@ -59,7 +59,7 @@ export default function ContactPage() {
     <div style={{ backgroundColor: 'var(--bg-secondary)', minHeight: 'calc(100vh - var(--header-height))', padding: '3.5rem 0 5rem' }}>
       <SEO
         title="Contact Keystone Realty Advisor | Property Consultation"
-        description="Call +91 9911956274 or send an enquiry to consult with an advisor about buying, renting or leasing residential and commercial properties."
+        description="Contact Keystone Realty Advisor. Reach our corporate office desk at +91 11 4563 6766 or mobile advisory helpline at +91 9911956274 for property consultations."
         canonicalUrl="/contact"
         breadcrumbs={[
           { name: 'Home', path: '/' },
@@ -76,15 +76,25 @@ export default function ContactPage() {
             '@type': 'RealEstateAgent',
             '@id': 'https://keystonerealtyadvisor.com/#organization',
             name: 'Keystone Realty Advisor',
-            telephone: '+919911956274',
+            telephone: '+91-11-45636766',
             email: 'keystonexhelpdesk@gmail.com',
             url: 'https://keystonerealtyadvisor.com/',
-            contactPoint: {
-              '@type': 'ContactPoint',
-              telephone: '+919911956274',
-              contactType: 'customer service',
-              availableLanguage: ['English', 'Hindi']
-            }
+            contactPoint: [
+              {
+                '@type': 'ContactPoint',
+                telephone: '+91-11-45636766',
+                contactType: 'headquarters desk',
+                availableLanguage: ['English', 'Hindi'],
+                areaServed: 'IN'
+              },
+              {
+                '@type': 'ContactPoint',
+                telephone: '+919911956274',
+                contactType: 'customer service hotline',
+                availableLanguage: ['English', 'Hindi'],
+                areaServed: 'IN'
+              }
+            ]
           }
         }}
       />
@@ -213,11 +223,25 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <Phone size={20} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <PhoneCall size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
-                    <strong style={{ display: 'block', color: 'var(--text-primary)' }}>Direct Telephone</strong>
-                    <span style={{ color: 'var(--text-secondary)' }}>+91 9911956274</span>
+                    <strong style={{ display: 'block', color: 'var(--text-primary)' }}>Corporate Desk (Landline)</strong>
+                    <a href="tel:+911145636766" style={{ color: 'var(--color-gold-700)', fontWeight: 600, textDecoration: 'none' }}>
+                      +91 11 4563 6766
+                    </a>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Delhi NCR Head Office</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <Phone size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ display: 'block', color: 'var(--text-primary)' }}>Direct Advisory Helpline</strong>
+                    <a href="tel:+919911956274" style={{ color: 'var(--color-gold-700)', fontWeight: 600, textDecoration: 'none' }}>
+                      +91 9911956274
+                    </a>
+                    <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)' }}>Direct Advisor Line &amp; WhatsApp</span>
                   </div>
                 </div>
 
@@ -228,6 +252,14 @@ export default function ContactPage() {
                     <a href="mailto:keystonexhelpdesk@gmail.com" style={{ color: 'var(--color-gold-700)', fontWeight: 600, textDecoration: 'none' }}>
                       keystonexhelpdesk@gmail.com
                     </a>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                  <Clock size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <strong style={{ display: 'block', color: 'var(--text-primary)' }}>Advisory Hours</strong>
+                    <span style={{ color: 'var(--text-secondary)' }}>Mon – Sat: 9:30 AM – 6:30 PM IST</span>
                   </div>
                 </div>
               </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   Building2, MapPin, Calendar, ShieldCheck, CheckCircle2,
-  FileText, Download, Play, Eye, Phone, Mail, ChevronRight,
+  FileText, Download, Play, Eye, Phone, PhoneCall, Mail, ChevronRight,
   Layers, Sparkles, Compass, Shield, Maximize2, X, MessageCircle,
   School, Hospital, ShoppingBag, Briefcase, Bus, TrendingUp,
   Star, HelpCircle, Check, ExternalLink, Info
@@ -347,8 +347,13 @@ export default function ProjectDetailPage() {
                 <span>Chat on WhatsApp</span>
               </a>
 
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.25rem', fontSize: '0.8125rem', color: '#CBD5E1', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.75rem' }}>
-                <a href="tel:+919911956274" style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#CBD5E1', textDecoration: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', fontSize: '0.8125rem', color: '#CBD5E1', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.75rem', flexWrap: 'wrap' }}>
+                <a href="tel:+911145636766" style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#CBD5E1', textDecoration: 'none' }} title="Corporate Office Desk">
+                  <PhoneCall size={14} color="var(--color-gold-400)" />
+                  <span style={{ fontWeight: 600 }}>+91 11 4563 6766</span>
+                </a>
+                <span style={{ opacity: 0.4 }}>|</span>
+                <a href="tel:+919911956274" style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#CBD5E1', textDecoration: 'none' }} title="Direct Advisory Hotline">
                   <Phone size={14} color="var(--color-gold-400)" />
                   <span style={{ fontWeight: 600 }}>+91 9911956274</span>
                 </a>
@@ -1408,13 +1413,21 @@ export default function ProjectDetailPage() {
 
             <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.8125rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Phone size={15} color="var(--color-gold-500)" />
-                <a href="tel:+919911956274" style={{ color: 'var(--text-primary)', fontWeight: 600, textDecoration: 'none' }}>
-                  +91 9911956274
+                <PhoneCall size={15} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
+                <a href="tel:+911145636766" style={{ color: 'var(--text-primary)', fontWeight: 600, textDecoration: 'none' }} title="Corporate Desk">
+                  +91 11 4563 6766
                 </a>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(Desk)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Mail size={15} color="var(--color-gold-500)" />
+                <Phone size={15} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
+                <a href="tel:+919911956274" style={{ color: 'var(--text-primary)', fontWeight: 600, textDecoration: 'none' }} title="Advisory Hotline">
+                  +91 9911956274
+                </a>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(Helpline)</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Mail size={15} color="var(--color-gold-500)" style={{ flexShrink: 0 }} />
                 <a href="mailto:keystonexhelpdesk@gmail.com" style={{ color: 'var(--text-secondary)', textDecoration: 'none', wordBreak: 'break-all' }}>
                   keystonexhelpdesk@gmail.com
                 </a>

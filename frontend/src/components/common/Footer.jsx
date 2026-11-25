@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, ShieldCheck, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { Mail, Phone, PhoneCall, ShieldCheck, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export default function Footer() {
   const socialLinks = [
@@ -255,9 +255,29 @@ export default function Footer() {
                 </a>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+                <PhoneCall size={16} color="#E5C058" style={{ flexShrink: 0 }} />
+                <a
+                  href="tel:+911145636766"
+                  style={{ color: '#CBD5E1', textDecoration: 'none' }}
+                  onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')}
+                  onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}
+                  title="Corporate Office Landline"
+                  aria-label="Call Keystone Realty Advisor Corporate Landline +91 11 4563 6766"
+                >
+                  +91 11 4563 6766 <span style={{ fontSize: '0.75rem', color: '#94A3B8' }}>(Desk)</span>
+                </a>
+              </li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
                 <Phone size={16} color="#E5C058" style={{ flexShrink: 0 }} />
-                <a href="tel:+919911956274" style={{ color: '#CBD5E1', textDecoration: 'none' }} onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')} onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}>
-                  +91 9911956274
+                <a
+                  href="tel:+919911956274"
+                  style={{ color: '#CBD5E1', textDecoration: 'none' }}
+                  onMouseEnter={(e) => (e.target.style.color = '#FFFFFF')}
+                  onMouseLeave={(e) => (e.target.style.color = '#CBD5E1')}
+                  title="Direct Advisory Hotline"
+                  aria-label="Call Keystone Realty Advisor Advisory Hotline +91 9911956274"
+                >
+                  +91 9911956274 <span style={{ fontSize: '0.75rem', color: '#94A3B8' }}>(Advisory)</span>
                 </a>
               </li>
             </ul>
