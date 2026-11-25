@@ -250,15 +250,18 @@ export default function HomePage() {
 
           /* Default Layout: Mobile & Small Devices (< 768px) */
           .hero-section-motion {
-            padding-top: 1rem;
-            padding-bottom: 125px; /* Reserves dedicated space for compact hand & hologram city at bottom-left */
-            min-height: 430px;
+            padding-top: 1.25rem;
+            padding-bottom: 1.25rem;
+            min-height: 460px;
+            display: flex;
+            align-items: flex-end;
           }
 
           .hero-main-layout {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
+            justify-content: flex-end;
             width: 100%;
           }
 
