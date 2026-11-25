@@ -159,12 +159,11 @@ export default function HomePage() {
                   <div className="hero-search-input-col">
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control hero-search-input"
                       placeholder="Location, sector, or keyword..."
                       aria-label="Search properties by location or keywords"
                       value={searchParams.query}
                       onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
-                      style={{ height: '46px', fontSize: '0.875rem' }}
                     />
                   </div>
 
@@ -173,7 +172,6 @@ export default function HomePage() {
                     aria-label="Filter by listing type"
                     value={searchParams.listingType}
                     onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
-                    style={{ height: '46px', fontSize: '0.875rem' }}
                   >
                     <option value="">All Listing Types</option>
                     <option value="SALE">For Sale</option>
@@ -186,7 +184,6 @@ export default function HomePage() {
                     aria-label="Filter by property type"
                     value={searchParams.propertyType}
                     onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
-                    style={{ height: '46px', fontSize: '0.875rem' }}
                   >
                     <option value="">All Property Types</option>
                     <option value="APARTMENT">Apartment</option>
@@ -206,7 +203,7 @@ export default function HomePage() {
                     className="btn btn-primary hero-search-btn"
                     aria-label="Search properties"
                   >
-                    <Search size={16} />
+                    <Search size={15} />
                     <span>Search Properties</span>
                   </button>
                 </form>
@@ -238,7 +235,7 @@ export default function HomePage() {
             bottom: 0;
             left: 0;
             z-index: 3;
-            width: clamp(280px, 80vw, 360px);
+            width: clamp(180px, 48vw, 230px);
             pointer-events: none;
             margin: 0;
           }
@@ -253,9 +250,9 @@ export default function HomePage() {
 
           /* Default Layout: Mobile & Small Devices (< 768px) */
           .hero-section-motion {
-            padding-top: 1.5rem;
-            padding-bottom: 215px; /* Reserves dedicated space for hand & hologram city at bottom-left */
-            min-height: 560px;
+            padding-top: 1rem;
+            padding-bottom: 125px; /* Reserves dedicated space for compact hand & hologram city at bottom-left */
+            min-height: 430px;
           }
 
           .hero-main-layout {
@@ -271,7 +268,7 @@ export default function HomePage() {
             align-items: center;
             text-align: center;
             width: 100%;
-            max-width: 480px;
+            max-width: 320px;
             margin: 0 auto;
             position: relative;
             z-index: 10;
@@ -279,52 +276,66 @@ export default function HomePage() {
 
           .hero-heading-block {
             width: 100%;
-            margin-bottom: 0.85rem;
+            margin-bottom: 0.4rem;
           }
 
           .hero-heading-title {
-            font-size: clamp(1.35rem, 5vw, 1.75rem);
+            font-size: clamp(1.1rem, 4.2vw, 1.35rem);
             font-weight: 700;
-            line-height: 1.22;
+            line-height: 1.25;
             letter-spacing: -0.02em;
-            margin-bottom: 0.45rem;
+            margin-bottom: 0.25rem;
             color: #FFFFFF;
             text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 30, 80, 0.7);
           }
 
           .hero-heading-desc {
-            font-size: clamp(0.825rem, 2vw, 0.95rem);
+            font-size: clamp(0.725rem, 2.2vw, 0.8rem);
             color: #E2E8F0;
-            line-height: 1.45;
+            line-height: 1.35;
             margin-bottom: 0;
             text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
           }
 
           .hero-search-block {
             width: 100%;
+            max-width: 310px;
           }
 
           .hero-search-form {
             background-color: rgba(255, 255, 255, 0.98);
-            border-radius: var(--radius-md);
-            padding: 0.75rem;
-            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 195, 255, 0.25);
+            border-radius: var(--radius-sm);
+            padding: 0.45rem;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 195, 255, 0.25);
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.35rem;
             align-items: center;
             text-align: left;
             backdrop-filter: blur(16px);
             width: 100%;
           }
 
+          .hero-search-input-col {
+            grid-column: 1 / -1;
+          }
+
+          .hero-search-input,
+          .hero-search-select {
+            height: 33px !important;
+            font-size: 0.75rem !important;
+            padding: 0 0.5rem !important;
+            border-radius: 4px !important;
+          }
+
           .hero-search-btn {
-            height: 44px;
-            padding: 0 1.25rem;
-            gap: 0.5rem;
-            font-size: 0.875rem;
+            grid-column: 1 / -1;
+            height: 35px !important;
+            padding: 0 1rem;
+            gap: 0.4rem;
+            font-size: 0.8rem !important;
             font-weight: 600;
-            border-radius: var(--radius-md);
+            border-radius: 4px !important;
             white-space: nowrap;
             justify-content: center;
           }
@@ -332,14 +343,14 @@ export default function HomePage() {
           /* Tablet Responsive Styles (768px to 1023px) */
           @media (min-width: 768px) and (max-width: 1023px) {
             .hero-section-motion {
-              min-height: 500px;
+              min-height: 480px;
               display: flex;
               align-items: center;
-              padding-top: 1.75rem !important;
-              padding-bottom: 1.75rem !important;
+              padding-top: 1.5rem !important;
+              padding-bottom: 1.5rem !important;
             }
             .hero-visual-block {
-              width: clamp(380px, 48vw, 480px);
+              width: clamp(360px, 46vw, 460px);
             }
             .hero-main-layout {
               display: flex;
@@ -348,7 +359,7 @@ export default function HomePage() {
               align-items: center;
             }
             .hero-content-block {
-              max-width: 460px;
+              max-width: 440px;
               margin-left: auto;
               margin-right: 0;
               text-align: left;
@@ -356,18 +367,31 @@ export default function HomePage() {
             }
             .hero-heading-block {
               text-align: left;
-              margin-bottom: 1rem;
+              margin-bottom: 0.85rem;
+            }
+            .hero-heading-title {
+              font-size: clamp(1.5rem, 2.4vw, 1.95rem);
+            }
+            .hero-heading-desc {
+              font-size: 0.9rem;
+            }
+            .hero-search-block {
+              max-width: 440px;
             }
             .hero-search-form {
               grid-template-columns: 1fr 1fr;
-              padding: 0.875rem;
+              padding: 0.85rem;
+              gap: 0.5rem;
             }
-            .hero-search-input-col {
-              grid-column: 1 / -1;
+            .hero-search-input,
+            .hero-search-select {
+              height: 42px !important;
+              font-size: 0.825rem !important;
+              padding: 0 0.75rem !important;
             }
             .hero-search-btn {
-              grid-column: 1 / -1;
-              height: 46px;
+              height: 44px !important;
+              font-size: 0.875rem !important;
             }
           }
 
@@ -426,12 +450,16 @@ export default function HomePage() {
               padding: 1rem;
               gap: 0.65rem;
             }
-            .hero-search-input-col {
-              grid-column: 1 / -1;
+            .hero-search-input,
+            .hero-search-select {
+              height: 46px !important;
+              font-size: 0.875rem !important;
+              padding: 0 0.875rem !important;
             }
             .hero-search-btn {
               grid-column: 1 / -1;
-              height: 46px;
+              height: 46px !important;
+              font-size: 0.875rem !important;
             }
           }
 
@@ -448,6 +476,7 @@ export default function HomePage() {
             }
             .hero-content-block {
               max-width: 540px;
+            }
             }
             .hero-search-block {
               max-width: 540px;
