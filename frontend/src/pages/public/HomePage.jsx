@@ -20,13 +20,18 @@ import {
   FileCheck2,
 } from 'lucide-react';
 
+const PROPERTY_CATEGORIES = [
+  { type: 'APARTMENT', label: 'Luxury Apartments', icon: Building2 },
+  { type: 'VILLA', label: 'Villas & Mansions', icon: Landmark },
+  { type: 'PENTHOUSE', label: 'Penthouses', icon: Layers },
+  { type: 'COMMERCIAL', label: 'Commercial Spaces', icon: TrendingUp },
+  { type: 'PLOT', label: 'Plots & Land', icon: Compass },
+];
 
 export default function HomePage() {
   const [featuredProperties, setFeaturedProperties] = useState([]);
   const [featuredProjects, setFeaturedProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [loadingProjects, setLoadingProjects] = useState(true);
-  const [searchTab, setSearchTab] = useState('properties');
   const [searchParams, setSearchParams] = useState({
     query: '',
     listingType: '',
@@ -36,6 +41,8 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let cancelled = false;
+
     async function loadFeatured() {
       try {
         const [propRes, projData] = await Promise.allSettled([
@@ -43,54 +50,85 @@ export default function HomePage() {
           projectService.getFeaturedProjects(),
         ]);
 
-        if (propRes.status === 'fulfilled' && propRes.value?.success && Array.isArray(propRes.value.data) && propRes.value.data.length > 0) {
+        if (cancelled) return;
+
+        // Process featured projects with strict array safety
+        if (projData.status === 'fulfilled' && projData.value) {
+          const rawProjects = Array.isArray(projData.value?.data)
+            ? projData.value.data
+            : Array.isArray(projData.value)
+              ? projData.value
+              : [];
+          setFeaturedProjects(rawProjects);
+        } else if (projData.status === 'rejected') {
+          console.error('Failed to load featured projects:', projData.reason);
+          setFeaturedProjects([]);
+        }
+
+        // Process featured properties with fallback
+        if (
+          propRes.status === 'fulfilled' &&
+          propRes.value?.success &&
+          Array.isArray(propRes.value.data) &&
+          propRes.value.data.length > 0
+        ) {
           setFeaturedProperties(propRes.value.data);
         } else {
           try {
             const allProps = await propertyService.searchProperties({ size: 6 });
-            if (allProps?.success && allProps.data?.content && allProps.data.content.length > 0) {
+            if (!cancelled && allProps?.success && Array.isArray(allProps.data?.content)) {
               setFeaturedProperties(allProps.data.content);
             }
           } catch (fallbackErr) {
-            console.error('Failed to load recent properties:', fallbackErr);
+            console.error('Failed to load recent properties fallback:', fallbackErr);
           }
-        }
-
-        if (projData.status === 'fulfilled' && projData.value) {
-          const pList = projData.value.data || (Array.isArray(projData.value) ? projData.value : []);
-          setFeaturedProjects(pList);
         }
       } catch (err) {
         console.error('Error loading featured listings:', err);
       } finally {
-        setLoading(false);
-        setLoadingProjects(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     }
+
     loadFeatured();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    const rawQuery = (searchParams.query || '').trim().toLowerCase();
+    const rawQuery = (searchParams.query || '').trim();
+    const lowerQuery = rawQuery.toLowerCase();
 
-    if (rawQuery.includes('rent') && (rawQuery.includes('gurugram') || rawQuery.includes('gurgaon'))) {
+    // Check if query specifically targets rent in Gurgaon/Gurugram without conflicting explicit filters
+    if (
+      lowerQuery.includes('rent') &&
+      (lowerQuery.includes('gurugram') || lowerQuery.includes('gurgaon')) &&
+      (!searchParams.propertyType || searchParams.propertyType === 'APARTMENT') &&
+      (!searchParams.listingType || searchParams.listingType === 'RENT')
+    ) {
       navigate('/flats-for-rent-in-gurugram');
       return;
     }
 
     const query = new URLSearchParams();
-    if (searchParams.query) query.append('query', searchParams.query);
+    if (rawQuery) query.append('query', rawQuery);
     if (searchParams.listingType) query.append('listingType', searchParams.listingType);
     if (searchParams.propertyType) query.append('propertyType', searchParams.propertyType);
-    navigate(`/properties?${query.toString()}`);
+
+    const queryString = query.toString();
+    navigate(queryString ? `/properties?${queryString}` : '/properties');
   };
 
   return (
     <div>
       <SEO
-        title="Premium Real Estate & Property Advisory | Keystone Realty Advisor"
-        description="Discover verified residential apartments, luxury villas, and prime commercial properties with personalized guidance from Keystone Realty Advisor."
+        title="Verified Real Estate Advisory & Premium Properties | Keystone Realty Advisor"
+        description="Discover curated residential apartments, luxury villas, and prime commercial spaces with personalized guidance from trusted property advisors."
         canonicalUrl="/"
       />
       {/* Hero Section with Animated Hand & Holographic City Formation */}
@@ -103,7 +141,7 @@ export default function HomePage() {
           borderBottom: '1px solid #1E293B',
         }}
       >
-        {/* Layer 1: Base Clean City Skyline & Waterfront (Completely empty on the left) */}
+        {/* Layer 1: Base Clean City Skyline & Waterfront */}
         <div className="hero-skyline-bg" />
 
         {/* Layer 2: Main Cross-Device Scalable Container */}
@@ -111,14 +149,17 @@ export default function HomePage() {
           <div className="hero-main-layout">
 
             {/* Visual Stage Block: Animated Hologram Hand & 3D Building */}
-            <div className="hero-visual-block">
+            <div className="hero-visual-block" aria-hidden="true">
               <div className="hero-stage-container">
                 {/* Hologram Buildings (Constructs upward from palm) */}
                 <div className="hero-buildings-stage">
                   <img
                     src="/hero-buildings.png"
-                    alt="Holographic City"
+                    alt=""
                     className="hero-buildings-img"
+                    width="640"
+                    height="640"
+                    loading="eager"
                   />
                   {/* Holographic Laser Construction Scanline */}
                   <div className="hero-buildings-scanline" />
@@ -128,8 +169,11 @@ export default function HomePage() {
                 <div className="hero-hand-stage">
                   <img
                     src="/hero-hand.png"
-                    alt="Advisory Hand"
+                    alt=""
                     className="hero-hand-img"
+                    width="1024"
+                    height="640"
+                    loading="eager"
                   />
                   {/* Luminous Palm Flare */}
                   <div className="hero-palm-beam" />
@@ -155,23 +199,26 @@ export default function HomePage() {
                 <form
                   onSubmit={handleSearchSubmit}
                   className="hero-search-form"
+                  role="search"
                 >
                   <div className="hero-search-input-col">
                     <input
                       type="text"
+                      name="query"
                       className="form-control hero-search-input"
                       placeholder="Location, sector, or keyword..."
                       aria-label="Search properties by location or keywords"
                       value={searchParams.query}
-                      onChange={(e) => setSearchParams({ ...searchParams, query: e.target.value })}
+                      onChange={(e) => setSearchParams((prev) => ({ ...prev, query: e.target.value }))}
                     />
                   </div>
 
                   <select
+                    name="listingType"
                     className="form-control hero-search-select"
                     aria-label="Filter by listing type"
                     value={searchParams.listingType}
-                    onChange={(e) => setSearchParams({ ...searchParams, listingType: e.target.value })}
+                    onChange={(e) => setSearchParams((prev) => ({ ...prev, listingType: e.target.value }))}
                   >
                     <option value="">All Listing Types</option>
                     <option value="SALE">For Sale</option>
@@ -180,10 +227,11 @@ export default function HomePage() {
                   </select>
 
                   <select
+                    name="propertyType"
                     className="form-control hero-search-select"
                     aria-label="Filter by property type"
                     value={searchParams.propertyType}
-                    onChange={(e) => setSearchParams({ ...searchParams, propertyType: e.target.value })}
+                    onChange={(e) => setSearchParams((prev) => ({ ...prev, propertyType: e.target.value }))}
                   >
                     <option value="">All Property Types</option>
                     <option value="APARTMENT">Apartment</option>
@@ -194,6 +242,7 @@ export default function HomePage() {
                     <option value="VILLA">Villa</option>
                     <option value="FARM_HOUSE">Farm House</option>
                     <option value="PENTHOUSE">Penthouse</option>
+                    <option value="COMMERCIAL">Commercial Space</option>
                     <option value="RETAIL_SHOP">Retail Shop</option>
                     <option value="PLOT">Plot / Land</option>
                   </select>
@@ -203,7 +252,7 @@ export default function HomePage() {
                     className="btn btn-primary hero-search-btn"
                     aria-label="Search properties"
                   >
-                    <Search size={15} />
+                    <Search size={15} aria-hidden="true" />
                     <span>Search Properties</span>
                   </button>
                 </form>
@@ -329,15 +378,19 @@ export default function HomePage() {
 
           .hero-search-input,
           .hero-search-select {
-            height: 32px !important;
-            font-size: 0.725rem !important;
-            padding: 0 0.45rem !important;
+            height: 34px !important;
+            font-size: 0.75rem !important;
+            padding: 0 0.5rem !important;
             border-radius: 4px !important;
+          }
+
+          .hero-search-select {
+            padding-right: 1.85rem !important;
           }
 
           .hero-search-btn {
             grid-column: 1 / -1;
-            height: 34px !important;
+            height: 35px !important;
             padding: 0 0.75rem;
             gap: 0.35rem;
             font-size: 0.775rem !important;
@@ -396,6 +449,9 @@ export default function HomePage() {
               font-size: 0.8rem !important;
               padding: 0 0.65rem !important;
             }
+            .hero-search-select {
+              padding-right: 2rem !important;
+            }
             .hero-search-btn {
               height: 40px !important;
               font-size: 0.85rem !important;
@@ -405,7 +461,7 @@ export default function HomePage() {
           /* Laptop & Desktop Responsive Styles (>= 1024px) */
           @media (min-width: 1024px) {
             .hero-section-motion {
-              min-height: 480px;
+              min-height: 440px;
               display: flex;
               align-items: center;
               padding-top: 1.5rem !important;
@@ -421,7 +477,7 @@ export default function HomePage() {
               flex-direction: row;
               justify-content: flex-end;
               align-items: center;
-              min-height: 420px;
+              min-height: 400px;
             }
             .hero-content-block {
               display: flex;
@@ -463,6 +519,9 @@ export default function HomePage() {
               font-size: 0.875rem !important;
               padding: 0 0.875rem !important;
             }
+            .hero-search-select {
+              padding-right: 2.25rem !important;
+            }
             .hero-search-btn {
               grid-column: 1 / -1;
               height: 46px !important;
@@ -473,7 +532,7 @@ export default function HomePage() {
           /* Large Monitors (>= 1440px) */
           @media (min-width: 1440px) {
             .hero-section-motion {
-              min-height: 520px;
+              min-height: 480px;
               padding-top: 2rem !important;
               padding-bottom: 2rem !important;
             }
@@ -621,20 +680,29 @@ export default function HomePage() {
               opacity: 0;
             }
           }
+
+          /* Accessibility: Respect Reduced Motion Preference */
+          @media (prefers-reduced-motion: reduce) {
+            .hero-hand-stage,
+            .hero-buildings-stage {
+              animation: none !important;
+              opacity: 1 !important;
+              transform: none !important;
+              clip-path: none !important;
+            }
+            .hero-palm-beam,
+            .hero-buildings-scanline {
+              display: none !important;
+            }
+          }
         `}</style>
       </section>
 
       {/* Property Categories exploration */}
-      <section className="section-sm" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-color)' }}>
+      <section className="section-sm" aria-label="Property Categories" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid var(--border-color)' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(135px, 1fr))', gap: '0.75rem' }}>
-            {[
-              { type: 'APARTMENT', label: 'Luxury Apartments', icon: Building2 },
-              { type: 'VILLA', label: 'Villas & Mansions', icon: Landmark },
-              { type: 'PENTHOUSE', label: 'Penthouses', icon: Layers },
-              { type: 'COMMERCIAL', label: 'Commercial Spaces', icon: TrendingUp },
-              { type: 'PLOT', label: 'Plots & Land', icon: Compass },
-            ].map((item) => (
+            {PROPERTY_CATEGORIES.map((item) => (
               <Link
                 key={item.type}
                 to={`/properties?propertyType=${item.type}`}
@@ -663,7 +731,7 @@ export default function HomePage() {
                     justifyContent: 'center',
                   }}
                 >
-                  <item.icon size={20} />
+                  <item.icon size={20} aria-hidden="true" />
                 </div>
                 <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                   {item.label}
@@ -692,7 +760,7 @@ export default function HomePage() {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  <CheckCircle2 size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <CheckCircle2 size={20} color="var(--color-gold-500)" aria-hidden="true" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
                     <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Shortlisting support</strong>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Narrow options by budget, BHK and area</span>
@@ -700,7 +768,7 @@ export default function HomePage() {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  <Lock size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <Lock size={20} color="var(--color-gold-500)" aria-hidden="true" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
                     <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Direct advisor contact</strong>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Enquiries go straight to an advisor</span>
@@ -708,7 +776,7 @@ export default function HomePage() {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  <FileCheck2 size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <FileCheck2 size={20} color="var(--color-gold-500)" aria-hidden="true" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
                     <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Document checklist</strong>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Know which papers to ask for</span>
@@ -716,7 +784,7 @@ export default function HomePage() {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                  <TrendingUp size={20} color="var(--color-gold-500)" style={{ flexShrink: 0, marginTop: '2px' }} />
+                  <TrendingUp size={20} color="var(--color-gold-500)" aria-hidden="true" style={{ flexShrink: 0, marginTop: '2px' }} />
                   <div>
                     <strong style={{ display: 'block', fontSize: '0.875rem', color: 'var(--text-primary)' }}>Site visits</strong>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Arrange viewings through the desk</span>
@@ -738,7 +806,7 @@ export default function HomePage() {
               }}
             >
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-gold-400)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.04em', marginBottom: '1rem' }}>
-                <Award size={16} />
+                <Award size={16} aria-hidden="true" />
                 <span>What to expect</span>
               </div>
 
@@ -784,7 +852,7 @@ export default function HomePage() {
 
       {/* Featured Real Estate Projects Section */}
       {featuredProjects && featuredProjects.length > 0 && (
-        <section className="section" style={{ backgroundColor: 'var(--bg-main)', borderBottom: '1px solid var(--border-color)' }}>
+        <section className="section" style={{ backgroundColor: 'var(--bg-primary)', borderBottom: '1px solid var(--border-color)' }}>
           <div className="container">
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1rem' }}>
               <div>
@@ -793,11 +861,11 @@ export default function HomePage() {
               </div>
               <Link to="/projects" className="btn btn-outline" style={{ gap: '0.5rem' }}>
                 <span>Explore All Projects</span>
-                <ArrowRight size={16} />
+                <ArrowRight size={16} aria-hidden="true" />
               </Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))', gap: '1.5rem' }}>
               {featuredProjects.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
@@ -806,8 +874,8 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Featured Properties Section - Only displayed when properties exist */}
-      {featuredProperties && featuredProperties.length > 0 && (
+      {/* Featured Properties Section - Displayed during loading or when properties exist */}
+      {(loading || (featuredProperties && featuredProperties.length > 0)) && (
         <section className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
           <div className="container">
             <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1rem' }}>
@@ -817,7 +885,7 @@ export default function HomePage() {
               </div>
               <Link to="/properties" className="btn btn-outline" style={{ gap: '0.5rem' }}>
                 <span>View All Properties</span>
-                <ArrowRight size={16} />
+                <ArrowRight size={16} aria-hidden="true" />
               </Link>
             </div>
 
@@ -829,7 +897,6 @@ export default function HomePage() {
           </div>
         </section>
       )}
-
 
       {/* Developer Projects Ticker Strip - Just Above Footer */}
       <DeveloperTicker />
