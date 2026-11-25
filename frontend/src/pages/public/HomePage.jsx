@@ -477,7 +477,6 @@ export default function HomePage() {
             .hero-content-block {
               max-width: 540px;
             }
-            }
             .hero-search-block {
               max-width: 540px;
             }
@@ -546,7 +545,7 @@ export default function HomePage() {
 
           .hero-buildings-stage {
             position: absolute;
-            bottom: 22%;
+            bottom: 30%;
             left: 31%;
             width: 68%;
             z-index: 3;
